@@ -27,140 +27,9 @@ function upload_vfile($field_name, $type = 'image', $size = 2100000) {
     }
 }
 
-function genders()
-{
-    return array('Female', 'Male', 'Non-Confirming', 'Non-Binary', 'Trans Female', 'Trans Male');
-}
-
-function language_level()
-{
-    return array('Fluent', 'Native', 'Bilingual');
-}
-
-function eye_colors()
-{
-    return array('Amber', 'Blue', 'Brown', 'Gray', 'Green', 'Hazel', 'Red', 'Violet');
-}
-
-function skin_colors()
-{
-    return array('White', 'Black');
-}
-
-function hair_colors()
-{
-    return array('Black', 'Brown', 'Blond', 'Auburn', 'Chestnut', 'Red', 'Gray', 'White', 'Bald', 'Salt & Pepper', 'Strawberry Blond', 'Multicolored/Dyed');
-}
-
-function show_size()
-{
-    return array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10');
-}
-
-function chest_bust()
-{
-    return array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10');
-}
-
-function cup()
-{
-    return array('A', 'B', 'C', 'D');
-}
-
-function ethnicity()
-{
-    return array('Asian', 'Black / African Descent', 'Ethnically Ambiguous / Multiracial', 'Indigenous Peoples', 'Latino / Hispanic', 'Middle Eastern', 'South Asian / Indian', 'Southeast Asian / Pacific Islander', 'White / European Descent');
-}
-
-function body_types()
-{
-    return array('Average', 'Slim', 'Athletic / Toned', 'Muscular', 'Curvy', 'Heavyset / Stocky', 'Plus-Sized / Full-Figured');
-}
-
 function get_vsize_dirs() {
     return array('50' => 'p50x50/', '150' => 'p150x150/', '300' => 'p300x300/', '350' => 'p350x350/', '400' => 'p400x400/');
 }
-
-function sort_chat_participants($user_id, $receiver_id)
-{
-    if($user_id > $receiver_id)    
-        return $receiver_id.','.$user_id;
-    else 
-        return  $user_id.','.$receiver_id;
-}
-
-function check_bookings_counter($arr, $type)
-{
-    if(count($arr) > 0)
-    {
-        $count = 0;
-        foreach($arr as $key => $row)
-        {
-            if($row->booking_status == $type)
-                $count++;
-        }
-        return $count;
-    }
-    else
-        return 0;
-}
-
-function booking_status_badge($val)
-{
-    if($val == 'Pending' || $val == 'In Progress')
-    {
-        return 'yellow';
-    }
-    else if($val == 'Completed')
-    {
-        return 'green';
-    }
-    else
-    {
-        return 'red';
-    }
-}
-
-function earning_status_badge($val)
-{
-    if($val == 'pending')
-    {
-        return 'yellow';
-    }
-    else if($val == 'available')
-    {
-        return 'gray';
-    }
-    else if($val == 'paid')
-    {
-        return 'green';
-    }
-    else
-    {
-        return 'blue';
-    }
-}
-
-function earning_status($val)
-{
-    if($val == 'pending')
-    {
-        return 'Pending';
-    }
-    else if($val == 'paid')
-    {
-        return 'Cleared';
-    }
-    else if($val == 'available')
-    {
-        return 'In Balance';
-    }
-    else
-    {
-        return 'Requested';
-    }
-}
-
 function generate_vimage_thumbs($image) {
     $img_sizes = get_vsize_dirs();
     foreach ($img_sizes as $size => $directory) {
@@ -396,8 +265,7 @@ function get_default($value, $default = 'None') {
         return $value;
 }
 
-function showMsg($type = '', $msg = '') 
-{
+function showMsg($type = '', $msg = '') {
     global $CI;
     if (empty($type) && empty($msg)) {
         $type = $CI->session->userdata('f_type');
@@ -464,7 +332,7 @@ function get_promocode_status($status) {
 }
 
 function get_paid_status($status) {
-    if ($status == 'pending') {
+    if ($status == 0) {
         return '<span class="miniLbl yellow">Pending</span>';
     } else {
         return '<span class="miniLbl green">Complete</span>';
@@ -755,15 +623,9 @@ function get_meridian_time($d){
     return date("h:i A", strtotime($d));
 }
 
-function amount_percentage($amount, $per)
-{
-    $amount = $amount - (($per / 100) * $amount);
-    return format_amount($amount);
-}
-
 function get_full_time($d){
     $d = str_replace('/', '-', $d);
-    return date("H:i a", strtotime($d));
+    return date("H:i", strtotime($d));
 }
 
 function hours_format($h){
@@ -785,22 +647,10 @@ function format_date($d,$format='',$default_show='TBD'){
     $d=( is_numeric($d) && (int)$d == $d )?$d:strtotime($d);
     return date($format,$d);
 }
-
 function db_format_date($d){
 
     $d = str_replace('-', '/', $d);
     return empty($d)?'':date('Y-m-d', strtotime($d));
-}
-
-function dp_format_date($d){
-
-    $d = str_replace('-', '/', $d);
-    return empty($d)?'':date('d-m-Y', strtotime($d));
-}
-
-function chat_message_time($time)
-{
-    return format_date($time).' at '.get_full_time($time);
 }
 
 function is_valid_date($date, $format = 'm/d/Y'){
@@ -826,7 +676,6 @@ function is_min_valid_date($date, $format = 'm/d/Y'){
     $CI->form_validation->set_message('is_min_valid_date', 'Please select valid {field}');
     return false;
 }
-
 function compare_dates($date1, $date2, $format = 'Y-m-d'){
     $date1 = str_replace('/', '-', $date1);
     $date2 = str_replace('/', '-', $date2);
@@ -838,20 +687,11 @@ function compare_dates($date1, $date2, $format = 'Y-m-d'){
     return false;
 }
 
-function get_dates_days($date1, $date2, $format = 'Y-m-d H:i:s'){
-
+function get_dates_days($date1, $date2, $format = 'm/d/Y'){
     $d1 = DateTime::createFromFormat($format, $date1);
     $d2 = DateTime::createFromFormat($format, $date2);
     $interval = $d1->diff($d2);
     return $interval->d;
-}
-
-function dob_age($bithdayDate)
-{
-    $date = new DateTime($bithdayDate);
-    $now = new DateTime();
-    $interval = $now->diff($date);
-    return $interval->y;
 }
 
 function get_between_dates($date1, $date2){
@@ -872,7 +712,6 @@ function get_year_difference($d1,$d2){
     $diff = $d2->diff($d1);
     return $diff->y;
 }
-
 function time_ago($time) {
     $time=str_replace('/', '-', $time);
     $timestamp = ( is_numeric($time) && (int)$time == $time )?$time:strtotime($time);

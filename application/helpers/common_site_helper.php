@@ -27,66 +27,6 @@ function count_new_header_notis()
     return intval($query->row()->total);
 }
 
-function blog_cat_by_id($cat_id)
-{
-    global $CI;
-    $CI->db->select("title");
-    $CI->db->where('id', $cat_id);
-    $query = $CI->db->get('blog_categories');
-    return $query->row()->title;
-}
-
-function get_image_of_member($member_id)
-{
-    global $CI;
-    $CI->db->select("mem_image");
-    $CI->db->where('user_id', $member_id);
-    $query = $CI->db->get('users');
-    return $query->row()->mem_image;
-}
-
-function languages()
-{
-    global $CI;
-    $CI->db->select("id,name");
-    $query = $CI->db->get('languages');
-    return $query->result();
-}
-
-function countries()
-{
-    global $CI;
-    $CI->db->select("id, name");
-    $query = $CI->db->get('countries');
-    return $query->result();
-}
-
-function states()
-{
-    global $CI;
-    $CI->db->select("id, name");
-    $query = $CI->db->get('states');
-    return $query->result();
-}
-
-function states_by_country($country_id)
-{
-    global $CI;
-    $CI->db->select("id, name");
-    $CI->db->where(['country_id'=> $country_id]);
-    $CI->db->order_by(['name'=> 'asc']);
-    $query = $CI->db->get('states');
-    return $query->result();
-}
-
-
-function language_name($language_id) {
-    global $CI;
-    $CI = get_instance();
-    $row = $CI->master->getRow('languages', array('id' => $language_id));
-    return $row->name;
-}
-
 function get_header_notis($limit = '', $order_by = 'desc')
 {
     global $CI;
@@ -126,8 +66,8 @@ function get_mem_image($mem_id) {
 function get_mem_name($mem_id) {
     global $CI;
     $CI = get_instance();
-    $row = $CI->master->getRow('users', array('user_id' => $mem_id));
-    return ucwords($row->user_fname.' '.$row->user_lname);
+    $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
+    return ucwords($row->mem_fname.' '.$row->mem_lname);
 }
 
 function get_mem_type($mem_id) {
@@ -393,18 +333,15 @@ function count_mem_reviews($mem_id) {
     $total = $query->row()->total;
     return intval($total);
 }
-
-function get_avg_mem_rating($mem_id) 
-{
+function get_avg_mem_rating($mem_id) {
     $CI = get_instance();
     $CI->db->select('AVG(rating) as total')
     ->where('mem_id', $mem_id)
-    ->where('parent_id', 0);
+    ->where('parent_id', NULL);
     $query = $CI->db->get('reviews');
     $total = $query->row()->total;
     return round(floatval($total),1);
 }
-
 function get_mem_rating($mem_id,$ref_id,$ref_type='booking') {
     $CI = get_instance();
     $CI->db->select('*')
@@ -413,18 +350,17 @@ function get_mem_rating($mem_id,$ref_id,$ref_type='booking') {
     ->where('ref_type', $ref_type);
     return $CI->db->get('reviews')->row();
 }
-
-function get_mem_review($booking_id) 
-{
+function get_mem_review($mem_id, $ref_id, $ref_type='booking') {
     $CI = get_instance();
-    $CI->db->select("r.*, mem_image, concat(user_fname,' ',user_lname) as mem_name")
+    $CI->db->select("r.*, mem_image, concat(mem_fname,' ',mem_lname) as mem_name")
     ->from('reviews r')
-    ->join('users mem','mem.user_id=r.rating_by')
-    ->where('r.booking_id', $booking_id)
-    ->where('r.parent_id', 0);
+    ->join('members mem','mem.mem_id=r.from_id')
+    ->where('r.from_id', $mem_id)
+    ->where('r.ref_id', $ref_id)
+    ->where('r.ref_type', $ref_type)
+    ->where('r.parent_id', NULL);
     return $CI->db->get()->row();
 }
-
 function get_reply($parent_id) {
     $CI = get_instance();
     $CI->db->select("r.*,mem_image,concat(mem_fname,' ',mem_lname) as mem_name")

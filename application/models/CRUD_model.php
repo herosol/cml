@@ -148,7 +148,10 @@ class CRUD_model extends CI_Model
         $this->db->select("count($field) as total");
         if (!empty($value))
             $this->db->where($field, $value);
-
+        /*
+        $this->db->get($this->table_name)->row();
+        print_query();
+        */
         return intval($this->db->get($this->table_name)->row()->total);
     }
 
