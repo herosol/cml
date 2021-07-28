@@ -3,11 +3,11 @@
 
 <head>
     <title>Sign in — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header'); ?>
     <main logon>
 
 
@@ -19,7 +19,7 @@
                             <h2 class="heading">Welcome</h2>
                             <p>Debitis rem architecto veniam itaque, atque officia minima obcaecati numquam.</p>
                         </div>
-                        <div class="image"><img src="<?= $base_url ?>images/illustration_logon.svg" alt=""></div>
+                        <div class="image"><img src="<?= base_url() ?>assets/images/illustration_logon.svg" alt=""></div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
@@ -60,7 +60,7 @@
 
 
         <!-- Main Js -->
-        <script type="text/javascript" src="<?= $base_url ?>js/main.js"></script>
+        <script type="text/javascript" src="<?= base_url() ?>assets/js/main.js"></script>
     </main>
 </body>
 

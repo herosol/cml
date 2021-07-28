@@ -1,7 +1,7 @@
 <?php
 
 $CI = & get_instance();
-/*** start file function ***/
+### start file function \
 
 function upload_vfile($field_name, $type = 'image', $size = 2100000) {
     $type_arr = array('image' => 'gif|jpg|png|svg','file' => 'gif|jpg|png|pdf|doc|docx|xlsx|word|xls|csv|txt|text','att' => 'gif|jpg|png|pdf|doc|docx|xlsx|word|xls|csv|txt|text|mp3|mp4','audio' => 'mp3','video' => 'mp4');
@@ -212,7 +212,8 @@ function getImageDimension($image) {
     // return '768x1191';
     return '';
 }
-/*** end file function ***/
+### end file function /
+
 function getBredcrum($section, $ary) {
     $bcrum = '
     <ol class="breadcrumb">

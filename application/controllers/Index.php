@@ -6,19 +6,19 @@ class Index extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('member_model');
+        $this->load->model('member_model');
     }
 
     function index()
     {
-        // $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'home'));
-        // $this->data['site_content'] = unserialize($this->data['site_content']->code);
+        $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'home'));
+        $this->data['site_content'] = unserialize($this->data['site_content']->code);
         $this->load->view("pages/index", $this->data);
     }
 
-    function login()
+    function signin()
     {
-        $this->MemLogged();
+        //$this->MemLogged();
         if($this->input->post()) {
             $res = array();
             $res['frm_reset'] = 0;
@@ -76,16 +76,23 @@ class Index extends MY_Controller
                 }
             }
             exit(json_encode($res));
-        }else{
+        }
+        else
+        {
             $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'login'));
             $this->data['site_content'] = unserialize($this->data['site_content']->code);
-            $this->load->view("account/login", $this->data);
-         }
+            $this->load->view("auth/signin", $this->data);
+        }
     }
 
-    function signup_vendor($ref_code = '')
+    function signup_as()
     {
-        $this->MemLogged();
+        $this->load->view('auth/signup-as');
+    }
+
+    function signup($as)
+    { 
+        //$this->MemLogged();
         if($this->input->post())
         {
             $res = array();
@@ -94,18 +101,12 @@ class Index extends MY_Controller
             $res['frm_reset'] = 0;
             $res['status'] = 0;
 
-            $this->form_validation->set_rules('fname', 'First Name', 'required');
-            $this->form_validation->set_rules('lname', 'Last Name', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-            $this->form_validation->set_rules('phone', 'Phone', 'required');
-            $this->form_validation->set_rules('zip', 'Zip Code', 'required');
-            $this->form_validation->set_rules('country', 'Country', 'required|integer');
-            $this->form_validation->set_rules('hear_about', 'How did you hear from us?', 'required');
-            if ($this->input->post('hear_about') == 'Other')
-                $this->form_validation->set_rules('other_reason', 'Specify other reason', 'required');
+            $this->form_validation->set_rules('mem_fname', 'First Name', 'required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
+            $this->form_validation->set_rules('mem_lname', 'Last Name', 'required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'Last Name should contains only letters and avoid space.', 'min_length'=> 'Last Name should contains atleast 2 letters.', 'max_length'=> 'Last Name should not be greater than 20 letters.']);
+            $this->form_validation->set_rules('mem_email', 'Email', 'required|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'required');
-            $this->form_validation->set_rules('cpassword', 'Confirm Password', 'required|matches[password]');
-            $this->form_validation->set_rules('confirm', 'Confirm', 'required', array('required' => 'Please accept our terms and conditions'));
+            $this->form_validation->set_rules('cpassword', 'Confirm Password', 'required|matches[password]', ['matches'=> 'Confirm password must be the as the password!']);
+            $this->form_validation->set_rules('confirm', 'Confirm', 'required', array('required' => 'Please accept our terms and conditions.'));
             if($this->form_validation->run() === FALSE)
             {
                 $res['msg'] = validation_errors();
@@ -113,54 +114,30 @@ class Index extends MY_Controller
             else
             {
                 $post = html_escape($this->input->post());
-                $mem_row = $this->member_model->emailExists($post['email']);
+                $mem_row = $this->member_model->emailExists($post['mem_email']);
                 if (count($mem_row) == '0')
                 {
-                    if($this->member_model->phoneExists($post['phone'])){
-                        $res['msg'] = showMsg('error', 'Phone Already In Use!');
-                        exit(json_encode($res));
-                    }
-
                     $rando = doEncode(rand(99, 999).'-'.$post['email']);
                     $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
-
-                    $mem_referral_code = randCode(6);
-                    while ( true) {
-                        if (!$this->member_model->get_row($mem_referral_code, 'mem_referral_code'))
-                            break;
-                        $mem_referral_code = randCode(6);
-                    }
-                    $hear_about = $post['hear_about'] == 'Other' ? $post['other_reason'] : $post['hear_about'];
-                    $save_data = array('mem_fname' => ucfirst($post['fname']), 'mem_lname' => ucfirst($post['lname']), 'mem_email' => $post['email']/*, 'mem_phone' => $post['phone']*/, 'mem_pswd' => doEncode($post['password']), 'mem_code' => $rando, 'mem_type' => 'buyer', 'mem_hear_about' => $hear_about, 'mem_zip' => $post['zip'], 'mem_country_id' => intval($post['country']), 'mem_status' => 1, 'mem_last_login' => date('Y-m-d h:i:s'), 'mem_referral_code' => $mem_referral_code);
-
-                    
-
-                    if(!empty($post['zip'])) {
-                        $coordinates = get_location_detail($post['zip']);
-                        $save_data['mem_map_lat'] = $coordinates->Latitude;
-                        $save_data['mem_map_lng'] = $coordinates->Longitude;
-                    }
-
-                    $this->load->library('my_stripe');
-                    $save_data['mem_stripe_id'] = $this->my_stripe->save_customer(array('name' => ucfirst($post['fname']).' '.ucfirst($post['lname']), 'email' => $post['email'], 'phone' => $post['phone'], "description" => $this->data['site_settings']->site_name." Customer ".ucfirst($post['fname']).' '.ucfirst($post['lname'])));
+                    $save_data = [
+                        'mem_fname' => ucfirst($post['mem_fname']),
+                        'mem_lname' => ucfirst($post['mem_lname']),
+                        'mem_email' => $post['mem_email'],
+                        'mem_pswd' => doEncode($post['password']),
+                        'mem_code' => $rando,
+                        'mem_type' => $as,
+                        'mem_status' => 1,
+                        'mem_last_login' => date('Y-m-d h:i:s')
+                    ];
 
                     $mem_id = $this->member_model->save($save_data);
                     $this->session->set_userdata('mem_id', $mem_id);
                     $this->session->set_userdata('mem_type', 'buyer');
 
-                    if($ref_row = $this->member_model->get_row($ref_code,'mem_referral_code')){
-
-                        $ref_signup_data = array('mem_id' => $ref_row->mem_id, 'ref_mem_id' => $this->session->mem_id, 'reward' => 0);
-                        $this->master->save("ref_signups", $ref_signup_data);
-
-                        $txt = "Your friend ".ucfirst($post['fname'])." ".ucfirst($post['lname'])." signed up with your referral link. You will be rewarded after they complete their first booking";
-                        save_notificaiton($ref_row->mem_id, $this->session->mem_id, $txt);
-                    }
-
                     $res['msg'] = showMsg('success', getSiteText('alert', 'registration'));
 
                     $verify_link = site_url('verification/' .$rando);
-                    $mem_data = array('name' => ucfirst($post['fname']).' '.ucfirst($post['lname']), "email" => $post['email'], "link" => $verify_link);
+                    $mem_data = array('name' => ucfirst($post['mem_fname']).' '.ucfirst($post['mem_lname']), "email" => $post['mem_email'], "link" => $verify_link);
                     $this->send_site_email($mem_data, 'signup');
 
                     // $this->send_signup_email($mem_id);
@@ -168,17 +145,24 @@ class Index extends MY_Controller
                     $res['redirect_url'] = site_url('email-verification');
                     $res['status'] = 1;
                     $res['frm_reset'] = 1;
-                } else {
-                    $res['msg'] = showMsg('error', 'E-mail Address Already In Use!');
+                }
+                else
+                {
+                    $res['msg'] = '<p>E-mail Address Already In Use</p>';
                 }
             }
             exit(json_encode($res));
         }
         else
         {
-            $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
-            $this->data['site_content'] = unserialize($this->data['site_content']->code);
-            $this->load->view("account/register", $this->data);
+            if($as != 'buyer' && $as != 'vendor')
+            {
+                show_404();
+            }
+            $this->data['as'] = ucfirst($as);
+            // $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
+            // $this->data['site_content'] = unserialize($this->data['site_content']->code);
+            $this->load->view("auth/signup", $this->data);
         }
     }
 

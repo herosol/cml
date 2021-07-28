@@ -3,11 +3,11 @@
 
 <head>
     <title>Sign up as — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header'); ?>
     <main logon>
 
 
@@ -19,7 +19,7 @@
                             <h2 class="heading">Welcome</h2>
                             <p>Debitis rem architecto veniam itaque, atque officia minima obcaecati numquam.</p>
                         </div>
-                        <div class="image image2"><img src="<?= $base_url ?>images/illustration_logon3.svg" alt=""></div>
+                        <div class="image image2"><img src="<?= base_url() ?>assets/images/illustration_logon3.svg" alt=""></div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
@@ -28,11 +28,11 @@
                                 <p>Sign up as</p>
                                 <div class="bTn formBtn text-center">
                                     <!-- <button type="submit" class="webBtn lgBtn blockBtn">Individual</button> -->
-                                    <a href="<?= $base_url ?>buyer/dashboard.php" class="webBtn lgBtn blockBtn">Individual</a>
+                                    <a href="<?= base_url() ?>buyer/signup" class="webBtn lgBtn blockBtn">Individual</a>
                                 </div>
                                 <div class="bTn formBtn text-center">
                                     <!-- <button type="submit" class="webBtn lgBtn blockBtn">Vendor</button> -->
-                                    <a href="<?= $base_url ?>vendor/dashboard.php" class="webBtn lgBtn blockBtn">Vendor</a>
+                                    <a href="<?= base_url() ?>vendor/signup" class="webBtn lgBtn blockBtn">Vendor</a>
                                 </div>
                             </form>
                         </div>
@@ -44,7 +44,7 @@
 
 
         <!-- Main Js -->
-        <script type="text/javascript" src="<?= $base_url ?>js/main.js"></script>
+        <script type="text/javascript" src="<?= base_url() ?>assets/js/main.js"></script>
     </main>
 </body>
 

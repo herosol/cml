@@ -26,15 +26,15 @@
                     </li>
                 </ul>
                 <ul id="cta">
-                    <!-- <li class="<?php if ($page == "signin") {
+                    <li class="<?php if ($page == "signin") {
                                         echo 'active';
                                     } ?>">
-                        <a href="<?= base_url() ?>signin.php">Sign in</a>
-                    </li> -->
+                        <a href="<?= base_url() ?>signin">Sign in</a>
+                    </li>
                     <li class="<?php if ($page == "signup") {
                                     echo 'active';
                                 } ?>">
-                        <a href="<?= base_url() ?>signup.php" class="webBtn mdBtn simpleBtn">Sign up</a>
+                        <a href="<?= base_url() ?>signup-as" class="webBtn mdBtn simpleBtn">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -46,6 +46,6 @@
 
 
 <div class="upperlay"></div>
-<!-- <div id="pageloader">
+<div id="pageloader">
     <span class="loader"></span>
-</div> -->
+</div>

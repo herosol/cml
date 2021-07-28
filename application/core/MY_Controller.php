@@ -6,9 +6,9 @@ class MY_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        // $this->data['site_settings'] = $this->getSiteSettings();
-        // $this->data['mem_data']      = $this->getActiveMem();
-        // $this->data['page']          = $this->uri->segment(1);
+        $this->data['site_settings'] = $this->getSiteSettings();
+        $this->data['mem_data']      = $this->getActiveMem();
+        $this->data['page']          = $this->uri->segment(1);
     }
 
     public function isMemLogged($type, $is_verified = true, $player_check = true, $type_arr = array('buyer', 'player'), $memberhsip_check = true) {
@@ -84,10 +84,10 @@ class MY_Controller extends CI_Controller {
         $settings = $this->data['site_settings'];
         // $mem_row = $this->member->getMember($mem_id);
         
-        $name=$mem_data['name'];
+        $name = $mem_data['name'];
         // $name=$mem_row->mem_fname . ' ' . $mem_row->mem_lname;
         
-        $msg_body=getSiteText('email',$key);
+        $msg_body = getSiteText('email',$key);
         eval("\$msg_body = \"$msg_body\";");
         
         if(!empty($mem_data['link'])){

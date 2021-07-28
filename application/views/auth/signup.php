@@ -3,11 +3,11 @@
 
 <head>
     <title>Sign up — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header'); ?>
     <main logon>
 
 
@@ -19,42 +19,43 @@
                             <h2 class="heading">Welcome</h2>
                             <p>Debitis rem architecto veniam itaque, atque officia minima obcaecati numquam.</p>
                         </div>
-                        <div class="image image2"><img src="<?= $base_url ?>images/illustration_logon2.svg" alt=""></div>
+                        <div class="image image2"><img src="<?= base_url() ?>assets/images/illustration_logon2.svg" alt=""></div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
-                            <form action="<?= $base_url ?>vendor/dashboard.php" method="post">
-                                <h2 class="heading">Sign up</h2>
+                            <form action="" method="post" id="frmSignup" class="frmAjax">
+                                <h2 class="heading">Sign up as <?=$as == 'Vendor' ? 'Vendor' : 'Individual';?></h2>
+                                <div class="alertMsg" style="display:none"></div>
                                 <h6>First Name</h6>
                                 <div class="txtGrp">
-                                    <label for="">eg: John</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <label for="mem_fname">eg: John</label>
+                                    <input type="text" name="mem_fname" id="mem_fname" class="txtBox">
                                 </div>
                                 <h6>Last Name</h6>
                                 <div class="txtGrp">
-                                    <label for="">eg: Wick</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <label for="mem_lname">eg: Wick</label>
+                                    <input type="text" name="mem_lname" id="mem_lname" class="txtBox">
                                 </div>
                                 <h6>Email Address</h6>
                                 <div class="txtGrp">
-                                    <label for="">eg: sample@gmail.com</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <label for="mem_email">eg: sample@gmail.com</label>
+                                    <input type="text" name="mem_email" id="mem_email" class="txtBox">
                                 </div>
                                 <h6>Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="">••••••••</label>
-                                    <input type="password" name="" id="" class="txtBox">
+                                    <label for="password">••••••••</label>
+                                    <input type="password" name="password" id="password" class="txtBox">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <h6>Confirm Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="">••••••••</label>
-                                    <input type="password" name="" id="" class="txtBox">
+                                    <label for="cpassword">••••••••</label>
+                                    <input type="password" name="cpassword" id="cpassword" class="txtBox">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <div class="txtGrp flex">
                                     <div class="lblBtn">
-                                        <input type="checkbox" name="" id="confirm">
+                                        <input type="checkbox" name="confirm" id="confirm">
                                         <label for="confirm">I agree to CML's
                                             <a href="<?= $base_url ?>terms-and-conditions.php">Terms & Conditions</a>
                                             and
@@ -67,7 +68,7 @@
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Already have an account?</span>
-                                    <a href="<?= $base_url ?>signin.php">Sign in</a>
+                                    <a href="<?= base_url() ?>signin">Sign in</a>
                                 </div>
                             </form>
                         </div>
@@ -79,7 +80,9 @@
 
 
         <!-- Main Js -->
-        <script type="text/javascript" src="<?= $base_url ?>js/main.js"></script>
+        <script type="text/javascript" src="<?= base_url() ?>assets/js/main.js"></script>
+        <script type="text/javascript" src="<?= base_url('assets/js/custom-validation.js') ?>"></script>
+        <script type="text/javascript" src="<?= base_url('assets/js/custom.js') ?>"></script>
     </main>
 </body>
 

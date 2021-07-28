@@ -52,3 +52,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+# AUTHENTICATION PAGES
+$route['signup-as']     = 'index/signup_as';
+$route['(:any)/signup'] = 'index/signup/$1';
+$route['signin']        = 'index/signin';
+// vendor pages
