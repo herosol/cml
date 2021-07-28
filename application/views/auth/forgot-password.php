@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Forgot Password — Compare My Laundry</title>
+    <title>Forgot Password — Compare My Laundryy</title>
     <?php require_once('includes/site-master.php'); ?>
 </head>
 
