@@ -57,7 +57,26 @@
                     <span class="title">Newsletter</span><span class="badge badge-danger"><?=new_subscribers()?></span>
                 </a>
             </li>
-                
+            <li class=" <?= ($this->uri->segment(2) == 'sitecontent' || $this->uri->segment(2) == 'preferences') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-pagelines  "></i>
+                    <span class="title">manage Services</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'services') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/services') ?>">
+                        <i class="fa fa-file"></i>
+                            <span class="title">Services</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'sub_services') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sub_services') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Sub Services</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class=" <?= ($this->uri->segment(2) == 'sitecontent' || $this->uri->segment(2) == 'preferences') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="fa fa-pagelines  "></i>
