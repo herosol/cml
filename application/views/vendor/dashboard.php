@@ -3,19 +3,19 @@
 
 <head>
     <title>Dashboard — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-vendor.php'); ?>
+    <?php $this->load->view('includes/header-vendor'); ?>
     <main dash account>
-        <?php require_once('../includes/sidebar-vendor.php'); ?>
+        <?php $this->load->view('includes/sidebar-vendor'); ?>
 
 
         <section id="account">
             <div class="contain-fluid">
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= $base_url ?>images/users/7.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= base_url() ?>assets/images/users/7.jpg" alt=""></div>
                     <div class="txt">
                         <h3><span class="regular">Welcome,</span> Dear, Jennifer Kem!<span class="regular">Nice to see you again.</span></h3>
                     </div>
@@ -31,7 +31,7 @@
                     <form action="" method="post">
                         <div class="txtGrp upLoadDp">
                             <div class="ico">
-                                <img src="<?= $base_url ?>images/users/7.jpg" alt="">
+                                <img src="<?= base_url() ?>assets/images/users/7.jpg" alt="">
                             </div>
                             <div class="text-center">
                                 <button type="button" class="webBtn smBtn uploadImg" data-upload="dp_image" data-text="Change Photo"></button>
@@ -429,7 +429,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

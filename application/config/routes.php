@@ -54,7 +54,11 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 # AUTHENTICATION PAGES
-$route['signup-as']     = 'index/signup_as';
-$route['(:any)/signup'] = 'index/signup/$1';
-$route['signin']        = 'index/signin';
+$route['signup-as']       = 'index/signup_as';
+$route['(:any)/signup']   = 'index/signup/$1';
+$route['signin']          = 'index/signin';
+$route['forgot-password'] = 'index/forgot_password';
+$route['reset/(:any)']    = 'index/reset/$1';
+$route['reset-password']   = 'index/reset_password';
 // vendor pages
+$route['vendor/dashboard'] = 'vendor/dashboard';

@@ -166,24 +166,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#frmPaypal').validate({
-        rules: {
-            paypal: {
-                required: true,
-                email: true
-            }
-        },
-        errorPlacement: function() {
-                return false; // suppresses error message text
-            }
-            /*,
-                    messages: {
-                        cpswd:{
-                            equalTo: "Please enter same password as above"
-                        }
-                    }*/
-    })
-
     $('#frmSignup').validate({
         errorElement: 'div',
         rules: {
@@ -314,7 +296,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#frmLogin').validate({
+    $('#frmSignin').validate({
         rules: {
             email: {
                 required: true,
@@ -328,6 +310,7 @@ $(document).ready(function() {
             return false; // suppresses error message text
         }
     })
+
     $('#frmForgot').validate({
         rules: {
             email: {
@@ -336,30 +319,24 @@ $(document).ready(function() {
             }
         },
         errorPlacement: function() {
-                return false; // suppresses error message text
-            }
-            /*,
-                    messages: {
-                        email:{
-                            required: "Email required",
-                            email: "Please enter valid email"
-                        }
-                    }*/
+            return false; // suppresses error message text
+        }
     })
+
     $('#frmReset').validate({
         errorElement: 'div',
         rules: {
-            pswd: {
-                required: true,
-                minlength: 8,
-                pwcheck: true
-            },
-            cpswd: {
-                required: true,
-                minlength: 8,
-                pwcheck: true,
-                equalTo: '#pswd'
-            }
+            // pswd: {
+            //     required: true,
+            //     minlength: 8,
+            //     pwcheck: true
+            // },
+            // cpswd: {
+            //     required: true,
+            //     minlength: 8,
+            //     pwcheck: true,
+            //     equalTo: '#password'
+            // }
         },
         messages: {
             pswd: {

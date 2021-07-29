@@ -23,32 +23,33 @@
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
-                            <form action="<?= $base_url ?>buyer/dashboard.php" method="post">
+                            <form action="" method="post" id="frmSignin" class="frmAjax">
                                 <h2 class="heading">Sign in</h2>
+                                <div class="alertMsg" style="display:none"></div>
                                 <h6>Email Address</h6>
                                 <div class="txtGrp">
-                                    <label for="">eg: sample@gmail.com</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <label for="email">eg: sample@gmail.com</label>
+                                    <input type="text" name="email" id="email" class="txtBox">
                                 </div>
                                 <h6>Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="">••••••••</label>
-                                    <input type="password" name="" id="" class="txtBox">
+                                    <label for="password">••••••••</label>
+                                    <input type="password" name="password" id="password" class="txtBox">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <div class="txtGrp flex">
                                     <div class="lblBtn">
-                                        <input type="checkbox" name="" id="remember" checked="">
+                                        <input type="checkbox" name="remember" id="remember" checked="">
                                         <label for="remember">Remember me</label>
                                     </div>
-                                    <a href="<?= $base_url ?>forgot-password.php" id="pass">Forgot Password?</a>
+                                    <a href="<?= base_url() ?>forgot-password" id="pass">Forgot Password?</a>
                                 </div>
                                 <div class="bTn text-center">
                                     <button type="submit" class="webBtn lgBtn blockBtn">Sign in</button>
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Don’t have an account?</span>
-                                    <a href="<?= $base_url ?>signup.php">Sign up</a>
+                                    <a href="<?= base_url() ?>signup-as">Sign up</a>
                                 </div>
                             </form>
                         </div>
@@ -61,6 +62,8 @@
 
         <!-- Main Js -->
         <script type="text/javascript" src="<?= base_url() ?>assets/js/main.js"></script>
+        <script type="text/javascript" src="<?= base_url('assets/js/custom-validation.js') ?>"></script>
+        <script type="text/javascript" src="<?= base_url('assets/js/custom.js') ?>"></script>
     </main>
 </body>
 
