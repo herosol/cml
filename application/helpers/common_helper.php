@@ -219,7 +219,7 @@ function get_image_src($image, $type = 'full', $user_image = '')
 
 function get_site_image_src($path, $image, $type = '', $user_image = false)
 {
-
+   
     $filepath = SITE_IMAGES.$path.'/'.$type.$image;
     if (!empty($image) && @file_exists(FCPATH.'uploads/'.$path.'/'.$type.$image)) {
     // if (!empty($image) && @getimagesize($filepath)) {

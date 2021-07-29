@@ -14,30 +14,14 @@ function get_pages()
     $page_arr = array(1=>'index',2=>'trade',3=>'about',4=>'contact-us',5=>'brands',6=>'products/men',7=>'products/women',8=>'terms-and-conditions',9=>'privacy-policy',10=>'return-policy');
     return $page_arr;  
 }
-function get_brandname($slug){
+function get_service_name($id){
     $CI = get_instance();
-    $brand = $CI->master->getRow('brands',array('slug'=>$slug));
-    return $brand->name;
+    $service = $CI->master->getRow('services',array('id'=>$id));
+    return $service->name;
 }
-function get_brands(){
+function get_services(){
     $CI = get_instance();
-    return $CI->master->getRows('brands',array('status'=>1));
-}
-function get_case_material(){
-    $CI = get_instance();
-    return $CI->master->getRows('case_material',array('status'=>1));
-}
-function get_case_size(){
-    $CI = get_instance();
-    return $CI->master->getRows('case_size',array('status'=>1));
-}
-function get_band_material(){
-    $CI = get_instance();
-    return $CI->master->getRows('band_material',array('status'=>1));
-}
-function get_models(){
-    $CI = get_instance();
-    return $CI->master->getRows('models',array('status'=>1));
+    return $CI->master->getRows('services',array('status'=>1));
 }
 function get_papular_products($limit)
 {
@@ -207,12 +191,12 @@ function get_pkg_name($pkg_id)
     return $query->row()->title;
 }
 
-function get_services()
-{
-    $CI = get_instance();
-    $query = $CI->db->get('services');
-    return $query->result();
-}
+// function get_services()
+// {
+//     $CI = get_instance();
+//     $query = $CI->db->get('services');
+//     return $query->result();
+// }
 
 function get_cat_help($cat_id)
 {
