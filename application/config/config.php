@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+// date_default_timezone_set('US/Eastern');
 date_default_timezone_set('America/New_York');
 // exit(phpinfo());
 // exit(CI_VERSION);
@@ -30,11 +31,11 @@ date_default_timezone_set('America/New_York');
 // error_reporting(E_ALL);
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 // ini_set('display errors', E_ALL);
-
-$root = "http://".$_SERVER['HTTP_HOST'];
-$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-$config['base_url']    = "$root";
-
+if ($_SERVER['HTTP_HOST'] != 'localhost') {
+	$config['base_url'] = 'http://herosolutions.com.pk/sadaan/cml/';
+} else {
+	$config['base_url'] = 'http://localhost/work/cml';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -146,7 +147,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -388,11 +389,12 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
+$config['sess_cookie_name'] = 'aireloom_session';
+// $config['sess_expiration'] = 7200;
+$config['sess_expiration'] = 0;
 $config['sess_save_path'] = NULL;
-$config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
+$config['sess_match_ip'] = TRUE;
+$config['sess_time_to_update'] = 86400;
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*
@@ -410,7 +412,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
+$config['cookie_prefix']	= 'aireloom_';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
@@ -459,7 +461,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
 $config['csrf_protection'] = FALSE;
-$config['csrf_token_name'] = 'csrf_test_name';
+$config['csrf_token_name'] = 'csrf_aireloom_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
@@ -531,3 +533,8 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+defined('SITE_VPATH') or define('SITE_VPATH', $config['base_url'] . '/v/');
+defined('SITE_IMAGES') or define('SITE_IMAGES', $config['base_url'] . '/uploads/');
+defined('SITE_VIDEOS') or define('SITE_VIDEOS', $config['base_url'] . '/uploads/videos/');
+defined('SITE_FILES') or define('SITE_FILES', $config['base_url'] . '/uploads/files/');

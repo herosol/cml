@@ -83,3 +83,31 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+define('ADMIN', 'admin');
+defined('UPLOAD_PATH') OR define('UPLOAD_PATH','./uploads/');
+defined('UPLOAD_VPATH') OR define('UPLOAD_VPATH','./v/');
+
+// Stripe keys
+if ($_SERVER['HTTP_HOST'] != 'localhost') {
+	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
+	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');
+} else {
+	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
+	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');
+}
+
+// Your twilio Account Sid and Auth Token from twilio.com/user/account
+define('TWILIO_SID', 'ACcbd2d42db56cf0c7e7f8b0fb625eba5c');
+define('TWILIO_TOEKN', 'b99e4d468819f5928ee115eb6d014a3e');
+define('TWILIO_NUMBER', '+12037936776');
+
+/*// Your twilio Account Sid and Auth Token from twilio.com/user/account
+define('TWILIO_SID', 'AC62d44498d98525cf14d4a7872c49240f');
+define('TWILIO_TOEKN', '36dad8f8b1e7df9ebc1ecdae9ce263f7');
+define('TWILIO_NUMBER', '+18325588800');*/
+
+// google Recaptcha
+define('RECAPTCHA_SECRET_KEY','6Lcu36gUAAAAAKeVJyeaBxOqt43KxZpJ9oRqUGHp');
+define('RECAPTCHA_SITE_KEY','6Lcu36gUAAAAACL_if-5Ywu-03K2M16acq8-JDth') ;
