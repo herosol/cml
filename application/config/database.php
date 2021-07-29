@@ -72,25 +72,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'herosols_cml',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => 'tbl_',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+if($_SERVER['HTTP_HOST']!='localhost'){
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'mysql1003.mochahost.com',
+		'username' => 'herosol_sadaan',
+		'password' => 'X(cz5RUD8qY%',
+		'database' => 'herosols_cml'
+	);
+}else{
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'herosols_cml'
+	);
+}
+$db['default']['dbdriver'] = 'mysqli';
+$db['default']['dbprefix'] = 'tbl_';
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = (ENVIRONMENT !== 'production');
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['encrypt'] = FALSE;
+$db['default']['compress'] = FALSE;
+$db['default']['stricton'] = FALSE;
+$db['default']['failover'] = array();
+$db['default']['save_queries'] = TRUE;
