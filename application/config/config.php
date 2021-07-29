@@ -31,11 +31,9 @@ date_default_timezone_set('America/New_York');
 // error_reporting(E_ALL);
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 // ini_set('display errors', E_ALL);
-if ($_SERVER['HTTP_HOST'] != 'localhost') {
-	$config['base_url'] = 'http://herosolutions.com.pk/sadaan/cml/';
-} else {
-	$config['base_url'] = 'http://localhost/work/cml';
-}
+$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https": "http");
+$config['base_url'] .= "://".$_SERVER['HTTP_HOST'];
+$config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 /*
 |--------------------------------------------------------------------------
 | Index File
