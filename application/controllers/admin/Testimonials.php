@@ -13,7 +13,7 @@ class Testimonials extends Admin_Controller
     function index()
     {
         $this->data['enable_datatable'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/testimonials/index';
+        $this->data['pageView'] = ADMIN . '/testimonials';
 
         $this->data['rows'] = $this->testimonial_model->get_rows(array());
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
@@ -21,7 +21,7 @@ class Testimonials extends Admin_Controller
 
     function manage()
     {
-        $this->data['pageView'] = ADMIN . '/testimonials/index';
+        $this->data['pageView'] = ADMIN . '/testimonials';
         if ($this->input->post()) {
             $vals = html_escape($this->input->post());
             /*if (($_FILES["image"]["name"] != "")) {

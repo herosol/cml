@@ -11,7 +11,7 @@ function get_header()
 }
 function get_pages()
 {
-    $page_arr = array(1=>'index',2=>'trade',3=>'about',4=>'contact-us',5=>'brands',6=>'products/men',7=>'products/women',8=>'terms-and-conditions',9=>'privacy-policy',10=>'return-policy');
+    $page_arr = array(1=>'index',2=>'faqs',3=>'promotion',4=>'contact',5=>'signin',6=>'signup-as',7=>'terms-and-conditions');
     return $page_arr;  
 }
 function get_service_name($id){

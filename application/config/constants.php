@@ -87,6 +87,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 define('ADMIN', 'admin');
 defined('UPLOAD_PATH') OR define('UPLOAD_PATH','./uploads/');
+defined('SITE_IMAGES') OR define('SITE_IMAGES','./uploads/');
+defined('UPLOADIMAGE') OR define('UPLOADIMAGE','./uploads/');
 defined('UPLOAD_VPATH') OR define('UPLOAD_VPATH','./v/');
 
 // Stripe keys

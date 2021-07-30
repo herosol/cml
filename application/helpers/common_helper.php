@@ -204,6 +204,18 @@ function generate_thumb($frompath, $topath, $file_name, $thumb_width = 100, $typ
     return $type . $file_name;
 }
 
+function getImageSrc($path, $image,$no_image_type='') {
+    if (!empty($image)) {
+        return base_url().$path . $image;
+    }else{
+        if($no_image_type == 'member'){
+            return base_url() . 'assets/images/no_image.jpg';
+        }else{
+            return base_url() . 'assets/images/no-image.svg';
+
+        }
+    }
+}
 function get_image_src($image, $type = 'full', $user_image = '')
 {
     // if(date('H')>=18){
