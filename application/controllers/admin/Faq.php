@@ -13,7 +13,7 @@ class Faq extends Admin_Controller
     function index()
     {
         $this->data['enable_datatable'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/faq/index';
+        $this->data['pageView'] = ADMIN . '/faq';
 
         $this->data['rows'] = $this->master->getRows('faqs', array(), '', '', 'acs', 'sort_order');
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
@@ -22,7 +22,7 @@ class Faq extends Admin_Controller
     function manage()
     {
         $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/faq/index';
+        $this->data['pageView'] = ADMIN . '/faq';
         if ($this->input->post()) {
             $vals = $this->input->post();
 
