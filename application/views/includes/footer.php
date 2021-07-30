@@ -51,6 +51,7 @@
 </footer>
 <!-- footer -->
 
-
 <!-- Main Js -->
 <script type="text/javascript" src="<?= base_url() ?>assets/js/main.js"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/custom-validation.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/custom.js') ?>"></script>

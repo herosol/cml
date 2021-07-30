@@ -33,7 +33,7 @@
                         <li><a href="<?= base_url() ?>vendor/dashboard.php">Dashboard <small>See and Manage Data</small></a></li>
                         <li><a href="<?= base_url() ?>vendor/orders.php">My Orders <small>View Order Details</small></a></li>
                         <li><a href="<?= base_url() ?>vendor/earnings.php">My Earnings <small>See & Mange Your Payouts</small></a></li>
-                        <li><a href="signin.php">Sign out</a></li>
+                        <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
                     </ul>
                 </div>
             </div>

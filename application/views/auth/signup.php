@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                                 <div class="bTn text-center">
-                                    <button type="submit" class="webBtn lgBtn blockBtn">Sign up</button>
+                                    <button type="submit" class="webBtn lgBtn blockBtn"><i class="spinner hidden"></i>Sign up</button>
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Already have an account?</span>

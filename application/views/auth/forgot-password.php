@@ -33,7 +33,7 @@
                                     <input type="text" name="email" id="email" class="txtBox">
                                 </div>
                                 <div class="bTn text-center">
-                                    <button type="submit" class="webBtn lgBtn blockBtn">Reset Password</button>
+                                    <button type="submit" class="webBtn lgBtn blockBtn"><i class="spinner hidden"></i>Reset Password</button>
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Don’t have an account?</span>

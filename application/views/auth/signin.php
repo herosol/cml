@@ -45,7 +45,7 @@
                                     <a href="<?= base_url() ?>forgot-password" id="pass">Forgot Password?</a>
                                 </div>
                                 <div class="bTn text-center">
-                                    <button type="submit" class="webBtn lgBtn blockBtn">Sign in</button>
+                                    <button type="submit" class="webBtn lgBtn blockBtn"><i class="spinner hidden"></i>Sign in</button>
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Don’t have an account?</span>

@@ -40,7 +40,7 @@
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <div class="bTn text-center">
-                                    <button type="submit" class="webBtn lgBtn blockBtn">Change my Password</button>
+                                    <button type="submit" class="webBtn lgBtn blockBtn"><i class="spinner hidden"></i>Change my Password</button>
                                 </div>
                                 <div class="haveAccount text-center">
                                     <span>Don’t have an account?</span>

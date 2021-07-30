@@ -14,4 +14,5 @@ class Vendor extends MY_Controller
         $this->load->view('vendor/dashboard');
     }
 
+
 }

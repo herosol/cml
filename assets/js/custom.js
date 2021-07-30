@@ -52,7 +52,7 @@ $(document).ready(function() {
                         } else {
                             frmbtn.attr("disabled", false);
                         }
-                    }, 2000);
+                    }, 3000);
                 } else {
                     setTimeout(function() {
                         if (rs.hide_msg)
@@ -61,7 +61,7 @@ $(document).ready(function() {
                         frmIcon.addClass("hidden");
                         if (rs.redirect_url)
                             window.location.href = rs.redirect_url;
-                    }, 1000);
+                    }, 2000);
                 }
             })
             .fail(function(rs) {

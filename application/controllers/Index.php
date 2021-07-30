@@ -18,7 +18,7 @@ class Index extends MY_Controller
 
     function signin()
     {
-        //$this->MemLogged();
+        $this->MemLogged();
         if($this->input->post()) {
             $res = array();
             $res['frm_reset'] = 0;
@@ -45,10 +45,10 @@ class Index extends MY_Controller
                     }
 
                     $remember_token = '';
-                    if(isset($data['remeberMe']))
+                    if(isset($data['remember']))
                     {
                         $remember_token = doEncode('member-'.$row->mem_id);
-                        $cookie= array('name'   => 'remember', 'value'  => $remember_token, 'expire' => (86400*7));
+                        $cookie = ['name'   => 'remember', 'value'  => $remember_token, 'expire' => (86400*7)];
                         $this->input->set_cookie($cookie);
                     }
 
@@ -88,12 +88,13 @@ class Index extends MY_Controller
 
     function signup_as()
     {
+        $this->MemLogged();
         $this->load->view('auth/signup-as');
     }
 
     function signup($as)
     { 
-        //$this->MemLogged();
+        $this->MemLogged();
         if($this->input->post())
         {
             $res = array();
@@ -133,7 +134,7 @@ class Index extends MY_Controller
 
                     $mem_id = $this->member_model->save($save_data);
                     $this->session->set_userdata('mem_id', $mem_id);
-                    $this->session->set_userdata('mem_type', 'buyer');
+                    $this->session->set_userdata('mem_type', $as);
 
                     $res['msg'] = showMsg('success', getSiteText('alert', 'registration'));
 
@@ -141,7 +142,15 @@ class Index extends MY_Controller
                     $mem_data = array('name' => ucfirst($post['mem_fname']).' '.ucfirst($post['mem_lname']), "email" => $post['mem_email'], "link" => $verify_link);
                     $this->send_site_email($mem_data, 'signup');
 
-                    $res['redirect_url'] = site_url('email-verification');
+                    if($as == 'vendor')
+                    {
+                        $res['redirect_url'] = base_url().'vendor/dashboard';
+                    }
+                    else
+                    {
+                        $res['redirect_url'] = base_url().'buyer/dashboard';
+                    }
+
                     $res['status'] = 1;
                     $res['frm_reset'] = 1;
                 }
@@ -167,7 +176,7 @@ class Index extends MY_Controller
 
     function forgot_password()
     {
-        //$this->MemLogged();
+        $this->MemLogged();
         if ($this->input->post()) 
         {
             $res = array();
@@ -195,7 +204,7 @@ class Index extends MY_Controller
                     $mem_data = array('name' => $mem->mem_fname.' '.$mem->mem_lname, "email" => $mem->mem_email, "link" => $reset_link);
                     $this->send_site_email($mem_data, 'forgot_password');
 
-                    $res['msg'] = showMsg('success','We’ve sent a reset password link to the email address you entered to reset your password. If you don’t see the email, check your spam folder or email!');
+                    $res['msg'] = showMsg('success','We’ve sent a reset password link to the email address you entered to reset your password. If you don’t see the email, check your spam folder or email.');
                     $res['status'] = 1;
                     $res['frm_reset'] = 1;
                 }
@@ -289,23 +298,110 @@ class Index extends MY_Controller
 
     function verification($vcode = '')
     {
-        // $this->MemLogged();
-        if ($row = $this->member_model->getMemCode($vcode, intval($this->session->mem_id))) {
-            if ($this->session->has_userdata('mem_id') && $this->session->mem_id != $row->mem_id) {
-                setMsg('info', 'You are already logged in with different email!');
-                redirect('dashboard', 'refresh');
+        //$this->MemLogged();
+        if ($row = $this->member_model->getMemCode($vcode, intval($this->session->mem_id)))
+        {
+            if ($this->session->has_userdata('mem_id') && $this->session->mem_id != $row->mem_id)
+            {
+                setMsg('info', 'You are already logged in with different email.');
+                if($row->mem_type == 'vendor')
+                    redirect('vendor/dashboard', 'refresh');
+                else
+                    redirect('buyer/dashboard', 'refresh');
                 exit;
             }
-            $this->member_model->save(array('mem_verified' => 1, 'mem_code' => ''), $row->mem_id);
+            $this->member_model->save(['mem_verified' => 1, 'mem_code' => ''], $row->mem_id);
             
-            // $redirect_url = $this->session->mem_type == 'buyer' ? 'account-settings' : 'dashboard';
-            setMsg('success', 'Your account has been successfully verified!');
-            redirect('dashboard', 'refresh');
+            setMsg('success', 'Your account has been successfully verified.');
+            if($row->mem_type == 'vendor')
+                redirect('vendor/dashboard', 'refresh');
+            else
+                redirect('buyer/dashboard', 'refresh');
             exit;
-        } else {
+        }
+        else
+        {
             redirect('', 'refresh');
             exit;
         }
+    }
+
+    function change_email()
+    {
+        if ($this->input->post()) 
+        {
+            $res = array();
+            $res['frm_reset'] = 0;
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['redirect_url'] = 0;
+
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+            if ($this->form_validation->run() === FALSE)
+            {
+                $res['msg'] = validation_errors();
+            }
+            else
+            {
+                $post = html_escape($this->input->post());
+                if (!$this->member_model->emailExists($post['email'], $this->session->mem_id)) 
+                {
+                    $rando = doEncode($this->session->mem_id . '-' . $post['email']);
+                    $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
+
+                    $this->member_model->save(array('mem_code' => $rando, 'mem_email' => $post['email'], 'mem_verified' => 0), $this->session->mem_id);
+                    $verify_link = site_url('verification/' . $rando);
+
+                    $mem_data = array('name' => $this->data['mem_data']->mem_fname . ' ' . $this->data['mem_data']->mem_lname, "email" => $post['email'], "link" => $verify_link);
+                    $this->send_site_email($mem_data, 'change_email');
+
+                    $res['redirect_url'] = '';
+
+                    $res['msg'] = showMsg('success', 'Email has been changed successfully.');
+                    setMsg('info', getSiteText('alert', 'verify_email'));
+
+                    $res['status'] = 1;
+                    $res['frm_reset'] = 1;
+                    $res['hide_msg'] = 1;
+                }
+                else
+                {
+                    $res['msg'] = '<p>Email already exists.</p>';
+                }
+            }
+            exit(json_encode($res));
+        }
+    }
+
+    function resend_email() 
+    {
+        $verification_check = $this->data['mem_data']->mem_verified == 0 ? false:true;
+        $this->isMemLogged($this->session->mem_type, $verification_check, false);
+
+        $res = array();
+        $res['hide_msg'] = 0;
+        $res['scroll_to_msg'] = 0;
+        $res['status'] = 0;
+        $res['frm_reset'] = 0;
+        $res['redirect_url'] = 0;
+
+        $rando = doEncode($this->session->mem_id.'-'.$this->data['mem_data']->mem_email);
+        $rando = strlen($rando)>225?substr($rando, 0, 225):$rando;
+        
+        $this->member_model->save(array('mem_code' => $rando), $this->session->mem_id);
+
+        $verify_link = site_url('verification/'.$rando);
+
+        $mem_data = array('name' => $this->data['mem_data']->mem_fname.' '.$this->data['mem_data']->mem_lname,"email"=>$this->data['mem_data']->mem_email,"link"=>$verify_link);
+
+        $ok = $this->send_site_email($mem_data, 'verify_email');
+
+        $res['msg'] = $ok ? showMsg('success', 'Email sent successfully.') : showMsg('error', 'There is an error occurred, Please try again later.');
+        $res['status'] = 1;
+        $res['hide_msg'] = 1;
+        exit(json_encode($res));
     }
 
     function logout()
@@ -315,7 +411,7 @@ class Index extends MY_Controller
         $this->session->unset_userdata('redirect_url');
         $this->load->helper('cookie');
         delete_cookie('remember');
-        redirect('login', 'refresh');
+        redirect('signin', 'refresh');
         exit;
     }
  

@@ -59,7 +59,9 @@ $route['(:any)/signup']   = 'index/signup/$1';
 $route['signin']          = 'index/signin';
 $route['forgot-password'] = 'index/forgot_password';
 $route['reset/(:any)']    = 'index/reset/$1';
-$route['reset-password']   = 'index/reset_password';
+$route['reset-password']  = 'index/reset_password';
+$route['resend-email']    = 'index/resend_email';
+$route['verification/(:any)'] = 'index/verification/$1';
 # vendor pages
 $route['vendor/dashboard'] = 'vendor/dashboard';
 
