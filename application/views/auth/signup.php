@@ -16,15 +16,15 @@
                 <div class="flexRow flex">
                     <div class="col col1">
                         <div class="content">
-                            <h2 class="heading">Welcome</h2>
-                            <p>Debitis rem architecto veniam itaque, atque officia minima obcaecati numquam.</p>
+                            <h2 class="heading"><?= $content['heading'] ?></h2>
+                            <p><?= $content['detail'] ?></p>
                         </div>
-                        <div class="image image2"><img src="<?= base_url() ?>assets/images/illustration_logon2.svg" alt=""></div>
+                        <div class="image image2"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
                             <form action="" method="post" id="frmSignup" class="frmAjax">
-                                <h2 class="heading">Sign up as <?=$as == 'Vendor' ? 'Vendor' : 'Individual';?></h2>
+                                <h2 class="heading"> <?=$as == 'Vendor' ?  $content['form_heading2'] :  $content['form_heading1'] ;?></h2>
                                 <div class="alertMsg" style="display:none"></div>
                                 <h6>First Name</h6>
                                 <div class="txtGrp">
@@ -57,9 +57,9 @@
                                     <div class="lblBtn">
                                         <input type="checkbox" name="confirm" id="confirm">
                                         <label for="confirm">I agree to CML's
-                                            <a href="<?= $base_url ?>terms-and-conditions.php">Terms & Conditions</a>
+                                            <a href="<?= base_url() ?>terms-and-conditions">Terms & Conditions</a>
                                             and
-                                            <a href="<?= $base_url ?>privacy-policy.php">Privacy Policy.</a>
+                                            <a href="<?= base_url() ?>privacy-policy">Privacy Policy.</a>
                                         </label>
                                     </div>
                                 </div>

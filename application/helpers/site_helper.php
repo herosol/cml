@@ -23,6 +23,10 @@ function get_services(){
     $CI = get_instance();
     return $CI->master->getRows('services',array('status'=>1));
 }
+function get_partners(){
+    $CI = get_instance();
+    return $CI->master->getRows('partners',array('status'=>1));
+}
 function get_papular_products($limit)
 {
     $CI = get_instance();

@@ -342,8 +342,14 @@
                 </div>
             </div>
             <h2>Section 4 (Media Boxes)</h2>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label class="control-label"> Heading <span class="symbol required"></span></label>
+                    <input type="text" name="section4_heading" value="<?= $row['section4_heading']?>" class="form-control">
+                </div>
+            </div>
             <div clas="form-group">
-            <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="panel panel-primary" data-collapsed="0">

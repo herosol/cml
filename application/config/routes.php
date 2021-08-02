@@ -53,6 +53,12 @@ $route['default_controller'] = 'index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+# SITE PAGES
+$route['promotions-offers'] = 'pages/promotions';
+$route['faq'] = 'pages/faq';
+$route['contact'] = 'pages/contact';
+$route['terms-conditions'] = 'pages/terms_conditions';
+$route['privacy-policy'] = 'pages/privacy_policy';
 # AUTHENTICATION PAGES
 $route['signup-as']       = 'index/signup_as';
 $route['(:any)/signup']   = 'index/signup/$1';
@@ -68,3 +74,8 @@ $route['vendor/dashboard'] = 'vendor/dashboard';
 # ADMIN
 $route['admin/login'] = 'admin/index/login';
 $route['admin/logout'] = 'admin/index/logout';
+
+$route['admin/meta-info'] = 'admin/Meta_info/index';
+$route['admin/meta-info/manage'] = 'admin/Meta_info/manage';
+$route['admin/meta-info/manage/(:any)'] = 'admin/Meta_info/manage/$1';
+$route['admin/meta-info/delete/(:any)'] = 'admin/Meta_info/delete/$1';

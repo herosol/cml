@@ -16,10 +16,10 @@
                 <div class="flexRow flex">
                     <div class="col col1">
                         <div class="content">
-                            <h2 class="heading">Welcome</h2>
-                            <p>Debitis rem architecto veniam itaque, atque officia minima obcaecati numquam.</p>
+                            <h2 class="heading"><?= $content['heading'] ?></h2>
+                            <p><?= $content['detail'] ?></p>
                         </div>
-                        <div class="image image2"><img src="<?= base_url() ?>assets/images/illustration_logon3.svg" alt=""></div>
+                        <div class="image image2"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">

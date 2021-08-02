@@ -24,7 +24,7 @@ class Testimonials extends Admin_Controller
         $this->data['pageView'] = ADMIN . '/testimonials';
         if ($this->input->post()) {
             $vals = html_escape($this->input->post());
-            /*if (($_FILES["image"]["name"] != "")) {
+            if (($_FILES["image"]["name"] != "")) {
                 $this->remove_file($this->uri->segment(4));
                 $image = upload_image(UPLOAD_PATH . "testimonials/", 'image');
                 if (!empty($image['file_name'])) {
@@ -35,7 +35,7 @@ class Testimonials extends Admin_Controller
                     redirect(ADMIN . '/testimonials/manage/' . $this->uri->segment(4), 'refresh');
                     exit;
                 }
-            }*/
+            }
             $this->testimonial_model->save($vals, $this->uri->segment(4));
             setMsg('success', 'Testimonial has been saved successfully.');
             redirect(ADMIN . '/testimonials', 'refresh');

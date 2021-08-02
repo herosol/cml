@@ -2,23 +2,23 @@
 <html>
 
 <head>
-    <title>FAQ's — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
+    <?php $this->load->view('includes/site-master');?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header');?>
     <main common faq>
 
 
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <h2 class="heading">FAQ's</h2>
-                    <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
+                    <h2 class="heading"><?= $content{'heading'} ?></h2>
+                    <p><?= $content{'detail'} ?></p>
                 </div>
             </div>
-            <div class="image"><img src="<?= $base_url ?>images/illustration_faq.svg" alt=""></div>
+            <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
         </section>
         <!-- sBanner -->
 
@@ -26,83 +26,45 @@
         <section id="faq">
             <div class="contain">
                 <div class="flexRow flex">
+                    <?php if(!empty($general_faqs)){?>
                     <div class="col">
-                        <h3 class="heading">General Questions</h3>
+                        <h3 class="heading"><?= $content{'left_heading'} ?></h3>
                         <div class="faqBox">
                             <div class="faqLst">
+                                <?php foreach($general_faqs as $faq){?>
                                 <div class="faqBlk">
-                                    <h5>Lorem ipsum dolor sit, amet consectetur adipisicing elit?</h5>
+                                    <h5><?= $faq->question ?></h5>
                                     <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
+                                        <p><?= $faq->answer ?></p>
                                     </div>
                                 </div>
-                                <div class="faqBlk">
-                                    <h5>Obcaecati laborum architecto neque possimus?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Deleniti illum ex numquam eos laudantium?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Molestias quidem, maiores reiciendis sint?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Iusto harum temporibus vel, rem numquam quia?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
+                    <?php 
+                    } 
+                    if(!empty($most_faqs)){
+                    ?>
                     <div class="col">
-                        <h3 class="heading">Most Asked Questions</h3>
+                        <h3 class="heading"><?= $content{'right_heading'} ?></h3>
                         <div class="faqBox">
                             <div class="faqLst">
+                            <?php foreach($most_faqs as $faq){?>
                                 <div class="faqBlk">
-                                    <h5>Molestias quidem, maiores reiciendis sint?</h5>
+                                    <h5><?= $faq->question ?></h5>
                                     <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
+                                        <p><?= $faq->answer ?></p>
                                     </div>
                                 </div>
-                                <div class="faqBlk">
-                                    <h5>Iusto harum temporibus vel, rem numquam quia?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Lorem ipsum dolor sit, amet consectetur adipisicing elit?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Obcaecati laborum architecto neque possimus?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
-                                <div class="faqBlk">
-                                    <h5>Deleniti illum ex numquam eos laudantium?</h5>
-                                    <div class="txt">
-                                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.</p>
-                                    </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
                 </div>
                 <form action="" method="post">
-                    <h3 class="heading text-center">Ask any Question</h3>
+                    <h3 class="heading text-center"><?= $content{'form_heading'} ?></h3>
                     <div class="txtGrp">
                         <label for="">Name</label>
                         <input type="text" name="" id="" class="txtBox">
@@ -123,7 +85,7 @@
                         <label for="">Comments</label>
                         <textarea name="" id="" class="txtBox"></textarea>
                     </div>
-                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn">Ask Question</button></div>
+                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn"><?= $content{'form_btn_title'} ?></button></div>
                 </form>
             </div>
         </section>
@@ -131,7 +93,7 @@
 
 
     </main>
-    <?php require_once('includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer');?>
 </body>
 
 </html>

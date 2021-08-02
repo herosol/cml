@@ -113,6 +113,24 @@
                             <span class="title">Terms & Conditions</span>
                         </a>
                     </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'privacy_policy') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/privacy_policy') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Privacy Policy</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'signin') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/signin') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Sign In</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'signup') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/signup') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Sign Up</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="opened <?= ($this->uri->segment('2') == 'meta-info') ? 'active' : '' ?>">

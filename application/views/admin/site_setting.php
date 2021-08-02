@@ -164,8 +164,8 @@
             </div> -->
             <div class="form-group">
                 <div class="col-md-12">
-                    <label class="control-label"> Footer About Company <span class="symbol required"></span></label>
-                    <textarea rows="5" name="site_about" class="form-control"><?php if (isset($adminsite_setting->site_about)) echo ($adminsite_setting->site_about); ?></textarea>
+                    <label class="control-label"> Footer Copyright Company <span class="symbol required"></span></label>
+                    <textarea rows="2" name="site_copyright" class="form-control"><?php if (isset($adminsite_setting->site_copyright)) echo ($adminsite_setting->site_copyright); ?></textarea>
                 </div>
             </div>
             <!-- <div class="form-group">
@@ -201,7 +201,7 @@
         
 
         <div class="clearfix"></div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <h3><i class="fa fa-bars"></i> Miscellaneous</h3>
             <hr class="hr-short">
             <div class="form-group">
@@ -224,7 +224,7 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="col-md-12">
             <div class="form-group">
                 <div class="col-md-4">
