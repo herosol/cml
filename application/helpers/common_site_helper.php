@@ -14,6 +14,44 @@ function get_gallery_images($ref_id, $ref_type = 'product', $main = 0, $admin = 
     return $CI->master->getRows('gallery', array('ref_id' => $ref_id, 'ref_type' => $ref_type, 'main' => $main, 'admin' => $admin));
 }
 
+function countries()
+{
+    global $CI;
+    $CI->db->select("id, name");
+    $query = $CI->db->get('countries');
+    return $query->result();
+}
+
+function states_by_country($country_id)
+{
+    global $CI;
+    $CI->db->select("id, name");
+    $CI->db->where(['country_id'=> $country_id]);
+    $CI->db->order_by(['name'=> 'asc']);
+    $query = $CI->db->get('states');
+    return $query->result();
+}
+
+function get_sub_services($service_id)
+{
+    global $CI;
+    $CI->db->select("id, name");
+    $CI->db->where(['service_id'=> $service_id]);
+    $CI->db->order_by(['name'=> 'asc']);
+    $query = $CI->db->get('sub_services');
+    return $query->result();
+}
+
+function sub_service_price($sub_service_id, $mem_id)
+{
+    global $CI;
+    $CI->db->select("id, price");
+    $CI->db->where(['sub_service_id'=> $sub_service_id, 'mem_id'=> $mem_id]);
+    $query = $CI->db->get('price_list');
+    return $query->row();
+}
+
+
 /*** start notifications ***/
 function save_notificaiton($mem_id, $from_id, $txt, $link = '', $cat = 'other', $note_id = 0, $status = 'new')
 {

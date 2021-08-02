@@ -233,61 +233,120 @@ $(document).ready(function() {
         }
     });
 
-    $('#frmPSignup').validate({
-        // errorContainer: $(this).find('div.alertMsg:first'),
-        // errorLabelContainer: $(this).find('div.alertMsg:first'),
+    $('#vendorProfileSettings').validate({
         errorElement: 'div',
-        // errorClass: 'alert alert-danger alert-sm',
         rules: {
-            nickname: {
+            mem_company_name: {
                 required: true,
+                minlength: 2
             },
-            email: {
+            mem_company_email: {
                 required: true,
                 email: true
             },
-            phone: {
-                required: true,
-                valid_phone: true,
-                // phoneUS: true,
-                // digits: true,
-                // maxlength: 10
+            mem_company_phone: {
+                required: true
             },
-            password: {
+            mem_company_order_email: {
+                required: true,
+                email: true
+            },
+            mem_company_website: {
+                required: true
+            },
+            mem_company_trustpilot: {
+                required: true
+            },
+            mem_company_pickdrop: {
+                required: true
+            },
+            mem_company_walkin_facility: {
+                required: true
+            },
+            mem_business_country: {
+                required: true
+            },
+            mem_business_state: {
+                required: true
+            },
+            mem_business_city: {
+                required: true
+            },
+            mem_business_zip: {
+                required: true
+            },
+            mem_business_address: {
+                required: true
+            },
+            mem_country: {
+                required: true
+            },
+            mem_state: {
+                required: true
+            },
+            mem_city: {
+                required: true
+            },
+            mem_zip: {
+                required: true
+            },
+            mem_address: {
+                required: true
+            },
+            mem_charges_per_miles: {
+                required: true
+            },
+            mem_charges_free_over: {
+                required: true
+            },
+            mem_charges_min_order: {
+                required: true
+            },
+            mem_show_cancellation: {
+                required: true
+            }
+        },
+        messages: {},
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), []) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
+        }
+    });
+
+    $('#changePassword').validate({
+        errorElement: 'div',
+        rules: {
+            pswd: {
+                required: true
+            },
+            npswd: {
+                required: true,
+                minlength: 8,
+                pwcheck: true
+            },
+            cpswd: {
                 required: true,
                 minlength: 8,
                 pwcheck: true,
-            },
-            cpassword: {
-                required: true,
-                equalTo: '#password'
-            },
-            hear_about: {
-                required: true,
-            },
-            zip: {
-                required: true,
-            },
-            hear_about: {
-                required: true,
-            },
-            country: {
-                required: true,
-            },
-            confirm: "required"
+                equalTo: '#npswd'
+            }
         },
         messages: {
-            password: {
-                required: "Password required.",
+            npswd: {
+                required: "Password required!",
                 minlength: "Password must be at least 8 characters.",
             },
-            cpassword: {
-                required: "Confirm password required.",
-                equalTo: "Confirm password must be the as the password."
+            cpswd: {
+                required: "Confirm password required!",
+                equalTo: "Confirm password must be the same as the password!"
             }
         },
         errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['password', 'cpassword']) !== -1 && error.text() != 'This field is required.') {
+            if ($.inArray(element.attr('id'), ['npswd', 'cpswd']) !== -1 && error.text() != 'This field is required.') {
                 error.addClass('alert alert-danger alert-sm')
                 error.appendTo(element.parents('form').find("div.alertMsg:first").show());
                 $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
@@ -621,57 +680,6 @@ $(document).ready(function() {
 
     });
 
-    $('#frmBkLsn').validate({
-        rules: {
-            date: {
-                required: true
-            },
-            time: {
-                required: true
-            },
-            hours: {
-                required: true,
-                number: true
-            },
-            address: {
-                required: true
-            }
-        },
-        errorPlacement: function() {
-            return false;
-        }
 
-    });
 
-    $('#frmPet').validate({
-        rules: {
-            pet_type: {
-                required: true
-            },
-            name: {
-                required: true
-            },
-            weight: {
-                required: true,
-                number: true
-            }
-        },
-        errorPlacement: function() {
-            return false;
-        }
-
-    });
-
-    $('#frmInvtFrnd').validate({
-        rules: {
-            emails: {
-                required: true,
-                multiemail: true
-            }
-        },
-        errorPlacement: function() {
-            return false;
-        }
-
-    });
 });

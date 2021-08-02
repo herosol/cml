@@ -11,7 +11,7 @@ class MY_Controller extends CI_Controller {
         $this->data['page']          = $this->uri->segment(1);
     }
 
-    public function isMemLogged($type, $is_verified = true, $player_check = true, $type_arr = array('buyer', 'vendor'))
+    public function isMemLogged($type, $is_verified = true, $type_arr = array('buyer', 'vendor'))
     {
         if (intval($this->session->mem_id) < 1 || !$this->session->has_userdata('mem_type') || $this->session->mem_type != $type) 
         {
@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
 
             }else{
                 $this->session->set_userdata('redirect_url', currentURL());
-                redirect('login', 'refresh');
+                redirect('signin', 'refresh');
                 exit;
             }
 

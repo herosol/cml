@@ -48,12 +48,9 @@ function get_vsize_dirs()
 function generate_vimage_thumbs($image)
 {
     $img_sizes = get_vsize_dirs();
-    foreach ($img_sizes as $size => $directory) {
+    foreach ($img_sizes as $size => $directory)
+    {
         $directory = UPLOAD_VPATH . $directory;
-        /*if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
-            create_file_copy(UPLOAD_PATH . "index.html", $directory."index.html");
-        }*/
         generate_thumb(UPLOAD_VPATH . "vp/", $directory, $image, $size);
     }
 }
@@ -230,11 +227,9 @@ function get_image_src($image, $type = 'full', $user_image = '')
 }
 
 function get_site_image_src($path, $image, $type = '', $user_image = false)
-{
-   
-    $filepath = SITE_IMAGES.$path.'/'.$type.$image;
+{   
+    $filepath = base_url().'uploads/'.$path.'/'.$type.$image;
     if (!empty($image) && @file_exists(FCPATH.'uploads/'.$path.'/'.$type.$image)) {
-    // if (!empty($image) && @getimagesize($filepath)) {
         return $filepath;
     }
     return empty($user_image) ? base_url('assets/images/no-image.svg') : base_url('assets/images/no-user.svg');
@@ -253,6 +248,12 @@ function getImageDimension($image)
     return '';
 }
 /*** end file function ***/
+
+### Static SELECT values
+function yes_no()
+{
+    return ['yes', 'no'];
+}
 function getBredcrum($section, $ary)
 {
     $bcrum = '

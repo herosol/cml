@@ -424,6 +424,64 @@ class Index extends MY_Controller
         }
         return FALSE;
     }
+
+    ### COMMON 
+    function fetch_states()
+    {
+        if ($this->input->post()) {
+            $country_id = html_escape($this->input->post('country_id'));
+            
+            $html = '';
+            $html .= '<option value="">Select</option>';
+            $states = $this->master->getRows('states', ['country_id' => $country_id], '', '', 'asc', 'name');
+            foreach ($states as $state) :
+                $html .= '<option value="' . $state->id . '">' . $state->name . '</option>';
+            endforeach;
+
+            echo json_encode(['status' => 'success', 'html' => $html]);
+        }
+    }
+
+    function change_password()
+    {
+        $this->isMemLogged($this->session->mem_type);
+        if ($this->input->post()) 
+        {
+            $res = array();
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 1;
+            $res['redirect_url'] = 0;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+
+            $this->form_validation->set_rules('pswd', 'Current Password', 'required');
+            $this->form_validation->set_rules('npswd', 'New Password', 'required');
+            $this->form_validation->set_rules('cpswd', 'Confirm Password', 'required|matches[npswd]');
+
+            if($this->form_validation->run() === FALSE)
+            {
+                $res['msg'] = validation_errors();
+            }
+            else
+            {
+                $post = html_escape($this->input->post());
+                $row = $this->member_model->oldPswdCheck($this->data['mem_data']->mem_id, $post['pswd']);
+                if (count($row) > 0)
+                {
+                    $ary = array('mem_pswd' => doEncode($post['npswd']));
+                    $this->member_model->save($ary, $this->data['mem_data']->mem_id);
+                    $res['msg'] = showMsg('success', 'Password successfully updated!');
+
+                    $res['status'] = 1;
+                    $res['frm_reset'] = 1;
+                    $res['hide_msg'] = 1;
+                } else {
+                    $res['msg'] = '<p>Old Password Does Not Match.</p>';
+                }
+            }
+            exit(json_encode($res));
+        }
+    }
     
 }
 

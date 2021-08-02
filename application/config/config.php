@@ -533,6 +533,6 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 defined('SITE_VPATH') or define('SITE_VPATH', $config['base_url'] . '/v/');
-defined('SITE_IMAGES') or define('SITE_IMAGES', $config['base_url'] . '/uploads/');
+defined('SITE_IMAGES') or define('SITE_IMAGES', $config['base_url'] . 'uploads/');
 defined('SITE_VIDEOS') or define('SITE_VIDEOS', $config['base_url'] . '/uploads/videos/');
 defined('SITE_FILES') or define('SITE_FILES', $config['base_url'] . '/uploads/files/');

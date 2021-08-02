@@ -3,7 +3,7 @@
         <li class="<?php if ($page == "dashboard") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/dashboard.php">
+            <a href="<?= base_url() ?>vendor/dashboard">
                 <img src="<?= base_url() ?>assets/images/icon-cog-fill.svg" alt="">
                 <em>Account</em>
             </a>
@@ -51,7 +51,7 @@
         <li class="<?php if ($page == "price-list") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/price-list.php">
+            <a href="<?= base_url() ?>vendor/price-list">
                 <img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt="">
                 <em>Price List</em>
             </a>

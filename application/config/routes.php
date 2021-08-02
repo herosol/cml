@@ -64,6 +64,7 @@ $route['resend-email']    = 'index/resend_email';
 $route['verification/(:any)'] = 'index/verification/$1';
 # vendor pages
 $route['vendor/dashboard'] = 'vendor/dashboard';
+$route['vendor/price-list'] = 'vendor/price_list';
 
 # ADMIN
 $route['admin/login'] = 'admin/index/login';

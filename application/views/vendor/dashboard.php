@@ -54,9 +54,9 @@
                 </div>
                 <?php endif; ?>
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= base_url() ?>assets/images/users/7.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, ''); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, Jennifer Kem!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
                         <div class="switchBtn">
@@ -68,73 +68,76 @@
                 </div>
                 <?php if(!empty($this->data['mem_data']->mem_verified) && $this->data['mem_data']->mem_verified == 1): ?>
                 <div class="blk">
-                    <form action="" method="post" id="vendorProfileSettings">
+                    <form action="" method="post" id="vendorProfileSettings" class="frmAjax">
                         <div class="txtGrp upLoadDp">
                             <div class="ico">
-                                <img src="<?= base_url() ?>assets/images/users/7.jpg" alt="">
+                                <img src="<?= get_site_image_src("members", $mem_data->mem_image, ''); ?>" alt="" id="uploadDpPreview">
                             </div>
                             <div class="text-center">
                                 <button type="button" class="webBtn smBtn uploadImg" data-upload="dp_image" data-text="Change Photo"></button>
-                                <input type="file" name="" id="" class="uploadFile" data-upload="dp_image">
+                                <input type="file" name="dp_image" id="dp_image" class="uploadFile" data-upload="dp_image" onchange="PreviewImage();">
                             </div>
                             <div class="noHats text-center">(Please upload your photo)</div>
                         </div>
                         <div class="inside">
+                        <div class="alertMsg" style="display:none"></div>
                             <h5>Company Information</h5>
                             <div class="row formRow">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Company Name</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_company_name">Company Name</label>
+                                        <input type="text" name="mem_company_name" id="mem_company_name" value="<?=$mem_data->mem_company_name?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Contact Email</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_company_email">Contact Email</label>
+                                        <input type="text" name="mem_company_email" id="mem_company_email" value="<?=$mem_data->mem_company_email?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Phone Number</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_company_phone">Phone Number</label>
+                                        <input type="text" name="mem_company_phone" id="mem_company_phone" value="<?=$mem_data->mem_company_phone?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Order Email</label>
-                                        <input type="text" id="" name="" class="txtBox">
+                                        <label for="mem_company_order_email">Order Email</label>
+                                        <input type="text" id="mem_company_order_email" name="mem_company_order_email" value="<?=$mem_data->mem_company_order_email?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Website URL</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_company_website">Website URL</label>
+                                        <input type="text" name="mem_company_website" id="mem_company_website" value="<?=$mem_data->mem_company_website?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Trustpilot or Google Review URL</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_company_trustpilot">Trustpilot or Google Review URL</label>
+                                        <input type="text" name="mem_company_trustpilot" id="mem_company_trustpilot" value="<?=$mem_data->mem_company_trustpilot?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Provide pickup & drop off services?</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                        <label for="mem_company_pickdrop" class="move">Provide pickup & drop off services?</label>
+                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (yes_no() as $val) : ?>
+                                                <option value="<?= $val ?>" <?= $mem_data->mem_company_pickdrop == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Walk in facility?</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                        <label for="mem_company_walkin_facility" class="move">Walk in facility?</label>
+                                        <select name="mem_company_walkin_facility" id="mem_company_walkin_facility" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (yes_no() as $val) : ?>
+                                                <option value="<?= $val ?>" <?= $mem_data->mem_company_walkin_facility == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -144,111 +147,42 @@
                             <div class="row formRow">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Country</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="London">London</option>
-                                            <option value="Birmingham">Birmingham</option>
-                                            <option value="Leeds">Leeds</option>
-                                            <option value="Glasgow">Glasgow</option>
-                                            <option value="Sheffield">Sheffield</option>
-                                            <option value="Bradford">Bradford</option>
-                                            <option value="Liverpool">Liverpool</option>
-                                            <option value="Edinburgh">Edinburgh</option>
-                                            <option value="Manchester">Manchester</option>
-                                            <option value="Bristol">Bristol</option>
-                                            <option value="Kirklees">Kirklees</option>
-                                            <option value="Fife">Fife</option>
-                                            <option value="Wirral">Wirral</option>
-                                            <option value="North Lanarkshire">North Lanarkshire</option>
-                                            <option value="Wakefield">Wakefield</option>
-                                            <option value="Cardiff">Cardiff</option>
+                                        <label for="mem_business_country" class="move">Country</label>
+                                        <select name="mem_business_country" id="mem_business_country" class="txtBox" onchange="fetchStates(this.value, 'mem_business_state')">
+                                            <option value="">Select</option>
+                                            <?php foreach (countries() as $country) : ?>
+                                                <option value="<?= $country->id ?>" <?= $mem_data->mem_business_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="">City</label>
-                                        <input type="text" name="" id="" class="txtBox">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
-                                    <div class="txtGrp">
-                                        <label for="" class="move">State</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="AL">Alabama - AL</option>
-                                            <option value="AK">Alaska - AK</option>
-                                            <option value="AS">American Samoa - AS</option>
-                                            <option value="AZ">Arizona - AZ</option>
-                                            <option value="AR">Arkansas - AR</option>
-                                            <option value="CA">California - CA</option>
-                                            <option value="CO">Colorado - CO</option>
-                                            <option value="CT">Connecticut - CT</option>
-                                            <option value="DE">Delaware - DE</option>
-                                            <option value="DC">District of Columbia - DC</option>
-                                            <option value="FM">Federated States of Micronesia - FM</option>
-                                            <option value="FL">Florida - FL</option>
-                                            <option value="GA">Georgia - GA</option>
-                                            <option value="GU">Guam - GU</option>
-                                            <option value="HI">Hawaii - HI</option>
-                                            <option value="ID">Idaho - ID</option>
-                                            <option value="IL">Illinois - IL</option>
-                                            <option value="IN">Indiana - IN</option>
-                                            <option value="IA">Iowa - IA</option>
-                                            <option value="KS">Kansas - KS</option>
-                                            <option value="KY">Kentucky - KY</option>
-                                            <option value="LA">Louisiana - LA</option>
-                                            <option value="ME">Maine - ME</option>
-                                            <option value="MH">Marshall Islands - MH</option>
-                                            <option value="MD">Maryland - MD</option>
-                                            <option value="MA">Massachusetts - MA</option>
-                                            <option value="MI">Michigan - MI</option>
-                                            <option value="MN">Minnesota - MN</option>
-                                            <option value="MS">Mississippi - MS</option>
-                                            <option value="MO">Missouri - MO</option>
-                                            <option value="MT">Montana - MT</option>
-                                            <option value="NE">Nebraska - NE</option>
-                                            <option value="NV">Nevada - NV</option>
-                                            <option value="NH">New Hampshire - NH</option>
-                                            <option value="NJ">New Jersey - NJ</option>
-                                            <option value="NM">New Mexico - NM</option>
-                                            <option value="NY">New York - NY</option>
-                                            <option value="NC">North Carolina - NC</option>
-                                            <option value="ND">North Dakota - ND</option>
-                                            <option value="MP">Northern Mariana Islands - MP</option>
-                                            <option value="OH">Ohio - OH</option>
-                                            <option value="OK">Oklahoma - OK</option>
-                                            <option value="OR">Oregon - OR</option>
-                                            <option value="PW">Palau - PW</option>
-                                            <option value="PA">Pennsylvania - PA</option>
-                                            <option value="PR">Puerto Rico - PR</option>
-                                            <option value="RI">Rhode Island - RI</option>
-                                            <option value="SC">South Carolina - SC</option>
-                                            <option value="SD">South Dakota - SD</option>
-                                            <option value="TN">Tennessee - TN</option>
-                                            <option value="TX">Texas - TX</option>
-                                            <option value="UT">Utah - UT</option>
-                                            <option value="VT">Vermont - VT</option>
-                                            <option value="VI">Virgin Islands - VI</option>
-                                            <option value="VA">Virginia - VA</option>
-                                            <option value="WA">Washington - WA</option>
-                                            <option value="WV">West Virginia - WV</option>
-                                            <option value="WI">Wisconsin - WI</option>
-                                            <option value="WY">Wyoming - WY</option>
+                                        <label for="mem_business_state" class="move">State</label>
+                                        <select name="mem_business_state" id="mem_business_state" value="<?=$mem_data->mem_business_state?>" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (states_by_country($mem_data->mem_business_country) as $state) : ?>
+                                                <option value="<?= $state->id ?>" <?= $mem_data->mem_business_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="">Zip Code</label>
-                                        <input type="text" id="" name="" class="txtBox">
+                                        <label for="mem_business_city">City</label>
+                                        <input type="text" name="mem_business_city" id="mem_business_city" value="<?=$mem_data->mem_business_city?>" class="txtBox">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_business_zip">Zip Code</label>
+                                        <input type="text" id="mem_business_zip" name="mem_business_zip" value="<?=$mem_data->mem_business_zip?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
                                     <div class="txtGrp">
-                                        <label for="">Address</label>
-                                        <input type="text" id="" name="" class="txtBox">
+                                        <label for="mem_business_address">Address</label>
+                                        <input type="text" id="mem_business_address" name="mem_business_address" value="<?=$mem_data->mem_business_address?>" class="txtBox">
                                     </div>
                                 </div>
                             </div>
@@ -257,111 +191,42 @@
                             <div class="row formRow">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Country</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="London">London</option>
-                                            <option value="Birmingham">Birmingham</option>
-                                            <option value="Leeds">Leeds</option>
-                                            <option value="Glasgow">Glasgow</option>
-                                            <option value="Sheffield">Sheffield</option>
-                                            <option value="Bradford">Bradford</option>
-                                            <option value="Liverpool">Liverpool</option>
-                                            <option value="Edinburgh">Edinburgh</option>
-                                            <option value="Manchester">Manchester</option>
-                                            <option value="Bristol">Bristol</option>
-                                            <option value="Kirklees">Kirklees</option>
-                                            <option value="Fife">Fife</option>
-                                            <option value="Wirral">Wirral</option>
-                                            <option value="North Lanarkshire">North Lanarkshire</option>
-                                            <option value="Wakefield">Wakefield</option>
-                                            <option value="Cardiff">Cardiff</option>
+                                        <label for="mem_country" class="move">Country</label>
+                                        <select name="mem_country" id="mem_country" class="txtBox" onchange="fetchStates(this.value, 'mem_state')">
+                                            <option value="">Select</option>
+                                            <?php foreach (countries() as $country) : ?>
+                                                <option value="<?= $country->id ?>" <?= $mem_data->mem_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="">City</label>
-                                        <input type="text" name="" id="" class="txtBox">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
-                                    <div class="txtGrp">
-                                        <label for="" class="move">State</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="AL">Alabama - AL</option>
-                                            <option value="AK">Alaska - AK</option>
-                                            <option value="AS">American Samoa - AS</option>
-                                            <option value="AZ">Arizona - AZ</option>
-                                            <option value="AR">Arkansas - AR</option>
-                                            <option value="CA">California - CA</option>
-                                            <option value="CO">Colorado - CO</option>
-                                            <option value="CT">Connecticut - CT</option>
-                                            <option value="DE">Delaware - DE</option>
-                                            <option value="DC">District of Columbia - DC</option>
-                                            <option value="FM">Federated States of Micronesia - FM</option>
-                                            <option value="FL">Florida - FL</option>
-                                            <option value="GA">Georgia - GA</option>
-                                            <option value="GU">Guam - GU</option>
-                                            <option value="HI">Hawaii - HI</option>
-                                            <option value="ID">Idaho - ID</option>
-                                            <option value="IL">Illinois - IL</option>
-                                            <option value="IN">Indiana - IN</option>
-                                            <option value="IA">Iowa - IA</option>
-                                            <option value="KS">Kansas - KS</option>
-                                            <option value="KY">Kentucky - KY</option>
-                                            <option value="LA">Louisiana - LA</option>
-                                            <option value="ME">Maine - ME</option>
-                                            <option value="MH">Marshall Islands - MH</option>
-                                            <option value="MD">Maryland - MD</option>
-                                            <option value="MA">Massachusetts - MA</option>
-                                            <option value="MI">Michigan - MI</option>
-                                            <option value="MN">Minnesota - MN</option>
-                                            <option value="MS">Mississippi - MS</option>
-                                            <option value="MO">Missouri - MO</option>
-                                            <option value="MT">Montana - MT</option>
-                                            <option value="NE">Nebraska - NE</option>
-                                            <option value="NV">Nevada - NV</option>
-                                            <option value="NH">New Hampshire - NH</option>
-                                            <option value="NJ">New Jersey - NJ</option>
-                                            <option value="NM">New Mexico - NM</option>
-                                            <option value="NY">New York - NY</option>
-                                            <option value="NC">North Carolina - NC</option>
-                                            <option value="ND">North Dakota - ND</option>
-                                            <option value="MP">Northern Mariana Islands - MP</option>
-                                            <option value="OH">Ohio - OH</option>
-                                            <option value="OK">Oklahoma - OK</option>
-                                            <option value="OR">Oregon - OR</option>
-                                            <option value="PW">Palau - PW</option>
-                                            <option value="PA">Pennsylvania - PA</option>
-                                            <option value="PR">Puerto Rico - PR</option>
-                                            <option value="RI">Rhode Island - RI</option>
-                                            <option value="SC">South Carolina - SC</option>
-                                            <option value="SD">South Dakota - SD</option>
-                                            <option value="TN">Tennessee - TN</option>
-                                            <option value="TX">Texas - TX</option>
-                                            <option value="UT">Utah - UT</option>
-                                            <option value="VT">Vermont - VT</option>
-                                            <option value="VI">Virgin Islands - VI</option>
-                                            <option value="VA">Virginia - VA</option>
-                                            <option value="WA">Washington - WA</option>
-                                            <option value="WV">West Virginia - WV</option>
-                                            <option value="WI">Wisconsin - WI</option>
-                                            <option value="WY">Wyoming - WY</option>
+                                        <label for="mem_state" class="move">State</label>
+                                        <select name="mem_state" id="mem_state"  class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (states_by_country($mem_data->mem_country) as $state) : ?>
+                                                <option value="<?= $state->id ?>" <?= $mem_data->mem_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
-                                        <label for="">Zip Code</label>
-                                        <input type="text" id="" name="" class="txtBox">
+                                        <label for="mem_city">City</label>
+                                        <input type="text" name="mem_city" id="mem_city" value="<?=$mem_data->mem_city?>" class="txtBox">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_zip">Zip Code</label>
+                                        <input type="text" id="mem_zip" name="mem_zip" value="<?=$mem_data->mem_zip?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
                                     <div class="txtGrp">
-                                        <label for="">Address</label>
-                                        <input type="text" id="" name="" class="txtBox">
+                                        <label for="mem_address">Address</label>
+                                        <input type="text" id="mem_address" name="mem_address" value="<?=$mem_data->mem_address?>" class="txtBox">
                                     </div>
                                 </div>
                             </div>
@@ -385,35 +250,36 @@
                             <div class="row formRow">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Charges per mile for pickup & drop off?</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_charges_per_miles">Charges per mile for pickup & drop off?</label>
+                                        <input type="text" name="mem_charges_per_miles" id="mem_charges_per_miles" value="<?=$mem_data->mem_charges_per_miles?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Free for over</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_charges_free_over">Free for over</label>
+                                        <input type="text" name="mem_charges_free_over" id="mem_charges_free_over" value="<?=$mem_data->mem_charges_free_over?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Minimum order value?</label>
-                                        <input type="text" name="" id="" class="txtBox">
+                                        <label for="mem_charges_min_order">Minimum order value?</label>
+                                        <input type="text" name="mem_charges_min_order" id="mem_charges_min_order" value="<?=$mem_data->mem_charges_min_order?>" class="txtBox">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Show cancellation policy?</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option>Select</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
+                                        <label for="mem_show_cancellation" class="move">Show cancellation policy?</label>
+                                        <select name="mem_show_cancellation" id="mem_show_cancellation" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (yes_no() as $val) : ?>
+                                                <option value="<?= $val ?>" <?= $mem_data->mem_show_cancellation == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="bTn formBtn text-center">
-                                <button type="submit" class="webBtn">Save</button>
+                                <button type="submit" class="webBtn"><i class="spinner hidden"></i>Save</button>
                             </div>
                         </div>
                     </form>
@@ -427,39 +293,40 @@
                             <div class="infoIn ckEditor">
                                 <p>Your password must contain the following:</p>
                                 <ol>
-                                    <li>At least 8 characters in length (a strong password has at least 14 characters)</li>
-                                    <li>At least 1 letter and at least 1 number or symbol</li>
+                                    <li>At least 8 characters in length (a strong password has at least 8 characters)</li>
+                                    <li>At least 1 capital letter, 1 small letter, 1 number and 1 symbol.</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
-                    <form action="" method="post">
+                    <form action="<?=base_url()?>index/change_password" method="post" id="changePassword" class="frmAjax">
+                        <div class="alertMsg" style="display:none"></div>
                         <div class="inside">
                             <div class="row formRow">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp pasDv">
-                                        <label for="">Current password</label>
-                                        <input type="password" name="" id="" class="txtBox">
+                                        <label for="pswd">Current password</label>
+                                        <input type="password" name="pswd" id="pswd" class="txtBox">
                                         <i class="icon-eye" id="eye"></i>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp pasDv">
-                                        <label for="">New password</label>
-                                        <input type="password" name="" id="" class="txtBox">
+                                        <label for="npswd">New password</label>
+                                        <input type="password" name="npswd" id="npswd" class="txtBox">
                                         <i class="icon-eye" id="eye"></i>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp pasDv">
-                                        <label for="">Confirm new password</label>
-                                        <input type="password" name="" id="" class="txtBox">
+                                        <label for="cpswd">Confirm new password</label>
+                                        <input type="password" name="cpswd" id="cpswd" class="txtBox">
                                         <i class="icon-eye" id="eye"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="bTn formBtn text-center">
-                                <button type="submit" class="webBtn">Change</button>
+                                <button type="submit" class="webBtn"><i class="spinner hidden"></i>Change</button>
                             </div>
                         </div>
                     </form>
@@ -468,6 +335,15 @@
         </section>
         <!-- account -->
         <script>
+            function PreviewImage() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("dp_image").files[0]);
+
+                oFReader.onload = function(oFREvent) {
+                    document.getElementById("uploadDpPreview").src = oFREvent.target.result;
+                };
+            };
+
             $(function() {
                 $(document).on('click', '#rsnd-email', function(e) 
                 {

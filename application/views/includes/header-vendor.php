@@ -1,7 +1,7 @@
 <header class="ease log">
     <div class="contain-fluid">
         <div class="logo">
-            <a href="<?= base_url() ?>index.php">
+            <a href="<?= base_url() ?>vendor/dashboard">
                 <img src="<?= base_url() ?>assets/images/logo.svg" alt="">
             </a>
         </div>
@@ -27,12 +27,12 @@
                 </ul>
             </div>
             <div class="proIco dropDown">
-                <div class="ico dropBtn"><img src="<?= base_url() ?>assets/images/users/7.jpg" alt=""></div>
+                <div class="ico dropBtn"><img src="<?= get_site_image_src("members", $mem_data->mem_image, 'thumb_'); ?>" alt=""></div>
                 <div class="proDrop dropCnt">
                     <ul class="dropLst">
-                        <li><a href="<?= base_url() ?>vendor/dashboard.php">Dashboard <small>See and Manage Data</small></a></li>
-                        <li><a href="<?= base_url() ?>vendor/orders.php">My Orders <small>View Order Details</small></a></li>
-                        <li><a href="<?= base_url() ?>vendor/earnings.php">My Earnings <small>See & Mange Your Payouts</small></a></li>
+                        <li><a href="<?= base_url() ?>vendor/dashboard">Dashboard <small>See and Manage Data</small></a></li>
+                        <li><a href="<?= base_url() ?>vendor/orders">My Orders <small>View Order Details</small></a></li>
+                        <li><a href="<?= base_url() ?>vendor/earnings">My Earnings <small>See & Mange Your Payouts</small></a></li>
                         <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
                     </ul>
                 </div>

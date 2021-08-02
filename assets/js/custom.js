@@ -72,5 +72,22 @@ $(document).ready(function() {
                 needToConfirm = false;
             });
     });
-
 });
+
+const fetchStates = (country_id, append_to) => {
+    append_to = '#' + append_to;
+    $.ajax({
+        url: base_url + 'index/fetch_states',
+        data: {
+            'country_id': country_id
+        },
+        dataType: 'JSON',
+        method: 'POST',
+        success: function(rs) {
+            $(append_to).html(rs.html);
+        },
+        complete: function() {
+
+        }
+    })
+}
