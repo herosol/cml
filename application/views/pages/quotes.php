@@ -2,12 +2,12 @@
 <html>
 
 <head>
-    <title>Quotes — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
+    <?php $this->load->view('includes/site-master');?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header');?>
     <main common quotes>
 
 
@@ -111,7 +111,6 @@
 
 
     </main>
-    <?php require_once('includes/footer.php'); ?>
-</body>
+    <?php $this->load->view('includes/footer');?></body>
 
 </html>

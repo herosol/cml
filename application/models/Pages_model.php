@@ -7,13 +7,13 @@
  	{
  		parent::__construct();
  		$this->load->database();
- 		$this->table_name="pages";
+ 		$this->table_name="sitecontent";
  	}
  	function savePageContent($vals,$page_slug=""){
  		$this->db->set($vals);
  		if($page_slug != ""){
  			//die("here");
- 			$this->db->where("page_slug",$page_slug);
+ 			$this->db->where("ckey",$page_slug);
  			$this->db->update($this->table_name);
  			return $page_slug;
  		}	 		
@@ -37,7 +37,7 @@
  	}
  	function getPageContent($page_slug=""){
  		if($page_slug != ""){
- 			$this->db->where("page_slug",$page_slug);
+ 			$this->db->where("ckey",$page_slug);
  			return $this->db->get($this->table_name)->row();
  		}
  		else{
@@ -54,7 +54,7 @@
  		}
  	}
  	function deletePage($page_slug=""){
- 		$this->where("page_slug",$page_slug);
+ 		$this->where("ckey",$page_slug);
  		$this->db->delete($this->table_name);
  		return $page_slug;	
  	}

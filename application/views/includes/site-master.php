@@ -143,4 +143,4 @@
 
 
 <!-- Favicon -->
-<link type="image/png" rel="icon" href="<?= base_url() ?>assets/images/favicon.png">
+<link type="image/png" rel="icon" href="<?= getImageSrc(UPLOADIMAGE.'images/',$site_settings->site_icon) ?>">

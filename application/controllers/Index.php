@@ -7,13 +7,25 @@ class Index extends MY_Controller
     {
         parent::__construct();
         $this->load->model('member_model');
+        $this->load->model('pages_model','page');
     }
 
     function index()
     {
-        $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'home'));
-        $this->data['site_content'] = unserialize($this->data['site_content']->code);
-        $this->load->view("pages/index", $this->data);
+        $meta = $this->page->getMetaContent('home');
+		$this->data['page_title'] = $meta->page_name;
+		$this->data['slug'] = $meta->slug;
+		$data = $this->page->getPageContent('home');
+		if($data){
+			$this->data['content'] = unserialize($data->code);
+            
+			$this->data['meta_desc'] = json_decode($meta->content);
+			$this->data['testimonials'] = $this->master->get_data_rows('testimonials',array('status'=>'1'));
+
+			$this->load->view('pages/index',$this->data);
+		}else{
+			show_404();
+		}
     }
 
     function signin()
@@ -80,8 +92,9 @@ class Index extends MY_Controller
         }
         else
         {
-            $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'login'));
-            $this->data['site_content'] = unserialize($this->data['site_content']->code);
+            $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signin'));
+            $this->data['content'] = unserialize($this->data['site_content']->code);
+            
             $this->load->view("auth/signin", $this->data);
         }
     }
@@ -89,7 +102,9 @@ class Index extends MY_Controller
     function signup_as()
     {
         $this->MemLogged();
-        $this->load->view('auth/signup-as');
+        $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
+        $this->data['content'] = unserialize($this->data['site_content']->code);
+        $this->load->view('auth/signup-as',$this->data);
     }
 
     function signup($as)
@@ -169,7 +184,7 @@ class Index extends MY_Controller
             }
             $this->data['as'] = ucfirst($as);
             $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
-            $this->data['site_content'] = unserialize($this->data['site_content']->code);
+            $this->data['content'] = unserialize($this->data['site_content']->code);
             $this->load->view("auth/signup", $this->data);
         }
     }

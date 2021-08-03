@@ -2,37 +2,37 @@
 <html>
 
 <head>
-    <title>Promotions & Offers — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
+    <?php $this->load->view('includes/site-master');?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header');?>
     <main common promotion>
 
 
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <h2 class="heading">Promotions & Offers</h2>
-                    <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
+                    <h2><?= $content{'heading'} ?></h2>
+                    <p><?= $content{'detail'} ?></p>
                     <form action="" method="post">
                         <div class="txtGrp flexGrp">
                             <label for="">Enter Postcode</label>
                             <input type="text" name="" id="" class="txtBox">
-                            <button type="submit" class="webBtn">Go</button>
+                            <button type="submit" class="webBtn"><?= $content{'banner_button_text'} ?></button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="image"><img src="<?= $base_url ?>images/illustration_promotion.svg" alt=""></div>
+            <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
         </section>
         <!-- sBanner -->
 
 
         <section id="promotion">
             <div class="contain">
-                <h2 class="heading text-center">Current Promos in your Area</h2>
+                <h2 class="heading text-center"><?= $content{'second_heading'} ?></h2>
                 <div class="promoBlk">
                     <div class="inside">
                         <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
@@ -114,7 +114,7 @@
 
 
     </main>
-    <?php require_once('includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer');?>
 </body>
 
 </html>

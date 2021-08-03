@@ -1,11 +1,11 @@
-<?php echo getBredcrum(ADMIN, array('#' => 'Terms & Conditions')); ?>
+<?php echo getBredcrum(ADMIN, array('#' => 'Promotions and Offers Page')); ?>
 <?php echo showMsg(); ?>
 <div class="row margin-bottom-10">
     <div class="col-md-6">
-        <h2 class="no-margin"><i class="entypo-window"></i> Update <strong>Terms & Conditions</strong></h2>
+        <h2 class="no-margin"><i class="entypo-window"></i> Update <strong>Promotions and Offers Page</strong></h2>
     </div>
     <div class="col-md-6 text-right">
-        <!--        <a href="<?php echo base_url('admin/terms_conditions'); ?>" class="btn btn-lg btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>-->
+
     </div>
 </div>
 <div>
@@ -51,20 +51,32 @@
                                 <input type="text" name="heading" id="heading" value="<?= $row['heading'] ?>" class="form-control" required>
                             </div>
                             <div class="col-md-12">
-                                <label for="header_detail" class="control-label"> Detail <span class="symbol ">*</span></label>
-                                <textarea name="header_detail" id="header_detail" rows="4" class="form-control"><?= $row['header_detail'] ?></textarea>
+                                <label for="detail" class="control-label"> Detail <span class="symbol ">*</span></label>
+                                <textarea name="detail" id="detail" rows="4" class="form-control"><?= $row['detail'] ?></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="banner_button_text" class="control-label"> Button Text <span class="symbol required">*</span></label>
+                                <input type="text" name="banner_button_text" id="banner_button_text" value="<?= $row['banner_button_text'] ?>" class="form-control" required>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <h3>Page Section</h3>
+
+            <h3>Promotions and Offers Section</h3>
             <div class="form-group">
-                <div class="form-group col-sm-12 ">
-                    <label for="detail" class="control-label "> Detail</label>
-                    <textarea name="detail" rows="8" class="form-control ckeditor" ><?= $content->full_code ?></textarea>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="second_heading" class="control-label"> Heading <span class="symbol required"></span></label>
+                                <input type="text" name="second_heading" id="second_heading" value="<?= $row['second_heading'] ?>" class="form-control" >
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="field-1" class="col-sm-2 control-label "></label>
                 <div class="col-sm-10">

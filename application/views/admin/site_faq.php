@@ -13,13 +13,15 @@
     <div class="clearfix"></div>
     <div class="panel-body">
         <form role="form"  method="post" class="form-horizontal form-groups-bordered validate" novalidate="novalidate" enctype="multipart/form-data">
+            
+            <h3>Main Section</h3>
             <div class="form-group">
                 <div class="row">
-                    <!-- <div class="col-md-3">
+                    <div class="col-md-3">
                         <div class="panel panel-primary" data-collapsed="0">
                             <div class="panel-heading">
                                 <div class="panel-title">
-                                    Banner Image
+                                    Right Image
                                 </div>
                                 <div class="panel-options">
                                     <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
@@ -28,7 +30,7 @@
                             <div class="panel-body">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
-                                        <img src="<?= !empty($row['image1']) ? get_site_image_src("images/", $row['image1']) : 'http://placehold.it/3000x1000' ?>" alt="--">
+                                        <img src="<?= !empty($row['image1']) ? getImageSrc(UPLOAD_PATH."images/", $row['image1']) : 'http://placehold.it/3000x1000' ?>" alt="--">
                                     </div>
                                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
                                     <div>
@@ -42,39 +44,44 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
-                    <div class="col-md-12">
+                    </div>
+                    <div class="col-md-9">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label for="page_title" class="control-label"> Page Title <span class="symbol required">*</span></label>
-                                <input type="text" name="page_title" id="page_title" value="<?= $row['page_title'] ?>" class="form-control" autofocus required>
+                                <label for="heading" class="control-label"> Heading <span class="symbol required">*</span></label>
+                                <input type="text" name="heading" id="heading" value="<?= $row['heading'] ?>" class="form-control" required>
                             </div>
-                            <div class="col-md-6">
-                                <label for="meta_description" class="control-label"> Meta Description <span class="symbol required">*</span></label>
-                                <textarea name="meta_description" id="meta_description" class="form-control" rows="5" required=""><?= $row['meta_description'] ?></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="meta_keywords" class="control-label"> Meta Keywords <span class="symbol required">*</span></label>
-                                <textarea name="meta_keywords" id="meta_keywords" class="form-control" rows="5" required=""><?= $row['meta_keywords'] ?></textarea>
+                            <div class="col-md-12">
+                                <label for="detail" class="control-label"> Detail <span class="symbol ">*</span></label>
+                                <textarea name="detail" id="detail" rows="4" class="form-control"><?= $row['detail'] ?></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <h3>Main Section</h3>
+            <h3>FAQ's Section</h3>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="heading" class="control-label"> Heading <span class="symbol required"></span></label>
-                                <input type="text" name="heading" id="heading" value="<?= $row['heading'] ?>" class="form-control">
-                                <br>
-                                
-                            </div>
-                        </div>
+                    <div class="col-md-6">
+                        <label for="left_heading" class="control-label"> Left Heading <span class="symbol required"></span></label>
+                        <input type="text" name="left_heading" id="left_heading" value="<?= $row['left_heading'] ?>" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="right_heading" class="control-label"> Right Heading <span class="symbol required"></span></label>
+                        <input type="text" name="right_heading" id="right_heading" value="<?= $row['right_heading'] ?>" class="form-control" >
+                    </div>
+                </div>
+            </div>
+            <h3>Form Section</h3>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="form_heading" class="control-label"> Form Heading <span class="symbol required"></span></label>
+                        <input type="text" name="form_heading" id="form_heading" value="<?= $row['form_heading'] ?>" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="form_btn_title" class="control-label"> Form Button Title <span class="symbol required">*</span></label>
+                        <input type="text" name="form_btn_title" id="form_btn_title" value="<?= $row['form_btn_title'] ?>" class="form-control" required>
                     </div>
                 </div>
             </div>

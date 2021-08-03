@@ -51,7 +51,7 @@
                     <div class="panel-body">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
-                                <img src="<?= !empty($row->image) ? get_site_image_src("services", $row->image) : 'http://placehold.it/700x620' ?>" alt="--">
+                                <img src="<?= !empty($row->image) ? get_site_image_src("testimonials", $row->image) : 'http://placehold.it/700x620' ?>" alt="--">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
                         <div>
@@ -126,7 +126,9 @@
             <tr>
                 <th width="5%" class="text-center">Sr#</th>
                 <!-- <th width="10%">Photo</th> -->
-                <th>Testimonial</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Review</th>
                 <th width="12%" class="text-center">&nbsp;</th>
             </tr>
         </thead>
@@ -135,11 +137,12 @@
                 <?php foreach ($rows as $row): ?>
                     <tr class="odd gradeX">
                         <td class="text-center"><?= ++$count; ?></td>
-                        <!-- <td class="text-center">
+                        <td class="text-center"><?=$row->name ?></td>
+                        <td class="text-center">
                             <div class="icoRound">
                                 <img src = "<?= get_site_image_src('testimonials', $row->image, 'thumb_', true); ?>" height = "60">
                             </div>
-                        </td> -->
+                        </td>
                         <td><b><?= $row->name; ?></b></br>&emsp;<?= short_text($row->detail); ?></td>
                         <td class="text-center">
                             <div class="btn-group">

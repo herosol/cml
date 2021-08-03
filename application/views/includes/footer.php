@@ -3,7 +3,7 @@
         <div class="topBlk">
             <div class="logo">
                 <a href="<?= base_url() ?>">
-                    <img src="<?= base_url() ?>assets/images/logo.svg" alt="">
+                    <img src="<?= getImageSrc(UPLOADIMAGE.'images/',$site_settings->site_footer_logo) ?>" alt="">
                 </a>
             </div>
             <ul class="cardLst">
@@ -16,35 +16,43 @@
         <div class="mdBlk">
             <ul class="lst">
                 <li><a href="<?= base_url() ?>">Home</a></li>
-                <li><a href="<?= base_url() ?>promotions-offers.php">Promotions</a></li>
-                <li><a href="<?= base_url() ?>faq.php">FAQ's</a></li>
-                <li><a href="<?= base_url() ?>terms-and-conditions.php">Terms & Condition</a></li>
-                <li><a href="<?= base_url() ?>contact.php">Contact</a></li>
+                <li><a href="<?= base_url() ?>promotions-offers">Promotions</a></li>
+                <li><a href="<?= base_url() ?>faq">FAQ's</a></li>
+                <li><a href="<?= base_url() ?>terms-conditions">Terms & Condition</a></li>
+                <li><a href="<?= base_url() ?>contact">Contact</a></li>
             </ul>
             <ul class="social">
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/social-facebook.svg" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/social-twitter.svg" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/social-instagram.svg" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/social-youtube.svg" alt=""></a></li>
+                <?php if ($site_settings->site_facebook): ?>
+                    <li><a href="<?=makeExternalUrl($site_settings->site_facebook)?>" target="_blank"><img src="<?= base_url() ?>assets/images/social-facebook.svg" alt=""></a></li>
+                <?php endif ?>
+                <?php if ($site_settings->site_twitter): ?>
+                    <li><a href="<?=makeExternalUrl($site_settings->site_twitter)?>" target="_blank"><img src="<?= base_url() ?>assets/images/social-twitter.svg" alt=""></a></li>
+                <?php endif ?>
+                <?php if ($site_settings->site_instagram): ?>
+                    <li><a href="<?=makeExternalUrl($site_settings->site_instagram)?>" target="_blank"><img src="<?= base_url() ?>assets/images/social-instagram.svg" alt=""></a></li>
+                <?php endif ?>
+                <?php if ($site_settings->site_youtube): ?>
+                    <li><a href="<?=makeExternalUrl($site_settings->site_youtube)?>" target="_blank"><img src="<?= base_url() ?>assets/images/social-youtube.svg" alt=""></a></li>
+                <?php endif ?>
             </ul>
         </div>
         <div class="partner">
+        <?php
+            $partners = get_partners();
+            if(!empty($partners)){
+        ?>
             <h6>In Partnership With:</h6>
             <ul>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_1.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_2.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_3.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_4.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_5.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_6.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_7.png" alt=""></a></li>
-                <li><a href="?"><img src="<?= base_url() ?>assets/images/partner_8.png" alt=""></a></li>
+            <?php foreach($partners as $partner){ ?>
+                <li><a target="_blank" href="<?= makeExternalUrl($partner->external_link)?>"><img src="<?=  getImageSrc(UPLOAD_PATH . "/partners/", $partner->image) ?>" alt=""></a></li>
+            <?php } ?>
             </ul>
+        <?php } ?>
         </div>
         <div class="copyright">
-            <p>Copyright © 2021 <a href="<?= base_url() ?>index.php">Compare My Laundry</a>. All rights reserved.</p>
+            <p><?= $site_settings->site_copyright ?></p>
             <ul>
-                <li>Email: <a href="mailto:info@comparemylaundry.com">info@comparemylaundry.com</a></li>
+                <li>Email: <a href="mailto:<?= $site_settings->site_email ?>"><?= $site_settings->site_email ?></a></li>
             </ul>
         </div>
     </div>

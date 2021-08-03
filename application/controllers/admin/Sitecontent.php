@@ -78,42 +78,12 @@ class Sitecontent extends Admin_Controller
         $this->data['row'] = unserialize($this->data['row']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
-    public function about()
+    public function promotions()
     {
         $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_about';
+        $this->data['pageView'] = ADMIN . '/site_promotions';
         if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'about'));
-            $content_row = unserialize($content_row->code);
-            if(!is_array($content_row))
-                $content_row = array();
-            for($i = 1; $i <= 2; $i++) {
-                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
-                    
-                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
-                    if(!empty($image['file_name'])){
-                        if(isset($content_row['image'.$i]))
-                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
-                        $vals['image'.$i] = $image['file_name'];
-                    }
-                }
-            }
-            $data = serialize(array_merge($content_row, $vals));
-            $this->master->save($this->table_name,array('code'=>$data),'ckey','about');
-            setMsg('success', 'Settings updated successfully !');
-            redirect(ADMIN . "/sitecontent/about");
-        }
-
-        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'about'));
-        $this->data['row'] =unserialize($this->data['content']->code);
-        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
-    }
-
-    function contact() {
-        $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_contact';
-        if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'contact'));
+            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'promotions'));
             $content_row = unserialize($content_row->code);
             if(!is_array($content_row))
                 $content_row = array();
@@ -128,6 +98,36 @@ class Sitecontent extends Admin_Controller
                     }
                 }
             }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code'=>$data),'ckey','promotions');
+            setMsg('success', 'Promotions and Offers Page Updated Successfully !');
+            redirect(ADMIN . "/sitecontent/promotions");
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'promotions'));
+        $this->data['row'] =unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+    function contact() {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_contact';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'contact'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            // for($i = 1; $i <= 1; $i++) {
+            //     if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+            //         $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+            //         if(!empty($image['file_name'])){
+            //             if(isset($content_row['image'.$i]))
+            //                 $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+            //             $vals['image'.$i] = $image['file_name'];
+            //         }
+            //     }
+            // }
             $data = serialize(array_merge($content_row,$vals));
             $this->master->save($this->table_name, array('code' => $data), 'ckey', 'contact');
             setMsg('success', 'Settings updated successfully !');
@@ -139,27 +139,7 @@ class Sitecontent extends Admin_Controller
         $this->data['row'] = unserialize($this->data['content']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
-    function brands() {
-        $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_brands';
-        if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'brands'));
-            $content_row = unserialize($content_row->code);
-            if(!is_array($content_row))
-                $content_row = array();
-            
-                
-            $data = serialize(array_merge($content_row,$vals));
-            $this->master->save($this->table_name, array('code' => $data), 'ckey', 'brands');
-            setMsg('success', 'Settings updated successfully !');
-            redirect(ADMIN . "/sitecontent/brands");
-            exit;
-        }
-
-        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'brands'));
-        $this->data['row'] = unserialize($this->data['content']->code);
-        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
-    }
+    
 
 
 
@@ -195,6 +175,72 @@ class Sitecontent extends Admin_Controller
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
 
+    
+
+    function signup() {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_signup';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'signup'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            
+            for($i = 1; $i <= 1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name, array('code' => $data), 'ckey', 'signup');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/signup");
+            exit;
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'signup'));
+        $this->data['row'] = unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    function signin() {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_signin';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'signin'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            
+            for($i = 1; $i <= 1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name, array('code' => $data), 'ckey', 'signin');
+            setMsg('success', 'Settings updated successfully !');
+            redirect(ADMIN . "/sitecontent/signin");
+            exit;
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'signin'));
+        $this->data['row'] = unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+
+
     function privacy_policy() {
         $this->data['enable_editor'] = TRUE;
         $this->data['pageView'] = ADMIN . '/site_privacy_policy';
@@ -227,14 +273,16 @@ class Sitecontent extends Admin_Controller
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
 
-    function return_policy() {
+    function faq()
+    {
         $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_return_policy';
+        $this->data['pageView'] = ADMIN . '/site_faq';
         if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'return_policy'));
+            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'faq'));
             $content_row = unserialize($content_row->code);
             if(!is_array($content_row))
                 $content_row = array();
+            
             for($i = 1; $i <= 1; $i++) {
                 if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
 
@@ -246,63 +294,6 @@ class Sitecontent extends Admin_Controller
                     }
                 }
             }
-            unset($vals['detail']);
-            $data = serialize(array_merge($content_row,$vals));
-            $this->master->save($this->table_name, array('code' => $data, 'full_code' => $this->input->post('detail')), 'ckey', 'return_policy');
-            setMsg('success', 'Settings updated successfully !');
-            redirect(ADMIN . "/sitecontent/return_policy");
-            exit;
-        }
-
-        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'return_policy'));
-        $this->data['row'] = unserialize($this->data['content']->code);
-        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
-    }
-
-    function products()
-    {
-        $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_products';
-        if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'products'));
-            $content_row = unserialize($content_row->code);
-            if(!is_array($content_row))
-                $content_row = array();
-            for($i = 1; $i <= 3; $i++) {
-                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
-                    
-                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
-                    if(!empty($image['file_name'])){
-                        if(isset($content_row['image'.$i]))
-                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
-                        $vals['image'.$i] = $image['file_name'];
-                    }
-                }
-            }
-            unset($vals['detail']);
-            $data = serialize(array_merge($content_row, $vals));
-            $this->master->save($this->table_name, array('code' => $data, 'full_code' => $this->input->post('detail')), 'ckey', 'products');
-            setMsg('success', 'Settings updated successfully !');
-            redirect(ADMIN . "/sitecontent/products");
-            exit;
-        }
-
-        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'products'));
-        $this->data['row'] = unserialize($this->data['content']->code);
-        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
-    }
-
-    function faq()
-    {
-        $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/site_faq';
-        if ($vals = $this->input->post()) {
-            $content_row = $this->master->getRow($this->table_name, array('ckey' => 'faq'));
-            $content_row = unserialize($content_row->code);
-            if(!is_array($content_row))
-                $content_row = array();
-            
-           
             $data = serialize(array_merge($content_row, $vals));
             $this->master->save($this->table_name, array('code' => $data, 'full_code' => $this->input->post('detail')), 'ckey', 'faq');
             setMsg('success', 'Settings updated successfully !');
