@@ -419,10 +419,9 @@ function get_size_weight($size)
 }
 //***** end PERMISSIONS*******///
 
-function get_location_detail($zipcode, $country='usa')
+function get_location_detail($zipcode, $country='gb')
 {
     $url = 'https://geocoder.api.here.com/6.2/geocode.json?app_id=IAcDhEZWhrGYOn6m3JnI&app_code=52n2G76qxgU7qRyswkqYaw%20&searchtext='.urlencode($zipcode).',%20'.$country;
-    // $url = 'https://geocoder.api.here.com/6.2/geocode.json?app_id=IAcDhEZWhrGYOn6m3JnI&app_code=52n2G76qxgU7qRyswkqYaw%20&searchtext='.$country.'%20'.urlencode($zipcode);
     $headers = array(
         'Accept: application/json',
         'Content-Type: application/json');
@@ -439,7 +438,6 @@ function get_location_detail($zipcode, $country='usa')
     }
     curl_close($ch);
     $response = json_decode($data);
-            // pr($response->Response->View[0]->Result[0]->Location);
     return $response->Response->View[0]->Result[0]->Location->DisplayPosition;
     /*echo $response->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude.'<br>';
     echo $response->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude*/;

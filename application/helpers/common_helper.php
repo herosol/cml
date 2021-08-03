@@ -260,6 +260,19 @@ function gender()
     return ['male', 'female', 'others'];
 }
 
+function halfHourTimes()
+{
+    $formatter = function ($time) {
+      if ($time % 3600 == 0) {
+        return date('g:i a', $time);
+      } else {
+        return date('g:i a', $time);
+      }
+    };
+    $halfHourSteps = range(0, 47*1800, 1800);
+    return array_map($formatter, $halfHourSteps);
+}
+
 function getBredcrum($section, $ary)
 {
     $bcrum = '

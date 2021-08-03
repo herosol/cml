@@ -81,6 +81,7 @@ $(document).ready(function() {
         return $(".atlst_one:checkbox:checked").length > 0;
     }, "You must select at least one.");
 
+
     $.validator.addClassRules({
         arrFld: {
             required: true,
@@ -264,34 +265,145 @@ $(document).ready(function() {
                 required: true
             },
             mem_business_country: {
-                required: true
+                required: {
+                    depends: function(element) {
+                        return $("select#mem_company_walkin_facility option").filter(":selected").val() == 'yes';;
+                    }
+                }
             },
             mem_business_state: {
-                required: true
+                required: {
+                    depends: function(element) {
+                        return $("select#mem_company_walkin_facility option").filter(":selected").val() == 'yes';;
+                    }
+                }
             },
             mem_business_city: {
-                required: true
+                required: {
+                    depends: function(element) {
+                        return $("select#mem_company_walkin_facility option").filter(":selected").val() == 'yes';;
+                    }
+                }
             },
             mem_business_zip: {
-                required: true
+                required: {
+                    depends: function(element) {
+                        return $("select#mem_company_walkin_facility option").filter(":selected").val() == 'yes';;
+                    }
+                }
             },
             mem_business_address: {
-                required: true
+                required: {
+                    depends: function(element) {
+                        return $("select#mem_company_walkin_facility option").filter(":selected").val() == 'yes';;
+                    }
+                }
             },
-            mem_country: {
-                required: true
+            mon_opening: {
+                required: {
+                    depends: function(element) {
+                        element = $(element);
+                        let mon_closing = $("select#mon_closing option").filter(":selected").val();
+                        if (mon_closing != '') {
+                            return true;
+                        }
+                    }
+                }
             },
-            mem_state: {
-                required: true
+            mon_closing: {
+                required: {
+                    depends: function(element) {
+                        element = $(element);
+                        let mon_opening = $("select#mon_opening option").filter(":selected").val();
+                        if (mon_opening != '') {
+                            return true;
+                        }
+                    }
+                }
             },
-            mem_city: {
-                required: true
+            tue_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#tue_closing option").filter(":selected").val() != '';
+                    }
+                }
             },
-            mem_zip: {
-                required: true
+            tue_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#tue_opening option").filter(":selected").val() != '';
+                    }
+                }
             },
-            mem_address: {
-                required: true
+            wed_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#wed_closing option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            wed_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#wed_opening option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            thu_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#thu_closing option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            thu_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#thu_opening option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            fri_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#fri_closing option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            fri_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#fri_opening option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            sat_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#sat_closing option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            sat_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#sat_opening option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            sun_opening: {
+                required: {
+                    depends: function(element) {
+                        return $("select#sun_closing option").filter(":selected").val() != '';
+                    }
+                }
+            },
+            sun_closing: {
+                required: {
+                    depends: function(element) {
+                        return $("select#sun_opening option").filter(":selected").val() != '';
+                    }
+                }
             },
             mem_charges_per_miles: {
                 required: true
