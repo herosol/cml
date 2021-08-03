@@ -14,8 +14,8 @@
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <h2 class="heading"><?= $content{'heading'} ?></h2>
-                    <p><?= $content{'detail'} ?></p>
+                    <h2 class="heading"><?= $content['heading'] ?></h2>
+                    <p><?= $content['detail'] ?></p>
                 </div>
             </div>
             <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
@@ -28,7 +28,7 @@
                 <div class="flexRow flex">
                     <?php if(!empty($general_faqs)){?>
                     <div class="col">
-                        <h3 class="heading"><?= $content{'left_heading'} ?></h3>
+                        <h3 class="heading"><?= $content['left_heading'] ?></h3>
                         <div class="faqBox">
                             <div class="faqLst">
                                 <?php foreach($general_faqs as $faq){?>
@@ -47,7 +47,7 @@
                     if(!empty($most_faqs)){
                     ?>
                     <div class="col">
-                        <h3 class="heading"><?= $content{'right_heading'} ?></h3>
+                        <h3 class="heading"><?= $content['right_heading'] ?></h3>
                         <div class="faqBox">
                             <div class="faqLst">
                             <?php foreach($most_faqs as $faq){?>
@@ -64,7 +64,7 @@
                     <?php } ?>
                 </div>
                 <form action="" method="post">
-                    <h3 class="heading text-center"><?= $content{'form_heading'} ?></h3>
+                    <h3 class="heading text-center"><?= $content['form_heading'] ?></h3>
                     <div class="txtGrp">
                         <label for="">Name</label>
                         <input type="text" name="" id="" class="txtBox">
@@ -85,7 +85,7 @@
                         <label for="">Comments</label>
                         <textarea name="" id="" class="txtBox"></textarea>
                     </div>
-                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn"><?= $content{'form_btn_title'} ?></button></div>
+                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn"><?= $content['form_btn_title'] ?></button></div>
                 </form>
             </div>
         </section>

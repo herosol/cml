@@ -16,14 +16,14 @@
                 <div class="flexRow flex">
                     <div class="col col1">
                         <div class="content">
-                            <h1 class="heading"><?= $content{'heading'} ?></h1>
-                            <p><?= $content{'detail'} ?></p>
+                            <h1 class="heading"><?= $content['heading'] ?></h1>
+                            <p><?= $content['detail'] ?></p>
                         </div>
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
                             <form action="" method="post">
-                                <h3 class="heading"><?= $content{'form_heading'} ?></h3>
+                                <h3 class="heading"><?= $content['form_heading'] ?></h3>
                                 <div class="txtGrp">
                                     <label for="">Name</label>
                                     <input type="text" name="" id="" class="txtBox">
@@ -44,7 +44,7 @@
                                     <label for="">Comments</label>
                                     <textarea name="" id="" class="txtBox"></textarea>
                                 </div>
-                                <div class="bTn formBtn"><button type="submit" class="webBtn"><?= $content{'btn_title'} ?> <i class="fi-arrow-right"></i></button></div>
+                                <div class="bTn formBtn"><button type="submit" class="webBtn"><?= $content['btn_title'] ?> <i class="fi-arrow-right"></i></button></div>
                             </form>
                         </div>
                     </div>

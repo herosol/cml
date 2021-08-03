@@ -14,10 +14,10 @@
                 <div class="contain">
                     <div class="outer">
                         <div class="content">
-                            <h1><?= $content{'banner_heading'} ?></h1>
-                            <p><?= $content{'banner_detail'} ?></p>
+                            <h1><?= $content['banner_heading'] ?></h1>
+                            <p><?= $content['banner_detail'] ?></p>
                             <div class="bTn">
-                                <a href="<?= base_url($content{'banner_button_link'}) ?>" class="webBtn"><?= $content{'banner_button_text'} ?></a>
+                                <a href="<?= base_url($content['banner_button_link']) ?>" class="webBtn"><?= $content['banner_button_text'] ?></a>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                                 <label for="">Type your Postcode</label>
                                 <input type="text" class="txtBox">
                             </div>
-                            <div class="bTn"><button type="submit" class="webBtn"><?= $content{'search_btn_title'} ?></button></div>
+                            <div class="bTn"><button type="submit" class="webBtn"><?= $content['search_btn_title'] ?></button></div>
                         </div>
                     </form>
                     <div class="flexRow flex">
@@ -45,19 +45,19 @@
                             <ul class="lst">
                                 <li>
                                     <img src="<?= base_url() ?>assets/images/icon-envelope-fill.svg" alt="">
-                                    <strong><?= $content{'general_label'} ?></strong>
+                                    <strong><?= $content['general_label'] ?></strong>
                                     <a href="mailto:contactus@comparemylaundry.com"><?= $site_settings->site_general_email ?></a>
                                 </li>
                                 <li>
                                     <img src="<?= base_url() ?>assets/images/icon-envelope-fill.svg" alt="">
-                                    <strong><?= $content{'order_label'} ?></strong>
+                                    <strong><?= $content['order_label'] ?></strong>
                                     <a href="mailto:<?= $site_settings->site_general_email ?>"><?= $site_settings->site_general_email ?></a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col">
                             <ul class="conect flex">
-                                <li><strong><?= $content{'social_label'} ?></strong></li>
+                                <li><strong><?= $content['social_label'] ?></strong></li>
                                 <?php if ($site_settings->site_facebook): ?>
                                 <li>
                                     <a href="<?=makeExternalUrl($site_settings->site_facebook)?>" target="_blank"><img src="<?= base_url() ?>assets/images/social-facebook.svg" alt=""></a>
@@ -88,8 +88,8 @@
         <section id="deals">
             <div class="contain">
                 <div class="content">
-                    <h1 class="heading"><?= $content{'deals_headings'} ?></h1>
-                    <p><?= $content{'deals_tagline'} ?></p>
+                    <h1 class="heading"><?= $content['deals_headings'] ?></h1>
+                    <p><?= $content['deals_tagline'] ?></p>
                 </div>
                 <div class="flexRow flex text-center">
                     <div class="col">
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="bTn formBtn text-center">
-                    <a href="<?= base_url($content{'deals_button_link'}) ?>" class="webBtn"><?= $content{'deals_button_text'} ?></a>
+                    <a href="<?= base_url($content['deals_button_link']) ?>" class="webBtn"><?= $content['deals_button_text'] ?></a>
                 </div>
             </div>
         </section>
@@ -142,10 +142,10 @@
                 <div class="flexRow flex">
                     <div class="col col1">
                         <div class="content">
-                            <h1 class="heading"><?= $content{'section3_heading'} ?></h1>
-                            <p><?= $content{'section3_desc'} ?></p>
+                            <h1 class="heading"><?= $content['section3_heading'] ?></h1>
+                            <p><?= $content['section3_desc'] ?></p>
                             <div class="bTn">
-                                <a href="<?= base_url($content{'section3_button_link'}) ?>" class="webBtn"><?= $content{'section3_button_text'} ?></a>
+                                <a href="<?= base_url($content['section3_button_link']) ?>" class="webBtn"><?= $content['section3_button_text'] ?></a>
                             </div>
                         </div>
                     </div>
@@ -159,8 +159,8 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image3'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'card1_heading'} ?></h4>
-                                <p><?= $content{'card1_details'} ?></p>
+                                <h4><?= $content['card1_heading'] ?></h4>
+                                <p><?= $content['card1_details'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -168,8 +168,8 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image4'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'card2_heading'} ?></h4>
-                                <p><?= $content{'card2_details'} ?></p>
+                                <h4><?= $content['card2_heading'] ?></h4>
+                                <p><?= $content['card2_details'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -177,14 +177,14 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image5'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'card3_heading'} ?></h4>
-                                <p><?= $content{'card3_details'} ?></p>
+                                <h4><?= $content['card3_heading'] ?></h4>
+                                <p><?= $content['card3_details'] ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bTn formBtn text-center">
-                    <a href="<?= base_url($content{'cards_button_link'}) ?>" class="webBtn"><?= $content{'cards_button_text'} ?></a>
+                    <a href="<?= base_url($content['cards_button_link']) ?>" class="webBtn"><?= $content['cards_button_text'] ?></a>
                 </div>
             </div>
         </section>
@@ -193,15 +193,15 @@
 
         <section id="choose">
             <div class="contain">
-                <h1 class="heading text-center"><?= $content{'section4_heading'} ?></h1>
+                <h1 class="heading text-center"><?= $content['section4_heading'] ?></h1>
                 <div class="flexRow flex">
                     <div class="col">
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image6'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'media1_heading'} ?></h4>
-                                <p> <?= $content{'media1_detail'} ?> </p>
-                                <div class="bTn"><a href="<?= base_url($content{'media1_button_link'}) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
+                                <h4><?= $content['media1_heading'] ?></h4>
+                                <p> <?= $content['media1_detail'] ?> </p>
+                                <div class="bTn"><a href="<?= base_url($content['media1_button_link']) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -209,9 +209,9 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image7'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'media2_heading'} ?></h4>
-                                <p> <?= $content{'media2_detail'} ?> </p>
-                                <div class="bTn"><a href="<?= base_url($content{'media2_button_link'}) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
+                                <h4><?= $content['media2_heading'] ?></h4>
+                                <p> <?= $content['media2_detail'] ?> </p>
+                                <div class="bTn"><a href="<?= base_url($content['media2_button_link']) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -219,9 +219,9 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image8'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'media3_heading'} ?></h4>
-                                <p> <?= $content{'media3_detail'} ?> </p>
-                                <div class="bTn"><a href="<?= base_url($content{'media3_button_link'}) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
+                                <h4><?= $content['media3_heading'] ?></h4>
+                                <p> <?= $content['media3_detail'] ?> </p>
+                                <div class="bTn"><a href="<?= base_url($content['media3_button_link']) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -229,9 +229,9 @@
                         <div class="inner">
                             <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image9'])?>" alt=""></div>
                             <div class="txt">
-                                <h4><?= $content{'media4_heading'} ?></h4>
-                                <p> <?= $content{'media4_detail'} ?> </p>
-                                <div class="bTn"><a href="<?= base_url($content{'media4_button_link'}) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
+                                <h4><?= $content['media4_heading'] ?></h4>
+                                <p> <?= $content['media4_detail'] ?> </p>
+                                <div class="bTn"><a href="<?= base_url($content['media4_button_link']) ?>" class="webBtn labelBtn"><i class="fi-arrow-right-long"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -243,7 +243,7 @@
         <?php if(!empty($testimonials)){ ?>
         <section id="folio">
             <div class="contain text-center">
-                <h1 class="heading"><?= $content{'testimonials_heading'} ?></h1>
+                <h1 class="heading"><?= $content['testimonials_heading'] ?></h1>
                 <div class="owlBlock">
                     <div id="owl-folio" class="owl-carousel owl-theme">
                         <?php foreach($testimonials as $testimonial){ ?>
@@ -268,8 +268,8 @@
         <section id="comfort">
             <div class="contain">
                 <div class="content text-center">
-                    <h1 class="heading"><?= $content{'last_heading'} ?></h1>
-                    <p><?= $content{'last_desc'} ?></p>
+                    <h1 class="heading"><?= $content['last_heading'] ?></h1>
+                    <p><?= $content['last_desc'] ?></p>
                 </div>
             </div>
         </section>

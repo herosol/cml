@@ -14,13 +14,13 @@
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <h2><?= $content{'heading'} ?></h2>
-                    <p><?= $content{'detail'} ?></p>
+                    <h2><?= $content['heading'] ?></h2>
+                    <p><?= $content['detail'] ?></p>
                     <form action="" method="post">
                         <div class="txtGrp flexGrp">
                             <label for="">Enter Postcode</label>
                             <input type="text" name="" id="" class="txtBox">
-                            <button type="submit" class="webBtn"><?= $content{'banner_button_text'} ?></button>
+                            <button type="submit" class="webBtn"><?= $content['banner_button_text'] ?></button>
                         </div>
                     </form>
                 </div>
@@ -32,10 +32,10 @@
 
         <section id="promotion">
             <div class="contain">
-                <h2 class="heading text-center"><?= $content{'second_heading'} ?></h2>
+                <h2 class="heading text-center"><?= $content['second_heading'] ?></h2>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
                         <div class="txt">
                             <h3>5x Shirt on Hanger Wash & Iron</h3>
                             <p>This offer will expire on: 07/25/2021</p>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
                         <div class="txt">
                             <h3>5x Shirt on Hanger Wash & Iron</h3>
                             <p>This offer will expire on: 07/25/2021</p>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
                         <div class="txt">
                             <h3>5x Shirt on Hanger Wash & Iron</h3>
                             <p>This offer will expire on: 07/25/2021</p>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
                         <div class="txt">
                             <h3>5x Shirt on Hanger Wash & Iron</h3>
                             <p>This offer will expire on: 07/25/2021</p>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
                         <div class="txt">
                             <h3>5x Shirt on Hanger Wash & Iron</h3>
                             <p>This offer will expire on: 07/25/2021</p>

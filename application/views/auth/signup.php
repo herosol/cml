@@ -57,7 +57,7 @@
                                     <div class="lblBtn">
                                         <input type="checkbox" name="confirm" id="confirm">
                                         <label for="confirm">I agree to CML's
-                                            <a href="<?= base_url() ?>terms-and-conditions">Terms & Conditions</a>
+                                            <a href="<?= base_url() ?>terms-conditions">Terms & Conditions</a>
                                             and
                                             <a href="<?= base_url() ?>privacy-policy">Privacy Policy.</a>
                                         </label>
