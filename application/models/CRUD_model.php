@@ -27,6 +27,7 @@ class CRUD_model extends CI_Model
     
     function get_rows($where = '', $start = '', $offset = '', $order_by = '', $field = '')
     {
+        
         $field = $field == '' ? $this->field : $field;
         if (!empty($where))
             $this->db->where($where);

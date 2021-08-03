@@ -92,6 +92,9 @@ class Index extends MY_Controller
         }
         else
         {
+            $meta = $this->page->getMetaContent('signin');
+            $this->data['page_title'] = $meta->page_name;
+            $this->data['slug'] = $meta->slug;
             $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signin'));
             $this->data['content'] = unserialize($this->data['site_content']->code);
             
@@ -102,6 +105,9 @@ class Index extends MY_Controller
     function signup_as()
     {
         $this->MemLogged();
+        $meta = $this->page->getMetaContent('signup');
+        $this->data['page_title'] = $meta->page_name;
+        $this->data['slug'] = $meta->slug;
         $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
         $this->data['content'] = unserialize($this->data['site_content']->code);
         $this->load->view('auth/signup-as',$this->data);
@@ -183,6 +189,9 @@ class Index extends MY_Controller
                 show_404();
             }
             $this->data['as'] = ucfirst($as);
+            $meta = $this->page->getMetaContent('signup');
+            $this->data['page_title'] = $meta->page_name;
+            $this->data['slug'] = $meta->slug;
             $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signup'));
             $this->data['content'] = unserialize($this->data['site_content']->code);
             $this->load->view("auth/signup", $this->data);
