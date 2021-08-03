@@ -317,6 +317,72 @@ $(document).ready(function() {
         }
     });
 
+    $('#buyerProfileSettings').validate({
+        errorElement: 'div',
+        rules: {
+            mem_fname: {
+                required: true,
+                minlength: 2,
+                maxlength: 20,
+                noSpace: true,
+                lettersonly: true
+            },
+            mem_lname: {
+                required: true,
+                minlength: 2,
+                maxlength: 20,
+                noSpace: true,
+                lettersonly: true
+            },
+            mem_phone: {
+                required: true
+            },
+            mem_dob: {
+                required: true
+            },
+            mem_sex: {
+                required: true
+            },
+            mem_country: {
+                required: true
+            },
+            mem_state: {
+                required: true
+            },
+            mem_city: {
+                required: true
+            },
+            mem_zip: {
+                required: true
+            },
+            mem_address: {
+                required: true
+            }
+        },
+        messages: {
+            mem_fname: {
+                minlength: "First Name should contains atleast 2 letters.",
+                maxlength: "First Name should not be greater than 20 letters.",
+                noSpace: "First Name should contains only letters and avoid space.",
+                lettersonly: "First Name should contains only letters."
+            },
+            mem_lname: {
+                minlength: "Last Name should contains atleast 2 letters.",
+                maxlength: "Last Name should not be greater than 20 letters.",
+                noSpace: "Last Name should contains only letters and avoid space.",
+                lettersonly: "Last Name should contains only letters."
+            }
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), ['mem_fname', 'mem_lname']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
+        }
+    });
+
     $('#changePassword').validate({
         errorElement: 'div',
         rules: {

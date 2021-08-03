@@ -254,6 +254,12 @@ function yes_no()
 {
     return ['yes', 'no'];
 }
+
+function gender()
+{
+    return ['male', 'female', 'others'];
+}
+
 function getBredcrum($section, $ary)
 {
     $bcrum = '

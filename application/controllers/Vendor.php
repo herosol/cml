@@ -11,7 +11,7 @@ class Vendor extends MY_Controller
 
     public function dashboard()
     {
-        $this->isMemLogged($this->session->mem_type);
+        $this->isMemLogged($this->session->mem_type, false, $this->uri->segment(1));
         $mem_id = $this->session->mem_id;
         if($this->input->post())
         {
@@ -85,7 +85,7 @@ class Vendor extends MY_Controller
 
     public function price_list()
     {
-        $this->isMemLogged($this->session->mem_type);
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         if($this->input->post())
         {
             $res = array();

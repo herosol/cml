@@ -35,13 +35,13 @@
                 </ul>
             </div>
             <div class="proIco dropDown">
-                <div class="ico dropBtn"><img src="<?= base_url() ?>assets/images/users/6.jpg" alt=""></div>
+                <div class="ico dropBtn"><img src="<?= get_site_image_src("members", $mem_data->mem_image, 'thumb_'); ?>" alt=""></div>
                 <div class="proDrop dropCnt">
                     <ul class="dropLst">
-                        <li><a href="<?= base_url() ?>buyer/dashboard.php">Dashboard <small>See and Manage Data</small></a></li>
-                        <li><a href="<?= base_url() ?>buyer/orders.php">My Orders <small>View Order Details</small></a></li>
-                        <li><a href="<?= base_url() ?>buyer/transactions.php">My Transactions <small>See & Mange Your Payouts</small></a></li>
-                        <li><a href="signin.php">Sign out</a></li>
+                        <li><a href="<?= base_url() ?>buyer/dashboard">Dashboard <small>See and Manage Data</small></a></li>
+                        <li><a href="<?= base_url() ?>buyer/orders">My Orders <small>View Order Details</small></a></li>
+                        <li><a href="<?= base_url() ?>buyer/transactions">My Transactions <small>See & Mange Your Payouts</small></a></li>
+                        <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
                     </ul>
                 </div>
             </div>

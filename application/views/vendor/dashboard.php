@@ -15,7 +15,7 @@
         <section id="account">
             <div class="contain-fluid">
             <?php echo showMsg(); ?>
-            <?php if(empty($this->data['mem_data']->mem_verified) || $this->data['mem_data']->mem_verified == 0): ?>
+            <?php if(empty($mem_data->mem_verified) || $mem_data->mem_verified == 0): ?>
             <div id="verify">
                 <div class="inBlk blk">
                     <h3 class="heading">Email Verification</h3>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <?php if(!empty($this->data['mem_data']->mem_verified) && $this->data['mem_data']->mem_verified == 1): ?>
+                <?php if(!empty($mem_data->mem_verified) && $mem_data->mem_verified == 1): ?>
                 <div class="blk">
                     <form action="" method="post" id="vendorProfileSettings" class="frmAjax">
                         <div class="txtGrp upLoadDp">

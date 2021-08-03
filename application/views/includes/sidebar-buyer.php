@@ -3,7 +3,7 @@
         <li class="<?php if ($page == "dashboard") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>buyer/dashboard.php">
+            <a href="<?= base_url() ?>buyer/dashboard">
                 <img src="<?= base_url() ?>assets/images/icon-cog-fill.svg" alt="">
                 <em>Account</em>
             </a>
@@ -11,7 +11,7 @@
         <li class="<?php if ($page == "orders") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>buyer/orders.php">
+            <a href="<?= base_url() ?>buyer/orders">
                 <img src="<?= base_url() ?>assets/images/icon-list.svg" alt="">
                 <em>Orders</em>
             </a>
@@ -19,7 +19,7 @@
         <li class="<?php if ($page == "credits") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>buyer/credits.php">
+            <a href="<?= base_url() ?>buyer/credits">
                 <img src="<?= base_url() ?>assets/images/icon-credit-card.svg" alt="">
                 <em>Credits</em>
             </a>
@@ -27,7 +27,7 @@
         <li class="<?php if ($page == "transactions") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>buyer/transactions.php">
+            <a href="<?= base_url() ?>buyer/transactions">
                 <img src="<?= base_url() ?>assets/images/icon-transaction.svg" alt="">
                 <em>Wallet</em>
             </a>
