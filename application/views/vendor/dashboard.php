@@ -73,7 +73,7 @@
                 </div>
                 <?php if(!empty($mem_data->mem_verified) && $mem_data->mem_verified == 1): ?>
                 <div class="blk">
-                    <form action="" method="post" id="vendorProfileSettings" class="frmAjax">
+                    <form action="" method="post" id="vendorProfileSettings" class="frmAjax checkstate">
                         <div class="txtGrp upLoadDp">
                             <div class="ico">
                                 <img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt="" id="uploadDpPreview">
@@ -407,7 +407,7 @@
                                 </div>
                             </div>
                             <div class="bTn formBtn text-center">
-                                <button type="submit" class="webBtn"><i class="spinner hidden"></i>Save</button>
+                                <button type="submit" class="webBtn submit" title="Please make any change to enable save button." disabled><i class="spinner hidden"></i>Save</button>
                             </div>
                         </div>
                     </form>

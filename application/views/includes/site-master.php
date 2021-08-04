@@ -36,6 +36,7 @@
 <script type="text/javascript" src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.validate.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/jquery.dirrty.js') ?>"></script>
 <script type="text/javascript">
     var base_url = "<?= base_url() ?>";
 </script>
@@ -51,6 +52,20 @@
             autoplayHoverPause: true,
             items: 1
         });
+        
+        $('form.checkstate').dirrty({
+        preventLeaving: false
+        // this function is called when the form.trigger's "dirty"
+        }).on("dirty", function() {
+            $('button.submit').removeAttr('disabled');
+            $('button.submit').removeAttr('title');
+            
+            // this function is called when the form.trigger's "clean"
+        }).on("clean", function() {
+            $('button.submit').prop('disabled', true);
+            $('button.submit').prop('title', 'Please make any change to enable save button.');
+        });
+
         $('#owl-serve').owlCarousel({
             dots: false,
             nav: true,
