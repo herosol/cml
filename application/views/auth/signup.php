@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Sign up — Compare My Laundry</title>
+    <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
     <?php $this->load->view('includes/site-master'); ?>
 </head>
 

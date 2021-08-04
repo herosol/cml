@@ -27,7 +27,6 @@
         </section>
         <!-- banner -->
 
-
         <section id="query">
             <div class="contain">
                 <div class="inBlk">
@@ -94,37 +93,37 @@
                 <div class="flexRow flex text-center">
                     <div class="col">
                         <div class="inner">
-                            <div class="icon"><img src="<?= base_url() ?>assets/images/vector-dry.svg" alt=""></div>
+                            <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image10'])?>" alt=""></div>
                             <div class="txt">
-                                <h4>Dry Cleaning Service</h4>
-                                <p>Proin gravida nibh vel velit auctor aliquet Aenean sollicitudin,</p>
+                                <h4><?= $content['deal1_heading'] ?></h4>
+                                <p><?= $content['deal1_details'] ?></p>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="inner">
-                            <div class="icon"><img src="<?= base_url() ?>assets/images/vector-wash.svg" alt=""></div>
+                            <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image11'])?>" alt=""></div>
                             <div class="txt">
-                                <h4>Wash & Iron Service</h4>
-                                <p>Proin gravida nibh vel velit auctor aliquet Aenean sollicitudin,</p>
+                                <h4><?= $content['deal2_heading'] ?></h4>
+                                <p><?= $content['deal2_details'] ?></p>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="inner">
-                            <div class="icon"><img src="<?= base_url() ?>assets/images/vector-leather.svg" alt=""></div>
+                            <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image12'])?>" alt=""></div>
                             <div class="txt">
-                                <h4>5% Off Leather Repair</h4>
-                                <p>Proin gravida nibh vel velit auctor aliquet Aenean sollicitudin,</p>
+                                <h4><?= $content['deal3_heading'] ?></h4>
+                                <p><?= $content['deal3_details'] ?></p>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="inner">
-                            <div class="icon"><img src="<?= base_url() ?>assets/images/vector-ironing.svg" alt=""></div>
+                            <div class="icon"><img src="<?=getImageSrc(UPLOAD_PATH."images/", $content['image13'])?>" alt=""></div>
                             <div class="txt">
-                                <h4>Free Ironing on Orders Over £40</h4>
-                                <p>Proin gravida nibh vel velit auctor aliquet Aenean sollicitudin,</p>
+                                <h4><?= $content['deal4_heading'] ?></h4>
+                                <p><?= $content['deal4_details'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -135,7 +134,6 @@
             </div>
         </section>
         <!-- deals -->
-
 
         <section id="works">
             <div class="contain">
@@ -274,7 +272,6 @@
             </div>
         </section>
         <!-- comfort -->
-
 
     </main>
     <?php $this->load->view('includes/footer'); ?>

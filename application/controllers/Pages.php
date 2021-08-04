@@ -16,7 +16,7 @@ class Pages extends MY_Controller
 		if($data){
 			$this->data['content'] = unserialize($data->code);
 			$this->data['meta_desc'] = json_decode($meta->content);
-			// $this->data['services'] = $this->master->get_data_rows('services',array('active_status'=>'1'));
+			$this->data['promos'] = $this->master->get_data_rows('promos',array('status'=>'1'));
 
 			$this->load->view('pages/promotions-offers',$this->data);
 		}else{

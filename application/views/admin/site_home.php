@@ -112,6 +112,184 @@
                     <label for="" class="control-label"> Tagline <span class="symbol required">*</span></label>
                     <input type="text" name="deals_tagline" value="<?= $row['deals_tagline'] ?>" class="form-control">
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="row col-md-12">
+                            <div class="panel panel-primary" data-collapsed="0">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Deal Image
+                                    </div>
+                                    <div class="panel-options">
+                                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden"><input type="hidden">
+                                        <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
+                                            <img src="<?= !empty($row['image10']) ? getImageSrc(UPLOADIMAGE ."images/", $row['image10']) : 'http://placehold.it/1000x1200' ?>" alt="--">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
+                                        <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image10" >
+                                            </span>
+                                            <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label"> Heading <span class="symbol required">*</span></label>
+                            <input type="text" name="deal1_heading" value="<?= $row['deal1_heading']?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">  Desciptions <span class="symbol required">*</span></label>
+                            <textarea name="deal1_details" rows="4" class="form-control" ><?= $row['deal1_details'] ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="row col-md-12">
+                            <div class="panel panel-primary" data-collapsed="0">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Deal Image
+                                    </div>
+                                    <div class="panel-options">
+                                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden"><input type="hidden">
+                                        <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
+                                            <img src="<?= !empty($row['image11']) ? getImageSrc(UPLOADIMAGE ."images/", $row['image11']) : 'http://placehold.it/1000x1200' ?>" alt="--">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
+                                        <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image11" >
+                                            </span>
+                                            <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label"> Heading <span class="symbol required">*</span></label>
+                            <input type="text" name="deal2_heading" value="<?= $row['deal2_heading']?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">  Desciptions <span class="symbol required">*</span></label>
+                            <textarea name="deal2_details" rows="4" class="form-control" ><?= $row['deal2_details'] ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="row col-md-12">
+                            <div class="panel panel-primary" data-collapsed="0">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Deal Image
+                                    </div>
+                                    <div class="panel-options">
+                                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden"><input type="hidden">
+                                        <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
+                                            <img src="<?= !empty($row['image12']) ? getImageSrc(UPLOADIMAGE ."images/", $row['image12']) : 'http://placehold.it/1000x1200' ?>" alt="--">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
+                                        <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image12" >
+                                            </span>
+                                            <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label"> Heading <span class="symbol required">*</span></label>
+                            <input type="text" name="deal3_heading" value="<?= $row['deal3_heading']?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">  Desciptions <span class="symbol required">*</span></label>
+                            <textarea name="deal3_details" rows="4" class="form-control" ><?= $row['deal3_details'] ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="row col-md-12">
+                            <div class="panel panel-primary" data-collapsed="0">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        Deal Image
+                                    </div>
+                                    <div class="panel-options">
+                                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden"><input type="hidden">
+                                        <div class="fileinput-new thumbnail" style="max-width: 310px; height: 110px;" data-trigger="fileinput">
+                                            <img src="<?= !empty($row['image13']) ? getImageSrc(UPLOADIMAGE ."images/", $row['image13']) : 'http://placehold.it/1000x1200' ?>" alt="--">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 320px; max-height: 160px; line-height: 6px;"></div>
+                                        <div>
+                                            <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="image13" >
+                                            </span>
+                                            <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label"> Heading <span class="symbol required">*</span></label>
+                            <input type="text" name="deal4_heading" value="<?= $row['deal4_heading']?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">  Desciptions <span class="symbol required">*</span></label>
+                            <textarea name="deal4_details" rows="4" class="form-control" ><?= $row['deal4_details'] ?></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <label for="deals_button_text" class="control-label"> Button Text <span class="symbol required">*</span></label>
                     <input type="text" name="deals_button_text" id="deals_button_text" value="<?= $row['deals_button_text'] ?>" class="form-control" required>

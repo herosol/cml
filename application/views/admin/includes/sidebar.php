@@ -57,6 +57,12 @@
                     <span class="title">Newsletter</span><span class="badge badge-danger"><?=new_subscribers()?></span>
                 </a>
             </li>
+            <li class="opened <?= ($this->uri->segment(2) == 'promos') ? 'active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/promos') ?>">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Promotions</span>
+                </a>
+            </li>
             <li class=" <?= ($this->uri->segment(2) == 'sitecontent' || $this->uri->segment(2) == 'preferences') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="fa fa-pagelines  "></i>

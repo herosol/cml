@@ -28,88 +28,37 @@
             <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1']) ?>" alt=""></div>
         </section>
         <!-- sBanner -->
-
-
+        <?php if(!empty($promos)){ ?>
         <section id="promotion">
             <div class="contain">
                 <h2 class="heading text-center"><?= $content['second_heading'] ?></h2>
+                <?php foreach($promos as $promo){ ?>
                 <div class="promoBlk">
                     <div class="inside">
-                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
+                        <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."promos/", $promo->image) ?>" alt=""></div>
                         <div class="txt">
-                            <h3>5x Shirt on Hanger Wash & Iron</h3>
-                            <p>This offer will expire on: 07/25/2021</p>
-                            <p>Offer exclusive to this vendor.</p>
+                            <h3><?= $promo->name ?></h3>
+                            <p>This offer will expire on: <?= $promo->expiry_date ?>1</p>
+                            <p><?= $promo->tagline ?></p>
                         </div>
                         <div class="side">
-                            <div class="price">£20</div>
+                            <div class="price">£<?= $promo->price ?></div>
                             <div class="bTn"><a href="?" class="webBtn mdBtn blockBtn">Order Now</a></div>
                         </div>
                     </div>
-                    <div class="btm">Added By: @IHATEIRONING</div>
+                    <div class="btm">Added By:<?= $promo->added_by ?></div>
                 </div>
-                <div class="promoBlk">
-                    <div class="inside">
-                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
-                        <div class="txt">
-                            <h3>5x Shirt on Hanger Wash & Iron</h3>
-                            <p>This offer will expire on: 07/25/2021</p>
-                            <p>Offer exclusive to this vendor.</p>
-                        </div>
-                        <div class="side">
-                            <div class="price">£20</div>
-                            <div class="bTn"><a href="?" class="webBtn mdBtn blockBtn">Order Now</a></div>
-                        </div>
-                    </div>
-                    <div class="btm">Added By: @IHATEIRONING</div>
-                </div>
-                <div class="promoBlk">
-                    <div class="inside">
-                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
-                        <div class="txt">
-                            <h3>5x Shirt on Hanger Wash & Iron</h3>
-                            <p>This offer will expire on: 07/25/2021</p>
-                            <p>Offer exclusive to this vendor.</p>
-                        </div>
-                        <div class="side">
-                            <div class="price">£20</div>
-                            <div class="bTn"><a href="?" class="webBtn mdBtn blockBtn">Order Now</a></div>
-                        </div>
-                    </div>
-                    <div class="btm">Added By: @IHATEIRONING</div>
-                </div>
-                <div class="promoBlk">
-                    <div class="inside">
-                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
-                        <div class="txt">
-                            <h3>5x Shirt on Hanger Wash & Iron</h3>
-                            <p>This offer will expire on: 07/25/2021</p>
-                            <p>Offer exclusive to this vendor.</p>
-                        </div>
-                        <div class="side">
-                            <div class="price">£20</div>
-                            <div class="bTn"><a href="?" class="webBtn mdBtn blockBtn">Order Now</a></div>
-                        </div>
-                    </div>
-                    <div class="btm">Added By: @IHATEIRONING</div>
-                </div>
-                <div class="promoBlk">
-                    <div class="inside">
-                        <div class="icon"><img src="<?=base_url()?>assets/images/iron_logo.svg" alt=""></div>
-                        <div class="txt">
-                            <h3>5x Shirt on Hanger Wash & Iron</h3>
-                            <p>This offer will expire on: 07/25/2021</p>
-                            <p>Offer exclusive to this vendor.</p>
-                        </div>
-                        <div class="side">
-                            <div class="price">£20</div>
-                            <div class="bTn"><a href="?" class="webBtn mdBtn blockBtn">Order Now</a></div>
-                        </div>
-                    </div>
-                    <div class="btm">Added By: @IHATEIRONING</div>
-                </div>
+                <?php } ?>
+                
             </div>
         </section>
+        <?php }else{ ?>
+            <section id="promotion">
+            <div class="contain">
+                <h2 class="heading text-center">No Promotions Found</h2>
+            </div>
+        </section>
+        <?php } ?>
         <!-- promotion -->
 
 
