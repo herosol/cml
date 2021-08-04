@@ -71,6 +71,7 @@ $route['verification/(:any)'] = 'index/verification/$1';
 # VENDOR PAGES
 $route['vendor/dashboard'] = 'vendor/dashboard';
 $route['vendor/price-list'] = 'vendor/price_list';
+$route['vendor/facility-hours'] = 'vendor/facility_hours';
 # BUYER PAGES
 $route['buyer/dashboard']  = 'buyer/dashboard';
 

@@ -8,24 +8,6 @@
         img[src="http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png"] {
             display: none;
         }
-        .gm-style-iw {
-            width: 300px !important;
-            top: 17px !important;
-            left: 20 !important;
-            background-color: #fff;
-            box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
-            border: 1px solid rgba(72, 181, 233, 0.6);
-            border-radius: 5px 2px 5px 5px;
-            font-weight: 300;
-            font-size: 13px;
-            overflow: hidden;
-            width: 150px !important;
-            height: 130px;
-        }
-        #map-canvas {
-            width: 70%;
-            float: right;
-        }
     </style>
 </head>
 
@@ -383,7 +365,7 @@
                                         <label for="">Travel Distance?</label>
                                         <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
                                         <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="<?= $mem_data->mem_map_lng?>">
-                                        <input type="text"   id="mem_travel_radius" name="mem_travel_radius" class="txtBox">
+                                        <input type="text"   id="mem_travel_radius" name="mem_travel_radius" value="<?=$mem_data->mem_travel_radius?>" class="txtBox" onkeyup="travel_distance(this.value)">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
@@ -499,30 +481,6 @@
                     $('#facilityAddressAndHours').show();
             }
 
-            const getLocationAndInitMap = value => 
-            {
-                if($.trim(value).length == 0)
-                    return false;
-
-                $.ajax({
-                    url: base_url + 'vendor/get_location_and_initmap',
-                    data: {
-                        'zip': $.trim(value)
-                    },
-                    dataType: 'JSON',
-                    method: 'POST',
-                    success: function(rs)
-                    {
-                        $('#mem_map_lat').val(rs.mem_map_lat);
-                        $('#mem_map_lng').val(rs.mem_map_lng);
-                    },
-                    complete: function()
-                    {
-
-                    }
-                })
-            }
-
             const valid_open_close = obj => 
             {
                 obj = $(obj);
@@ -622,14 +580,65 @@
     <?php $this->load->view('includes/footer'); ?>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
     <script>
-        var locations = [];
-        var a = ["London", "51.507359", "-0.136439"];
-        locations.push(a);
+        var map, bounds, startLat = "<?=$mem_data->mem_map_lat == '' ? '51.509865' : $mem_data->mem_map_lat;?>", startLng = "<?=$mem_data->mem_map_lng == '' ? '-0.118092' : $mem_data->mem_map_lng;?>";
 
-        var map, bounds, startLat = 51.507359, startLng = -0.136439;
+        const getLocationAndInitMap = value => 
+        {
+            value = $.trim(value);
+            if($.trim(value).length == 0)
+                return false;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+            { 
+            componentRestrictions: { 
+                country: 'gb', 
+                postalCode: value
+            } 
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    console.log()
+                    $('#mem_map_lat').val(latitude);
+                    $('#mem_map_lng').val(longitude);
+                    startLat = latitude;
+                    startLng = longitude;
+                    startLatLng = new google.maps.LatLng(startLat, startLng);
+                    init();
+                } else {
+                    alert("Request failed.")
+                }
+            });
+        }
+
+        const travel_distance = miles => 
+        {
+            miles = $.trim(miles);
+            let meters = getMeters(miles);
+            if(!isInt(miles) || miles == 0 || miles.length == 0)
+                return false;
+
+            radiusCircle = true;
+            radiusMeters = meters;
+            init();
+        }
+
+        function getMeters(i) {
+            return i*1609.344;
+        }
+
+        function isInt(value) {
+            return !isNaN(value) && 
+                parseInt(Number(value)) == value && 
+                !isNaN(parseInt(value, 10));
+        }
+        
         var markers = [];
         var infowindows = [];
         var haveGeoLocation = false;
+        var radiusCircle = <?=$mem_data->mem_travel_radius == '0' ? 'false' : 'true'?>;
+        var radiusMeters = getMeters(<?=$mem_data->mem_travel_radius?>);
         var startLatLng = new google.maps.LatLng(startLat, startLng);
         var image = {
             url: base_url + "assets/images/marker.png", // url
@@ -641,7 +650,7 @@
         function init() {
             map = new google.maps.Map(document.getElementById('map-canvas'), {
                 center: startLatLng,
-                zoom: 8
+                zoom: 10
             });
             bounds = new google.maps.LatLngBounds();
             var user_icon = {
@@ -659,73 +668,26 @@
                 title: 'My Location'
             });
 
-            $('#ad_map_lat').val(startLat);
-            $('#ad_map_lng').val(startLng);
-            setMarkers(map, locations);
-        }
-
-        function setMarkers(map, locations) {
-            closeMarks();
-            closeInfos();
-            markers = [];
-            infowindows = [];
-            if (locations.length > 0)
+            if(radiusCircle)
             {
-                for (var i = 0; i < locations.length; i++) {
-                    var location = locations[i];
-                    var title = location[0],
-                            lat = location[1],
-                            lng = location[2],
-                            content = location[4];
-                    var latlngset = new google.maps.LatLng(lat, lng);
+                // setMarkers(map, locations);
+                var marker = new google.maps.Marker({
+                map: map,
+                position: new google.maps.LatLng(startLat, startLng),
+                title: 'Some location'
+                });
 
-                    markers[i] = new google.maps.Marker({
-                        position: latlngset,
-                        map: map,
-                        icon: image,
-                        title: title,
-                    });
-
-                    google.maps.event.addListener(infowindows[i], 'domready', function () {
-                        var iwOuter = $('.gm-style-iw');
-                        var iwBackground = iwOuter.prev();
-                        // Remove the background shadow DIV
-                        iwBackground.children(':nth-child(2)').css({'display': 'none'});
-                        // Remove the white background DIV
-                        iwBackground.children(':nth-child(4)').css({'display': 'none'});
-                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1'});
-                        // Moves the shadow of the arrow 76px to the left margin 
-                        iwBackground.children(':nth-child(1)').attr('style', function (i, s) {
-                            return s + 'margin-top: 2px !important;'
-                        });
-                        // Moves the arrow 76px to the left margin 
-                        iwBackground.children(':nth-child(3)').attr('style', function (i, s) {
-                            return s + 'margin-top: 2px !important;'
-                        });
-                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1'});
-                        var iwCloseBtn = iwOuter.next();
-                        // Apply the desired effect to the close button
-                        iwCloseBtn.css({
-                            opacity: '1', // by default the close button has an opacity of 0.7
-                            right: '28px', top: '3px', // button repositioning
-                            border: '7px solid #fff', // increasing button border and new color
-                            'border-radius': '13px', // circular effect
-                            'padding': '6px', // padding
-                            'box-shadow': '0 0 5px #3990B9', // 3D effect to highlight the button
-                            'z-index': '999999', // z-index
-                        });
-                        // The API automatically applies 0.7 opacity to the button after the mouseout event.
-                        // This function reverses this event to the desired value.
-                        iwCloseBtn.mouseout(function () {
-                            $(this).css({opacity: '1'});
-                        });
-                    });
-                    google.maps.event.addListener(map, 'click', function () {
-                        closeInfos();
-                    });
-                }
+                // Add circle overlay and bind to marker
+                var circle = new google.maps.Circle({
+                map: map,
+                radius: radiusMeters,    // 10 miles in metres
+                fillColor: '#efeb7e'
+                });
+                circle.bindTo('center', marker, 'position');
             }
         }
+
+
 
         function closeInfos() {
             if (infowindows.length > 0) {

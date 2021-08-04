@@ -134,6 +134,13 @@ class Vendor extends MY_Controller
         $this->load->view('vendor/dashboard', $this->data);
     }
 
+    public function facility_hours()
+    {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
+        $this->data['facility_hours'] = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->session->mem_id]);
+        $this->load->view('vendor/facility-hours', $this->data);
+    }
+
     public function price_list()
     {
         $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));

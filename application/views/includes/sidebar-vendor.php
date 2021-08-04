@@ -43,7 +43,7 @@
         <li class="<?php if ($page == "facility-hours") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/facility-hours.php">
+            <a href="<?= base_url() ?>vendor/facility-hours">
                 <img src="<?= base_url() ?>assets/images/icon-calendar.svg" alt="">
                 <em>Facility Hours</em>
             </a>
