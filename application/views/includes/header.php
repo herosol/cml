@@ -25,19 +25,33 @@
                         <a href="<?= base_url('contact') ?>">Contact us</a>
                     </li>
                 </ul>
-                <ul id="cta">
-                    <li class="<?php if ($slug == "signin") {
+                <?php if(empty($this->session->mem_id)): ?>
+                    <ul id="cta">
+                        <li class="<?php if ($slug == "signin") {
+                                            echo 'active';
+                                        } ?>">
+                            <a href="<?= base_url() ?>signin">Sign in</a>
+                        </li>
+                        <li class="<?php if ($slug == "signup") {
                                         echo 'active';
                                     } ?>">
-                        <a href="<?= base_url() ?>signin">Sign in</a>
-                    </li>
-                    <li class="<?php if ($slug == "signup") {
-                                    echo 'active';
-                                } ?>">
-                        <a href="<?= base_url() ?>signup-as" class="webBtn mdBtn simpleBtn">Sign up</a>
-                    </li>
-                </ul>
-            </div>
+                            <a href="<?= base_url() ?>signup-as" class="webBtn mdBtn simpleBtn">Sign up</a>
+                        </li>
+                    </ul>
+                <?php else: ?>
+                    <div class="proIco dropDown">
+                        <div class="ico dropBtn"><img src="<?= get_site_image_src("members", $mem_data->mem_image, 'thumb_'); ?>" alt=""></div>
+                            <div class="proDrop dropCnt">
+                                <ul class="dropLst">
+                                    <li><a href="<?= base_url() ?>vendor/dashboard">Dashboard <small>See and Manage Data</small></a></li>
+                                    <li><a href="<?= base_url() ?>vendor/orders">My Orders <small>View Order Details</small></a></li>
+                                    <li><a href="<?= base_url() ?>vendor/earnings">My Earnings <small>See & Mange Your Payouts</small></a></li>
+                                    <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
         </nav>
         <div class="clearfix"></div>
     </div>
