@@ -3,13 +3,13 @@
 
 <head>
     <title>Order Detail — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-buyer.php'); ?>
-    <main dash orders>
-        <?php require_once('../includes/sidebar-buyer.php'); ?>
+    <?php $this->load->view('includes/header-buyer'); ?>
+    <main dash account>
+        <?php $this->load->view('includes/sidebar-buyer'); ?>
 
 
         <section id="orders">
@@ -244,7 +244,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

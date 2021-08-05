@@ -74,6 +74,9 @@ $route['vendor/price-list'] = 'vendor/price_list';
 $route['vendor/facility-hours'] = 'vendor/facility_hours';
 # BUYER PAGES
 $route['buyer/dashboard']  = 'buyer/dashboard';
+$route['buyer/credits']  = 'buyer/credits';
+$route['buyer/orders']  = 'buyer/orders';
+$route['buyer/wallet']  = 'buyer/transactions';
 
 # ADMIN
 $route['admin/login'] = 'admin/index/login';

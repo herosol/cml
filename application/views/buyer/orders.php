@@ -3,24 +3,24 @@
 
 <head>
     <title>My Orders — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-buyer.php'); ?>
-    <main dash orders>
-        <?php require_once('../includes/sidebar-buyer.php'); ?>
+    <?php $this->load->view('includes/header-buyer'); ?>
+    <main dash account>
+        <?php $this->load->view('includes/sidebar-buyer'); ?>
 
 
         <section id="orders">
             <div class="contain-fluid">
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= $base_url ?>images/users/6.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, ''); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, Brent Phillips!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="bTn">
-                        <a href="<?= $base_url ?>buyer/orders.php" class="webBtn mdBtn simpleBtn">Cancel Orders</a>
+                         <a href="<?= base_url()?>buyer/orders" class="webBtn mdBtn simpleBtn">Cancel Orders</a>
                     </div>
                 </div>
                 <div class="flexRow flex">
@@ -30,7 +30,7 @@
                                 <div class="lSide">
                                     <div class="_header">
                                         <h3>Current Order</h3>
-                                        <div class="cmpnyLogo icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
+                                        <div class="cmpnyLogo icon"><img src="<?= base_url()?>assets/images/iron_logo.svg" alt=""></div>
                                     </div>
                                     <h5>Quantity</h5>
                                     <ul class="itmLst flex">
@@ -136,14 +136,14 @@
                                 <li>
                                     <div class="inner">
                                         <h5>Pick Up</h5>
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-briefcase.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= base_url()?>assets/images/vector-briefcase.svg" alt=""></div>
                                         <span>Office</span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="inner">
                                         <h5>Drop Off</h5>
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-home.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= base_url()?>assets/images/vector-home.svg" alt=""></div>
                                         <span>Home</span>
                                     </div>
                                 </li>
@@ -151,9 +151,9 @@
                             <h6>Contact No. <em class="regular">074029845392</em></h6>
                             <h6>Delivery Option. <em class="regular">Driver drops, rings and waits</em></h6>
                             <div class="btm">
-                                <!-- <div class="icon"><img src="<?= $base_url ?>images/vector-wait.svg" alt=""></div> -->
+                                <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                 <div class="bTn text-center">
-                                    <a href="<?= $base_url ?>buyer/order-detail.php" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                    <a href="<?= base_url()?>buyer/order-detail" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 <div class="lSide">
                                     <div class="_header">
                                         <h3>Previous Order</h3>
-                                        <div class="cmpnyLogo icon"><img src="<?= $base_url ?>images/iron_logo2.svg" alt=""></div>
+                                        <div class="cmpnyLogo icon"><img src="<?= base_url()?>assets/images/iron_logo2.svg" alt=""></div>
                                     </div>
                                     <h5>Quantity</h5>
                                     <ul class="itmLst flex">
@@ -275,7 +275,7 @@
                                 <div class="lSide">
                                     <div class="_header">
                                         <h3>Previous Order</h3>
-                                        <div class="cmpnyLogo icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
+                                        <div class="cmpnyLogo icon"><img src="<?= base_url()?>assets/images/iron_logo.svg" alt=""></div>
                                     </div>
                                     <h5>Quantity</h5>
                                     <ul class="itmLst flex">
@@ -387,7 +387,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

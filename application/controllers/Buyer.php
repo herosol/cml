@@ -23,7 +23,6 @@ class Buyer extends MY_Controller
             $res['redirect_url'] = 0;
 
             $post = html_escape($this->input->post());
-
             $this->form_validation->set_message('integer', 'Please select a valid {field}');
 
             $this->form_validation->set_rules('mem_fname', 'First name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
@@ -36,6 +35,7 @@ class Buyer extends MY_Controller
             $this->form_validation->set_rules('mem_city', 'Address city', 'trim|required');
             $this->form_validation->set_rules('mem_zip', 'Address zip', 'trim|required');
             $this->form_validation->set_rules('mem_address', 'Address', 'trim|required');
+            $this->form_validation->set_rules('mem_address_type', 'Address Type', 'required');
 
 
             if ($this->form_validation->run() === FALSE)
@@ -61,7 +61,7 @@ class Buyer extends MY_Controller
                 $post['mem_image'] = $image['file_name'];
             }
 
-            unset($post['address_type']);
+            // unset($post['address_type']);
             $post['mem_dob'] = db_format_date($post['mem_dob']);
             $this->member_model->save($post, $mem_id);
 
@@ -73,7 +73,18 @@ class Buyer extends MY_Controller
 
         $this->load->view('buyer/dashboard', $this->data);
     }
+    public function orders(){
+        
+        $this->load->view('buyer/orders', $this->data);
+    }
+    public function transactions(){
 
+        $this->load->view('buyer/transactions', $this->data);
+    }
+    public function credits(){
+
+        $this->load->view('buyer/credits', $this->data);
+    }
     ### REMOVE FILE
     private function remove_file($id, $type = '')
     {

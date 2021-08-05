@@ -93,6 +93,7 @@ class Index extends MY_Controller
         else
         {
             $meta = $this->page->getMetaContent('signin');
+            
             $this->data['page_title'] = $meta->page_name;
             $this->data['slug'] = $meta->slug;
             $this->data['site_content'] = $this->master->getRow('sitecontent', array('ckey' => 'signin'));
