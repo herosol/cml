@@ -18,7 +18,7 @@
                     <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
                 </div>
             </div>
-            <div class="image"><img src="<?= $base_url ?>images/illustration_promotion.svg" alt=""></div>
+            <div class="image"><img src="<?= base_url() ?>assets/images/illustration_promotion.svg" alt=""></div>
         </section>
         <!-- sBanner -->
 
@@ -30,7 +30,7 @@
                     <div class="col">
                         <div class="srchBlk">
                             <div class="icoBlk">
-                                <div class="icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
+                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
                                 <h6>I Hate Ironing</h6>
                                 <div class="rateYo"></div>
                                 <small>0.43 Miles Away</small>
@@ -49,7 +49,7 @@
                     <div class="col">
                         <div class="srchBlk">
                             <div class="icoBlk">
-                                <div class="icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
+                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
                                 <h6>I Hate Ironing</h6>
                                 <div class="rateYo"></div>
                                 <small>0.43 Miles Away</small>
@@ -66,7 +66,7 @@
                     <div class="col">
                         <div class="srchBlk">
                             <div class="icoBlk">
-                                <div class="icon"><img src="<?= $base_url ?>images/iron_logo2.svg" alt=""></div>
+                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo2.svg" alt=""></div>
                                 <h6>Laundry Heap</h6>
                                 <div class="rateYo"></div>
                                 <small>0.43 Miles Away</small>
@@ -85,7 +85,7 @@
                     <div class="col">
                         <div class="srchBlk">
                             <div class="icoBlk">
-                                <div class="icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
+                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
                                 <h6>I Hate Ironing</h6>
                                 <div class="rateYo"></div>
                                 <small>0.43 Miles Away</small>

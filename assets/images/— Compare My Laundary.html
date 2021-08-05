@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://localhost/work/cml/service-selection?zip=90001 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> — Compare My Laundary</title>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="title" content="Compare My Laundry">
+<meta name="description" content="Laundry &amp; Dry Cleaning Services in the UK.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://localhost/work/cml/assets/index.php">
+<meta property="og:title" content="Compare My Laundry">
+<meta property="og:description" content="Laundry &amp; Dry Cleaning Services in the UK.">
+<meta property="og:image" content="http://localhost/work/cml/assets/images/thumbnail.jpg">
+<meta property="twitter:card" content="thumbnail">
+<meta property="twitter:url" content="http://localhost/work/cml/assets/index.php">
+<meta property="twitter:title" content="Compare My Laundry">
+<meta property="twitter:description" content="Laundry &amp; Dry Cleaning Services in the UK.">
+<meta property="twitter:image" content="http://localhost/work/cml/assets/images/thumbnail.jpg">
+
+
+<!-- Css files -->
+<!-- Bootstrap Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/bootstrap.min.css">
+<!-- Main Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/main.css">
+<!-- Media-Query Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/responsive.css">
+<!-- Font-Icon Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/font-icon.min.css">
+<!-- Owl Carousel Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/owl.carousel.min.css">
+<!-- Owl Theme Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/owl.theme.default.min.css">
+<!-- Datepicker Css -->
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/datepicker.min.css">
+<link type="text/css" rel="stylesheet" href="./— Compare My Laundary_files/jquery.passwordRequirements.css">
+<!-- JS Files -->
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery.min.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/bootstrap.min.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery-ui.min.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery.validate.min.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery.dirrty.js.download"></script>
+<script type="text/javascript">
+    var base_url = "http://localhost/work/cml/";
+</script>
+
+<!-- Stronf Password Popup -->
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery.passwordRequirements.min.js.download"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".pr-password").passwordRequirements({
+        numCharacters: 8,
+        useLowercase: true,
+        useUppercase: true,
+        useNumbers: true,
+        useSpecial: true
+        });
+    });
+</script>
+<!-- Owl Carousel Js -->
+<script type="text/javascript" src="./— Compare My Laundary_files/owl.carousel.min.js.download"></script>
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#owl-folio').owlCarousel({
+            loop: true,
+            margin: 30,
+            smartSpeed: 1000,
+            autoplayTimeout: 8000,
+            autoplayHoverPause: true,
+            items: 1
+        });
+        
+        $('form.checkstate').dirrty({
+        preventLeaving: false
+        // this function is called when the form.trigger's "dirty"
+        }).on("dirty", function() {
+            $('button.submit').removeAttr('disabled');
+            $('button.submit').removeAttr('title');
+            
+            // this function is called when the form.trigger's "clean"
+        }).on("clean", function() {
+            $('button.submit').prop('disabled', true);
+            $('button.submit').prop('title', 'Please make any change to enable save button.');
+        });
+
+        $('#owl-serve').owlCarousel({
+            dots: false,
+            nav: true,
+            navText: ['<i class="fi-chevron-left"></i>', '<i class="fi-chevron-right"></i>'],
+            loop: false,
+            margin: 20,
+            smartSpeed: 1000,
+            autoplayTimeout: 8000,
+            autoplayHoverPause: true,
+            mouseDrag: false,
+            touchDrag: false,
+            pullDrag: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                580: {
+                    items: 2
+                },
+                991: {
+                    items: 6
+                }
+            }
+        });
+    });
+</script>
+<!-- Datepicker Js -->
+<script type="text/javascript" src="./— Compare My Laundary_files/datepicker.min.js.download"></script>
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('.datepicker').datepicker({
+            // multidate: true,
+            format: 'mm-dd-yyyy',
+            todayHighlight: true,
+            multidateSeparator: ',  ',
+            templates: {
+                leftArrow: '<i class="fi-arrow-left"></i>',
+                rightArrow: '<i class="fi-arrow-right"></i>'
+            }
+        });
+    });
+</script>
+<!-- Rateyo Js -->
+<script type="text/javascript" src="./— Compare My Laundary_files/jquery.rateyo.min.js.download"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.rateYo').rateYo({
+            rating: 4.0,
+            fullStar: true,
+            readOnly: true,
+            normalFill: '#ddd',
+            ratedFill: '#ffc000',
+            starWidth: '14px',
+            spacing: '2px'
+        });
+    });
+</script>
+<!-- Progress Bar Js -->
+<script type="text/javascript" src="./— Compare My Laundary_files/circle-progress.js.download"></script>
+<script type="text/javascript">
+    $(function() {
+        function animateElements() {
+            $('.progressbar').each(function() {
+                var elementPos = $(this).offset().top;
+                var topOfWindow = $(window).scrollTop();
+                var percent = $(this).find('.circle').attr('data-percent');
+                var percentage = parseInt(percent, 10) / parseInt(100, 10);
+                var animate = $(this).data('animate');
+                if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                    $(this).data('animate', true);
+                    $(this).find('.circle').circleProgress({
+                        startAngle: -Math.PI / 2,
+                        value: percent / 100,
+                        thickness: 10,
+                        size: 200,
+                        fill: {
+                            color: '#016ecf'
+                        }
+                    }).on('circle-animation-progress', function(event, progress, stepValue) {
+                        $(this).find('div').text((stepValue * 100).toFixed(1) + "%");
+                    }).stop();
+                }
+            });
+        }
+        // Show animated elements
+        animateElements();
+        $(window).scroll(animateElements);
+    });
+</script>
+
+
+<!-- Favicon -->
+<link type="image/png" rel="icon" href="http://localhost/work/cml/uploads/images/compare-my-laundar-icon.png"></head>
+
+<body id="home-page">
+    <header class="ease">
+    <div class="contain">
+        <div class="logo">
+            <a href="http://localhost/work/cml/" style="display: block;">
+                <img src="./— Compare My Laundary_files/compare-my-laundar-logo.png" alt="">
+            </a>
+        </div>
+        <div class="toggle"><span></span></div>
+        <nav class="ease">
+            <div nav="">
+                <ul id="nav">
+                    <li class="">
+                        <a href="http://localhost/work/cml/">Home</a>
+                    </li>
+                    <li class="">
+                        <a href="http://localhost/work/cml/promotions-offers">Promotions &amp; Offers</a>
+                    </li>
+                    <li class="">
+                        <a href="http://localhost/work/cml/contact">Contact us</a>
+                    </li>
+                </ul>
+                                    <ul id="cta">
+                        <li class="">
+                            <a href="http://localhost/work/cml/signin">Sign in</a>
+                        </li>
+                        <li class="">
+                            <a href="http://localhost/work/cml/signup-as" class="webBtn mdBtn simpleBtn">Sign up</a>
+                        </li>
+                    </ul>
+                        </div></nav>
+        <div class="clearfix"></div>
+    </div>
+</header>
+<!-- header -->
+
+
+<div class="upperlay"></div>
+<div id="pageloader" style="display: none;">
+    <span class="loader" style="display: none;"></span>
+</div>    <main common="" offer="">
+
+
+        <section id="sBanner">
+            <div class="contain">
+                <div class="content">
+                    <h2 class="heading">Service Selection</h2>
+                    <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
+                </div>
+            </div>
+            <div class="image"><img src="./— Compare My Laundary_files/illustration_promo.svg" alt=""></div>
+        </section>
+        <!-- sBanner -->
+
+
+        <section id="offer">
+            <div class="contain">
+                <ul class="svcLst flex text-center">
+                    <li class="active">
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#WashDry" style="display: block;">
+                            <img src="./— Compare My Laundary_files/97e8527feaf77a97fc38f34216141515_1627557584_3094.svg" alt="">
+                            <em>Wash &amp; Dry</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#WashIron" style="display: block;">
+                            <img src="./— Compare My Laundary_files/6e7b33fdea3adc80ebd648fffb665bb8_1627558486_7377.svg" alt="">
+                            <em> Wash &amp; Iron</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#DryCleaning" style="display: block;">
+                            <img src="./— Compare My Laundary_files/b2eb7349035754953b57a32e2841bda5_1627558682_8145.svg" alt="">
+                            <em> Dry Cleaning</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#IronOnly" style="display: block;">
+                            <img src="./— Compare My Laundary_files/9232fe81225bcaef853ae32870a2b0fe_1627558878_5502.svg" alt="">
+                            <em> Iron Only</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#BulkyItems" style="display: block;">
+                            <img src="./— Compare My Laundary_files/cfecdb276f634854f3ef915e2e980c31_1627559177_4371.svg" alt="">
+                            <em> Bulky Items</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="http://localhost/work/cml/service-selection?zip=90001#Deals" style="display: block;">
+                            <img src="./— Compare My Laundary_files/16c222aa19898e5058938167c8ab6c57_1627559206_4989.svg" alt="">
+                            <em> Deals</em>
+                        </a>
+                    </li>
+                </ul>
+                <form action="https://www.herosolutions.com.pk/metoo/cml/quotes.php" method="post">
+                    <div class="smryMainBlk">
+                        <div class="blk tab-content">
+                            <div id="WashDry" class="tab-pane fade in active">
+                                <h4>Wash &amp; Dry</h4>
+                                <p>
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/97e8527feaf77a97fc38f34216141515_1627557584_3094.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Action</th>
+                                                </tr>
+                                                                                                <tr id="1">
+                                                        <td> MIXED WASH &amp; TUMBLE DRY - UP TO 6KG - All colours washed together.</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="1" class="actBtn addBtn left" data-subservice-id="1" data-name=" MIXED WASH &amp; TUMBLE DRY - UP TO 6KG - All colours washed together."></button></td>
+                                                    </tr>
+                                                                                                <tr id="7">
+                                                        <td>TEST IS HERE</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="7" class="actBtn addBtn left" data-subservice-id="7" data-name="TEST IS HERE"></button></td>
+                                                    </tr>
+                                                                                                <tr id="8">
+                                                        <td>TEST IS HERE 2</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="8" class="actBtn addBtn left" data-subservice-id="8" data-name="TEST IS HERE 2"></button></td>
+                                                    </tr>
+                                                                                                <tr id="10">
+                                                        <td>TEST DEMO</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="10" class="actBtn addBtn left" data-subservice-id="10" data-name="TEST DEMO"></button></td>
+                                                    </tr>
+                                                                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="DryCleaning" class="tab-pane fade">
+                                <h4> Dry Cleaning</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/b2eb7349035754953b57a32e2841bda5_1627558682_8145.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Action</th>
+                                                </tr>
+                                                                                                <tr id="3">
+                                                    <td>Polo Shirt Folded</td>
+                                                    <td></td>
+                                                    <td><button type="button" id="3" class="actBtn addBtn left" data-subservice-id="3" data-name="Polo Shirt Folded"></button></td>
+                                                </tr>
+                                                                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="WashIron" class="tab-pane fade">
+                                <h4> Wash &amp; Iron</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/6e7b33fdea3adc80ebd648fffb665bb8_1627558486_7377.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                                                                    <tr id="2">
+                                                        <td>Shirt on Hanger	</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="2" class="actBtn addBtn left" data-subservice-id="2" data-name="Shirt on Hanger	"></button></td>
+                                                    </tr>
+                                                                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="IronOnly" class="tab-pane fade">
+                                <h4> Iron Only</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/9232fe81225bcaef853ae32870a2b0fe_1627558878_5502.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                                                            <tr id="4">
+                                                    <td>Polo Shirt Folded</td>
+                                                    <td></td>
+                                                    <td><button type="button" id="4" class="actBtn addBtn left" data-subservice-id="4" data-name="Polo Shirt Folded"></button></td>
+                                                </tr>
+                                                                                            <tr id="9">
+                                                    <td>TEST HERE ANOTHER</td>
+                                                    <td></td>
+                                                    <td><button type="button" id="9" class="actBtn addBtn left" data-subservice-id="9" data-name="TEST HERE ANOTHER"></button></td>
+                                                </tr>
+                                                                                        </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="BulkyItems" class="tab-pane fade">
+                                <h4> Bulky Items</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/cfecdb276f634854f3ef915e2e980c31_1627559177_4371.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                                                                    <tr id="5">
+                                                        <td>Polo Shirt Folded</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="5" class="actBtn addBtn left" data-subservice-id="5" data-name="Polo Shirt Folded"></button></td>
+                                                    </tr>
+                                                                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Deals" class="tab-pane fade">
+                                <h4> Deals</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                <hr>
+                                <div class="serveBlk">
+                                    <div class="icon"><img src="./— Compare My Laundary_files/16c222aa19898e5058938167c8ab6c57_1627559206_4989.svg" alt=""></div>
+                                    <div class="txt">
+                                        <table>
+                                            <tbody>
+                                                                                                    <tr id="6">
+                                                        <td>Synthetic Duvet - Single</td>
+                                                        <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
+                                                        <td></td>
+                                                        <td><button type="button" id="6" class="actBtn addBtn left" data-subservice-id="6" data-name="Synthetic Duvet - Single"></button></td>
+                                                    </tr>
+                                                                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blk smryBlk">
+                            <div class="_header">
+                                <h5>Item Summary</h5>
+                                <div class="bTn">
+                                    <button type="reset" class="webBtn labelBtn">Reset</button>
+                                </div>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe reiciendis quas libero totam illo hic.</p>
+                            <div class="serveBlk">
+                                <table class="sm pb data_list">
+                                    <tbody id="selected_services">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="bTn">
+                                <button type="submit" class="webBtn blockBtn nextBtn">Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- offer -->
+        <script>
+            $(document).on("click", ".actBtn", function() {
+                let selectedArea = $('#selected_services');
+                if ($(this).hasClass("addBtn"))
+                {
+                    if($(this).hasClass('left'))
+                    {
+                        selectedArea.prepend(`<tr id="${$(this).data('subservice-id')}">
+                                                <td>${$(this).data('name')}</td>
+                                                <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
+                                                <td><button type="button" class="actBtn delBtn right" data-subservice-id="${$(this).data('subservice-id')}"></button></td>
+                                            </tr>`);
+                    }
+                    $(this).removeClass("addBtn").addClass("delBtn");
+                }
+                else
+                {
+                    if($(this).hasClass('right'))
+                    {
+                        $('button#' + $(this).data('subservice-id')).removeClass('delBtn').addClass('addBtn');
+                        $(this).parent().parent().remove();
+                    }
+                    
+                }
+            });
+        </script>
+    </main>
+    <footer>
+    <div class="contain">
+        <div class="topBlk">
+            <div class="logo">
+                <a href="http://localhost/work/cml/" style="display: block;">
+                    <img src="./— Compare My Laundary_files/compare-my-laundar-footer-logo.svg" alt="">
+                </a>
+            </div>
+            <ul class="cardLst">
+                <li><img src="./— Compare My Laundary_files/payment-visa.svg" alt=""></li>
+                <li><img src="./— Compare My Laundary_files/payment-american-express.svg" alt=""></li>
+                <li><img src="./— Compare My Laundary_files/payment-master.svg" alt=""></li>
+                <li><img src="./— Compare My Laundary_files/payment-discover.svg" alt=""></li>
+            </ul>
+        </div>
+        <div class="mdBlk">
+            <ul class="lst">
+                <li><a href="http://localhost/work/cml/">Home</a></li>
+                <li><a href="http://localhost/work/cml/promotions-offers">Promotions</a></li>
+                <li><a href="http://localhost/work/cml/faq">FAQ's</a></li>
+                <li><a href="http://localhost/work/cml/terms-conditions">Terms &amp; Condition</a></li>
+                <li><a href="http://localhost/work/cml/contact">Contact</a></li>
+            </ul>
+            <ul class="social">
+                                    <li><a href="https://www.facebook.com/CML" target="_blank" style="display: block;"><img src="./— Compare My Laundary_files/social-facebook.svg" alt=""></a></li>
+                                                    <li><a href="https://www.twitter.com/CML" target="_blank" style="display: block;"><img src="./— Compare My Laundary_files/social-twitter.svg" alt=""></a></li>
+                                                    <li><a href="https://www.instagram.com/CML" target="_blank" style="display: block;"><img src="./— Compare My Laundary_files/social-instagram.svg" alt=""></a></li>
+                                                    <li><a href="http://localhost/work/cml/service-selection?https://www.youtube.com/CML" target="_blank" style="display: block;"><img src="./— Compare My Laundary_files/social-youtube.svg" alt=""></a></li>
+                            </ul>
+        </div>
+        <div class="partner">
+                    <h6>In Partnership With:</h6>
+            <ul>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646702_1226.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646710_7732.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646719_5295.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646727_4738.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646737_9231.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646745_6826.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646753_7966.png" alt=""></a></li>
+                            <li><a target="_blank" href="http://www.google.com/" style="display: block;"><img src="./— Compare My Laundary_files/image_1627646762_2274.png" alt=""></a></li>
+                        </ul>
+                </div>
+        <div class="copyright">
+            <p>2018</p>
+            <ul>
+                <li>Email: <a href="mailto:support@cml.com">support@cml.com</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<!-- footer -->
+
+<!-- Main Js -->
+<script type="text/javascript" src="./— Compare My Laundary_files/main.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/custom-validation.js.download"></script>
+<script type="text/javascript" src="./— Compare My Laundary_files/custom.js.download"></script>
+
+</body></html>

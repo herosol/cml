@@ -1,3 +1,86 @@
+var optsuccess = {
+    "closeButton": true,
+    "debug": false,
+    "positionClass": "toast-top-right",
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "5000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "slideDown",
+    "hideMethod": "slideUp"
+};
+
+var opterror = {
+    "closeButton": true,
+    "debug": false,
+    "positionClass": "toast-top-right",
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "5000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "slideDown",
+    "hideMethod": "slideUp"
+};
+
+
+/*========== FORM SUBMIT ==========*/
+$(document).on('submit', '.formAjax', function(e) {
+    e.preventDefault();
+    needToConfirm = true;
+    var frmbtn = $(this).find("button[type='submit']");
+    var frmMsg = $(this).find("div.alertMsg:first");
+    var frm = this;
+    console.log(frm);
+    frmbtn.attr("disabled", true);
+    frmMsg.hide();
+    $.ajax({
+        url: $(this).attr('action'),
+        data: new FormData(frm),
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        method: 'POST',
+
+        error: function(rs) {
+            console.log(rs);
+        },
+        success: function(rs) {
+            console.log(rs);
+            if (rs.status == 1) {
+                toastr.success(rs.msg, '', optsuccess);
+                setTimeout(function() {
+                    frm.reset();
+                    frmbtn.attr("disabled", false);
+                    if (rs.redirect_url) {
+                        window.location.href = rs.redirect_url;
+                    } else {
+
+                    }
+
+                }, 3000);
+            } else {
+                toastr.error(rs.msg, opterror);
+                setTimeout(function() {
+                    if (rs.hide_msg)
+                        frmMsg.slideUp(500);
+                    frmbtn.attr("disabled", false);
+                    if (rs.redirect_url)
+                        window.location.href = rs.redirect_url;
+                }, 3000);
+            }
+        },
+        complete: function(rs) {
+            needToConfirm = false;
+        }
+    });
+});
+
 $(function() {
     /*_____ Toggle _____*/
     $(document).on("click", ".toggle", function() {
@@ -276,8 +359,6 @@ $(function() {
             .find(`td:eq(${i})`)
             .attr("data-title", $(this).text());
     });
-
-
 });
 
 function textAreaAdjust(o) {

@@ -30,14 +30,15 @@
         <section id="query">
             <div class="contain">
                 <div class="inBlk">
-                    <form action="<?= $base_url ?>service-selection.php" method="post">
+                    <form action="" >
                         <div class="flexBox">
                             <div class="txtGrp">
-                                <label for="">Type your Postcode</label>
-                                <input type="text" class="txtBox">
+                                <label for="zip">Type your Postcode</label>
+                                <input type="text" name="zip" id="zip" class="txtBox">
                             </div>
-                            <div class="bTn"><button type="submit" class="webBtn"><?= $content['search_btn_title'] ?></button></div>
+                            <div class="bTn"><button type="button" class="webBtn" id="searchZipForm"><i class="spinner hidden"></i><?= $content['search_btn_title'] ?></button></div>
                         </div>
+                        <span style="color:red" id="invalidZip"></span>
                     </form>
                     <div class="flexRow flex">
                         <div class="col">
@@ -261,8 +262,6 @@
         </section>
         <?php } ?>
         <!-- folio -->
-
-
         <section id="comfort">
             <div class="contain">
                 <div class="content text-center">
@@ -272,7 +271,40 @@
             </div>
         </section>
         <!-- comfort -->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
+        <script>
+            $(document).on('click', '#searchZipForm', () => {
+                let frmIcon = $(this).find("i.spinner");
+                frmIcon.removeClass("hidden");
+                let zipcode = $.trim($('#zip').val());
+                if(zipcode.length == 0)
+                    return false;
 
+                $('#invalidZip').html('');
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode(
+                { 
+                componentRestrictions: { 
+                    country: 'gb', 
+                    postalCode: zipcode
+                } 
+                }, function (results, status)
+                {
+                    if (status == google.maps.GeocoderStatus.OK)
+                    {
+                        $('#invalidZip').html('');
+                        latitude = results[0].geometry.location.lat();
+                        longitude = results[0].geometry.location.lng();
+                        window.location = base_url + 'service-selection?zipcode=' + zipcode + '&lat=' + latitude + '&long=' + longitude;
+                    }
+                    else
+                    {
+                        frmIcon.addClass("hidden");
+                        $('#invalidZip').html('Please enter a valid zip.');
+                    }
+                });
+            });
+        </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
 </body>

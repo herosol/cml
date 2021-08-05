@@ -73,8 +73,10 @@ $route['vendor/dashboard'] = 'vendor/dashboard';
 $route['vendor/price-list'] = 'vendor/price_list';
 $route['vendor/facility-hours'] = 'vendor/facility_hours';
 # BUYER PAGES
-$route['buyer/dashboard']  = 'buyer/dashboard';
-
+$route['buyer/dashboard']   = 'buyer/dashboard';
+# SITE PAGES
+$route['service-selection'] = 'search/service_selection';
+$route['available-vendors'] = 'search/available_vendor';
 # ADMIN
 $route['admin/login'] = 'admin/index/login';
 $route['admin/logout'] = 'admin/index/logout';

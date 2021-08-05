@@ -1178,14 +1178,14 @@ section {
     display: block;
     width: 12px;
     height: 12px;
-    /* background: #36ca5b; */
+    /* background: #43b753; */
     background: #016ecf;
     border: 2px solid #fff;
     border-radius: 75%;
 }
 
 .ico>i.status.active {
-    background: #36ca5b;
+    background: #43b753;
     /* background: #016ecf; */
 }
 
@@ -1198,7 +1198,7 @@ section {
 }
 
 .ico>i.status.offline {
-    background: #f12338;
+    background: #ff5465;
 }
 
 .ico>.loading {
@@ -1731,11 +1731,11 @@ header.log [nav]>#nav {
 }
 
 .green {
-    background: #36ca5b;
+    background: #43b753;
 }
 
 .green-color {
-    color: #36ca5b;
+    color: #43b753;
 }
 
 .yellow {
@@ -1747,11 +1747,11 @@ header.log [nav]>#nav {
 }
 
 .red {
-    background: #f12338;
+    background: #ff5465;
 }
 
 .red-color {
-    color: #f12338;
+    color: #ff5465;
 }
 
 .blue {
@@ -2806,7 +2806,7 @@ footer .copyright p>a {
 }
 
 .blk.collap>._header>.closeBtn:hover {
-    color: #f12338;
+    color: #ff5465;
 }
 
 .blk.collap>._content {
@@ -3431,16 +3431,16 @@ video[poster] {
     margin-bottom: 5px;
 }
 
-.smryMainBlk {
+#booking .smryMainBlk {
     display: flex;
 }
 
-.smryMainBlk>.tab-content {
+#booking .smryMainBlk>.tab-content {
     flex: 1;
     margin: 0;
 }
 
-.smryMainBlk>.smryBlk {
+#booking .smryMainBlk>.smryBlk {
     width: 100%;
     max-width: 320px;
     height: 100%;
@@ -3623,7 +3623,6 @@ video[poster] {
 }
 
 .serveBlk table tr>*:nth-last-child(1) {
-    text-align: center;
     padding-right: 0;
     white-space: nowrap;
 }
@@ -3642,6 +3641,10 @@ video[poster] {
     color: #8b9593;
 }
 
+.serveBlk table tr>*:nth-last-child(1) {
+    text-align: center;
+}
+
 .serveBlk table tr:not(:nth-last-child(1))>* {
     padding-bottom: 10px;
 }
@@ -3651,45 +3654,6 @@ video[poster] {
     /* height: 30px; */
     text-align: center;
     padding: 0 5px;
-}
-
-.actBtn {
-    /* width: 22px; */
-    min-width: 22px;
-    height: 22px;
-    color: #fff;
-    font-size: 12px;
-    font-family: "Poppins Medium";
-    padding: 0;
-    border: 0;
-    border-radius: 5px;
-    white-space: nowrap;
-}
-
-.actBtn:hover {
-    filter: brightness(1.1);
-}
-
-.addBtn {
-    background: #36ca5b;
-    padding: 0 10px;
-}
-
-.addBtn:before {
-    content: "Select Item";
-}
-
-.delBtn {
-    background: transparent;
-    color: #f12338;
-    border: 1px solid;
-}
-
-.delBtn:before {
-    content: "\2715";
-    display: block;
-    font-size: 10px;
-    line-height: 1;
 }
 
 [data-payment] .insideBlk {
@@ -3898,7 +3862,7 @@ video[poster] {
 }
 
 .qtyBtn .qtyMinus:before {
-    /* content: "âˆ’"; */
+    /* content: "−"; */
     content: "-";
 }
 
