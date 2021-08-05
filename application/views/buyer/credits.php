@@ -3,21 +3,21 @@
 
 <head>
     <title>My Credits — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-buyer.php'); ?>
-    <main dash credits>
-        <?php require_once('../includes/sidebar-buyer.php'); ?>
+    <?php $this->load->view('includes/header-buyer'); ?>
+    <main dash account>
+        <?php $this->load->view('includes/sidebar-buyer'); ?>
 
 
         <section id="credits">
             <div class="contain-fluid">
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= $base_url ?>images/users/6.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, ''); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, Brent Phillips!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="bTn">
                         <a href="<?= $base_url ?>buyer/orders.php" class="webBtn mdBtn simpleBtn">View Orders</a>
@@ -98,7 +98,7 @@
         <script src="<?= $base_url ?>js/highcharts.js"></script>
         <script src="<?= $base_url ?>js/pie-chart.js"></script>
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

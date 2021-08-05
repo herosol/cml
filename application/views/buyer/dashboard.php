@@ -130,8 +130,9 @@
                                         <select name="mem_country" id="mem_country" class="txtBox" onchange="fetchStates(this.value, 'mem_state')">
                                             <option value="">Select</option>
                                             <?php foreach (countries() as $country) : ?>
+                                                <?php if (in_array($country->name, ['United Kingdom'])){ ?>
                                                 <option value="<?= $country->id ?>" <?= $mem_data->mem_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
-                                            <?php endforeach; ?>
+                                            <?php } endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -154,8 +155,10 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
+                                        <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
+                                        <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="<?= $mem_data->mem_map_lng?>">
                                         <label for="mem_zip">Zip Code</label>
-                                        <input type="text" id="mem_zip" name="mem_zip" value="<?=$mem_data->mem_zip?>" class="txtBox">
+                                        <input type="text" id="mem_zip" name="mem_zip" value="<?=$mem_data->mem_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -169,7 +172,7 @@
                                         <ul class="selectLst flex">
                                             <li>
                                                 <div class="radioBtn">
-                                                    <input type="radio" name="address_type" id="address_type_home" checked="">
+                                                    <input type="radio" name="mem_address_type" id="address_type_home" checked <?php if($mem_data->mem_address_type == 'home' || $mem_data->mem_address_type == ''){echo 'checked';} ?> value="home">
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                                         <div class="txt">
@@ -180,7 +183,7 @@
                                             </li>
                                             <li>
                                                 <div class="radioBtn">
-                                                    <input type="radio" name="address_type" id="address_type_office">
+                                                    <input type="radio" name="mem_address_type" id="address_type_office" value="office" <?php if($mem_data->mem_address_type == 'office'){echo 'checked';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                                         <div class="txt">
@@ -191,7 +194,7 @@
                                             </li>
                                             <li>
                                                 <div class="radioBtn">
-                                                    <input type="radio" name="address_type" id="address_type_hotel">
+                                                    <input type="radio" name="mem_address_type" id="address_type_hotel" value="hotel" <?php if($mem_data->mem_address_type == 'hotel'){echo 'checked';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                                         <div class="txt">
@@ -204,8 +207,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
-                                    <div id="googleMap">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d392466.27610655467!2d-105.23035500000002!3d39.781351!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876c7e3e2c6216a7%3A0xa4b85252d6ea23a1!2sDenver%2C%20CO%2080210!5e0!3m2!1sen!2sus!4v1624361016615!5m2!1sen!2sus" width="100" height="100" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                    <div id="map-canvas">
                                     </div>
                                 </div>
                             </div>
@@ -307,10 +309,141 @@
                         }
                     })
                 })
-            })
+            });
         </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
+    <script>
+        var map, bounds, startLat = "<?=$mem_data->mem_map_lat == '' ? '51.509865' : $mem_data->mem_map_lat;?>", startLng = "<?=$mem_data->mem_map_lng == '' ? '-0.118092' : $mem_data->mem_map_lng;?>";
+
+        const getLocationAndInitMap = value => 
+        {
+            value = $.trim(value);
+            if($.trim(value).length == 0)
+                return false;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+            { 
+            componentRestrictions: { 
+                country: 'gb', 
+                postalCode: value
+            } 
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    console.log()
+                    $('#mem_map_lat').val(latitude);
+                    $('#mem_map_lng').val(longitude);
+                    startLat = latitude;
+                    startLng = longitude;
+                    startLatLng = new google.maps.LatLng(startLat, startLng);
+                    init();
+                } else {
+                    // alert("Request failed.")
+                }
+            });
+        }
+
+        const travel_distance = miles => 
+        {
+            miles = $.trim(miles);
+            let meters = getMeters(miles);
+            if(!isInt(miles) || miles == 0 || miles.length == 0)
+                return false;
+
+            radiusCircle = true;
+            radiusMeters = meters;
+            init();
+        }
+
+        function getMeters(i) {
+            return i*1609.344;
+        }
+
+        function isInt(value) {
+            return !isNaN(value) && 
+                parseInt(Number(value)) == value && 
+                !isNaN(parseInt(value, 10));
+        }
+        
+        var markers = [];
+        var infowindows = [];
+        var haveGeoLocation = false;
+        var radiusCircle = <?=$mem_data->mem_travel_radius == '0' ? 'false' : 'true'?>;
+        var radiusMeters = getMeters(<?=$mem_data->mem_travel_radius?>);
+        var startLatLng = new google.maps.LatLng(startLat, startLng);
+        var image = {
+            url: base_url + "assets/images/marker.png", // url
+            scaledSize: new google.maps.Size(40, 40), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(25, 50) // anchor
+        };
+
+        function init() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), {
+                center: startLatLng,
+                zoom: 14
+            });
+            bounds = new google.maps.LatLngBounds();
+            var user_icon = {
+                url: base_url + "assets/images/user_marker.png", // url
+                scaledSize: new google.maps.Size(50, 50), // scaled size
+                origin: new google.maps.Point(0, 0), // origin
+                anchor: new google.maps.Point(25, 50) // anchor
+            };
+            searchAreaMarker = new google.maps.Marker({
+                position: startLatLng,
+                map: map,
+                draggable: false,
+                icon: user_icon,
+                animation: google.maps.Animation.DROP,
+                title: 'My Location'
+            });
+
+            if(radiusCircle)
+            {
+                // setMarkers(map, locations);
+                var marker = new google.maps.Marker({
+                map: map,
+                position: new google.maps.LatLng(startLat, startLng),
+                title: 'Some location'
+                });
+
+                // Add circle overlay and bind to marker
+                var circle = new google.maps.Circle({
+                map: map,
+                radius: radiusMeters,    // 10 miles in metres
+                fillColor: '#efeb7e'
+                });
+                circle.bindTo('center', marker, 'position');
+            }
+        }
+
+
+
+        function closeInfos() {
+            if (infowindows.length > 0) {
+                for (var i = 0; i < infowindows.length; i++)
+                {
+                    infowindows[i].close();
+                }
+            }
+        }
+
+        function closeMarks() {
+            if (markers.length > 0) {
+                for (var i = 0; i < markers.length; i++)
+                {
+                    markers[i].setMap(null);
+                }
+            }
+        }
+
+        google.maps.event.addDomListener(window, 'load', init);
+    </script>
 </body>
 
 </html>

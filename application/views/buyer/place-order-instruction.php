@@ -3,11 +3,11 @@
 
 <head>
     <title>Place Order — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header.php'); ?>
+    <?php $this->load->view('includes/header-buyer'); ?>
     <main common place>
 
 
@@ -67,7 +67,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>
