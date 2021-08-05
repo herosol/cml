@@ -182,7 +182,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                         <div class="txtGrp">
                                             <label for="mem_business_zip">Zip Code</label>
-                                            <input type="text" id="mem_business_zip" name="mem_business_zip" value="<?=$mem_data->mem_business_zip?>" class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                            <input type="text" id="mem_business_zip" name="mem_business_zip" value="<?=$mem_data->mem_business_zip?>" class="txtBox">
                                         </div>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -362,7 +362,13 @@
                             <div class="row formRow">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
-                                        <label for="">Travel Distance?</label>
+                                        <label for="pickup_zip">Zip Code</label>
+                                        <input type="text" id="pickup_zip" name="pickup_zip" value="<?=$mem_data->pickup_zip?>" class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
+                                    <div class="txtGrp">
+                                        <label for="mem_travel_radius">Travel Distance?</label>
                                         <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
                                         <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="<?= $mem_data->mem_map_lng?>">
                                         <input type="text"   id="mem_travel_radius" name="mem_travel_radius" value="<?=$mem_data->mem_travel_radius?>" class="txtBox" onkeyup="travel_distance(this.value)">
@@ -441,7 +447,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp pasDv">
                                         <label for="npswd">New password</label>
-                                        <input type="password" name="npswd" id="npswd" class="txtBox">
+                                        <input type="password" name="npswd" id="npswd" class="txtBox pr-password">
                                         <i class="icon-eye" id="eye"></i>
                                     </div>
                                 </div>

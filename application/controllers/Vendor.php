@@ -43,6 +43,7 @@ class Vendor extends MY_Controller
                 $this->form_validation->set_rules('mem_business_zip', 'Business zip', 'trim|required');
                 $this->form_validation->set_rules('mem_business_address', 'Business address', 'trim|required');
             }
+            $this->form_validation->set_rules('pickup_zip', 'Pickup and collection zip', 'trim|required');
             $this->form_validation->set_rules('mem_charges_per_miles', 'Charges per mils', 'trim|required');
             $this->form_validation->set_rules('mem_charges_free_over', 'Charges free over', 'trim|required');
             $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
@@ -91,6 +92,7 @@ class Vendor extends MY_Controller
                 $user_info['mem_map_lat'] = $post['mem_map_lat'];
                 $user_info['mem_map_lng'] = $post['mem_map_lng'];
             }
+            $user_info['pickup_zip']      = $post['pickup_zip'];
             $user_info['mem_charges_per_miles'] = $post['mem_charges_per_miles'];
             $user_info['mem_charges_free_over'] = $post['mem_charges_free_over'];
             $user_info['mem_charges_min_order'] = $post['mem_charges_min_order'];

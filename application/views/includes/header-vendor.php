@@ -1,7 +1,7 @@
 <header class="ease log">
     <div class="contain-fluid">
         <div class="logo">
-            <a href="<?= base_url() ?>vendor/dashboard">
+            <a href="<?= base_url() ?>">
                 <img src="<?= base_url() ?>assets/images/logo.svg" alt="">
             </a>
         </div>

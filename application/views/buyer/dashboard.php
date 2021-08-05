@@ -244,7 +244,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp pasDv">
                                         <label for="npswd">New password</label>
-                                        <input type="password" name="npswd" id="npswd" class="txtBox">
+                                        <input type="password" name="npswd" id="npswd" class="txtBox pr-password">
                                         <i class="icon-eye" id="eye"></i>
                                     </div>
                                 </div>

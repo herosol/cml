@@ -299,6 +299,9 @@ $(document).ready(function() {
                     }
                 }
             },
+            pickup_zip: {
+                required: true
+            },
             mon_opening: {
                 required: {
                     depends: function(element) {
