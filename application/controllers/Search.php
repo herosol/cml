@@ -13,6 +13,7 @@ class Search extends MY_Controller
     {
         if($this->input->post())
         {
+            $this->session->unset_userdata('selection');
             $res = array();
             $res['hide_msg'] = 0;
             $res['scroll_to_msg'] = 0;
@@ -45,7 +46,27 @@ class Search extends MY_Controller
 
     public function available_vendor()
     {
+        $this->data['selections'] = $selections = $this->session->selection; 
+        $this->data['vendors'] = $this->member_model->get_nearby_vendors($selections);
         $this->load->view('pages/quotes', $this->data);
+    }
+
+    public function vendor_detail($mem_id)
+    {
+        check_valid_id('members', $mem_id, 'mem_id');
+        $mem_id = doDecode($mem_id);
+        $this->data['mem_id'] = $mem_id;
+        $this->data['selections'] = $selections = $this->session->selection;
+        $this->data['vendor'] = $this->member_model->get_row($mem_id);
+        $this->data['estimated_price'] = vendor_service_check($mem_id, $selections['selected_service']);
+        $services = [];
+        
+        foreach($selections['selected_service'] as $key => $value):
+            $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
+        endforeach;
+
+        $this->data['services'] = $services;
+        $this->load->view('pages/search', $this->data);
     }
 
 }

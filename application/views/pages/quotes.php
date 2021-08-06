@@ -27,80 +27,29 @@
             <div class="contain">
                 <h2 class="heading text-center">Best Deals in your Area</h2>
                 <div class="flexRow flex">
-                    <div class="col">
-                        <div class="srchBlk">
-                            <div class="icoBlk">
-                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
-                                <h6>I Hate Ironing</h6>
-                                <div class="rateYo"></div>
-                                <small>0.43 Miles Away</small>
-                                <div class="fig"><img src="images/vector-wait.svg" alt=""></div>
-                                <p class="small">Pickup & Delivery Service Available</p>
-                                <div class="priceBlk">
-                                    <strong>Estimated Price</strong>
-                                    <div class="price">£25.99</div>
-                                    <div class="bTn">
-                                        <a href="<?= $base_url ?>search.php" class="webBtn mdBtn blockBtn">View More</a>
+                    <?php foreach($vendors as $key => $row): ?>
+                        <div class="col">
+                            <div class="srchBlk">
+                                <div class="icoBlk">
+                                    <div class="icon"><img src="<?= get_site_image_src("members", $row->mem_image, ''); ?>" alt=""></div>
+                                    <h6><?=$row->mem_fname.' '.$row->mem_lname?></h6>
+                                    <div class="rateYo"></div>
+                                    <small><?=round($row->distance, 2)?> Miles Away</small>
+                                    <?php if($row->mem_company_pickdrop == 'yes'): ?>
+                                        <div class="fig"><img src="<?=base_url()?>assets/images/vector-wait.svg" alt=""></div>
+                                        <p class="small">Pickup & Delivery Service Available</p>    
+                                    <?php endif; ?>
+                                    <div class="priceBlk">
+                                        <strong>Estimated Price</strong>
+                                        <div class="price">£<?=$row->estimated_price?></div>
+                                        <div class="bTn">
+                                            <a href="<?= base_url() ?>vendor-detail/<?=doEncode($row->mem_id)?>" class="webBtn mdBtn blockBtn">View Detail</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="srchBlk">
-                            <div class="icoBlk">
-                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
-                                <h6>I Hate Ironing</h6>
-                                <div class="rateYo"></div>
-                                <small>0.43 Miles Away</small>
-                                <div class="priceBlk">
-                                    <strong>Estimated Price</strong>
-                                    <div class="price">£25.99</div>
-                                    <div class="bTn">
-                                        <a href="<?= $base_url ?>search.php" class="webBtn mdBtn blockBtn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="srchBlk">
-                            <div class="icoBlk">
-                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo2.svg" alt=""></div>
-                                <h6>Laundry Heap</h6>
-                                <div class="rateYo"></div>
-                                <small>0.43 Miles Away</small>
-                                <div class="fig"><img src="images/vector-wait.svg" alt=""></div>
-                                <p class="small">Pickup & Delivery Service Available</p>
-                                <div class="priceBlk">
-                                    <strong>Estimated Price</strong>
-                                    <div class="price">£25.99</div>
-                                    <div class="bTn">
-                                        <a href="<?= $base_url ?>search.php" class="webBtn mdBtn blockBtn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="srchBlk">
-                            <div class="icoBlk">
-                                <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo.svg" alt=""></div>
-                                <h6>I Hate Ironing</h6>
-                                <div class="rateYo"></div>
-                                <small>0.43 Miles Away</small>
-                                <div class="fig"><img src="images/vector-wait.svg" alt=""></div>
-                                <p class="small">Pickup & Delivery Service Available</p>
-                                <div class="priceBlk">
-                                    <strong>Estimated Price</strong>
-                                    <div class="price">£25.99</div>
-                                    <div class="bTn">
-                                        <a href="<?= $base_url ?>search.php" class="webBtn mdBtn blockBtn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="bTn formBtn text-center">
                     <a href="?" class="webBtn lightBtn">More Quotes <i class="fi-arrow-right"></i></a>

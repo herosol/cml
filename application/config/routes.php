@@ -82,6 +82,7 @@ $route['buyer/wallet']  = 'buyer/transactions';
 # SITE PAGES
 $route['service-selection'] = 'search/service_selection';
 $route['available-vendors'] = 'search/available_vendor';
+$route['vendor-detail/(:any)'] = 'search/vendor_detail/$1';
 # ADMIN
 $route['admin/login'] = 'admin/index/login';
 $route['admin/logout'] = 'admin/index/logout';

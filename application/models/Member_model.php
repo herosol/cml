@@ -31,6 +31,37 @@ class Member_model extends CRUD_Model
         return $query->result();
     }
 
+    function get_nearby_vendors($selections)
+    {
+        $this->db->select('*, ( 3959 * acos( cos( radians("'.$selections['lat'].'") ) * cos( radians( mem_map_lat ) )
+        * cos( radians( mem_map_lng ) - radians("'.$selections['long'].'") ) + sin( radians("'.$selections['lat'].'") ) 
+        * sin( radians( mem_map_lat ) ) ) ) AS distance');
+        $this->db->from($this->table_name);
+        $this->db->where(['mem_type'=> 'vendor', 'mem_status'=> '1', 'mem_verified'=> '1']);
+        $this->db->having(['distance <=' => '20', 'distance >' => '0']);
+        $nearby_vendors = $this->db->get()->result();
+
+        $vendors = [];
+        foreach($nearby_vendors as $key => $vendor):
+            # CHECK IF VENDOR ALLOW SERVICE IN REQUIRED DISTANCE
+            if($vendor->mem_travel_radius >= $vendor->distance):
+                # CHECK IF USER PROVIDING ALL REQUIRED SERVICES
+                $service_check = vendor_service_check($vendor->mem_id, $selections['selected_service']);
+                if($service_check['return']):
+                    $vendor->estimated_price = $service_check['estimated_price'];
+                    $vendors[] = $vendor;    
+                endif;
+            endif;
+        endforeach;
+
+        #SORT CHEAPEST FIRST
+        usort($vendors, function($first,$second){
+            return $first->estimated_price > $second->estimated_price;
+        });
+
+        return $vendors;
+    }
+
     function get_members_by_order($where = '', $start = '', $offset = '', $order_field = 'mem_id', $order_by = '')
     {
 
@@ -66,28 +97,6 @@ class Member_model extends CRUD_Model
         $query = $this->db->get($this->table_name);
         return $query->row();
     }
-    
-    /*
-    function delete($mem_id)
-    {
-        $this->db->where('mem_id', $mem_id);
-        $this->db->delete($this->table_name);
-    }
-    
-    function save($vals, $mem_id = '')
-    {
-        $this->db->set($vals);
-        if ($mem_id != '') {
-            $this->db->where('mem_id', $mem_id);
-            $this->db->update($this->table_name);
-            return $mem_id;
-        } else {
-            $this->db->insert($this->table_name);
-            //return $this->db->last_query(); 
-            return $this->db->insert_id();
-        }
-    }
-    */
     
     function oldPswdCheck($mem_id, $mem_pswd)
     {

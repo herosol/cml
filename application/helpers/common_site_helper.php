@@ -8,10 +8,24 @@ function format_name($fname,$lname)
     // return ucwords($fname.' '.substr($lname, 0,1).'.');
 }
 
+
 function get_gallery_images($ref_id, $ref_type = 'product', $main = 0, $admin = 0)
 {
     $CI = & get_instance();
     return $CI->master->getRows('gallery', array('ref_id' => $ref_id, 'ref_type' => $ref_type, 'main' => $main, 'admin' => $admin));
+}
+
+function check_valid_id($table, $id, $field)
+{
+    $id = doDecode($id);
+    global $CI;
+    $CI->db->select("*");
+    $CI->db->where($field, $id);
+    $query = $CI->db->get($table);
+    if($query->num_rows() == 0)
+    {
+        show_404();
+    }
 }
 
 function countries()
@@ -51,6 +65,25 @@ function sub_service_price($sub_service_id, $mem_id)
     return $query->row();
 }
 
+function vendor_service_check($mem_id, $services)
+{
+    $res = [];
+    $res['return'] = true;
+    $estimated_price = 0;
+    foreach($services as $key => $service):
+        $row = sub_service_price($service, $mem_id);
+        if(empty($row))
+            $res['return'] = false;
+        else
+            if($row->price == '' || $row->price == '0.00')
+                $res['return'] = false;
+            else
+                $estimated_price += $row->price;
+    endforeach;
+
+    $res['estimated_price'] = $estimated_price;
+    return $res;
+}
 
 /*** start notifications ***/
 function save_notificaiton($mem_id, $from_id, $txt, $link = '', $cat = 'other', $note_id = 0, $status = 'new')
