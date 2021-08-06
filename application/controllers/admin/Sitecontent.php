@@ -108,6 +108,126 @@ class Sitecontent extends Admin_Controller
         $this->data['row'] =unserialize($this->data['content']->code);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
+    public function available_vendors()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_available_vendors';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'available_vendors'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            for($i = 1; $i <= 1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code'=>$data),'ckey','available_vendors');
+            setMsg('success', 'Available Vendors Page Updated Successfully !');
+            redirect(ADMIN . "/sitecontent/available_vendors");
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'available_vendors'));
+        $this->data['row'] =unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    public function service_selection()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_service_selection';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'service_selection'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            for($i = 1; $i <= 1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code'=>$data),'ckey','service_selection');
+            setMsg('success', 'Service Selection Page Updated Successfully !');
+            redirect(ADMIN . "/sitecontent/service_selection");
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'service_selection'));
+        $this->data['row'] =unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    public function vendor_detail()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_vendor_detail';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'vendor_detail'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            for($i = 1; $i <= 1; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code'=>$data),'ckey','vendor_detail');
+            setMsg('success', 'Vendor Detail Page Updated Successfully !');
+            redirect(ADMIN . "/sitecontent/vendor_detail");
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'vendor_detail'));
+        $this->data['row'] =unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
+    public function booking()
+    {
+        $this->data['enable_editor'] = TRUE;
+        $this->data['pageView'] = ADMIN . '/site_booking';
+        if ($vals = $this->input->post()) {
+            $content_row = $this->master->getRow($this->table_name, array('ckey'=>'booking'));
+            $content_row = unserialize($content_row->code);
+            if(!is_array($content_row))
+                $content_row = array();
+            for($i = 1; $i <= 9; $i++) {
+                if (isset($_FILES["image".$i]["name"]) && $_FILES["image".$i]["name"] != "") {
+                    
+                    $image = upload_file(UPLOAD_PATH.'images/', 'image'.$i);
+                    if(!empty($image['file_name'])){
+                        if(isset($content_row['image'.$i]))
+                            $this->remove_file(UPLOAD_PATH."images/".$content_row['image'.$i]);
+                        $vals['image'.$i] = $image['file_name'];
+                    }
+                }
+            }
+            $data = serialize(array_merge($content_row, $vals));
+            $this->master->save($this->table_name,array('code'=>$data),'ckey','booking');
+            setMsg('success', 'Booking Page Updated Successfully !');
+            redirect(ADMIN . "/sitecontent/booking");
+        }
+
+        $this->data['content'] = $this->master->getRow($this->table_name, array('ckey' => 'booking'));
+        $this->data['row'] =unserialize($this->data['content']->code);
+        $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
+    }
 
     function contact() {
         $this->data['enable_editor'] = TRUE;
