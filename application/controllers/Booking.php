@@ -9,11 +9,14 @@ class Booking extends MY_Controller
     
     function index()
     {
+        // pr($this->session->selections);
         $meta = $this->page->getMetaContent('booking');
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('booking');
-		if($data){
+
+		if($data)
+        {
 			$this->data['content'] = unserialize($data->code);
 			$this->data['meta_desc'] = json_decode($meta->content);
 			$this->data['wash_and_dry']  = $this->master->get_data_row('services', ['id'=> '1']);
@@ -24,7 +27,9 @@ class Booking extends MY_Controller
             $this->data['deals']         = $this->master->get_data_row('services', ['id'=> '7']);
 
 			$this->load->view('booking/booking',$this->data);
-		}else{
+		}
+        else
+        {
 			show_404();
 		}
     }

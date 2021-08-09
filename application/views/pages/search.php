@@ -87,19 +87,19 @@
                             </table>
                         </div>
                         <div class="side">
-                            <form action="booking.php" method="post">
+                            <form action="" method="post" id="formPlaceOrder" class="frmAjax">
                                 <h6>Collection</h6>
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="">Date</label>
-                                            <input type="text" name="" id="" class="txtBox datepicker">
+                                            <label for="collection_date">Date</label>
+                                            <input type="text" name="collection_date" id="collection_date" class="txtBox datepicker">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="" class="move">Time</label>
-                                            <select name="" id="" class="txtBox">
+                                            <label for="collection_time" class="move">Time</label>
+                                            <select name="collection_time" id="collection_time" class="txtBox">
                                                 <option value="">Select</option>
                                                 <option value="">13:00 - 16:00</option>
                                                 <option value="">14:00 - 17:00</option>
@@ -121,14 +121,14 @@
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="">Date</label>
-                                            <input type="text" name="" id="" class="txtBox datepicker">
+                                            <label for="delivery_date">Date</label>
+                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="" class="move">Time</label>
-                                            <select name="" id="" class="txtBox">
+                                            <label for="delivery_time" class="move">Time</label>
+                                            <select name="delivery_time" id="delivery_time" class="txtBox">
                                                 <option value="">Select</option>
                                                 <option value="">13:00 - 16:00</option>
                                                 <option value="">14:00 - 17:00</option>
@@ -147,8 +147,10 @@
                                     </div>
                                 </div>
                                 <div class="bTn">
-                                    <button type="submit" class="webBtn blockBtn">Place Order</button>
+                                    <button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i>Place Order</button>
                                 </div>
+                                <br>
+                                <div class="alertMsg" style="display:none"></div>
                             </form>
                         </div>
                     </div>

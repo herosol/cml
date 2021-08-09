@@ -65,6 +65,34 @@ class Search extends MY_Controller
             $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
         endforeach;
 
+        if($this->input->post())
+        {
+            $res = array();
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+
+            // if($this->form_validation->run() === FALSE)
+            // {
+            //     $res['msg'] = validation_errors();
+            // }
+            // else
+            // {
+                $post = html_escape($this->input->post());
+                $this->data['selections'] = $selections = $this->session->selection;
+                $selections['place-order'] = $post;
+                $this->session->set_userdata('selections', $selections);
+
+                $res['msg'] = '';
+                $res['redirect_url'] = base_url().'order-booking';
+                $res['status'] = 1;
+            // }
+
+            exit(json_encode($res));
+        }
+
         $this->data['services'] = $services;
         $this->load->view('pages/search', $this->data);
     }
