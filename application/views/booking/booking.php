@@ -2,12 +2,12 @@
 <html>
 
 <head>
-    <title>Booking — Compare My Laundry</title>
-    <?php require_once('includes/site-master.php'); ?>
+    <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
+    <?php $this->load->view('includes/site-master');?>
 </head>
 
 <body id="home-page">
-    <?php require_once('includes/header.php'); ?>
+    <?php $this->load->view('includes/header');?>
     <main common booking>
 
 
@@ -18,11 +18,11 @@
                         <div class="icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
                         <div class="rateYo"></div>
                     </div> -->
-                    <h2 class="heading">I Hate Ironing</h2>
-                    <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
+                    <h2 class="heading"><?= $content['heading'] ?></h2>
+                    <p><?= $content['header_detail'] ?></p>
                 </div>
             </div>
-            <div class="image"><img src="<?= $base_url ?>images/illustration_promo.svg" alt=""></div>
+            <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1'] )?>" alt=""></div>
         </section>
         <!-- sBanner -->
 
@@ -32,87 +32,87 @@
                 <ul class="smryLst flex text-center">
                     <li>
                         <div class="blk">
-                            <div class="icon"><img src="<?= $base_url ?>images/icon-map-marker.svg" alt=""></div>
+                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image2'] )?>" alt=""></div>
                             <div class="txt">
-                                <h6>Address</h6>
+                                <h6><?= $content['step1_title'] ?></h6>
+                                <p class="small"><?= $content['step1_desc'] ?></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="blk">
+                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image3'] )?>" alt=""></div>
+                            <div class="txt">
+                                <h6><?= $content['step2_title'] ?></h6>
                                 <p class="small">The Broadway, 341-343 Bowes Road, LONDON, N11 1AA</p>
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="blk">
-                            <div class="icon"><img src="<?= $base_url ?>images/icon-van.svg" alt=""></div>
+                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image4'] )?>" alt=""></div>
                             <div class="txt">
-                                <h6>Collection & Delivery</h6>
+                                <h6><?= $content['step3_title'] ?></h6>
                                 <p class="small">Today 12:00-15:00</p>
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="blk">
-                            <div class="icon"><img src="<?= $base_url ?>images/icon-cog-fill.svg" alt=""></div>
+                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image5'] )?>" alt=""></div>
                             <div class="txt">
-                                <h6>Services</h6>
+                                <h6><?= $content['step4_title'] ?></h6>
                                 <p class="small">Dry Cleaning, Ironing</p>
                             </div>
                         </div>
                     </li>
                     <li>
                         <div class="blk">
-                            <div class="icon"><img src="<?= $base_url ?>images/icon-phone.svg" alt=""></div>
+                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image6'] )?>" alt=""></div>
                             <div class="txt">
-                                <h6>Contact</h6>
-                                <p class="small">konimbonim7@gmail.com</p>
+                                <h6><?= $content['step5_title'] ?></h6>
+                                <p class="small">Credit Card</p>
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="blk">
-                            <div class="icon"><img src="<?= $base_url ?>images/icon-info.svg" alt=""></div>
-                            <div class="txt">
-                                <h6>Instructions</h6>
-                                <p class="small">Tag/Label the bags</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
+                    <!-- <li>
                         <div class="blk">
                             <div class="icon"><img src="<?= $base_url ?>images/icon-credit-card.svg" alt=""></div>
                             <div class="txt">
-                                <h6>Payment</h6>
-                                <p class="small">Credit card</p>
+                                <h6><?= $content['heading'] ?></h6>
+                                <p class="small"><?= $content['instruction3_heading'] ?></p>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
                 <form action="" method="post">
                     <fieldset>
-                        <h3 class="heading">Instructions</h3>
+                        <h3 class="heading"><?= $content['step1_heading'] ?></h3>
                         <ul class="stepLst flex text-center">
                             <li>
                                 <div class="inner">
-                                    <div class="icon"><img src="<?= $base_url ?>images/vector-bag.svg" alt=""></div>
+                                    <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image7'] )?>" alt=""></div>
                                     <div class="txt">
-                                        <h5>Allow one service per bag</h5>
-                                        <p>Unde ut, commodi inventore rerum magni deserunt atque veritatis architecto vel dolorum consequatur est voluptatem repudiandae qui tempora nobis maiores adipisci ipsa?</p>
+                                        <h5><?= $content['instruction1_heading'] ?></h5>
+                                        <p><?= $content['instruction1_detail'] ?></p>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="inner">
-                                    <div class="icon"><img src="<?= $base_url ?>images/vector-tag.svg" alt=""></div>
+                                    <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image8'] )?>" alt=""></div>
                                     <div class="txt">
-                                        <h5>Tag or label the bags</h5>
-                                        <p>Unde ut, commodi inventore rerum magni deserunt atque veritatis architecto vel dolorum consequatur est voluptatem repudiandae qui tempora nobis maiores adipisci ipsa?</p>
+                                        <h5><?= $content['instruction2_heading'] ?></h5>
+                                        <p><?= $content['instruction2_detail'] ?></p>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="inner">
-                                    <div class="icon"><img src="<?= $base_url ?>images/vector-secure.svg" alt=""></div>
+                                    <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image9'] )?>" alt=""></div>
                                     <div class="txt">
-                                        <h5>Help Service providers avoid mistakes</h5>
-                                        <p>Unde ut, commodi inventore rerum magni deserunt atque veritatis architecto vel dolorum consequatur est voluptatem repudiandae qui tempora nobis maiores adipisci ipsa?</p>
+                                        <h5><?= $content['instruction3_heading'] ?></h5>
+                                        <p><?= $content['instruction3_detail'] ?></p>
                                     </div>
                                 </div>
                             </li>
@@ -122,7 +122,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <h3 class="heading">Address</h3>
+                        <h3 class="heading"><?= $content['step2_heading'] ?></h3>
                         <div class="blk">
                             <div class="_header">
                                 <h4>Tell us about your location</h4>
@@ -156,7 +156,7 @@
                                         <div class="radioBtn">
                                             <input type="radio" name="address_type" id="address_type_home" checked>
                                             <div class="inner">
-                                                <div class="icon"><img src="<?= $base_url ?>images/vector-home.svg" alt=""></div>
+                                                <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                                 <div class="txt">
                                                     <p>Home</p>
                                                 </div>
@@ -167,7 +167,7 @@
                                         <div class="radioBtn">
                                             <input type="radio" name="address_type" id="address_type_office">
                                             <div class="inner">
-                                                <div class="icon"><img src="<?= $base_url ?>images/vector-briefcase.svg" alt=""></div>
+                                                <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                                 <div class="txt">
                                                     <p>Office</p>
                                                 </div>
@@ -178,7 +178,7 @@
                                         <div class="radioBtn">
                                             <input type="radio" name="address_type" id="address_type_hotel">
                                             <div class="inner">
-                                                <div class="icon"><img src="<?= $base_url ?>images/vector-hotel.svg" alt=""></div>
+                                                <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                                 <div class="txt">
                                                     <p>Hotel</p>
                                                 </div>
@@ -188,7 +188,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <h4 class="heading">Location Map</h4>
+                        <h4 class="heading"><?= $content['step2_map_heading'] ?></h4>
                         <div id="googleMap">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d392466.27610655467!2d-105.23035500000002!3d39.781351!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876c7e3e2c6216a7%3A0xa4b85252d6ea23a1!2sDenver%2C%20CO%2080210!5e0!3m2!1sen!2sus!4v1624361016615!5m2!1sen!2sus" width="100" height="100" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                         </div>
@@ -198,7 +198,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <h3 class="heading">Collection & delivery</h3>
+                        <h3 class="heading"><?= $content['step3_heading'] ?></h3>
                         <div class="blk">
                             <h4>Collection</h4>
                             <div class="formRow row">
@@ -294,42 +294,42 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <h3 class="heading">What services do you need?</h3>
+                        <h3 class="heading"><?= $content['step4_heading'] ?></h3>
                         <ul class="svcLst flex text-center">
                             <li class="active">
                                 <a data-toggle="tab" href="#WashDry">
-                                    <img src="<?= $base_url ?>images/vector-washing.svg" alt="">
-                                    <em>Wash & Dry</em>
+                                    <img src="<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt="">
+                                    <em><?=$wash_and_dry->name?></em>
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#WashIron">
-                                    <img src="<?= $base_url ?>images/vector-wash-iron.svg" alt="">
-                                    <em>Wash & Iron</em>
+                                    <img src="<?= get_site_image_src("services", $wash_and_iron->image, ''); ?>" alt="">
+                                    <em><?=$wash_and_iron->name?></em>
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#DryCleaning">
-                                    <img src="<?= $base_url ?>images/vector-dry-cleaning.svg" alt="">
-                                    <em>Dry Cleaning</em>
+                                    <img src="<?= get_site_image_src("services", $dry_cleaning->image, ''); ?>" alt="">
+                                    <em><?=$dry_cleaning->name?></em>
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#IronOnly">
-                                    <img src="<?= $base_url ?>images/vector-iron.svg" alt="">
-                                    <em>Iron Only</em>
+                                    <img src="<?= get_site_image_src("services", $iron_only->image, ''); ?>" alt="">
+                                    <em><?=$iron_only->name?></em>
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#BulkyItems">
-                                    <img src="<?= $base_url ?>images/vector-pillow.svg" alt="">
-                                    <em>Bulky Items</em>
+                                    <img src="<?= get_site_image_src("services", $buly_items->image, ''); ?>" alt="">
+                                    <em><?=$buly_items->name?></em>
                                 </a>
                             </li>
                             <li>
                                 <a data-toggle="tab" href="#Deals">
-                                    <img src="<?= $base_url ?>images/vector-deal.svg" alt="">
-                                    <em>Deals</em>
+                                    <img src="<?= get_site_image_src("services", $deals->image, ''); ?>" alt="">
+                                    <em><?=$deals->name?></em>
                                 </a>
                             </li>
                         </ul>
@@ -337,10 +337,10 @@
                             <div class="blk tab-content">
                                 <div id="WashDry" class="tab-pane fade in active">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-washing.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Wash & Dry</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$wash_and_dry->name?></h4>
+                                            <p><?=$wash_and_dry->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -380,10 +380,10 @@
                                 </div>
                                 <div id="DryCleaning" class="tab-pane fade">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-dry-cleaning.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $dry_cleaning->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Dry Cleaning</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$dry_cleaning->name?></h4>
+                                            <p><?=$dry_cleaning->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -995,10 +995,10 @@
                                 </div>
                                 <div id="WashIron" class="tab-pane fade">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-wash-iron.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $wash_and_iron->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Wash & Iron</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$wash_and_iron->name?></h4>
+                                            <p><?=$wash_and_iron->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -1610,10 +1610,10 @@
                                 </div>
                                 <div id="IronOnly" class="tab-pane fade">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-iron.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $iron_only->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Iron Only</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$iron_only->name?></h4>
+                                            <p><?=$iron_only->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -2023,10 +2023,10 @@
                                 </div>
                                 <div id="BulkyItems" class="tab-pane fade">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-pillow.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $buly_items->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Bulky Items</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$buly_items->name?></h4>
+                                            <p><?=$buly_items->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -2266,10 +2266,10 @@
                                 </div>
                                 <div id="Deals" class="tab-pane fade">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= $base_url ?>images/vector-deal.svg" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $deals->image, ''); ?>" alt=""></div>
                                         <div class="txt">
-                                            <h4>Deals</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio animi a ex numquam inventore suscipit fuga exercitationem consequuntur eius! Saepe quasi fugit provident dolore a est omnis quos nihil itaque. Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                                            <h4><?=$deals->name?></h4>
+                                            <p><?=$deals->details?></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -2398,7 +2398,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <h3 class="heading">Contact and Payment</h3>
+                        <h3 class="heading"><?= $content['step5_heading'] ?></h3>
                         <div class="blk jobBlk">
                             <table class="mainTbl">
                                 <tbody>
@@ -2727,7 +2727,7 @@
 
 
     </main>
-    <?php require_once('includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer');?>
 </body>
 
 </html>
