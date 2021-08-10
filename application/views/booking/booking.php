@@ -337,7 +337,7 @@
                             <div class="blk tab-content">
                                 <div id="WashDry" class="tab-pane fade in active">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt=""></div>
+                                        <div class="icon"><img src="git add .<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt=""></div>
                                         <div class="txt">
                                             <h4><?=$wash_and_dry->name?></h4>
                                             <p><?=$wash_and_dry->details?></p>

@@ -122,8 +122,100 @@
                                 </div>
                             </div>
                             <hr>
-                            <h5>Address Information</h5>
-                            <div class="row formRow">
+                            <div class="row formRow hotel-address-main">
+                            <h5>Hotel Address Information</h5>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_hotel_country" class="move">Country</label>
+                                        <select name="mem_hotel_country" id="mem_hotel_country" class="txtBox" onchange="fetchStates(this.value, 'mem_state')">
+                                            <option value="">Select</option>
+                                            <?php foreach (countries() as $country) : ?>
+                                                <?php if (in_array($country->name, ['United Kingdom'])){ ?>
+                                                <option value="<?= $country->id ?>" <?= $mem_data->mem_hotel_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
+                                            <?php } endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_hotel_state" class="move">State</label>
+                                        <select name="mem_hotel_state" id="mem_hotel_state" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (states_by_country($mem_data->mem_country) as $state) : ?>
+                                                <option value="<?= $state->id ?>" <?= $mem_data->mem_hotel_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_hotel_city">City</label>
+                                        <input type="text" name="mem_hotel_city" id="mem_hotel_city" value="<?=$mem_data->mem_hotel_city?>" class="txtBox">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <input type="hidden" name="mem_hotel_map_lat" id="mem_hotel_map_lat" value="<?= $mem_data->mem_hotel_map_lat?>">
+                                        <input type="hidden" name="mem_hotel_map_lng" id="mem_hotel_map_lng" value="<?= $mem_data->mem_hotel_map_lng?>">
+                                        <label for="mem_hotel_zip">Zip Code</label>
+                                        <input type="text" id="mem_hotel_zip" name="mem_hotel_zip" data-type="hotel" value="<?=$mem_data->mem_hotel_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
+                                    <div class="txtGrp">
+                                        <label for="mem_hotel_address">Address</label>
+                                        <input type="text" id="mem_hotel_address" name="mem_hotel_address" value="<?=$mem_data->mem_hotel_address?>" class="txtBox">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row formRow office-address-main">
+                            <h5>Office Address Information</h5>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_business_country" class="move">Country</label>
+                                        <select name="mem_business_country" id="mem_business_country" class="txtBox" onchange="fetchStates(this.value, 'mem_state')">
+                                            <option value="">Select</option>
+                                            <?php foreach (countries() as $country) : ?>
+                                                <?php if (in_array($country->name, ['United Kingdom'])){ ?>
+                                                <option value="<?= $country->id ?>" <?= $mem_data->mem_business_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
+                                            <?php } endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_business_state" class="move">State</label>
+                                        <select name="mem_business_state" id="mem_business_state" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (states_by_country($mem_data->mem_country) as $state) : ?>
+                                                <option value="<?= $state->id ?>" <?= $mem_data->mem_business_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <label for="mem_business_city">City</label>
+                                        <input type="text" name="mem_business_city" id="mem_business_city" value="<?=$mem_data->mem_business_city?>" class="txtBox">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                    <div class="txtGrp">
+                                        <input type="hidden" name="mem_business_map_lat" id="mem_business_map_lat" value="<?= $mem_data->mem_business_map_lat?>">
+                                        <input type="hidden" name="mem_business_map_lng" id="mem_business_map_lng" value="<?= $mem_data->mem_business_map_lng?>">
+                                        <label for="mem_business_zip">Zip Code</label>
+                                        <input type="text" id="mem_business_zip" name="mem_business_zip" data-type="office" value="<?=$mem_data->mem_business_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
+                                    <div class="txtGrp">
+                                        <label for="mem_business_address">Address</label>
+                                        <input type="text" id="mem_business_address" name="mem_business_address" value="<?=$mem_data->mem_business_address?>" class="txtBox">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row formRow home-address-main show">
+                            <h5>Home Address Information</h5>    
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
                                         <label for="mem_country" class="move">Country</label>
@@ -158,7 +250,7 @@
                                         <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
                                         <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="<?= $mem_data->mem_map_lng?>">
                                         <label for="mem_zip">Zip Code</label>
-                                        <input type="text" id="mem_zip" name="mem_zip" value="<?=$mem_data->mem_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                        <input type="text" id="mem_zip" name="mem_zip" data-type="home" value="<?=$mem_data->mem_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -167,12 +259,14 @@
                                         <input type="text" id="mem_address" name="mem_address" value="<?=$mem_data->mem_address?>" class="txtBox">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="formRow row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
                                         <ul class="selectLst flex">
                                             <li>
-                                                <div class="radioBtn">
-                                                    <input type="radio" name="mem_address_type" id="address_type_home" checked <?php if($mem_data->mem_address_type == 'home' || $mem_data->mem_address_type == ''){echo 'checked';} ?> value="home">
+                                                <div class="radioBtn" data-type="home"  onclick="getLocationAndInitMap('<?=$mem_data->mem_zip  == '' ? 'null' : $mem_data->mem_zip?>')">
+                                                    <input type="radio" name="mem_address_type" id="address_type_home" checked <?php if($mem_data->mem_address_type == 'home' || $mem_data->mem_address_type == ''){echo '';} ?> value="home">
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                                         <div class="txt">
@@ -182,8 +276,8 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="radioBtn">
-                                                    <input type="radio" name="mem_address_type" id="address_type_office" value="office" <?php if($mem_data->mem_address_type == 'office'){echo 'checked';} ?>>
+                                                <div class="radioBtn" data-type="office" onclick="getLocationAndInitMap('<?=$mem_data->mem_business_zip  == '' ? 'null' : $mem_data->mem_business_zip?>')">
+                                                    <input type="radio" name="mem_address_type" id="address_type_office" value="office" <?php if($mem_data->mem_address_type == 'office'){echo '';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                                         <div class="txt">
@@ -193,8 +287,8 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="radioBtn">
-                                                    <input type="radio" name="mem_address_type" id="address_type_hotel" value="hotel" <?php if($mem_data->mem_address_type == 'hotel'){echo 'checked';} ?>>
+                                                <div class="radioBtn" data-type="hotel" data-zip="<?=$mem_data->mem_zip?>" onclick="getLocationAndInitMap('<?=$mem_data->mem_hotel_zip  == '' ? 'null' : $mem_data->mem_hotel_zip?>')">
+                                                    <input type="radio" name="mem_address_type" id="address_type_hotel" value="hotel" <?php if($mem_data->mem_address_type == 'hotel'){echo '';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                                         <div class="txt">
@@ -317,12 +411,41 @@
     <script>
         var map, bounds, startLat = "<?=$mem_data->mem_map_lat == '' ? '51.509865' : $mem_data->mem_map_lat;?>", startLng = "<?=$mem_data->mem_map_lng == '' ? '-0.118092' : $mem_data->mem_map_lng;?>";
 
+
+        $(document).on("click", ".radioBtn", function(e) {
+            var myVal = $(this).data('type');
+            
+            if( myVal == 'home'){
+                $('.home-address-main').addClass('show');
+                $('.office-address-main').removeClass('show');
+                $('.hotel-address-main').removeClass('show');
+            }else if(myVal == 'office'){
+                $('.office-address-main').addClass('show');
+                $('.home-address-main').removeClass('show');
+                $('.hotel-address-main').removeClass('show');
+            }else if(myVal == 'hotel'){
+                $('.hotel-address-main').addClass('show');
+                $('.office-address-main').removeClass('show');
+                $('.home-address-main').removeClass('show');
+            }
+        });
+
         const getLocationAndInitMap = value => 
         {
             value = $.trim(value);
-            if($.trim(value).length == 0)
+            var myType = $(this).data('type');
+            console.log(myType);
+            console.log('xx');
+            if(value.length == 0)
                 return false;
 
+            if(value == 'null'){
+                $('#map-canvas').hide();
+                return false;
+            }else{
+                $('#map-canvas').show();
+            }
+        
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode(
             { 
@@ -334,15 +457,22 @@
                 if (status == google.maps.GeocoderStatus.OK) {
                     latitude = results[0].geometry.location.lat();
                     longitude = results[0].geometry.location.lng();
-                    console.log()
-                    $('#mem_map_lat').val(latitude);
-                    $('#mem_map_lng').val(longitude);
+                    if( myType == 'hotel'){
+                        $('#mem_hotel_map_lat').val(latitude);
+                        $('#mem_hotel_map_lng').val(longitude);
+                    }else if( myType == 'office'){
+                        $('#mem_business_map_lat').val(latitude);
+                        $('#mem_business_map_lng').val(longitude);
+                    }else if( myType == 'home'){
+                        $('#mem_map_lat').val(latitude);
+                        $('#mem_map_lng').val(longitude);
+                    }    
                     startLat = latitude;
                     startLng = longitude;
                     startLatLng = new google.maps.LatLng(startLat, startLng);
                     init();
                 } else {
-                    // alert("Request failed.")
+                    
                 }
             });
         }

@@ -1,6 +1,6 @@
 <?php
 
-class Members extends Admin_Controller {
+class Vendors extends Admin_Controller {
 
     public function __construct() 
     {
@@ -13,58 +13,58 @@ class Members extends Admin_Controller {
     public function index() 
     {
         $this->data['enable_datatable'] = TRUE;
-        $this->data['pageView'] = ADMIN . '/members';
-        $this->data['rows'] = $this->member->getMembers();
+        $this->data['pageView'] = ADMIN . '/vendors';
+        $this->data['rows'] = $this->member->getMembers(array('mem_type'=>'Vendor'));
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
     function manage() 
     {
-        $this->data['pageView'] = ADMIN . '/members';
+        $this->data['pageView'] = ADMIN . '/vendors';
         
         if ($this->input->post()) {
             $vals = $this->input->post();
             $mem_row = $this->member->emailExists($vals['mem_email']);
             if (count($mem_row) > -2)
             {
-                $vals['mem_pass']=doEncode($vals['mem_pass'] );
-                if (($_FILES["mem_profile"]["name"] != "")) {
-                    $this->remove_file($this->uri->segment(4), 'mem_profile');
-                    $image = upload_image(UPLOADIMAGE,"mem_profile");
-                    
+                $vals['mem_pswd']=doEncode($vals['mem_pswd'] );
+                if (($_FILES["dp_image"]["name"] != "")) {
+                    $this->remove_file($this->uri->segment(4), 'dp_image');
+                    $image = upload_file(UPLOAD_PATH . 'members', 'dp_image');
                     if (!empty($image['file_name'])) {
-                        $vals['mem_profile'] = $image['file_name'];
-                        generate_thumb(UPLOADIMAGE , UPLOADIMAGE . "thumbnails/", $image['file_name'],100);
+                        $vals['mem_image'] = $image['file_name'];
+                        generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 100, 'thumb_');
+                        generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 300, '300p_');
                     } else {
-                        pr($image);
-                        $this->session->setMsg('error', 'Please upload a valid image file >> ' . strip_tags($image['error']));
-                        redirect(ADMIN . '/members/manage/' . $this->uri->segment(4), 'refresh');
+                        setMsg('error', 'Please upload a valid image file >> ' . strip_tags($image['error']));
+                        redirect(ADMIN . '/vendors/manage/' . $this->uri->segment(4), 'refresh');
                     }
                 }
                 $mem_id = $this->member->save($vals,$this->uri->segment(4));
                 //$this->send_signup_email($mem_id);
-                setMsg('success', 'Member has been saved successfully.');
-                redirect(ADMIN . '/members', 'refresh');
+                setMsg('success', 'Vendor has been saved successfully.');
+                redirect(ADMIN . '/vendors', 'refresh');
             }else{
                 if ($this->uri->segment(4)){
                      $vals['mem_pass']=doEncode($vals['mem_pass'] );
 
-                    if (($_FILES["mem_profile"]["name"] != "")) {
-                        $this->remove_file($this->uri->segment(4), 'mem_profile');
-                        $image = upload_image(UPLOADIMAGE . "members/", 'mem_profile');
+                    if (($_FILES["dp_image"]["name"] != "")) {
+                        $this->remove_file($this->uri->segment(4), 'dp_image');
+                        $image = upload_file(UPLOAD_PATH . 'members', 'dp_image');
                         if (!empty($image['file_name'])) {
-                            $vals['mem_profile'] = $image['file_name'];
-                            generate_thumb(UPLOADIMAGE . "members/", UPLOADIMAGE . "members/thumbnails/", $image['file_name'],100);
+                            $vals['mem_image'] = $image['file_name'];
+                            generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 100, 'thumb_');
+                            generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 300, '300p_');
                         } else {
                             setMsg('error', 'Please upload a valid image file >> ' . strip_tags($image['error']));
                             redirect(ADMIN . '/members/manage/' . $this->uri->segment(4), 'refresh');
                         }
                     }
                  $mem_id = $this->member->save($vals,$this->uri->segment(4));
-                    setMsg('success', 'Member has been saved successfully.');
-                    redirect(ADMIN . '/members', 'refresh');
+                    setMsg('success', 'Vendor has been saved successfully.');
+                    redirect(ADMIN . '/vendors', 'refresh');
                 }else{
                     setMsg('error','Email Already Exits');
-                    redirect(ADMIN . '/members/manage', 'refresh');
+                    redirect(ADMIN . '/vendors/manage', 'refresh');
                 }
             }
         }
@@ -78,8 +78,8 @@ class Members extends Admin_Controller {
         $mem_id = $this->uri->segment(4);
         $vals['mem_status'] = '1';
         $this->member->save($vals,$mem_id);
-        setMsg('success', 'Member has been activated successfully.');
-        redirect(ADMIN . '/members', 'refresh');
+        setMsg('success', 'Vendor has been activated successfully.');
+        redirect(ADMIN . '/vendors', 'refresh');
     }
     function inactive() 
     {
@@ -87,15 +87,15 @@ class Members extends Admin_Controller {
         $vals['mem_status'] = '0';
         $this->member->save($vals,$mem_id );
 
-        setMsg('success', 'Member has been deactivated successfully.');
-        redirect(ADMIN . '/members', 'refresh');
+        setMsg('success', 'Vendor has been deactivated successfully.');
+        redirect(ADMIN . '/vendors', 'refresh');
     }
     function delete() 
     {
         $this->remove_file($this->uri->segment(4));
         $this->member->delete($this->uri->segment('4'));
-        setMsg('success', 'Member has been deleted successfully.');
-        redirect(ADMIN . '/members', 'refresh');
+        setMsg('success', 'Vendor has been deleted successfully.');
+        redirect(ADMIN . '/vendors', 'refresh');
     }
 
     function remove_file($id, $type = '') 

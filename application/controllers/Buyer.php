@@ -30,12 +30,12 @@ class Buyer extends MY_Controller
             $this->form_validation->set_rules('mem_phone', 'Phone number', 'trim|required');
             $this->form_validation->set_rules('mem_dob', 'Date of birth', 'trim|required');
             $this->form_validation->set_rules('mem_sex', 'Gender', 'trim|required');
-            $this->form_validation->set_rules('mem_country', 'Address country', 'trim|required');
-            $this->form_validation->set_rules('mem_state', 'Address state', 'trim|required');
-            $this->form_validation->set_rules('mem_city', 'Address city', 'trim|required');
-            $this->form_validation->set_rules('mem_zip', 'Address zip', 'trim|required');
-            $this->form_validation->set_rules('mem_address', 'Address', 'trim|required');
-            $this->form_validation->set_rules('mem_address_type', 'Address Type', 'required');
+            $this->form_validation->set_rules('mem_country', 'Home Address country', 'trim|required');
+            $this->form_validation->set_rules('mem_state', 'Home Address state', 'trim|required');
+            $this->form_validation->set_rules('mem_city', 'Home Address city', 'trim|required');
+            $this->form_validation->set_rules('mem_zip', 'Home Address zip', 'trim|required');
+            $this->form_validation->set_rules('mem_address', 'Home Address', 'trim|required');
+            $this->form_validation->set_rules('mem_address_type', 'Home Address Type', 'required');
 
 
             if ($this->form_validation->run() === FALSE)
