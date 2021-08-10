@@ -39,7 +39,7 @@
                                 <div class="toggleBlk">
                                     <strong>Use Service</strong>
                                     <div class="switchBtn">
-                                        <input type="checkbox" name="" id="">
+                                        <input type="checkbox" name="use_pickdrop" id="usePickAndDropService">
                                         <em></em>
                                     </div>
                                 </div>
@@ -65,20 +65,18 @@
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                    <?php if($vendor->mem_company_pickdrop == 'yes'): ?>
-                                        <tr>
-                                            <td class="color">Pickup & Delivery Charges</td>
-                                            <td>£<?= $vendor->mem_charges_per_miles ?></td>
-                                        </tr>
-                                    <?php endif; ?>
+                                    <tr class="hidden pickdrop_charges">
+                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                        <td>£<?= $vendor->mem_charges_per_miles .'x2 = '.($vendor->mem_charges_per_miles*2) ?></td>
+                                    </tr>
                                     <tr>
                                         <td>Minimum Order</td>
                                         <td>£<?= $vendor->mem_charges_min_order ?></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td class="color">Minimum Order Fee</td>
                                         <td>£0.50</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <th class="color">Estimated Total</th>
                                         <th>£30.50</th>
@@ -89,7 +87,10 @@
                         <div class="side">
                             <form action="" method="post" id="formPlaceOrder" class="frmAjax">
                                 <h6>Collection</h6>
-                                <div class="formRow row">
+                                <div class="txtGrp businessAdress">
+                                    <p><?= $vendor->mem_company_name ?> <br> 21 Frask Street <br> London <br> SE5 8EZ</p>
+                                </div>
+                                <div class="formRow row hidden">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="collection_date">Date</label>
@@ -156,9 +157,10 @@
                     </div>
                     <div class="btm">
                         <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
-                        <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div>
+                        <!-- <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div> -->
                     </div>
                 </div>
+                
                 <div class="srchBlk hidden">
                     <div class="inside">
                         <div class="icoBlk">
@@ -205,7 +207,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td class="color">Pickup & Delivery Charges</td>
+                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
                                         <td>£2.50</td>
                                     </tr>
                                     <tr>
@@ -265,14 +267,25 @@
                     </div>
                     <div class="btm">
                         <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
-                        <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div>
+                        <!-- <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div> -->
                     </div>
                 </div>
             </div>
         </section>
         <!-- srch -->
-
-
+        <script>
+            $(document).on('click', '#usePickAndDropService', (e) =>{
+                let pickdrop_charges = $('.pickdrop_charges');
+                if($(e.target).is(':checked'))
+                {
+                    pickdrop_charges.removeClass('hidden');
+                }
+                else
+                {
+                    pickdrop_charges.addClass('hidden');
+                }
+            });
+        </script>
     </main>
     <?php $this->load->view('includes/footer');?></body>
 

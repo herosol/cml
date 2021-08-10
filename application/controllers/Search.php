@@ -83,6 +83,7 @@ class Search extends MY_Controller
                 $post = html_escape($this->input->post());
                 $this->data['selections'] = $selections = $this->session->selection;
                 $selections['place-order'] = $post;
+                $selections['vendor']  = $mem_id;
                 $this->session->set_userdata('selections', $selections);
 
                 $res['msg'] = '';

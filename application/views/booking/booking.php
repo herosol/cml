@@ -350,29 +350,19 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <td></td>
                                                         <th>Price</th>
+                                                        <th>Select</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="lblBtn">
-                                                                <input type="checkbox" name="washType" id="mixedWash">
-                                                                <label for="mixedWash">MIXED WASH & TUMBLE DRY - UP TO 6KG - All colours washed together.</label>
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                        <td>£20.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="lblBtn">
-                                                                <input type="checkbox" name="washType" id="seprateWash">
-                                                                <label for="seprateWash">SEPARATE WASH & TUMBLE DRY - UP TO 12KG - Light and dark clothes washed separately. - Requires 2 washes of 6 kg each.</label>
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                        <td>£20.00</td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
+                                                        // sub_service_price()
+                                                    ?>
+                                                    <tr id="<?=$sub_service->id?>">
+                                                            <td><?=$sub_service->name?></td>
+                                                            <td></td>
+                                                            <td><button type="button" id="<?=$sub_service->id?>" class="actBtn addBtn left" data-subservice-id="<?=$sub_service->id?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
                                                 </tbody>
                                             </table>
                                         </div>

@@ -237,6 +237,20 @@ $(document).ready(function() {
     $('#vendorProfileSettings').validate({
         errorElement: 'div',
         rules: {
+            mem_fname: {
+                required: true,
+                minlength: 2,
+                maxlength: 20,
+                noSpace: true,
+                lettersonly: true
+            },
+            mem_lname: {
+                required: true,
+                minlength: 2,
+                maxlength: 20,
+                noSpace: true,
+                lettersonly: true
+            },
             mem_company_name: {
                 required: true,
                 minlength: 2
@@ -416,14 +430,24 @@ $(document).ready(function() {
             },
             mem_charges_min_order: {
                 required: true
-            },
-            mem_show_cancellation: {
-                required: true
             }
         },
-        messages: {},
+        messages: {
+            mem_fname: {
+                minlength: "First Name should contains atleast 2 letters.",
+                maxlength: "First Name should not be greater than 20 letters.",
+                noSpace: "First Name should contains only letters and avoid space.",
+                lettersonly: "First Name should contains only letters."
+            },
+            mem_lname: {
+                minlength: "Last Name should contains atleast 2 letters.",
+                maxlength: "Last Name should not be greater than 20 letters.",
+                noSpace: "Last Name should contains only letters and avoid space.",
+                lettersonly: "Last Name should contains only letters."
+            },
+        },
         errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), []) !== -1 && error.text() != 'This field is required.') {
+            if ($.inArray(element.attr('id'), ['mem_fname', 'mem_lname']) !== -1 && error.text() != 'This field is required.') {
                 error.addClass('alert alert-danger alert-sm')
                 error.appendTo(element.parents('form').find("div.alertMsg:first").show());
                 $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
