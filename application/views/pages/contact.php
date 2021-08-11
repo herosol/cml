@@ -22,27 +22,27 @@
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
-                            <form action="" method="post">
+                            <form action="<?= base_url('ajax/contact') ?>" class="formAjax" method="post">
                                 <h3 class="heading"><?= $content['form_heading'] ?></h3>
                                 <div class="txtGrp">
                                     <label for="">Name</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <input type="text" name="name" id="" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Phone</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <input type="text" name="phone" id="" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Subject</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <input type="text" name="subject" id="" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Email Address</label>
-                                    <input type="text" name="" id="" class="txtBox">
+                                    <input type="text" name="email" id="" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Comments</label>
-                                    <textarea name="" id="" class="txtBox"></textarea>
+                                    <textarea name="msg" id="" class="txtBox"></textarea>
                                 </div>
                                 <div class="bTn formBtn"><button type="submit" class="webBtn"><?= $content['btn_title'] ?> <i class="fi-arrow-right"></i></button></div>
                             </form>

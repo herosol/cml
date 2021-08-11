@@ -47,9 +47,9 @@ class Vendors extends Admin_Controller {
                 if ($this->uri->segment(4)){
                      $vals['mem_pass']=doEncode($vals['mem_pass'] );
 
-                    if (($_FILES["dp_image"]["name"] != "")) {
-                        $this->remove_file($this->uri->segment(4), 'dp_image');
-                        $image = upload_file(UPLOAD_PATH . 'members', 'dp_image');
+                    if (($_FILES["mem_image"]["name"] != "")) {
+                        $this->remove_file($this->uri->segment(4), 'mem_image');
+                        $image = upload_file(UPLOAD_PATH . 'members', 'mem_image');
                         if (!empty($image['file_name'])) {
                             $vals['mem_image'] = $image['file_name'];
                             generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 100, 'thumb_');
@@ -101,13 +101,17 @@ class Vendors extends Admin_Controller {
     function remove_file($id, $type = '') 
     {
         $arr = $this->member->getMember($id);
-        $filepath = "./" . SITE_IMAGES . "/members/" . $arr->mem_profile;
-        $filepath_thumb = "./" . SITE_IMAGES . "/members/thumbnails/thumb_" . $arr->mem_profile;
+        $filepath = "./" . SITE_IMAGES . "/members/" . $arr->mem_image;
+        $filepath_thumb = "./" . SITE_IMAGES . "/members/thumbnails/thumb_" . $arr->mem_image;
+        $filepath_thumb2 = "./" . SITE_IMAGES . "/members/thumbnails/300p_" . $arr->mem_image;
         if (is_file($filepath)) {
             unlink($filepath);
         }
         if (is_file($filepath_thumb)) {
             unlink($filepath_thumb);
+        }
+        if (is_file($filepath_thumb2)) {
+            unlink($filepath_thumb2);
         }
         return;
     }

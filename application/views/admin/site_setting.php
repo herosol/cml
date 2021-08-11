@@ -129,39 +129,22 @@
                     <input type="text" name="site_phone" value="<?php if (isset($adminsite_setting->site_phone)) echo $adminsite_setting->site_phone; ?>"  class="form-control" required>
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <div class="col-md-12">
-                    <label class="control-label"> Site Fax</label>
-                    <input type="text" name="site_fax" value="<?php if (isset($adminsite_setting->site_fax)) echo $adminsite_setting->site_fax; ?>"  class="form-control">
-                </div>
-            </div>
-             -->
             <div class="form-group">
                 <div class="col-md-12">
                     <label class="control-label"> Address <span class="symbol required"></span></label>
                     <textarea rows="5" name="site_address" class="form-control"><?php if (isset($adminsite_setting->site_address)) echo ($adminsite_setting->site_address); ?></textarea>
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <div class="col-md-4">
-                    <label class="control-label" for="site_commission"> Site Commission <span class="symbol required"></span></label>
-                    <input type="number" step="0.1" name="site_commission" id="site_commission" value="<?php if (isset($adminsite_setting->site_commission)) echo $adminsite_setting->site_commission; ?>"  class="form-control" required>
+             <div class="form-group">
+                <div class="col-md-6">
+                    <label class="control-label" for="site_radius"> Site Default Radius <span class="symbol required"></span></label>
+                    <input type="number" step="0.1" name="site_radius" id="site_radius" value="<?php if (isset($adminsite_setting->site_radius)) echo $adminsite_setting->site_radius; ?>"  class="form-control" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label" for="site_percentage"> Site Percentage <span class="symbol required"></span></label>
                     <input type="number" step="0.1" name="site_percentage" id="site_percentage" value="<?php if (isset($adminsite_setting->site_percentage)) echo $adminsite_setting->site_percentage; ?>"  class="form-control" required>
                 </div>
-                <div class="col-md-4">
-                    <label class="control-label" for="site_hold_payment">Site Hold Payment Days<span class="symbol required">*</span></label>
-                    <select name="site_hold_payment" id="site_hold_payment" class="form-control">
-                        <?php foreach (range(1, 30) as $number): ?>
-                            
-                            <option value="<?= $number?>" <?= (isset($adminsite_setting->site_hold_payment) && $number == $adminsite_setting->site_hold_payment)?' selected':''?>> <?= $number?></option>
-                        <?php endforeach ?>
-                        
-                    </select>
-                </div>
-            </div> -->
+            </div> 
             <div class="form-group">
                 <div class="col-md-12">
                     <label class="control-label"> Footer Copyright Company <span class="symbol required"></span></label>
@@ -241,6 +224,18 @@
                 <div class="col-md-4">
                     <label class="control-label" for="site_live_paypal"> Live Paypal Email  <span class="symbol required">*</span></label>
                     <input type="text" name="site_live_paypal" value="<?php if (isset($adminsite_setting->site_live_paypal)) echo $adminsite_setting->site_live_paypal; ?>"  class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label class="control-label" for="site_stripe_public_key"> Stripe Public Key<span class="symbol required">*</span></label>
+                    <input type="text" name="site_stripe_public_key" value="<?php if (isset($adminsite_setting->site_stripe_public_key)) echo $adminsite_setting->site_stripe_public_key; ?>"  class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label" for="site_stripe_secret_key"> Stripe Secret Key  <span class="symbol required">*</span></label>
+                    <input type="text" name="site_stripe_secret_key" value="<?php if (isset($adminsite_setting->site_stripe_secret_key)) echo $adminsite_setting->site_stripe_secret_key; ?>"  class="form-control" required>
                 </div>
             </div>
         </div>

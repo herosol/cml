@@ -1,12 +1,32 @@
 <div class="row">
     <?php if(access(2)):?>
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a href="<?= site_url(ADMIN.'/products') ?>">
+        <a href="<?= site_url(ADMIN.'/contact') ?>">
             <div class="tile-stats tile-green">
                 <div class="icon"><i class="entypo-basket"></i></div>
-                <div class="num" data-start="0" data-end="<?= $total_products?>" data-postfix="" data-duration="1500" data-delay="0"><?= $total_products?></div>
-                <h3>Total Products </h3>
+                <div class="num" data-start="0" data-end="<?= $total_contact_msgs?>" data-postfix="" data-duration="1500" data-delay="0"><?= $total_products?></div>
+                <h3>Total Contact Messages </h3>
                 <p>Total Products in our website </p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a href="<?= site_url(ADMIN.'/vendors') ?>">
+            <div class="tile-stats tile-blue">
+                <div class="icon"><i class="entypo-basket"></i></div>
+                <div class="num" data-start="0" data-end="<?= $total_vendors?>" data-postfix="" data-duration="1500" data-delay="0"><?= $total_products?></div>
+                <h3>Total Vendors </h3>
+                <p>Total Registered Vendors in our website </p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a href="<?= site_url(ADMIN.'/individuals') ?>">
+            <div class="tile-stats tile-red">
+                <div class="icon"><i class="entypo-basket"></i></div>
+                <div class="num" data-start="0" data-end="<?= $total_buyers?>" data-postfix="" data-duration="1500" data-delay="0"><?= $total_products?></div>
+                <h3>Total Buyers </h3>
+                <p>Total Registered Individuals in our website </p>
             </div>
         </a>
     </div>

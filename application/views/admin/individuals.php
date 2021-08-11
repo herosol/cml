@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <div class="col-md-3">
                             <label class="control-label">Date of Birth <span class="symbol required" style="color: red">*</span></label>
-                            <input type="text" name="mem_dob" id="mem_dob" value="<?=format_date($mem_data->mem_dob, 'm-d-Y')?>" class="form-control datepicker">
+                            <input type="text" name="mem_dob" id="mem_dob" value="<?=format_date($row->mem_dob, 'm-d-Y')?>" class="form-control datepicker">
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Email <span class="symbol required" style="color: red">*</span></label>
@@ -154,11 +154,11 @@
                             <input type="text" name="mem_city" value="<?php if (isset($row->mem_city)) echo $row->mem_city; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label"> Country</label>
+                            <label class="control-label"> State</label>
                             <select name="mem_state" id="mem_state" class="form-control select2">
                                 <option value="">Select</option>
                                 <?php foreach (states_by_country($row->mem_country) as $state) : ?>
-                                    <option value="<?= $state->id ?>" <?= $mem_data->mem_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
+                                    <option value="<?= $state->id ?>" <?= $row->mem_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -167,8 +167,9 @@
                             <select name="mem_country" id="mem_country" class="form-control select2">
                                 <option value="0" selected="" readonly="">Country</option>
                                 <?php foreach (countries() as $country) : ?>
+                                    <?php if (in_array($country->name, ['United Kingdom'])){ ?>
                                     <option value="<?= $country->id ?>" <?= $row->mem_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
-                                <?php endforeach; ?>
+                                <?php } endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -177,15 +178,15 @@
                     <div class="form-group">
                         <div class="col-md-4">
                             <label class="control-label">Postal Code</label>
-                            <input type="text" name="mem_zip" value="<?php if (isset($row->mem_zip)) echo $row->mem_zip; ?>" class="form-control">
+                            <input type="text" name="mem_zip" value="<?php if (isset($row->mem_zip)) echo $row->mem_zip; ?>" class="form-control" data-type="home" onkeyup="getLocationAndInitMap(this)">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Lattitude </label>
-                            <input type="text" name="mem_map_lat" value="<?php if (isset($row->mem_map_lat)) echo $row->mem_map_lat; ?>" class="form-control">
+                            <input type="text" readonly name="mem_map_lat" id="mem_map_lat" value="<?php if (isset($row->mem_map_lat)) echo $row->mem_map_lat; ?>" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Longitude</label>
-                            <input type="text" name="mem_map_lng" value="<?php if (isset($row->mem_map_lng)) echo $row->mem_map_lng; ?>" class="form-control">
+                            <input type="text" readonly name="mem_map_lng" id="mem_map_lng" value="<?php if (isset($row->mem_map_lng)) echo $row->mem_map_lng; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">Address</label>
@@ -215,8 +216,9 @@
                             <select name="mem_business_country" id="mem_business_country" class="form-control select2">
                                 <option value="0" selected="" readonly="">Country</option>
                                 <?php foreach (countries() as $country) : ?>
+                                    <?php if (in_array($country->name, ['United Kingdom'])){ ?>
                                     <option value="<?= $country->id ?>" <?= $row->mem_business_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
-                                <?php endforeach; ?>
+                                <?php } endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -225,15 +227,15 @@
                     <div class="form-group">
                         <div class="col-md-4">
                             <label class="control-label">Postal Code</label>
-                            <input type="text" name="mem_business_zip" value="<?php if (isset($row->mem_business_zip)) echo $row->mem_business_zip; ?>" class="form-control">
+                            <input type="text" name="mem_business_zip" value="<?php if (isset($row->mem_business_zip)) echo $row->mem_business_zip; ?>" class="form-control" data-type="office" onkeyup="getLocationAndInitMap(this)">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Lattitude </label>
-                            <input type="text" name="mem_business_map_lat" value="<?php if (isset($row->mem_business_map_lat)) echo $row->mem_business_map_lat; ?>" class="form-control">
+                            <input type="text" readonly name="mem_business_map_lat" id="mem_business_map_lat" value="<?php if (isset($row->mem_business_map_lat)) echo $row->mem_business_map_lat; ?>" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Longitude</label>
-                            <input type="text" name="mem_business_map_lng" value="<?php if (isset($row->mem_business_map_lng)) echo $row->mem_business_map_lng; ?>" class="form-control">
+                            <input type="text" readonly name="mem_business_map_lng" id="mem_business_map_lng" value="<?php if (isset($row->mem_business_map_lng)) echo $row->mem_business_map_lng; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">Address</label>
@@ -263,8 +265,9 @@
                             <select name="mem_hotel_country" id="mem_hotel_country" class="form-control select2">
                                 <option value="0" selected="" readonly="">Country</option>
                                 <?php foreach (countries() as $country) : ?>
+                                <?php if (in_array($country->name, ['United Kingdom'])){ ?>
                                     <option value="<?= $country->id ?>" <?= $row->mem_hotel_country == $country->id ? 'selected' : '' ?>><?= $country->name ?></option>
-                                <?php endforeach; ?>
+                                <?php } endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -273,15 +276,15 @@
                     <div class="form-group">
                         <div class="col-md-4">
                             <label class="control-label">Postal Code</label>
-                            <input type="text" name="mem_hotel_zip" value="<?php if (isset($row->mem_hotel_zip)) echo $row->mem_hotel_zip; ?>" class="form-control">
+                            <input type="text" name="mem_hotel_zip" value="<?php if (isset($row->mem_hotel_zip)) echo $row->mem_hotel_zip; ?>" class="form-control" data-type="hotel" onkeyup="getLocationAndInitMap(this)">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Lattitude </label>
-                            <input type="text" name="mem_hotel_map_lat" value="<?php if (isset($row->mem_hotel_map_lat)) echo $row->mem_hotel_map_lat; ?>" class="form-control">
+                            <input type="text" readonly name="mem_hotel_map_lat" id="mem_hotel_map_lat" value="<?php if (isset($row->mem_hotel_map_lat)) echo $row->mem_hotel_map_lat; ?>" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Longitude</label>
-                            <input type="text" name="mem_hotel_map_lng" value="<?php if (isset($row->mem_hotel_map_lng)) echo $row->mem_hotel_map_lng; ?>" class="form-control">
+                            <input type="text" readonly name="mem_hotel_map_lng" id="mem_hotel_map_lat" value="<?php if (isset($row->mem_hotel_map_lng)) echo $row->mem_hotel_map_lng; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">Address</label>
@@ -381,3 +384,66 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }}
     </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
+    <script>
+        
+        var map, startLat = "", startLng = "";
+
+        const getLocationAndInitMap = myThis => 
+        {
+            console.log('run');
+            var value= myThis.value;
+            value = value.trim();
+            var myType = myThis.getAttribute('data-type');
+            if(value.length == 0){
+                if( myType == 'hotel'){
+                    document.getElementById('mem_hotel_map_lat').value = '';
+                    document.getElementById('mem_hotel_map_lng').value = '';
+                }else if( myType == 'office'){
+                    document.getElementById('mem_business_map_lat').value = '';
+                    document.getElementById('mem_business_map_lng').value = '';
+                }else if( myType == 'home'){
+                    document.getElementById('mem_map_lat').value = '';
+                    document.getElementById('mem_map_lng').value = '';
+                } 
+                return false;
+            }
+            
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+            { 
+            componentRestrictions: { 
+                country: 'gb', 
+                postalCode: value
+            } 
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    if( myType == 'hotel'){
+                        document.getElementById('mem_hotel_map_lat').value = latitude;
+                        document.getElementById('mem_hotel_map_lng').value = longitude;
+                    }else if( myType == 'office'){
+                        document.getElementById('mem_business_map_lat').value = latitude;
+                        document.getElementById('mem_business_map_lng').value = longitude;
+                    }else if( myType == 'home'){
+                        document.getElementById('mem_map_lat').value = latitude;
+                        document.getElementById('mem_map_lng').value = longitude;
+                    }    
+                    
+                    
+                } else {
+                    if( myType == 'hotel'){
+                        document.getElementById('mem_hotel_map_lat').value = '';
+                        document.getElementById('mem_hotel_map_lng').value = '';
+                    }else if( myType == 'office'){
+                        document.getElementById('mem_business_map_lat').value = '';
+                        document.getElementById('mem_business_map_lng').value = '';
+                    }else if( myType == 'home'){
+                        document.getElementById('mem_map_lat').value = '';
+                        document.getElementById('mem_map_lng').value = '';
+                    } 
+                }
+            });
+        }
+        </script>

@@ -23,13 +23,36 @@ class Individuals extends Admin_Controller {
         
         if ($this->input->post()) {
             $vals = $this->input->post();
+            if (!empty($vals['mem_zip'])) {
+                $this->form_validation->set_rules('mem_map_lat', 'Home', 'required',
+                array(
+                    'required'  => 'You have not provided Correct Zip for %s.',
+                ));
+            }
+            if (!empty($vals['mem_hotel_zip'] )) {
+                $this->form_validation->set_rules('mem_hotel_map_lat', 'Hotel', 'required',
+                array(
+                    'required'  => 'You have not provided Correct Zip for %s.',
+                ));
+            }
+            if (!empty($vals['mem_business_zip'])) {
+                $this->form_validation->set_rules('mem_business_map_lat', 'Office', 'required',
+                array(
+                    'required'  => 'You have not provided Correct Zip for %s.',
+                ));
+            }
+            if($this->form_validation->run() === FALSE) {
+                setMsg('error', validation_errors());
+                redirect(ADMIN . '/individuals/manage/' . $this->uri->segment(4), 'refresh');
+            }
             $mem_row = $this->member->emailExists($vals['mem_email']);
             if (count($mem_row) > -2)
             {
                 $vals['mem_pswd']=doEncode($vals['mem_pswd'] );
-                if (($_FILES["dp_image"]["name"] != "")) {
-                    $this->remove_file($this->uri->segment(4), 'dp_image');
-                    $image = upload_file(UPLOAD_PATH . 'members', 'dp_image');
+                
+                if (($_FILES["mem_image"]["name"] != "")) {
+                    $this->remove_file($this->uri->segment(4), 'mem_image');
+                    $image = upload_file(UPLOAD_PATH . 'members', 'mem_image');
                     if (!empty($image['file_name'])) {
                         $vals['mem_image'] = $image['file_name'];
                         generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 100, 'thumb_');
@@ -101,13 +124,17 @@ class Individuals extends Admin_Controller {
     function remove_file($id, $type = '') 
     {
         $arr = $this->member->getMember($id);
-        $filepath = "./" . SITE_IMAGES . "/members/" . $arr->mem_profile;
-        $filepath_thumb = "./" . SITE_IMAGES . "/members/thumbnails/thumb_" . $arr->mem_profile;
+        $filepath = "./" . SITE_IMAGES . "/members/" . $arr->mem_image;
+        $filepath_thumb = "./" . SITE_IMAGES . "/members/thumb_" . $arr->mem_image;
+        $filepath_thumb2 = "./" . SITE_IMAGES . "/members/300p_" . $arr->mem_image;
         if (is_file($filepath)) {
             unlink($filepath);
         }
         if (is_file($filepath_thumb)) {
             unlink($filepath_thumb);
+        }
+        if (is_file($filepath_thumb2)) {
+            unlink($filepath_thumb2);
         }
         return;
     }

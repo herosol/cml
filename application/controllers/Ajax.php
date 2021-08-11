@@ -11,6 +11,45 @@ class Ajax extends MY_Controller
 		// $this->load->model('member_model', 'member');
 	}
 
+	function contact(){
+		$res=array();
+		$res['hide_msg']=0;
+		$res['scroll_top']=0;
+
+		$this->form_validation->set_rules('name',' Name','required');
+		$this->form_validation->set_rules('phone',' Phone','required');
+		$this->form_validation->set_rules('subject',' Subject','required');
+		$this->form_validation->set_rules('email','Email','required|valid_email');
+		$this->form_validation->set_rules('msg','Message','required');
+		if($this->form_validation->run()===FALSE){
+			$res['msg'] = validation_errors();
+			$res['status'] = 0;
+		}else{
+			$vals=$this->input->post();
+			$vals['created_date'] = date('Y-m-d H:i:s'); 
+			$this->master->save('contact',$vals);
+			$vals['site_email']=$this->data['site_settings']->site_email;
+			// $vals['site_noreply_email']=$this->data['site_settings']->site_noreply_email;
+			//$okmsg=send_email($vals);
+			//$okmsg = $this->send_contact_email($vals,1);
+			if($okmsg){
+				$res['msg'] = 'Message send sucessfully!';
+				$res['status'] = 1;
+				$res['frm_reset'] = 1;
+				$res['hide_msg']=1;
+			}else{
+				$res['msg'] = 'Message send sucessfully!';
+				$res['status'] = 1;
+				$res['frm_reset'] = 1;
+				$res['hide_msg']=1;
+				// $res['msg'] = '<div class="alert alert-danger alert-sm">Error Occured!</div>';
+				// $res['status'] = 0;
+			}
+		}
+		echo json_encode($res);
+		exit();
+	}
+
     function cron_jobs()
     {
         $this->load->library('twilio');

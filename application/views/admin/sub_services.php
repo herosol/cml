@@ -1,3 +1,15 @@
+<style>
+    #sub_service_details{
+        display:none;
+    }
+</style>
+<?php if ($row->service_id == '7'){ ?>
+    <style>
+        #sub_service_details{
+            display:block;
+        }
+    </style>
+<?php } ?>   
 <?php if ($this->uri->segment(3) == 'manage'): ?>
     <?= showMsg(); ?>
     <?= getBredcrum(ADMIN, array('#' => 'Add/Update services')); ?>
@@ -6,7 +18,7 @@
             <h2 class="no-margin"><i class="entypo-list"></i> Add/Update <strong>Services</strong></h2>
         </div>
         <div class="col-md-6 text-right">
-            <a href="<?= base_url(ADMIN . '/services'); ?>" class="btn btn-lg btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>
+            <a href="<?= base_url(ADMIN . '/sub_services'); ?>" class="btn btn-lg btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>
         </div>
     </div>
     <div>
@@ -37,21 +49,25 @@
                 </div>  
                     
                 <div class="form-group">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="control-label" for="service_id"> Service</label>
-                        <select id="service" name="service_id" class="control-label" required>
+                        <select id="service_id" name="service_id" class="form-control" required onchange="serviceChanged(this.value)">
                             <option value=""  selected>----Select----</option>
                             <?= $services = get_services()?>
                             <?php foreach($services as $service){ ?>
-                                <option value="<?=$service->id?>"<?= (isset($service->name) && $row->service_id == $service->name ? ' selected' : '')?>><?=$service->name?></option>
+                                <option value="<?=$service->id?>"<?= (isset($service->name) && $row->service_id == $service->id ? ' selected' : '')?>><?=$service->name?></option>
                             <?php }?>
                         </select>
                     </div>
-                </div> 
-                <div class="form-group">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="control-label" for="name"> Name</label>
                         <input type="text" name="name" id="name" value="<?php if (isset($row->name)) echo $row->name; ?>" class="form-control" autofocus required>
+                    </div>
+                </div> 
+                <div class="form-group" id="sub_service_details">
+                    <div class="col-md-12">
+                        <label class="control-label" for="description">Details</label>
+                        <textarea type="text" name="details" id="details" rows="2" class="form-control"><?php if (isset($row->details)) echo $row->details; ?></textarea>
                     </div>
                 </div> 
               <hr>			
@@ -134,3 +150,13 @@
         </tbody>
     </table>
 <?php endif; ?>
+<script>
+    var service_id;
+    function serviceChanged(service_id){
+        if(service_id == '7'){
+            document.getElementById('sub_service_details').style.display='block';
+        }else{
+            document.getElementById('sub_service_details').style.display='none';
+        }
+    }
+</script>

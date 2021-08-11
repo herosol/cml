@@ -158,7 +158,7 @@
                                         <input type="hidden" name="mem_hotel_map_lat" id="mem_hotel_map_lat" value="<?= $mem_data->mem_hotel_map_lat?>">
                                         <input type="hidden" name="mem_hotel_map_lng" id="mem_hotel_map_lng" value="<?= $mem_data->mem_hotel_map_lng?>">
                                         <label for="mem_hotel_zip">Zip Code</label>
-                                        <input type="text" id="mem_hotel_zip" name="mem_hotel_zip" data-type="hotel" value="<?=$mem_data->mem_hotel_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                        <input type="text" id="mem_hotel_zip" name="mem_hotel_zip" data-type="hotel" data-way="1" value="<?=$mem_data->mem_hotel_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this)">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -204,7 +204,7 @@
                                         <input type="hidden" name="mem_business_map_lat" id="mem_business_map_lat" value="<?= $mem_data->mem_business_map_lat?>">
                                         <input type="hidden" name="mem_business_map_lng" id="mem_business_map_lng" value="<?= $mem_data->mem_business_map_lng?>">
                                         <label for="mem_business_zip">Zip Code</label>
-                                        <input type="text" id="mem_business_zip" name="mem_business_zip" data-type="office" value="<?=$mem_data->mem_business_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                        <input type="text" id="mem_business_zip" name="mem_business_zip" data-type="office"  data-way="1" value="<?=$mem_data->mem_business_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this)">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -250,7 +250,7 @@
                                         <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
                                         <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="<?= $mem_data->mem_map_lng?>">
                                         <label for="mem_zip">Zip Code</label>
-                                        <input type="text" id="mem_zip" name="mem_zip" data-type="home" value="<?=$mem_data->mem_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                        <input type="text" id="mem_zip" name="mem_zip" data-type="home" data-way="1" value="<?=$mem_data->mem_zip?>"  class="txtBox" onkeyup="getLocationAndInitMap(this)">
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
@@ -265,7 +265,7 @@
                                     <div class="txtGrp">
                                         <ul class="selectLst flex">
                                             <li>
-                                                <div class="radioBtn" data-type="home"  onclick="getLocationAndInitMap('<?=$mem_data->mem_zip  == '' ? 'null' : $mem_data->mem_zip?>')">
+                                                <div class="radioBtn" data-type="home" data-val="<?=$mem_data->mem_zip?>"  onclick="getLocationAndInitMap(this)">
                                                     <input type="radio" name="mem_address_type" id="address_type_home" checked <?php if($mem_data->mem_address_type == 'home' || $mem_data->mem_address_type == ''){echo '';} ?> value="home">
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
@@ -276,7 +276,7 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="radioBtn" data-type="office" onclick="getLocationAndInitMap('<?=$mem_data->mem_business_zip  == '' ? 'null' : $mem_data->mem_business_zip?>')">
+                                                <div class="radioBtn" data-type="office" data-val="<?=$mem_data->mem_business_zip ?>" onclick="getLocationAndInitMap(this)">
                                                     <input type="radio" name="mem_address_type" id="address_type_office" value="office" <?php if($mem_data->mem_address_type == 'office'){echo '';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
@@ -287,7 +287,7 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="radioBtn" data-type="hotel" data-zip="<?=$mem_data->mem_zip?>" onclick="getLocationAndInitMap('<?=$mem_data->mem_hotel_zip  == '' ? 'null' : $mem_data->mem_hotel_zip?>')">
+                                                <div class="radioBtn" data-type="hotel" data-zip="<?=$mem_data->mem_zip?>" data-val="<?=$mem_data->mem_hotel_zip ?>" onclick="getLocationAndInitMap(this)">
                                                     <input type="radio" name="mem_address_type" id="address_type_hotel" value="hotel" <?php if($mem_data->mem_address_type == 'hotel'){echo '';} ?>>
                                                     <div class="inner">
                                                         <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
@@ -430,12 +430,20 @@
             }
         });
 
-        const getLocationAndInitMap = value => 
+        const getLocationAndInitMap = myThis => 
         {
+            
+            var way= $(myThis).data('way');
+            if( way == 1){
+                var value= $(myThis).val();
+            }else{
+                var value= $(myThis).data('val');
+            }
             value = $.trim(value);
-            var myType = $(this).data('type');
-            console.log(myType);
-            console.log('xx');
+            var myType = $(myThis).data('type');
+            // console.log('xx');
+            // console.log(myType);
+            // console.log(value);
             if(value.length == 0)
                 return false;
 
@@ -472,7 +480,8 @@
                     startLatLng = new google.maps.LatLng(startLat, startLng);
                     init();
                 } else {
-                    
+                    console.log('err');
+                    // $(myThis).css('background-color':'red');
                 }
             });
         }

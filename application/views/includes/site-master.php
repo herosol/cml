@@ -29,6 +29,8 @@
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/owl.theme.default.min.css">
 <!-- Datepicker Css -->
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/datepicker.min.css">
+<!-- Toastr Css -->
+<link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/toastr.min.css">
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/jquery.passwordRequirements.css">
 <!-- JS Files -->
 <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.min.js"></script>
@@ -36,6 +38,7 @@
 <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.validate.min.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.dirrty.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/toastr.min.js') ?>"></script>
 <script type="text/javascript">
     var base_url = "<?= base_url() ?>";
 </script>
