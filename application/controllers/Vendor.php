@@ -27,6 +27,8 @@ class Vendor extends MY_Controller
 
             $this->form_validation->set_message('integer', 'Please select a valid {field}');
 
+            $this->form_validation->set_rules('mem_fname', 'First Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
+            $this->form_validation->set_rules('mem_lname', 'Last Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'Last Name should contains only letters and avoid space.', 'min_length'=> 'Last Name should contains atleast 2 letters.', 'max_length'=> 'Last Name should not be greater than 20 letters.']);
             $this->form_validation->set_rules('mem_company_name', 'Company name', 'trim|required');
             $this->form_validation->set_rules('mem_company_email', 'Company email', 'trim|required|valid_email');
             $this->form_validation->set_rules('mem_company_phone', 'Company phone', 'trim|required');
@@ -74,6 +76,8 @@ class Vendor extends MY_Controller
             }
 
             # MEMBER INFO TO BE SAVE
+            $user_info['mem_fname'] = $post['mem_fname'];
+            $user_info['mem_lname'] = $post['mem_lname'];
             $user_info['mem_company_name']        = $post['mem_company_name'];
             $user_info['mem_company_email']       = $post['mem_company_email'];
             $user_info['mem_company_phone']       = $post['mem_company_phone'];
@@ -96,7 +100,6 @@ class Vendor extends MY_Controller
             $user_info['mem_charges_per_miles'] = $post['mem_charges_per_miles'];
             $user_info['mem_charges_free_over'] = $post['mem_charges_free_over'];
             $user_info['mem_charges_min_order'] = $post['mem_charges_min_order'];
-            $user_info['mem_show_cancellation'] = $post['mem_show_cancellation'];
             $user_info['mem_travel_radius']     = $post['mem_travel_radius'];
 
             $this->member_model->save($user_info, $mem_id);

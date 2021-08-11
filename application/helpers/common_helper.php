@@ -480,6 +480,18 @@ function get_active_status($status)
     }
 }
 
+function service_selected_status($arr, $id)
+{
+    if( in_array( $id, $arr ) )
+    {
+        return 'delBtn';
+    }
+    else
+    {
+        return 'addBtn';
+    }
+}
+
 function SubscriptionStatus($row)
 {
     $current_date = date("Y-m-d");

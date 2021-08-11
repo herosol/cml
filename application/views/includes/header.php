@@ -58,8 +58,8 @@
 </header>
 <!-- header -->
 
-
+<!-- 
 <div class="upperlay"></div>
 <div id="pageloader">
     <span class="loader"></span>
-</div>
+</div> -->

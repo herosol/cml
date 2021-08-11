@@ -31,7 +31,7 @@ class Search extends MY_Controller
             $res['msg'] = '';
             $res['redirect_url'] = base_url().'available-vendors';
             $res['status'] = 1;
-            $this->session->set_userdata('selection', $this->input->post());
+            $this->session->set_userdata('selection', $post);
             exit(json_encode($res));
         }
 
@@ -64,6 +64,43 @@ class Search extends MY_Controller
         foreach($selections['selected_service'] as $key => $value):
             $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
         endforeach;
+
+        if($this->input->post())
+        {
+            $res = array();
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+
+            $post = html_escape($this->input->post());
+            $this->data['selections'] = $selections = $this->session->selection;
+            $selections['place-order'] = $post;
+            $selections['vendor']  = $mem_id;
+
+            if(isset($post['use_pickdrop']))
+            {
+                if($post['use_pickdrop'] == 'on')
+                    $selections['pick-or-facility'] = 'pickdrop';
+                else
+                    $selections['pick-or-facility'] = 'walkin';
+                    
+            }
+            else
+            {
+                $selections['pick-or-facility'] = 'walkin';
+            }
+
+            $this->session->set_userdata('selections', $selections);
+
+            $res['msg'] = '';
+            $res['redirect_url'] = base_url().'order-booking';
+            $res['status'] = 1;
+            
+
+            exit(json_encode($res));
+        }
 
         $this->data['services'] = $services;
         $this->load->view('pages/search', $this->data);

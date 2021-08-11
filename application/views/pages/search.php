@@ -27,6 +27,7 @@
             <div class="contain">
                 <h2 class="heading text-center">Best Deals in your Area</h2>
                 <div class="srchBlk">
+                    <form action="" method="post" id="formPlaceOrder" class="frmAjax">
                     <div class="inside">
                         <div class="icoBlk">
                             <div class="icon"><img src="<?= get_site_image_src("members", $vendor->mem_image, ''); ?>" alt=""></div>
@@ -39,7 +40,7 @@
                                 <div class="toggleBlk">
                                     <strong>Use Service</strong>
                                     <div class="switchBtn">
-                                        <input type="checkbox" name="" id="">
+                                        <input type="checkbox" name="use_pickdrop" id="usePickAndDropService">
                                         <em></em>
                                     </div>
                                 </div>
@@ -65,17 +66,15 @@
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                    <?php if($vendor->mem_company_pickdrop == 'yes'): ?>
-                                        <tr>
-                                            <td class="color">Pickup & Delivery Charges</td>
-                                            <td>£<?= $vendor->mem_charges_per_miles ?></td>
-                                        </tr>
-                                    <?php endif; ?>
+                                    <tr class="hidden pickdrop_charges">
+                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                        <td>£<?= $vendor->mem_charges_per_miles .'x2 = '.($vendor->mem_charges_per_miles*2) ?></td>
+                                    </tr>
                                     <tr>
                                         <td>Minimum Order</td>
                                         <td>£<?= $vendor->mem_charges_min_order ?></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="hidden">
                                         <td class="color">Minimum Order Fee</td>
                                         <td>£0.50</td>
                                     </tr>
@@ -87,76 +86,85 @@
                             </table>
                         </div>
                         <div class="side">
-                            <form action="booking.php" method="post">
-                                <h6>Collection</h6>
-                                <div class="formRow row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="">Date</label>
-                                            <input type="text" name="" id="" class="txtBox datepicker">
+                            
+                                <?php if($vendor->mem_company_pickdrop == 'yes' && $vendor->mem_company_walkin_facility == 'yes'): ?>
+                                    <div class="txtGrp" id="businessAdress">
+                                        <p><?= $vendor->mem_business_address ?> <br> <?= $vendor->mem_business_city ?> <br> <?= $vendor->mem_business_zip ?></p>
+                                    </div>
+                                    <div id="collectionArea" class="hidden">
+                                        <h6>Collection</h6>
+                                        <div class="formRow row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                <div class="txtGrp">
+                                                    <label for="collection_date">Date</label>
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                <div class="txtGrp">
+                                                    <label for="collection_time" class="move">Time</label>
+                                                    <select name="collection_time" id="collection_time" class="txtBox">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="" class="move">Time</label>
-                                            <select name="" id="" class="txtBox">
-                                                <option value="">Select</option>
-                                                <option value="">13:00 - 16:00</option>
-                                                <option value="">14:00 - 17:00</option>
-                                                <option value="">17:00 - 20:00</option>
-                                                <option value="">18:00 - 21:00</option>
-                                                <option value="">19:00 - 22:00</option>
-                                                <option value="">13:00 - 15:00</option>
-                                                <option value="">14:00 - 16:00</option>
-                                                <option value="">15:00 - 17:00</option>
-                                                <option value="">17:00 - 19:00</option>
-                                                <option value="">18:00 - 20:00</option>
-                                                <option value="">19:00 - 21:00</option>
-                                                <option value="">20:00 - 22:00</option>
-                                            </select>
+                                <?php elseif($vendor->mem_company_pickdrop == 'yes'): ?>
+                                    <div id="collectionArea" class="hidden">
+                                        <h6>Collection</h6>
+                                        <div class="formRow row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                <div class="txtGrp">
+                                                    <label for="collection_date">Date</label>
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                <div class="txtGrp">
+                                                    <label for="collection_time" class="move">Time</label>
+                                                    <select name="collection_time" id="collection_time" class="txtBox">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php elseif($vendor->mem_company_walkin_facility == 'yes'): ?>
+                                    <div class="txtGrp" id="businessAdress">
+                                        <p><?= $vendor->mem_business_address ?> <br> <?= $vendor->mem_business_city ?> <br> <?= $vendor->mem_business_zip ?></p>
+                                    </div>
+                                <?php endif; ?>
                                 <h6>Drop off</h6>
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="">Date</label>
-                                            <input type="text" name="" id="" class="txtBox datepicker">
+                                            <label for="delivery_date">Date</label>
+                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="" class="move">Time</label>
-                                            <select name="" id="" class="txtBox">
+                                            <label for="delivery_time" class="move">Time</label>
+                                            <select name="delivery_time" id="delivery_time" class="txtBox">
                                                 <option value="">Select</option>
-                                                <option value="">13:00 - 16:00</option>
-                                                <option value="">14:00 - 17:00</option>
-                                                <option value="">17:00 - 20:00</option>
-                                                <option value="">18:00 - 21:00</option>
-                                                <option value="">19:00 - 22:00</option>
-                                                <option value="">13:00 - 15:00</option>
-                                                <option value="">14:00 - 16:00</option>
-                                                <option value="">15:00 - 17:00</option>
-                                                <option value="">17:00 - 19:00</option>
-                                                <option value="">18:00 - 20:00</option>
-                                                <option value="">19:00 - 21:00</option>
-                                                <option value="">20:00 - 22:00</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="bTn">
-                                    <button type="submit" class="webBtn blockBtn">Place Order</button>
+                                    <button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i>Place Order</button>
                                 </div>
-                            </form>
+                                <br>
+                                <div class="alertMsg" style="display:none"></div>
+                            </div>
+                        </div>
+                        <div class="btm">
+                            <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
                         </div>
                     </div>
-                    <div class="btm">
-                        <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
-                        <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div>
-                    </div>
-                </div>
+                </form>
+                
                 <div class="srchBlk hidden">
                     <div class="inside">
                         <div class="icoBlk">
@@ -203,7 +211,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td class="color">Pickup & Delivery Charges</td>
+                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
                                         <td>£2.50</td>
                                     </tr>
                                     <tr>
@@ -263,14 +271,29 @@
                     </div>
                     <div class="btm">
                         <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
-                        <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div>
+                        <!-- <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div> -->
                     </div>
                 </div>
             </div>
         </section>
         <!-- srch -->
-
-
+        <script>
+            $(document).on('click', '#usePickAndDropService', (e) =>{
+                let pickdrop_charges = $('.pickdrop_charges');
+                if($(e.target).is(':checked'))
+                {
+                    $('#businessAdress').addClass('hidden');
+                    $('#collectionArea').removeClass('hidden');
+                    pickdrop_charges.removeClass('hidden');
+                }
+                else
+                {
+                    $('#businessAdress').removeClass('hidden');
+                    $('#collectionArea').addClass('hidden');
+                    pickdrop_charges.addClass('hidden');
+                }
+            });
+        </script>
     </main>
     <?php $this->load->view('includes/footer');?></body>
 

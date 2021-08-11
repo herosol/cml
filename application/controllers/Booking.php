@@ -13,7 +13,13 @@ class Booking extends MY_Controller
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('booking');
-		if($data){
+        $this->data['selections'] = $selections = $this->session->selections;
+        $this->data['vendor_id'] = $selections['vendor'];
+        $this->data['services']  = $selections['selected_service'];
+        $this->data['zipcode']   = $selections['zipcode'];
+
+		if($data)
+        {
 			$this->data['content'] = unserialize($data->code);
 			$this->data['meta_desc'] = json_decode($meta->content);
 			$this->data['wash_and_dry']  = $this->master->get_data_row('services', ['id'=> '1']);
@@ -24,7 +30,9 @@ class Booking extends MY_Controller
             $this->data['deals']         = $this->master->get_data_row('services', ['id'=> '7']);
 
 			$this->load->view('booking/booking',$this->data);
-		}else{
+		}
+        else
+        {
 			show_404();
 		}
     }

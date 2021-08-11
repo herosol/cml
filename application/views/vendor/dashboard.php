@@ -73,7 +73,7 @@
                 </div>
                 <?php if(!empty($mem_data->mem_verified) && $mem_data->mem_verified == 1): ?>
                 <div class="blk">
-                    <form action="" method="post" id="vendorProfileSettings" class="frmAjax checkstate">
+                    <form action="" method="post" id="vendorProfileSettings" class="frmAjax">
                         <div class="txtGrp upLoadDp">
                             <div class="ico">
                                 <img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt="" id="uploadDpPreview">
@@ -86,6 +86,22 @@
                         </div>
                         <div class="inside">
                         <div class="alertMsg" style="display:none"></div>
+                        <h5>Personal Information</h5>
+                            <div class="row formRow">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="txtGrp">
+                                        <label for="mem_fname">First Name</label>
+                                        <input type="text" name="mem_fname" id="mem_fname" value="<?=$mem_data->mem_fname?>" class="txtBox">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="txtGrp">
+                                        <label for="mem_lname">Contact Email</label>
+                                        <input type="text" name="mem_lname" id="mem_lname" value="<?=$mem_data->mem_lname?>" class="txtBox">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                             <h5>Company Information</h5>
                             <div class="row formRow">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -124,18 +140,7 @@
                                         <input type="text" name="mem_company_trustpilot" id="mem_company_trustpilot" value="<?=$mem_data->mem_company_trustpilot?>" class="txtBox">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                    <div class="txtGrp">
-                                        <label for="mem_company_pickdrop" class="move">Provide pickup & drop off services?</label>
-                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox">
-                                            <option value="">Select</option>
-                                            <?php foreach (yes_no() as $val) : ?>
-                                                <option value="<?= $val ?>" <?= $mem_data->mem_company_pickdrop == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
                                         <label for="mem_company_walkin_facility" class="move">Walk in facility?</label>
                                         <select name="mem_company_walkin_facility" id="mem_company_walkin_facility" class="txtBox" onchange="getFacilityHours(this.value)">
@@ -360,13 +365,24 @@
                             <hr>
                             <h5>Pickup & Collection Area</h5>
                             <div class="row formRow">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
+                                <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="txtGrp">
+                                        <label for="mem_company_pickdrop" class="move">Provide pickup & drop off services?</label>
+                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox">
+                                            <option value="">Select</option>
+                                            <?php foreach (yes_no() as $val) : ?>
+                                                <option value="<?= $val ?>" <?= $mem_data->mem_company_pickdrop == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
                                         <label for="pickup_zip">Zip Code</label>
                                         <input type="text" id="pickup_zip" name="pickup_zip" value="<?=$mem_data->pickup_zip?>" class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
                                         <label for="mem_travel_radius">Travel Distance?</label>
                                         <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="<?= $mem_data->mem_map_lat?>">
@@ -400,7 +416,8 @@
                                         <input type="text" name="mem_charges_min_order" id="mem_charges_min_order" value="<?=$mem_data->mem_charges_min_order?>" class="txtBox">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6 hidden">
                                     <div class="txtGrp">
                                         <label for="mem_show_cancellation" class="move">Show cancellation policy?</label>
                                         <select name="mem_show_cancellation" id="mem_show_cancellation" class="txtBox">
@@ -411,9 +428,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="bTn formBtn text-center">
-                                <button type="submit" class="webBtn submit" title="Please make any change to enable save button." disabled><i class="spinner hidden"></i>Save</button>
+                                <button type="submit" class="webBtn submit" title="Please make any change to enable save button."><i class="spinner hidden"></i>Save</button>
                             </div>
                         </div>
                     </form>

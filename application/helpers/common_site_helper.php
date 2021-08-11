@@ -56,6 +56,16 @@ function get_sub_services($service_id)
     return $query->result();
 }
 
+function get_sub_service($sub_service_id, $mem_id)
+{
+    global $CI;
+    $CI->db->from('sub_services ss');
+    $CI->db->join('price_list pl', 'ss.id=pl.sub_service_id');
+    $CI->db->select('ss.id, ss.name, pl.price');
+    $CI->db->where(['pl.mem_id'=> $mem_id, 'pl.sub_service_id'=> $sub_service_id]);
+    return $CI->db->get()->row();
+}
+
 function sub_service_price($sub_service_id, $mem_id)
 {
     global $CI;

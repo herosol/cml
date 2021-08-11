@@ -75,7 +75,7 @@
                             </div>
                         </div>
                     </li>
-                    <!-- <li>
+                    <li class="hidden">
                         <div class="blk">
                             <div class="icon"><img src="<?= $base_url ?>images/icon-credit-card.svg" alt=""></div>
                             <div class="txt">
@@ -83,7 +83,7 @@
                                 <p class="small"><?= $content['instruction3_heading'] ?></p>
                             </div>
                         </div>
-                    </li> -->
+                    </li>
                 </ul>
                 <form action="" method="post">
                     <fieldset>
@@ -121,7 +121,63 @@
                             <button type="button" class="webBtn nextBtn">Continue</button>
                         </div>
                     </fieldset>
+
+                    
                     <fieldset>
+                        <?php if(empty($this->session->mem_id)): ?>
+                            <h3 class="heading">Account Info</h3>
+                            <div class="blk">
+                                <p>Already have an account? <a href="javascript:void(0)" class="popBtn" data-popup="signin">Sign in here</a></p>
+                                <div class="formRow row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp">
+                                            <label for="fname">First Name</label>
+                                            <input type="text" name="" id="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp">
+                                            <label for="lname">Last Name</label>
+                                            <input type="text" name="" id="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp">
+                                            <label for="email">Phone Number</label>
+                                            <input type="email" name="" id="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp">
+                                            <label for="email">Email Address</label>
+                                            <input type="email" name="" id="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp pasDv">
+                                            <label for="">Password</label>
+                                            <input type="password" name="" id="" class="txtBox">
+                                            <i class="icon-eye" id="eye"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                        <div class="txtGrp pasDv">
+                                            <label for="">Confirm Password</label>
+                                            <input type="password" name="" id="" class="txtBox">
+                                            <i class="icon-eye" id="eye"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
+                                        <div class="txtGrp">
+                                            <div class="lblBtn">
+                                                <input type="checkbox" name="notified" id="notified">
+                                                <label for="notified">Keep me up to date on news and exclusive offers</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <h3 class="heading"><?= $content['step2_heading'] ?></h3>
                         <div class="blk">
                             <div class="_header">
@@ -129,8 +185,8 @@
                             </div>
                             <h6>Enter your Postcode</h6>
                             <div class="txtGrp">
-                                <label for="">Enter Postcode</label>
-                                <input type="text" name="" id="" class="txtBox">
+                                <label for="zipcode">Enter Postcode</label>
+                                <input type="text" class="txtBox" id="zipcode" value="<?=$zipcode?>" readonly>
                             </div>
                             <h6>Select your address</h6>
                             <div class="txtGrp">
@@ -350,29 +406,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <td></td>
                                                         <th>Price</th>
+                                                        <th>Select</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="lblBtn">
-                                                                <input type="checkbox" name="washType" id="mixedWash">
-                                                                <label for="mixedWash">MIXED WASH & TUMBLE DRY - UP TO 6KG - All colours washed together.</label>
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                        <td>£20.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="lblBtn">
-                                                                <input type="checkbox" name="washType" id="seprateWash">
-                                                                <label for="seprateWash">SEPARATE WASH & TUMBLE DRY - UP TO 12KG - Light and dark clothes washed separately. - Requires 2 washes of 6 kg each.</label>
-                                                            </div>
-                                                        </td>
-                                                        <td></td>
-                                                        <td>£20.00</td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -393,601 +443,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <th>Qty</th>
                                                         <th>Price</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Delicate Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2-Piece Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3-Piece Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dinner / Linen Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jacket / Blazer</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Waistcoat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Skirt</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Skirt - Delicate</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumper</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cardigan</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pillow Case</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Small</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Medium</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Large</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 2 m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 4m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tea Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Apron</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top / Blouse</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top / Blouse - Silk</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Trousers</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Trousers - Silk</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shorts</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Delicate</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Evening</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumpsuit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tie</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Scarf</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Socks / underwear</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Overcoat / Raincoat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Overcoat - Full Length</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Puffer / Down Coat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bath Mat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bath Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hand Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
+                                                        <th>Select</th>
+                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($dry_cleaning->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -1008,601 +480,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <th>Qty</th>
                                                         <th>Price</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Delicate Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2-Piece Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3-Piece Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dinner / Linen Suit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jacket / Blazer</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Waistcoat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Skirt</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Skirt - Delicate</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumper</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cardigan</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pillow Case</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Small</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Medium</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cushion Cover - Large</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 2 m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 4m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tea Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Apron</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top / Blouse</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top / Blouse - Silk</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Trousers</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Trousers - Silk</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shorts</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Delicate</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Evening</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumpsuit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tie</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Scarf</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Socks / underwear</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Overcoat / Raincoat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Overcoat - Full Length</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Puffer / Down Coat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bath Mat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bath Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hand Towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="1" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£1.50</td>
-                                                    </tr>
+                                                        <th>Select</th>
+                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($wash_and_iron->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -1623,399 +517,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <th>Qty</th>
                                                         <th>Price</th>
+                                                        <th>Select</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>T-Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo Shirt on Hanger</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Polo Shirt Folded</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jeans</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Trousers</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shorts</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Delicate</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dress - Evening</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumpsuit</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jumper</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cardigan</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet Cover - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Duvet cover - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 2m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tablecloth (up to 4m)</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Apron</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tea towel</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top/Blouse</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Top / Blouse - Silk</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jacket/Blazer</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Waistcoat</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Skirt</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bed Sheet - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3">&nbsp;</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pillow Case</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($iron_only->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2036,229 +554,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <th>Qty</th>
                                                         <th>Price</th>
+                                                        <th>Select</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mattress Protector - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mattress Protector - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mattress Protector -King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="5" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£5.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mattress Protector - Double layer</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Feather Duvet - Single</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="3" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£3.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Feather Duvet - Double</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Feather Duvet - King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Feather Duvet - Super King</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pillow - Synthetic</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pillow - Feather</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Blanket - Single - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Blanket - Double - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Blanket - King - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bedspread - Single - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bedspread - Double - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bedspread - King - Washable</td>
-                                                        <td>
-                                                            <div class="qtyBtn">
-                                                                <a class="qtyMinus"></a>
-                                                                <input type="text" name="qty" value="2" class="qty">
-                                                                <a class="qtyPlus"></a>
-                                                            </div>
-                                                        </td>
-                                                        <td>£2.00</td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($buly_items->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2283,30 +595,21 @@
                                                         <th>Price</th>
                                                         <th>Select</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Single</td>
-                                                        <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
-                                                        <td>£2.00</td>
-                                                        <td><input type="checkbox" name="" id=""></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Double</td>
-                                                        <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
-                                                        <td>£1.50</td>
-                                                        <td><input type="checkbox" name="" id=""></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - King</td>
-                                                        <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
-                                                        <td>£1.00</td>
-                                                        <td><input type="checkbox" name="" id=""></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Synthetic Duvet - Super King</td>
-                                                        <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
-                                                        <td>£3.00</td>
-                                                        <td><input type="checkbox" name="" id=""></td>
-                                                    </tr>
+                                                    <?php
+                                                    foreach(get_sub_services($buly_items->id) as $key => $sub_service):
+                                                        $row = sub_service_price($sub_service->id, $vendor_id);
+                                                        if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                    ?>
+                                                            <tr id="<?=$sub_service->id?>">
+                                                                <td><?=$sub_service->name?></td>
+                                                                <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
+                                                                <td>£<?=$row->price?></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                            </tr>
+                                                    <?php
+                                                        endif;
+                                                    endforeach;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2323,65 +626,25 @@
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe reiciendis quas libero totam illo hic.</p>
                                 <div class="serveBlk">
                                     <table class="sm pb data_list">
-                                        <tbody>
-                                            <tr>
-                                                <td>Shirt - Wash & Iron</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dress - Dry Cleaning</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£3.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trouser - Wash</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Outwear - Wash & Iron</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cardigan - Ironing</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shirt - Wash & Iron</td>
-                                                <td>
-                                                    <div class="qtyBtn">
-                                                        <input type="text" name="qty" value="3" class="qty">
-                                                    </div>
-                                                </td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <th colspan="2" class="color">Estimated Total</th>
-                                                <th>£30.50</th>
-                                            </tr>
+                                        <tbody id="selected_services">
+                                            <?php
+                                            foreach($services as $id):
+                                                $row = get_sub_service($id, $vendor_id);
+
+                                            ?>
+                                                <tr data-id="<?=$row->id?>">
+                                                    <td><?=$row->name?></td>
+                                                    <input type="hidden" name="selected_service[]" value="<?=$row->id?>">
+                                                    <td>
+                                                        <div class="qtyBtn">
+                                                            <a class="qtyMinus"></a>
+                                                            <input type="text" name="qty[]" value="1" class="qty" data-price="<?=$row->price?>" data-id="<?=$row->id?>" readonly>
+                                                            <a class="qtyPlus"></a>
+                                                        </div>
+                                                    </td>
+                                                    <td id="price-<?=$row->id?>" >£<?=$row->price?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -2724,8 +987,81 @@
             </div>
         </section>
         <!-- booking -->
+        <script>
+            $(document).on("click", ".actBtn", function() {
+                let selectedArea = $('#selected_services');
+                $('.alertMsg').hide();
+                if ($(this).hasClass("addBtn"))
+                {
+                    if($(this).hasClass('left'))
+                    {
+                        selectedArea.prepend(`<tr data-id="${$(this).data('subservice-id')}">
+                                                    <td>${$(this).data('name')}</td>
+                                                    <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
+                                                    <td>
+                                                        <div class="qtyBtn">
+                                                            <a class="qtyMinus"></a>
+                                                            <input type="text" name="qty[]" value="1" class="qty" data-price="${$(this).data('price')}" data-id="${$(this).data('subservice-id')}" readonly>
+                                                            <a class="qtyPlus"></a>
+                                                        </div>
+                                                    </td>
+                                                    <td id="price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
+                                                </tr>`);
+                    }
+                    $(this).removeClass("addBtn").addClass("delBtn");
+                }
+                else
+                {
+                    if($(this).hasClass('right'))
+                    {
+                        $("td button").filter("[data-subservice-id='" + $(this).data('subservice-id') + "']").removeClass('delBtn').addClass('addBtn');
+                        $(this).parent().parent().remove();
+                    }
+                    else
+                    {
+                        $("tr").filter("[data-id='" + $(this).data('subservice-id') + "']").remove();
+                        $(this).removeClass("delBtn").addClass("addBtn");
+                    }
+                    
+                }
+            });
 
+            // This button will increment the value
+            $(document).on("click", ".qtyPlus", function(e) {
+                e.preventDefault();
 
+                var parent = $(this).parent().children(".qty");
+                var currentVal = parent.val();
+                var price = parent.data('price');
+                var service_id = parent.data('id');
+                
+                if (!isNaN(currentVal)) {
+                    let incrementedVal = parseInt(currentVal) + 1; 
+                    parent.val(incrementedVal);
+                    $('#price-' + service_id).text(`£${price*incrementedVal}`);
+                } else {
+                    parent.val(1);
+                    $('#price-' + service_id).text(`£${price*1}`);
+                }
+            });
+            // This button will decrement the value till 0
+            $(document).on("click", ".qtyMinus", function(e) {
+                e.preventDefault();
+                var parent = $(this).parent().children(".qty");
+                var currentVal = parent.val();
+                var price = parent.data('price');
+                var service_id = parent.data('id');
+
+                if (!isNaN(currentVal) && currentVal > 1) {
+                    let decrementedVal = parseInt(currentVal) - 1; 
+                    parent.val(decrementedVal);
+                    $('#price-' + service_id).text(`£${price*decrementedVal}`);
+                } else {
+                    parent.val(1);
+                    $('#price-' + service_id).text(`£${price*1}`);
+                }
+            });
+        </script>
     </main>
     <?php $this->load->view('includes/footer');?>
 </body>
