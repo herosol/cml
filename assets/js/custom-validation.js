@@ -736,10 +736,21 @@ $(document).ready(function() {
             return false; // suppresses error message text
         }
     })
+    
+
     $('#frmContact').validate({
+        errorElement: 'div',
         rules: {
             name: {
                 required: true,
+                minlength: 2,
+                maxlength: 30,
+                noSpace: true,
+                lettersonly: true
+            },
+            phone: {
+                required: true,
+                valid_phone: true
             },
             email: {
                 required: true,
@@ -750,13 +761,26 @@ $(document).ready(function() {
             },
             msg: {
                 required: true,
-                minlength: 2,
-            }
+            },
         },
-        errorPlacement: function() {
-            return false; // suppresses error message text
+        messages: {
+            name: {
+                minlength: "Name should contains atleast 2 letters.",
+                maxlength: "Name should not be greater than 30 letters.",
+                noSpace: "First Name should contains only letters and avoid space.",
+                lettersonly: "First Name should contains only letters."
+            },
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), [ 'msg', 'name', 'phone', 'email','subject']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
         }
-    })
+    });
+
     $('#frmNewsletter').validate({
             rules: {
                 email: {
@@ -896,6 +920,7 @@ $(document).ready(function() {
 
     });
 
+/*--------------Contact Page -------------- */
 
 
 });

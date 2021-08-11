@@ -14,7 +14,7 @@
 
                     <a href="#" class="logo">
 
-                        <img src="<?= SITE_IMAGES.'/images/'.$adminsite_setting->site_logo ?>" height="50" alt="">
+                        <img src="<?= base_url().SITE_IMAGES.'images/'.$adminsite_setting->site_logo ?>" height="50" alt="">
 
                     </a>
 

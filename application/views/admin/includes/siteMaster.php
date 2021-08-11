@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="<?= base_url('adminassets/css/neon-core.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('adminassets/css/neon-theme.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('adminassets/css/neon-forms.css'); ?>">
-    <link type="text/css" rel="stylesheet" href="<?= base_url('assets/css/font-icon.css') ?>">
+    <!-- <link type="text/css" rel="stylesheet" href="<?= base_url('assets/css/font-icon.css') ?>"> -->
     <link rel="stylesheet" href="<?= base_url('adminassets/css/skins/white.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminassets/css/custom.css'); ?>">
     <!-- Datepicker Css -->
@@ -23,7 +23,7 @@
     <!-- autocomplete Css -->
     <link rel="stylesheet" href="<?= base_url('adminassets/css/autocomplete.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('adminassets/css/pick-a-color-1.2.3.min.css') ?>">
-    <link type="image/png" rel="icon" href="<?= SITE_IMAGES.'/images/'.$adminsite_setting->site_icon ?>">
+    <link type="image/png" rel="icon" href="<?= base_url().SITE_IMAGES.'/images/'.$adminsite_setting->site_icon ?>">
     <script src="<?= base_url('adminassets/js/jquery-1.11.0.min.js'); ?>"></script>
     <script src="<?= base_url('adminassets/assets/js/jquery-ui.js') ?>"></script>
     <script>$.noConflict();</script>

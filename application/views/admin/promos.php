@@ -141,7 +141,7 @@
                         <td class="text-center"><?=$row->name ?></td>
                         <td class="text-center">
                             <div class="icoRound">
-                                <img src = "<?= get_site_image_src('promos', $row->image, 'thumb_', true); ?>" height = "60">
+                                <img src = "<?= get_site_image_src('promos', $row->image, '', true); ?>" height = "60">
                             </div>
                         </td>
                         <td><b><?= $row->expiry_date ; ?></b></td>

@@ -22,8 +22,9 @@
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
-                            <form action="<?= base_url('ajax/contact') ?>" class="formAjax" method="post">
+                            <form action="<?= base_url('ajax/contact') ?>" class="frmAjax" method="post" id="frmContact">
                                 <h3 class="heading"><?= $content['form_heading'] ?></h3>
+                                <div class="alertMsg" style="display:none"></div>
                                 <div class="txtGrp">
                                     <label for="">Name</label>
                                     <input type="text" name="name" id="" class="txtBox">

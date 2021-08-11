@@ -4,7 +4,7 @@
             <!-- logo -->
             <div class="logo">
                 <a href="<?=site_url(ADMIN.'/dashboard')?>">
-                    <img src="<?= SITE_IMAGES.'/images/'.$adminsite_setting->site_logo ?>" width="120" alt="">
+                    <img src="<?= base_url().SITE_IMAGES.'images/'.$adminsite_setting->site_logo ?>" width="120" alt="">
                 </a>
             </div>
             <!-- logo collapse icon -->
