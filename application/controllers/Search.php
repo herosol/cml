@@ -31,7 +31,7 @@ class Search extends MY_Controller
             $res['msg'] = '';
             $res['redirect_url'] = base_url().'available-vendors';
             $res['status'] = 1;
-            $this->session->set_userdata('selection', $this->input->post());
+            $this->session->set_userdata('selection', $post);
             exit(json_encode($res));
         }
 
@@ -74,22 +74,30 @@ class Search extends MY_Controller
             $res['frm_reset'] = 0;
             $res['redirect_url'] = 0;
 
-            // if($this->form_validation->run() === FALSE)
-            // {
-            //     $res['msg'] = validation_errors();
-            // }
-            // else
-            // {
-                $post = html_escape($this->input->post());
-                $this->data['selections'] = $selections = $this->session->selection;
-                $selections['place-order'] = $post;
-                $selections['vendor']  = $mem_id;
-                $this->session->set_userdata('selections', $selections);
+            $post = html_escape($this->input->post());
+            $this->data['selections'] = $selections = $this->session->selection;
+            $selections['place-order'] = $post;
+            $selections['vendor']  = $mem_id;
 
-                $res['msg'] = '';
-                $res['redirect_url'] = base_url().'order-booking';
-                $res['status'] = 1;
-            // }
+            if(isset($post['use_pickdrop']))
+            {
+                if($post['use_pickdrop'] == 'on')
+                    $selections['pick-or-facility'] = 'pickdrop';
+                else
+                    $selections['pick-or-facility'] = 'walkin';
+                    
+            }
+            else
+            {
+                $selections['pick-or-facility'] = 'walkin';
+            }
+
+            $this->session->set_userdata('selections', $selections);
+
+            $res['msg'] = '';
+            $res['redirect_url'] = base_url().'order-booking';
+            $res['status'] = 1;
+            
 
             exit(json_encode($res));
         }

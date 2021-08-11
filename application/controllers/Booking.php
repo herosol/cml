@@ -9,11 +9,14 @@ class Booking extends MY_Controller
     
     function index()
     {
-        // pr($this->session->selections);
         $meta = $this->page->getMetaContent('booking');
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('booking');
+        $this->data['selections'] = $selections = $this->session->selections;
+        $this->data['vendor_id'] = $selections['vendor'];
+        $this->data['services']  = $selections['selected_service'];
+        $this->data['zipcode']   = $selections['zipcode'];
 
 		if($data)
         {

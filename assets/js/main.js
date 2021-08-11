@@ -242,32 +242,6 @@ $(function() {
         prevStep.fadeIn();
     });
 
-    // This button will increment the value
-    $(document).on("click", ".qtyPlus", function(e) {
-        e.preventDefault();
-        var parnt = $(this)
-            .parent()
-            .children(".qty");
-        var currentVal = parnt.val();
-        if (!isNaN(currentVal)) {
-            parnt.val(parseInt(currentVal) + 1);
-        } else {
-            parnt.val(0);
-        }
-    });
-    // This button will decrement the value till 0
-    $(document).on("click", ".qtyMinus", function(e) {
-        e.preventDefault();
-        var parnt = $(this)
-            .parent()
-            .children(".qty");
-        var currentVal = parnt.val();
-        if (!isNaN(currentVal) && currentVal > 0) {
-            parnt.val(parseInt(currentVal) - 1);
-        } else {
-            parnt.val(0);
-        }
-    });
 
     // data_list
     $("table.data_list thead th").each(function(i, e) {
