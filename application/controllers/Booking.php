@@ -14,9 +14,34 @@ class Booking extends MY_Controller
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('booking');
         $this->data['selections'] = $selections = $this->session->selections;
+        // pr($this->session->selections);
         $this->data['vendor_id'] = $selections['vendor'];
         $this->data['services']  = $selections['selected_service'];
         $this->data['zipcode']   = $selections['zipcode'];
+        $this->data['$facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
+
+        //START END SLEECTED DAY TIME
+        $day = $selections['place-order']['collection_date'];
+        $dayIndex = explode('-', $day);
+        $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+        $day = strtotime($day);
+        $day = date('D', $day);
+        $day = strtolower($day);
+        $key_opening = $day.'_opening';
+        $key_closing = $day.'_closing';
+        $this->data['collection_opening'] = $facility_hours->$key_opening;
+        $this->data['collection_closing'] = $facility_hours->$key_closing;
+
+        $day = $selections['place-order']['delivery_date'];
+        $dayIndex = explode('-', $day);
+        $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+        $day = strtotime($day);
+        $day = date('D', $day);
+        $day = strtolower($day);
+        $key_opening = $day.'_opening';
+        $key_closing = $day.'_closing';
+        $this->data['delivery_opening'] = $facility_hours->$key_opening;
+        $this->data['delivery_closing'] = $facility_hours->$key_closing;
 
 		if($data)
         {

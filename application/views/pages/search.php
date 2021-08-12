@@ -27,7 +27,7 @@
             <div class="contain">
                 <h2 class="heading text-center">Best Deals in your Area</h2>
                 <div class="srchBlk">
-                    <form action="" method="post" id="formPlaceOrder" class="frmAjax">
+                    <form action="" method="post" id="formPlaceOrder" class="frmAjax" autocomplete="off">
                     <div class="inside">
                         <div class="icoBlk">
                             <div class="icon"><img src="<?= get_site_image_src("members", $vendor->mem_image, ''); ?>" alt=""></div>
@@ -97,14 +97,13 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_date">Date</label>
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepicker">
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_time" class="move">Time</label>
                                                     <select name="collection_time" id="collection_time" class="txtBox">
-                                                        <option value="">Select</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -117,14 +116,13 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_date">Date</label>
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepicker">
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_time" class="move">Time</label>
                                                     <select name="collection_time" id="collection_time" class="txtBox">
-                                                        <option value="">Select</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -140,14 +138,13 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="delivery_date">Date</label>
-                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker">
+                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'delivery_time')">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="delivery_time" class="move">Time</label>
                                             <select name="delivery_time" id="delivery_time" class="txtBox">
-                                                <option value="">Select</option>
                                             </select>
                                         </div>
                                     </div>
@@ -278,6 +275,22 @@
         </section>
         <!-- srch -->
         <script>
+            $(window).on('load', function() {
+                let disableDays = <?php echo json_encode($cdays); ?>;
+                console.log(disableDays);
+                $('.datepickerWithDisabledDAys').datepicker({
+                    format: 'mm-dd-yyyy',
+                    todayHighlight: true,
+                    multidateSeparator: ',  ',
+                    templates: {
+                        leftArrow: '<i class="fi-arrow-left"></i>',
+                        rightArrow: '<i class="fi-arrow-right"></i>'
+                    },
+                    daysOfWeekDisabled: disableDays,
+                    minDate: new Date()
+                });
+            });
+
             $(document).on('click', '#usePickAndDropService', (e) =>{
                 let pickdrop_charges = $('.pickdrop_charges');
                 if($(e.target).is(':checked'))
@@ -293,6 +306,7 @@
                     pickdrop_charges.addClass('hidden');
                 }
             });
+
         </script>
     </main>
     <?php $this->load->view('includes/footer');?></body>

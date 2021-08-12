@@ -260,6 +260,21 @@ function gender()
     return ['male', 'female', 'others'];
 }
 
+function weekDays()
+{
+    return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];    
+}
+
+function collection_types()
+{
+    return ['Driver collects from you', 'Driver collects from outside', 'Driver collects from reception/porter'];
+}
+
+function drop_types()
+{
+    return ['Driver drops, rings & waits', 'Driver drops, rings and goes', 'Driver leaves bags at reception/porter'];
+}
+
 function halfHourTimes()
 {
     $formatter = function ($time) {
@@ -269,8 +284,40 @@ function halfHourTimes()
         return date('g:i a', $time);
       }
     };
-    $halfHourSteps = range(0, 47*1800, 1800);
+    $halfHourSteps = range(0, 47*1800, 3600);
     return array_map($formatter, $halfHourSteps);
+}
+
+function oneHourTimeByGiven($default = '', $start, $end)
+{
+    if(empty($start) || empty($end))
+    {
+        return false;
+    }
+
+    $startTime = strtotime($start); 
+    $endTime   = strtotime($end);
+    $returnTimeFormat = 'G:i';
+
+    $current   = time(); 
+    $addTime   = strtotime('+1 hour', $current); 
+    $diff      = $addTime - $current;
+    
+    $times = []; 
+    while ($startTime < $endTime) {
+        $start = date($returnTimeFormat, $startTime); 
+        $startTime += $diff; 
+        $end = date($returnTimeFormat, $startTime); 
+        $times[] = $start.' - '.$end;
+    }
+
+    $html = '';
+    $html .= '<option value="">Select</option>';
+    foreach($times as $key => $time):
+        $selected = $default==$time ? 'selected' : '';
+        $html .= '<option value="' . $time . '" '.$selected.'>' . $time . '</option>';
+    endforeach;
+    return $html; 
 }
 
 function getBredcrum($section, $ary)
@@ -840,6 +887,17 @@ function format_date($d, $format = '', $default_show = 'TBD')
         return $default_show;
     $d = (is_numeric($d) && (int)$d == $d ) ? $d : strtotime($d);
     return date($format, $d);
+}
+
+function date_picker_format_date($day, $format = '', $default_show = 'TBD')
+{
+    $dayIndex = explode('-', $day);
+    $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+    $format = empty($format) ? 'm/d/Y' : $format;
+    if($day=='0000:00:00' || $day=='0000-00-00' || !$day)
+        return $default_show;
+    $day = (is_numeric($day) && (int)$day == $day ) ? $day : strtotime($day);
+    return date($format, $day);
 }
 
 function db_format_date($d)

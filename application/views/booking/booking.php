@@ -48,15 +48,17 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="blk">
-                            <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image4'] )?>" alt=""></div>
-                            <div class="txt">
-                                <h6><?= $content['step3_title'] ?></h6>
-                                <p class="small">Today 12:00-15:00</p>
+                    <?php if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'): ?>
+                        <li>
+                            <div class="blk">
+                                <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image4'] )?>" alt=""></div>
+                                <div class="txt">
+                                    <h6><?= $content['step3_title'] ?></h6>
+                                    <p class="small">Today 12:00-15:00</p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    <?php endif; ?>
                     <li>
                         <div class="blk">
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image5'] )?>" alt=""></div>
@@ -131,39 +133,39 @@
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="fname">First Name</label>
-                                            <input type="text" name="" id="" class="txtBox">
+                                            <label for="mem_fname">First Name</label>
+                                            <input type="text" name="mem_fname" id="mem_fname" class="txtBox" onkeyup="appendName()">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="lname">Last Name</label>
-                                            <input type="text" name="" id="" class="txtBox">
+                                            <label for="mem_lname">Last Name</label>
+                                            <input type="text" name="mem_lname" id="mem_lname" class="txtBox" onkeyup="appendName()">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="email">Phone Number</label>
-                                            <input type="email" name="" id="" class="txtBox">
+                                            <label for="mem_phone">Phone Number</label>
+                                            <input type="text" name="mem_phone" id="mem_phone" class="txtBox" onkeyup="appendValue(this.value, 'customer-phone')">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
-                                            <label for="email">Email Address</label>
-                                            <input type="email" name="" id="" class="txtBox">
+                                            <label for="mem_email">Email Address</label>
+                                            <input type="email" name="mem_email" id="mem_email" class="txtBox" onkeyup="appendValue(this.value, 'customer-email')">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp pasDv">
-                                            <label for="">Password</label>
-                                            <input type="password" name="" id="" class="txtBox">
+                                            <label for="password">Password</label>
+                                            <input type="password" name="password" id="password" class="txtBox pr-password">
                                             <i class="icon-eye" id="eye"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp pasDv">
-                                            <label for="">Confirm Password</label>
-                                            <input type="password" name="" id="" class="txtBox">
+                                            <label for="cpassword">Confirm Password</label>
+                                            <input type="password" name="cpassword" id="cpassword" class="txtBox">
                                             <i class="icon-eye" id="eye"></i>
                                         </div>
                                     </div>
@@ -188,29 +190,78 @@
                                 <label for="zipcode">Enter Postcode</label>
                                 <input type="text" class="txtBox" id="zipcode" value="<?=$zipcode?>" readonly>
                             </div>
-                            <h6>Select your address</h6>
-                            <div class="txtGrp">
-                                <label for="" class="move">Address</label>
-                                <select name="" id="" class="txtBox">
-                                    <option value="">Select</option>
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                    <option value="">4</option>
-                                    <option value="">5</option>
-                                </select>
-                            </div>
+                            <?php if(!empty($this->session->mem_id)): ?> 
+                                <h6>Select your address</h6>
+                                <div class="txtGrp">
+                                    <label for="address" class="move">Address</label>
+                                    <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
+                                        <option value="">Select</option>
+                                        <option value="home" data-lat="<?=$mem_data->mem_map_lat?>" data-long="<?=$mem_data->mem_map_lng?>"><?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?></option>
+                                        <option value="office" data-lat="<?=$mem_data->mem_business_map_lat?>" data-long="<?=$mem_data->mem_business_map_lng?>"><?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?></option>
+                                        <option value="hotel" data-lat="<?=$mem_data->mem_hotel_map_lat?>" data-long="<?=$mem_data->mem_hotel_map_lng?>"><?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?></option>
+                                    </select>
+                                </div>
+                            <?php else: ?>
+                                <h6>Enter your address</h6>
+                                <div class="row formRow">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_country" class="move">Country</label>
+                                            <select name="address_country" id="address_country" class="txtBox" onchange="fetchStates(this.value, 'address_state')">
+                                                <option value="">Select</option>
+                                                <?php foreach (countries() as $country) : ?>
+                                                    <?php if (in_array($country->name, ['United Kingdom'])){ ?>
+                                                    <option value="<?= $country->id ?>"><?= $country->name ?></option>
+                                                <?php } endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_state" class="move">State</label>
+                                            <select name="address_state" id="address_state" class="txtBox">
+                                                <option value="">Select</option>
+                                                <?php foreach (states_by_country($mem_data->mem_country) as $state) : ?>
+                                                    <option value="<?= $state->id ?>"><?= $state->name ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_city">City</label>
+                                            <input type="text" name="address_city" id="address_city" value="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <input type="hidden" name="mem_map_lat" id="mem_map_lat" value="">
+                                            <input type="hidden" name="mem_map_lng" id="mem_map_lng" value="">
+                                            <label for="address_zip">Zip Code</label>
+                                            <input type="text" id="address_zip" name="address_zip" data-type="hotel" data-way="1" value=""  class="txtBox" onkeyup="getLocationAndInitMap(this.value)">
+                                            <span style="color:red" id="invalid_zip"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-xx-8">
+                                        <div class="txtGrp">
+                                            <label for="address_field">Address</label>
+                                            <input type="text" id="address_field" name="address_field" value="" class="txtBox">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            <?php endif; ?>
                             <h6>Specify any extra address details</h6>
                             <div class="txtGrp">
-                                <label for="">Apartment name, number, floor</label>
-                                <input type="text" name="" id="" class="txtBox">
+                                <label for="extra_address_detail">Apartment name, number, floor</label>
+                                <input type="text" name="extra_address_detail" id="extra_address_detail" class="txtBox">
                             </div>
                             <h6>Address type</h6>
                             <div class="txtGrp">
                                 <ul class="selectLst flex">
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_home" checked>
+                                            <input type="radio" name="address_type" id="address_type_home" value="home" <?=empty($this->session->mem_id) ? '' : 'disabled'?>>
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                                 <div class="txt">
@@ -221,7 +272,7 @@
                                     </li>
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_office">
+                                            <input type="radio" name="address_type" id="address_type_office" value="office" <?=empty($this->session->mem_id) ? '' : 'disabled'?>>
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                                 <div class="txt">
@@ -232,7 +283,7 @@
                                     </li>
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_hotel">
+                                            <input type="radio" name="address_type" id="address_type_hotel" value="hotel" <?=empty($this->session->mem_id) ? '' : 'disabled'?>>
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                                 <div class="txt">
@@ -244,9 +295,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <h4 class="heading"><?= $content['step2_map_heading'] ?></h4>
-                        <div id="googleMap">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d392466.27610655467!2d-105.23035500000002!3d39.781351!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876c7e3e2c6216a7%3A0xa4b85252d6ea23a1!2sDenver%2C%20CO%2080210!5e0!3m2!1sen!2sus!4v1624361016615!5m2!1sen!2sus" width="100" height="100" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        <div id="map-area" class="hidden">
+                            <h4 class="heading"><?= $content['step2_map_heading'] ?></h4>
+                            <div id="map-canvas"></div>
                         </div>
                         <div class="bTn formBtn text-center">
                             <button type="button" class="webBtn labelBtn prevBtn">Back</button>
@@ -260,38 +311,26 @@
                             <div class="formRow row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Date</label>
-                                        <input type="text" name="" id="" class="txtBox datepicker">
+                                        <label for="collection_date">Date</label>
+                                        <input type="text" name="collection_date" id="collection_date" value="<?=$selections['place-order']['collection_date']?>" class="txtBox datepicker">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Time</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option value="">Select</option>
-                                            <option value="">13:00 - 16:00</option>
-                                            <option value="">14:00 - 17:00</option>
-                                            <option value="">17:00 - 20:00</option>
-                                            <option value="">18:00 - 21:00</option>
-                                            <option value="">19:00 - 22:00</option>
-                                            <option value="">13:00 - 15:00</option>
-                                            <option value="">14:00 - 16:00</option>
-                                            <option value="">15:00 - 17:00</option>
-                                            <option value="">17:00 - 19:00</option>
-                                            <option value="">18:00 - 20:00</option>
-                                            <option value="">19:00 - 21:00</option>
-                                            <option value="">20:00 - 22:00</option>
+                                        <label for="collection_time" class="move">Time</label>
+                                        <select name="collection_time" id="collection_time" class="txtBox">
+                                            <?=oneHourTimeByGiven($selections['place-order']['collection_time'], $collection_opening, $collection_closing)?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Collects From</label>
-                                        <select name="" id="" class="txtBox">
+                                        <label for="collection_from" class="move">Collects From</label>
+                                        <select name="collection_from" id="collection_from" class="txtBox">
                                             <option value="">Select</option>
-                                            <option value="">Driver collects from you</option>
-                                            <option value="">Driver collects from outside</option>
-                                            <option value="">Driver collects from reception/porter</option>
+                                            <?php foreach (collection_types() as $val) : ?>
+                                                <option value="<?= $val ?>"><?= $val ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -301,38 +340,26 @@
                             <div class="formRow row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="">Date</label>
-                                        <input type="text" name="" id="" class="txtBox datepicker">
+                                        <label for="delivery_date">Date</label>
+                                        <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker" value="<?=$selections['place-order']['delivery_date']?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Time</label>
-                                        <select name="" id="" class="txtBox">
-                                            <option value="">Select</option>
-                                            <option value="">13:00 - 16:00</option>
-                                            <option value="">14:00 - 17:00</option>
-                                            <option value="">17:00 - 20:00</option>
-                                            <option value="">18:00 - 21:00</option>
-                                            <option value="">19:00 - 22:00</option>
-                                            <option value="">13:00 - 15:00</option>
-                                            <option value="">14:00 - 16:00</option>
-                                            <option value="">15:00 - 17:00</option>
-                                            <option value="">17:00 - 19:00</option>
-                                            <option value="">18:00 - 20:00</option>
-                                            <option value="">19:00 - 21:00</option>
-                                            <option value="">20:00 - 22:00</option>
+                                        <label for="delivery_time" class="move">Time</label>
+                                        <select name="delivery_time" id="delivery_time" class="txtBox">
+                                            <?=oneHourTimeByGiven($selections['place-order']['delivery_time'], $delivery_opening, $delivery_closing)?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
-                                        <label for="" class="move">Collects Drops</label>
-                                        <select name="" id="" class="txtBox">
+                                        <label for="delivery_from" class="move">Collects Drops</label>
+                                        <select name="delivery_from" id="delivery_from" class="txtBox" onchange="appendValueSelect(this, 'drop-type')">
                                             <option value="">Select</option>
-                                            <option value="">Driver drops, rings & waits</option>
-                                            <option value="">Driver drops, rings and goes</option>
-                                            <option value="">Driver leaves bags at reception/porter</option>
+                                            <?php foreach (drop_types() as $val) : ?>
+                                                <option value="<?= $val ?>"><?= $val ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -340,8 +367,8 @@
                             <hr>
                             <h6>Collection or delivery instructions (optional)</h6>
                             <div class="txtGrp">
-                                <label for="">Any special instructions</label>
-                                <input type="text" name="" id="" class="txtBox">
+                                <label for="collection_or_delivery_notes">Any special instructions</label>
+                                <input type="text" name="collection_or_delivery_notes" id="collection_or_delivery_notes" class="txtBox">
                             </div>
                         </div>
                         <div class="bTn formBtn text-center">
@@ -417,7 +444,7 @@
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -454,7 +481,7 @@
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -491,7 +518,7 @@
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -528,7 +555,7 @@
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -565,7 +592,7 @@
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -604,7 +631,7 @@
                                                                 <td><?=$sub_service->name?></td>
                                                                 <td>Sapiente nemo aliquid aliquam eveniet blanditiis rem, unde expedita quibusdam veritatis sint, animi hic totam aut.</td>
                                                                 <td>£<?=$row->price?></td>
-                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
+                                                                <td><button type="button" id="<?=$sub_service->id?>" class="actBtn <?=service_selected_status($services, $sub_service->id)?> left" data-service="<?=get_parent_service($sub_service->service_id)?>" data-subservice-id="<?=$sub_service->id?>" data-price="<?=$row->price?>" data-name="<?=$sub_service->name?>"></button></td>
                                                             </tr>
                                                     <?php
                                                         endif;
@@ -673,7 +700,7 @@
                                                         <th>Customer Name</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>Franc Mathurin</td>
+                                                        <td id="customer-name">Franc Mathurin</td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
@@ -694,7 +721,7 @@
                                                         <th>Customer Phone</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>+987542621475</td>
+                                                        <td id="customer-phone">+987542621475</td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
@@ -715,7 +742,7 @@
                                                         <th>Customer Email</th>
                                                     </tr>
                                                     <tr>
-                                                        <td>johnwick87@gmail.com</td>
+                                                        <td id="customer-email">johnwick87@gmail.com</td>
                                                     </tr>
                                                     <tr>
                                                         <td>&nbsp;</td>
@@ -745,43 +772,19 @@
                                                 <th>Price</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Shirt</td>
-                                                <td>Wash & Iron</td>
-                                                <td>2</td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dress</td>
-                                                <td>Dry Cleaning</td>
-                                                <td>3</td>
-                                                <td>£3.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Trouser</td>
-                                                <td>Wash</td>
-                                                <td>2</td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Outwear</td>
-                                                <td>Wash & Iron</td>
-                                                <td>4</td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cardigan</td>
-                                                <td>Ironing</td>
-                                                <td>2</td>
-                                                <td>£2.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shirt</td>
-                                                <td>Wash & Iron</td>
-                                                <td>2</td>
-                                                <td>£2.50</td>
-                                            </tr>
+                                        <tbody id="item_preview_area">
+                                            <?php
+                                            foreach($services as $id):
+                                                $row = get_sub_service($id, $vendor_id);
+
+                                            ?>
+                                                <tr id="preview-item-<?=$row->id?>">
+                                                    <td><?=$row->name?></td>
+                                                    <td><?=$row->service_name?></td>
+                                                    <td id="item-qty-<?=$row->id?>">1</td>
+                                                    <td id="item-price-<?=$row->id?>">£<?=$row->price?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -790,86 +793,34 @@
                                         <tbody>
                                             <tr>
                                                 <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</td>
+                                                <td><?=date_picker_format_date($selections['place-order']['collection_date'], 'D, d M Y')?></td>
                                             </tr>
                                             <tr>
                                                 <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</td>
+                                                <td><?=$selections['place-order']['collection_time']?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <th>Detrvery Date:</th>
-                                                <td>Wed, 21 Jan 2021</td>
+                                                <th>Delivery Date:</th>
+                                                <td><?=date_picker_format_date($selections['place-order']['delivery_date'], 'D, d M Y')?></td>
                                             </tr>
                                             <tr>
                                                 <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</td>
+                                                <td><?=$selections['place-order']['delivery_time']?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <th colspan="2">Driver drops, rings and waits</th>
+                                                <th colspan="2" id="drop-type">Driver drops, rings and waits</th>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="br"></div>
-                            <div class="blk">
-                                <h4>Contact information</h4>
-                                <p>Already have an account? <a href="javascript:void(0)" class="popBtn" data-popup="signin">Sign in here</a></p>
-                                <div class="formRow row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="fname">First Name</label>
-                                            <input type="text" name="" id="" class="txtBox">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="lname">Last Name</label>
-                                            <input type="text" name="" id="" class="txtBox">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="email">Phone Number</label>
-                                            <input type="email" name="" id="" class="txtBox">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="email">Email Address</label>
-                                            <input type="email" name="" id="" class="txtBox">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp pasDv">
-                                            <label for="">Password</label>
-                                            <input type="password" name="" id="" class="txtBox">
-                                            <i class="icon-eye" id="eye"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp pasDv">
-                                            <label for="">Confirm Password</label>
-                                            <input type="password" name="" id="" class="txtBox">
-                                            <i class="icon-eye" id="eye"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xx-12">
-                                        <div class="txtGrp">
-                                            <div class="lblBtn">
-                                                <input type="checkbox" name="notified" id="notified">
-                                                <label for="notified">Keep me up to date on news and exclusive offers</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="blk">
                                 <h4>Payment</h4>
                                 <p>All transactions are secure and encrypted.</p>
@@ -987,9 +938,11 @@
             </div>
         </section>
         <!-- booking -->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
         <script>
             $(document).on("click", ".actBtn", function() {
                 let selectedArea = $('#selected_services');
+                let item_preview_area = $('#item_preview_area');
                 $('.alertMsg').hide();
                 if ($(this).hasClass("addBtn"))
                 {
@@ -1007,6 +960,12 @@
                                                     </td>
                                                     <td id="price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
                                                 </tr>`);
+                        item_preview_area.prepend(`<tr id="preview-item-${$(this).data('subservice-id')}">
+                                                    <td>${$(this).data('name')}</td>
+                                                    <td>${$(this).data('service')}</td>
+                                                    <td id="item-qty-${$(this).data('subservice-id')}">1</td>
+                                                    <td id="item-price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
+                                                </tr>`);
                     }
                     $(this).removeClass("addBtn").addClass("delBtn");
                 }
@@ -1020,6 +979,7 @@
                     else
                     {
                         $("tr").filter("[data-id='" + $(this).data('subservice-id') + "']").remove();
+                        $('#preview-item-' + $(this).data('subservice-id')).remove();
                         $(this).removeClass("delBtn").addClass("addBtn");
                     }
                     
@@ -1039,9 +999,13 @@
                     let incrementedVal = parseInt(currentVal) + 1; 
                     parent.val(incrementedVal);
                     $('#price-' + service_id).text(`£${price*incrementedVal}`);
+                    $('#item-qty-' + service_id).text(`${incrementedVal}`);
+                    $('#item-price-' + service_id).text(`£${price*incrementedVal}`);
                 } else {
                     parent.val(1);
                     $('#price-' + service_id).text(`£${price*1}`);
+                    $('#item-qty-' + service_id).text(1);
+                    $('#item-price-' + service_id).text(`£${price*1}`);
                 }
             });
             // This button will decrement the value till 0
@@ -1056,11 +1020,130 @@
                     let decrementedVal = parseInt(currentVal) - 1; 
                     parent.val(decrementedVal);
                     $('#price-' + service_id).text(`£${price*decrementedVal}`);
+                    $('#item-qty-' + service_id).text(`${decrementedVal}`);
+                    $('#item-price-' + service_id).text(`£${price*decrementedVal}`);
                 } else {
                     parent.val(1);
                     $('#price-' + service_id).text(`£${price*1}`);
+                    $('#item-qty-' + service_id).text(1);
+                    $('#item-price-' + service_id).text(`£${price*1}`);
                 }
             });
+
+            /// APPENDING TO FIELDS
+            const appendName = () => 
+            {
+                let fname = $.trim($('#mem_fname').val());
+                let lname = $.trim($('#mem_lname').val());
+                $('#customer-name').text(fname +' '+ lname);
+
+            }
+
+            const appendValue = (value, appendTo) => 
+            {
+                $('#' + appendTo).text($.trim(value));
+            }
+
+            const appendValueSelect = (obj, appendTo) => 
+            {
+                let value = $(obj).find('option:selected').val();
+                $('#' + appendTo).text($.trim(value));
+            }
+
+            /// MAP FUNCTION
+            var map, bounds, startLat = "", startLng = "";
+            var startLatLng = new google.maps.LatLng(startLat, startLng);
+            var image = {
+                url: base_url + "assets/images/marker.png", // url
+                scaledSize: new google.maps.Size(40, 40), // scaled size
+                origin: new google.maps.Point(0, 0), // origin
+                anchor: new google.maps.Point(25, 50) // anchor
+            };
+
+            const setAddress = obj => 
+            {
+                obj = $(obj);
+                let option = obj.find('option:selected'); 
+                let value  = option.val();
+                let startLat   = option.data('lat');
+                let startLng   = option.data('long');
+                $('#address_type_' + value).prop('checked', true);
+                $('#map-area').removeClass('hidden');
+                startLatLng = new google.maps.LatLng(startLat, startLng);
+                init();
+            }
+
+            const getLocationAndInitMap = value => 
+            {
+                value = $.trim(value);
+                $('#invalid_zip').html('');
+                if($.trim(value).length == 0)
+                    return false;
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode(
+                { 
+                componentRestrictions: { 
+                    country: 'gb', 
+                    postalCode: value
+                } 
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        latitude = results[0].geometry.location.lat();
+                        longitude = results[0].geometry.location.lng();
+                        $('#mem_map_lat').val(latitude);
+                        $('#mem_map_lng').val(longitude);
+                        startLat = latitude;
+                        startLng = longitude;
+                        $('#map-area').removeClass('hidden');
+                        startLatLng = new google.maps.LatLng(startLat, startLng);
+                        init();
+                    } else {
+                        $('#invalid_zip').html('Please enter valid zipcode.');
+                        $('#map-area').addClass('hidden');
+                    }
+                });
+            }
+
+            function init() {
+                map = new google.maps.Map(document.getElementById('map-canvas'), {
+                    center: startLatLng,
+                    zoom: 18
+                });
+                bounds = new google.maps.LatLngBounds();
+                var user_icon = {
+                    url: base_url + "assets/images/user_marker.png", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(25, 50) // anchor
+                };
+                searchAreaMarker = new google.maps.Marker({
+                    position: startLatLng,
+                    map: map,
+                    draggable: false,
+                    icon: user_icon,
+                    animation: google.maps.Animation.DROP,
+                    title: 'My Location'
+                });
+            }
+
+            function closeInfos() {
+                if (infowindows.length > 0) {
+                    for (var i = 0; i < infowindows.length; i++)
+                    {
+                        infowindows[i].close();
+                    }
+                }
+            }
+
+            function closeMarks() {
+                if (markers.length > 0) {
+                    for (var i = 0; i < markers.length; i++)
+                    {
+                        markers[i].setMap(null);
+                    }
+                }
+            }
         </script>
     </main>
     <?php $this->load->view('includes/footer');?>

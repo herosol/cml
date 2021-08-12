@@ -467,6 +467,27 @@ class Index extends MY_Controller
         }
     }
 
+    function fetch_time()
+    {
+        if ($this->input->post()) {
+            $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->input->post('mem_id')]);
+            $day = html_escape($this->input->post('day'));
+            $dayIndex = explode('-', $day);
+            $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+            $day = strtotime($day);
+            $day = date('D', $day);
+            $day = strtolower($day);
+            $key_opening = $day.'_opening';
+            $key_closing = $day.'_closing';
+
+            $opening_time = $facility_hours->$key_opening;
+            $closing_time = $facility_hours->$key_closing;
+
+            $html = oneHourTimeByGiven('', $opening_time, $closing_time);
+            echo json_encode(['status' => 'success', 'html' => $html]);
+        }
+    }
+
     function change_password()
     {
         $this->isMemLogged($this->session->mem_type);

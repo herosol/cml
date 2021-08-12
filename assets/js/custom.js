@@ -32,58 +32,58 @@ var opterror = {
 
 
 /*========== FORM SUBMIT ==========*/
-$(document).on('submit', '.formAjax', function (e) {
-        e.preventDefault();
-        needToConfirm = true;
-        var frmbtn = $(this).find("button[type='submit']");
-        var frmMsg = $(this).find("div.alertMsg:first");
-        var frm = this;
-        console.log(frm);
-        frmbtn.attr("disabled", true);
-        frmMsg.hide();
-        $.ajax({
-            url: $(this).attr('action'),
-            data: new FormData(frm),
-            processData: false,
-            contentType: false,
-            dataType: 'JSON',
-            method: 'POST',
-    
-            error: function (rs) {
-                console.log(rs);
-            },
-            success: function (rs) {
-                console.log(rs);
-                if (rs.status == 1) {
-                    toastr.success(rs.msg, '', optsuccess);
-                    setTimeout(function () {
-                        frm.reset();
-                        frmbtn.attr("disabled", false);
-                        if (rs.redirect_url) {
-                            window.location.href = rs.redirect_url;
-                        } else {
-                            
-                        }
-    
-                    }, 3000);
-                } else {
-                    toastr.error(rs.msg, opterror);
-                    setTimeout(function () {
-                        if (rs.hide_msg)
-                            frmMsg.slideUp(500);
-                        frmbtn.attr("disabled", false);
-                        if (rs.redirect_url)
-                            window.location.href = rs.redirect_url;
-                    }, 3000);
-                }
-            },
-            complete: function (rs) {
-                needToConfirm = false;
-            }
-        });
-    });
+$(document).on('submit', '.formAjax', function(e) {
+    e.preventDefault();
+    needToConfirm = true;
+    var frmbtn = $(this).find("button[type='submit']");
+    var frmMsg = $(this).find("div.alertMsg:first");
+    var frm = this;
+    console.log(frm);
+    frmbtn.attr("disabled", true);
+    frmMsg.hide();
+    $.ajax({
+        url: $(this).attr('action'),
+        data: new FormData(frm),
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        method: 'POST',
 
-    
+        error: function(rs) {
+            console.log(rs);
+        },
+        success: function(rs) {
+            console.log(rs);
+            if (rs.status == 1) {
+                toastr.success(rs.msg, '', optsuccess);
+                setTimeout(function() {
+                    frm.reset();
+                    frmbtn.attr("disabled", false);
+                    if (rs.redirect_url) {
+                        window.location.href = rs.redirect_url;
+                    } else {
+
+                    }
+
+                }, 3000);
+            } else {
+                toastr.error(rs.msg, opterror);
+                setTimeout(function() {
+                    if (rs.hide_msg)
+                        frmMsg.slideUp(500);
+                    frmbtn.attr("disabled", false);
+                    if (rs.redirect_url)
+                        window.location.href = rs.redirect_url;
+                }, 3000);
+            }
+        },
+        complete: function(rs) {
+            needToConfirm = false;
+        }
+    });
+});
+
+
 $(document).ready(function() {
     $(document).on('submit', '.frmAjax', function(e) {
         e.preventDefault();
@@ -168,6 +168,24 @@ const fetchStates = (country_id, append_to) => {
         method: 'POST',
         success: function(rs) {
             $(append_to).html(rs.html);
+        },
+        complete: function() {
+
+        }
+    })
+}
+
+const fetchTime = (day, mem_id, appendTo) => {
+    $.ajax({
+        url: base_url + 'index/fetch_time',
+        data: {
+            'day': day,
+            'mem_id': mem_id
+        },
+        dataType: 'JSON',
+        method: 'POST',
+        success: function(rs) {
+            $('#' + appendTo).html(rs.html);
         },
         complete: function() {
 

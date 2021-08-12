@@ -58,11 +58,20 @@ class Search extends MY_Controller
         $this->data['mem_id'] = $mem_id;
         $this->data['selections'] = $selections = $this->session->selection;
         $this->data['vendor'] = $this->member_model->get_row($mem_id);
+        $this->data['facility_hours']  = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $mem_id]);
         $this->data['estimated_price'] = vendor_service_check($mem_id, $selections['selected_service']);
+
         $services = [];
-        
         foreach($selections['selected_service'] as $key => $value):
             $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
+        endforeach;
+
+        $this->data['cdays'] = [];
+        foreach(weekDays() as $index => $day):
+            $key = $day.'_opening';
+            if($facility_hours->$key == 'closed'):
+                $this->data['cdays'][] = $index;
+            endif;
         endforeach;
 
         if($this->input->post())

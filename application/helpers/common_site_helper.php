@@ -49,19 +49,29 @@ function states_by_country($country_id)
 function get_sub_services($service_id)
 {
     global $CI;
-    $CI->db->select("id, name");
+    $CI->db->select("id, name, service_id");
     $CI->db->where(['service_id'=> $service_id]);
     $CI->db->order_by(['name'=> 'asc']);
     $query = $CI->db->get('sub_services');
     return $query->result();
 }
 
+function get_parent_service($sub_service_id)
+{
+    global $CI;
+    $CI->db->select("name");
+    $CI->db->where(['id'=> $sub_service_id]);
+    $query = $CI->db->get('services');
+    return $query->row()->name;
+}
+
 function get_sub_service($sub_service_id, $mem_id)
 {
     global $CI;
     $CI->db->from('sub_services ss');
+    $CI->db->join('services s', 's.id=ss.service_id');
     $CI->db->join('price_list pl', 'ss.id=pl.sub_service_id');
-    $CI->db->select('ss.id, ss.name, pl.price');
+    $CI->db->select('ss.id, ss.name, pl.price, s.name as service_name');
     $CI->db->where(['pl.mem_id'=> $mem_id, 'pl.sub_service_id'=> $sub_service_id]);
     return $CI->db->get()->row();
 }
