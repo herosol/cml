@@ -18,7 +18,7 @@ class Booking extends MY_Controller
         $this->data['vendor_id'] = $selections['vendor'];
         $this->data['services']  = $selections['selected_service'];
         $this->data['zipcode']   = $selections['zipcode'];
-        $this->data['$facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
+        $this->data['facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
 
         //START END SLEECTED DAY TIME
         $day = $selections['place-order']['collection_date'];
@@ -42,6 +42,18 @@ class Booking extends MY_Controller
         $key_closing = $day.'_closing';
         $this->data['delivery_opening'] = $facility_hours->$key_opening;
         $this->data['delivery_closing'] = $facility_hours->$key_closing;
+
+        if($this->input->post())
+        {
+            if(empty($this->session->mem_id))
+            {
+                pr($this->input->post());
+            }   
+            else
+            {
+                $buyer_id = $this->session->mem_id;
+            }
+        }
 
 		if($data)
         {

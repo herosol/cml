@@ -244,7 +244,7 @@ $(function() {
 
 
 
-   
+
 
     // data_list
     $("table.data_list thead th").each(function(i, e) {

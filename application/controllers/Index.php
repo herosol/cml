@@ -103,6 +103,55 @@ class Index extends MY_Controller
         }
     }
 
+    function runTimeSignin()
+    {
+        if($this->input->post())
+        {
+            $res = array();
+            $res['frm_reset'] = 0;
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['redirect_url'] = 0;
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            $this->form_validation->set_rules('password', 'Password', 'required');
+            if($this->form_validation->run() === FALSE) 
+            {
+                $res['msg'] = validation_errors();
+            }
+            else
+            {
+                $data = $this->input->post();
+                $row = $this->member_model->authenticate($data['email'], $data['password'], 'buyer');
+                if (count($row) > 0) 
+                {
+                    if($row->mem_status== 0)
+                    {
+                        $res['msg'] = showMsg('error', 'Your account has been blocked!');
+                        exit(json_encode($res));
+                    }
+
+                    $remember_token = '';
+                    $this->member_model->update_last_login($row->mem_id, $remember_token);
+                    $this->session->set_userdata('mem_id', $row->mem_id);
+                    $this->session->set_userdata('mem_type', $row->mem_type);
+                    
+                    $res['msg'] = showMsg('success', 'Login successful! Please wait...');
+
+                    $res['status'] = 1;
+                    $res['frm_reset'] = 1;
+                    $res['hide_msg'] = 1;
+                    $res['mem_data'] = $row;
+                }
+                else
+                {
+                    $res['msg'] = '<p>Invalid email or password</p>';
+                }
+            }
+            exit(json_encode($res));
+        }
+    }
+
     function signup_as()
     {
         $this->MemLogged();
