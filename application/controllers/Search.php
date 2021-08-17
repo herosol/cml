@@ -51,10 +51,11 @@ class Search extends MY_Controller
         $this->load->view('pages/quotes', $this->data);
     }
 
-    public function vendor_detail($mem_id)
+    public function vendor_detail($mem_id, $miles)
     {
         check_valid_id('members', $mem_id, 'mem_id');
         $mem_id = doDecode($mem_id);
+        $this->data['miles']  = doDecode($miles);
         $this->data['mem_id'] = $mem_id;
         $this->data['selections'] = $selections = $this->session->selection;
         $this->data['vendor'] = $this->member_model->get_row($mem_id);
@@ -65,7 +66,7 @@ class Search extends MY_Controller
         foreach($selections['selected_service'] as $key => $value):
             $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
         endforeach;
-
+        
         $this->data['cdays'] = [];
         foreach(weekDays() as $index => $day):
             $key = $day.'_opening';
@@ -73,7 +74,7 @@ class Search extends MY_Controller
                 $this->data['cdays'][] = $index;
             endif;
         endforeach;
-
+        
         if($this->input->post())
         {
             $res = array();
@@ -82,30 +83,45 @@ class Search extends MY_Controller
             $res['status'] = 0;
             $res['frm_reset'] = 0;
             $res['redirect_url'] = 0;
-
-            $post = html_escape($this->input->post());
-            $this->data['selections'] = $selections = $this->session->selection;
-            $selections['place-order'] = $post;
-            $selections['vendor']  = $mem_id;
-
-            if(isset($post['use_pickdrop']))
+            
+            if($this->input->post('use_pickdrop') && $this->input->post('use_pickdrop') == 'on')
             {
-                if($post['use_pickdrop'] == 'on')
-                    $selections['pick-or-facility'] = 'pickdrop';
-                else
-                    $selections['pick-or-facility'] = 'walkin';
-                    
+                $this->form_validation->set_rules('collection_date', 'Collection Date', 'required', ['required'=> 'Please select collection date.']);
+                $this->form_validation->set_rules('collection_time', 'Collection Time', 'required', ['required'=> 'Please select collection time.']);
+            }
+            
+            $this->form_validation->set_rules('delivery_date', 'Delivery Date', 'required', ['required'=> 'Please select delivery date.']);
+            $this->form_validation->set_rules('delivery_time', 'Delivery Time', 'required', ['required'=> 'Please select delivery time.']);
+            
+            $this->data['selections'] = $selections = $this->session->selection;
+            $selections['vendor']  = $mem_id;
+            
+            if($this->form_validation->run() === FALSE) 
+            {
+                $res['msg'] = validation_errors();
             }
             else
             {
-                $selections['pick-or-facility'] = 'walkin';
+                $post = html_escape($this->input->post());
+                $selections['place-order'] = $post;
+                if(isset($post['use_pickdrop']))
+                {
+                    if($post['use_pickdrop'] == 'on')
+                        $selections['pick-or-facility'] = 'pickdrop';
+                    else
+                        $selections['pick-or-facility'] = 'walkin';
+                        
+                }
+                else
+                {
+                    $selections['pick-or-facility'] = 'walkin';
+                }
+                $this->session->set_userdata('selections', $selections);
+    
+                $res['msg'] = '';
+                $res['redirect_url'] = base_url().'order-booking';
+                $res['status'] = 1;
             }
-
-            $this->session->set_userdata('selections', $selections);
-
-            $res['msg'] = '';
-            $res['redirect_url'] = base_url().'order-booking';
-            $res['status'] = 1;
             
 
             exit(json_encode($res));

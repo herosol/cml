@@ -33,7 +33,7 @@
                             <div class="icon"><img src="<?= get_site_image_src("members", $vendor->mem_image, ''); ?>" alt=""></div>
                             <h6><?=$vendor->mem_fname.' '.$vendor->mem_lname?></h6>
                             <div class="rateYo"></div>
-                            <small>0.43 Miles Away</small>
+                            <small><?=$miles?> Miles Away</small>
                             <?php if($vendor->mem_company_pickdrop == 'yes'): ?>
                                 <div class="fig"><img src="<?=base_url()?>assets/images/vector-wait.svg" alt=""></div>
                                 <p class="small">Pickup & Delivery Service Available</p>    
@@ -64,15 +64,19 @@
                                             <td>£<?= $row->price ?></td>
                                         </tr>
                                     <?php endforeach; ?>
+                                    <tr>
+                                        <td></td>
+                                        <td class="color">£<?=price_format($estimated_amount)?></td>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr class="hidden pickdrop_charges">
                                         <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
-                                        <td>£<?= $vendor->mem_charges_per_miles .'x2 = '.($vendor->mem_charges_per_miles*2) ?></td>
+                                        <td>£<?= $vendor->mem_charges_per_miles .'x2 = £'.($vendor->mem_charges_per_miles*2) ?></td>
                                     </tr>
                                     <tr>
                                         <td>Minimum Order</td>
-                                        <td>£<?= $vendor->mem_charges_min_order ?></td>
+                                        <td>£<?= price_format($vendor->mem_charges_min_order) ?></td>
                                     </tr>
                                     <tr class="hidden">
                                         <td class="color">Minimum Order Fee</td>
@@ -80,7 +84,7 @@
                                     </tr>
                                     <tr>
                                         <th class="color">Estimated Total</th>
-                                        <th>£30.50</th>
+                                        <th id="estimated-total" data-total="<?=price_format($estimated_amount)?>">£<?=price_format($estimated_amount)?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -293,17 +297,21 @@
 
             $(document).on('click', '#usePickAndDropService', (e) =>{
                 let pickdrop_charges = $('.pickdrop_charges');
+                let services_total = $('#estimated-total').data('total');
+                let pcharges = '<?=$vendor->mem_charges_per_miles*2?>';
                 if($(e.target).is(':checked'))
                 {
                     $('#businessAdress').addClass('hidden');
                     $('#collectionArea').removeClass('hidden');
                     pickdrop_charges.removeClass('hidden');
+                    $('#estimated-total').text(`£${parseFloat(services_total)+parseFloat(pcharges)}`);
                 }
                 else
                 {
                     $('#businessAdress').removeClass('hidden');
                     $('#collectionArea').addClass('hidden');
                     pickdrop_charges.addClass('hidden');
+                    $('#estimated-total').text(`£${services_total}`);
                 }
             });
 

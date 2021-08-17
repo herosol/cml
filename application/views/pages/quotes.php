@@ -43,7 +43,7 @@
                                         <strong>Estimated Price</strong>
                                         <div class="price">£<?=$row->estimated_price?></div>
                                         <div class="bTn">
-                                            <a href="<?= base_url() ?>vendor-detail/<?=doEncode($row->mem_id)?>" class="webBtn mdBtn blockBtn">View Detail</a>
+                                            <a href="<?= base_url() ?>vendor-detail/<?=doEncode($row->mem_id)?>/<?=doEncode(round($row->distance, 2))?>" class="webBtn mdBtn blockBtn">View Detail</a>
                                         </div>
                                     </div>
                                 </div>

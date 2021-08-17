@@ -7,6 +7,8 @@ class Vendor extends MY_Controller
     {
         parent::__construct();
         $this->load->model('member_model');
+        $this->load->model('order_model');
+        $this->load->model('orderd_model');
     }
 
     public function dashboard()
@@ -137,6 +139,37 @@ class Vendor extends MY_Controller
 
         $this->data['facility_hours'] = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $mem_id]);
         $this->load->view('vendor/dashboard', $this->data);
+    }
+
+    public function orders()
+    {
+        $orders = $this->order_model->get_vendor_orders();
+        $services = [];
+        foreach($orders as $index => $order):
+            $order_detail = $this->orderd_model->get_rows(['order_id'=> $order->order_id]);
+            foreach($order_detail as $key => $row):
+                $sub_service = $this->master->get_data_row('sub_services', ['id'=> $row->sub_service_id]);
+                $service     = $this->master->get_data_row(['services', ['id'=> $sub_service->service_id]]);
+                if(!in_array($service->name, $services))
+                {
+                    $services[] = $service->name;
+                }
+            endforeach;
+            $orders[$index]->services = $services;
+        endforeach;
+
+        $this->data['orders'] = $orders;
+        // pr($orders);
+        $this->load->view('vendor/orders', $this->data);
+    }
+
+    public function order_detail($order_id)
+    {
+        $order_id = doDecode($order_id);
+        $this->data['order'] = $this->order_model->get_row($order_id);
+        $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id', $order_id]);
+        // pr($this->data);
+        $this->load->view('vendor/order-detail', $this->data);
     }
 
     public function facility_hours()

@@ -3,21 +3,21 @@
 
 <head>
     <title>My Orders — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-vendor.php'); ?>
+    <?php $this->load->view('includes/header-vendor'); ?>
     <main dash orders>
-        <?php require_once('../includes/sidebar-vendor.php'); ?>
+        <?php $this->load->view('includes/sidebar-vendor'); ?>
 
 
         <section id="orders">
             <div class="contain-fluid">
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= $base_url ?>images/users/7.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, Jennifer Kem!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
                         <div class="switchBtn">
@@ -27,403 +27,93 @@
                         </div>
                     </div>
                 </div>
-                <div class="blk jobBlk">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No:</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="red-color">#ABC8745</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Customer Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Franc Mathurin</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td>Wed, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order Service</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Iron Only, Dry Cleaning Wash & Dry</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="price">£100</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td width="5%">
-                                    <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn processed">Process</span>
-                                        <a href="<?= $base_url ?>vendor/order-detail.php" class="webBtn mdBtn blockBtn">View Detail</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="blk jobBlk">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No:</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="red-color">#ABC8745</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Customer Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Franc Mathurin</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td>Wed, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order Service</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Iron Only, Dry Cleaning Wash & Dry</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="price">£100</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td width="5%">
-                                    <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn delivered">Delivered</span>
-                                        <a href="<?= $base_url ?>vendor/order-detail.php" class="webBtn mdBtn blockBtn">View Detail</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="blk jobBlk">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No:</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="red-color">#ABC8745</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Customer Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Franc Mathurin</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td>Wed, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order Service</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Iron Only, Dry Cleaning Wash & Dry</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="price">£100</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td width="5%">
-                                    <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn delivered">Delivered</span>
-                                        <a href="<?= $base_url ?>vendor/order-detail.php" class="webBtn mdBtn blockBtn">View Detail</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="blk jobBlk">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No:</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="red-color">#ABC8745</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Customer Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Franc Mathurin</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td>Wed, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order Service</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Iron Only, Dry Cleaning Wash & Dry</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="price">£100</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td width="5%">
-                                    <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn cancelled">Cancelled</span>
-                                        <a href="<?= $base_url ?>vendor/order-detail.php" class="webBtn mdBtn blockBtn">View Detail</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="blk jobBlk">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order No:</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="red-color">#ABC8745</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Customer Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Franc Mathurin</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td>Tue, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td>Wed, 21 Jan 2021</etd>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td>11:00 am - 01:00 pm</etd>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <table class="sm">
-                                        <tbody>
-                                            <tr>
-                                                <th>Order Service</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Iron Only, Dry Cleaning Wash & Dry</etd>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="price">£100</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td width="5%">
-                                    <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn delivered">Delivered</span>
-                                        <a href="<?= $base_url ?>vendor/order-detail.php" class="webBtn mdBtn blockBtn">View Detail</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <?php foreach($orders as $key => $order): ?>
+                    <div class="blk jobBlk">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table class="sm">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Order No:</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="red-color">#ABC8745</etd>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Customer Name</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=$order->mem_fname.' '.$order->mem_lname?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="sm">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Collection Date:</th>
+                                                    <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></etd>
+                                                </tr>
+                                                <tr>
+                                                    <th>Collection Time:</th>
+                                                    <td><?=$order->collection_time?></etd>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Delivery Date:</th>
+                                                    <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></etd>
+                                                </tr>
+                                                <tr>
+                                                    <th>Delivery Time:</th>
+                                                    <td><?=$order->delivery_time?></etd>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="sm">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Order Service</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=implode(',', $order->services)?></etd>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="price">£<?=$order->order_price?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td width="5%">
+                                        <div class="bTn">
+                                            <span class="webBtn mdBtn blockBtn <?=get_order_status($order->order_status);?> "><?=$order->order_status?></span>
+                                            <a href="<?= base_url() ?>vendor/order-detail/<?=doEncode($order->order_id)?>" class="webBtn mdBtn blockBtn">View Detail</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>
         <!-- orders -->
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

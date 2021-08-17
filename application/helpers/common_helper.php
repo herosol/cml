@@ -275,6 +275,35 @@ function drop_types()
     return ['Driver drops, rings & waits', 'Driver drops, rings and goes', 'Driver leaves bags at reception/porter'];
 }
 
+function price_format($price)
+{
+    return number_format((float)$price, 2, '.', '');
+}
+
+function get_order_status($status)
+{
+    if($status == 'New')
+    {
+        return 'new';
+    }
+    elseif($status == 'Process')
+    {
+        return 'processed';
+    }
+    elseif($status == 'Delivered')
+    {
+        return 'delivered';
+    }
+    elseif($status == 'Completed')
+    {
+        return 'completed';
+    }
+    elseif($status == 'cancelled')
+    {
+        return 'cancelled';
+    }
+}
+
 function halfHourTimes()
 {
     $formatter = function ($time) {
@@ -429,16 +458,6 @@ function showVal($val)
         return $val;
 }
 
-function get_order_status($status)
-{
-    if ($status == 0) {
-        return '<span class="miniLbl yellow">Pending</span>';
-    } elseif($status == 2) {
-        return '<span class="miniLbl gray">Cancelled</span>';
-    } else {
-        return '<span class="miniLbl green">Complete</span>';
-    }
-}
 
 function get_order_status_name($status)
 {
@@ -889,10 +908,13 @@ function format_date($d, $format = '', $default_show = 'TBD')
     return date($format, $d);
 }
 
-function date_picker_format_date($day, $format = '', $default_show = 'TBD')
+function date_picker_format_date($day, $format = '', $check = true, $default_show = 'TBD')
 {
-    $dayIndex = explode('-', $day);
-    $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+    if($check)
+    {
+        $dayIndex = explode('-', $day);
+        $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
+    }
     $format = empty($format) ? 'm/d/Y' : $format;
     if($day=='0000:00:00' || $day=='0000-00-00' || !$day)
         return $default_show;
@@ -936,12 +958,6 @@ function is_min_valid_date($date, $format = 'm/d/Y')
 
 function compare_dates($date1, $date2, $format = 'm/d/Y')
 {
-    /*$date1 = str_replace('/', '-', $date1);
-    $date2 = str_replace('/', '-', $date2);
-    $date1 = new DateTime($date1);
-    $date2 = new DateTime($date2);
-    if ($date1->format($format) <= $date2->format($format))
-        return true;*/
     $d1 = DateTime::createFromFormat($format, $date1);
     $d2 = DateTime::createFromFormat($format, $date2);
     if ($d1->format('Y-m-d') < $d2->format('Y-m-d'))

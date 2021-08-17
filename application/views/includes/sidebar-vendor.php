@@ -11,7 +11,7 @@
         <li class="<?php if ($page == "orders") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/orders.php">
+            <a href="<?= base_url() ?>vendor/orders">
                 <img src="<?= base_url() ?>assets/images/icon-list.svg" alt="">
                 <em>Orders</em>
             </a>

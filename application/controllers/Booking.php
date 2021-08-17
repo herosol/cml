@@ -5,6 +5,9 @@ class Booking extends MY_Controller
     {
         parent::__construct();
         $this->load->model('Pages_model','page');
+        $this->load->model('member_model');
+        $this->load->model('order_model');
+        $this->load->model('orderd_model');
     }
     
     function index()
@@ -14,7 +17,6 @@ class Booking extends MY_Controller
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('booking');
         $this->data['selections'] = $selections = $this->session->selections;
-        // pr($this->session->selections);
         $this->data['vendor_id'] = $selections['vendor'];
         $this->data['services']  = $selections['selected_service'];
         $this->data['zipcode']   = $selections['zipcode'];
@@ -45,14 +47,147 @@ class Booking extends MY_Controller
 
         if($this->input->post())
         {
+            $res = array();
+            $res['frm_reset'] = 0;
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['redirect_url'] = 0;
+
+            // $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            // $this->form_validation->set_rules('password', 'Password', 'required');
+            // if($this->form_validation->run() === FALSE) 
+            // {
+            //     $res['msg'] = validation_errors();
+            // }
+
+            $post = html_escape($this->input->post());
+            $selections = $this->session->selections;
+            // pr($post, false);
+            // pr($selections);
+            $order = [];
             if(empty($this->session->mem_id))
             {
-                pr($this->input->post());
+                // IF NEW MEMBER
+                $mem_row = $this->member_model->emailExists($post['mem_email']);
+                if (count($mem_row) == '0')
+                {
+                    $rando = doEncode(rand(99, 999).'-'.$post['email']);
+                    $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
+
+                    $buyer_data['mem_fname'] = ucfirst($post['mem_fname']);
+                    $buyer_data['mem_lname'] = ucfirst($post['mem_lname']);
+                    $buyer_data['mem_email'] = $post['mem_email'];
+                    $buyer_data['mem_phone'] = $post['mem_phone'];
+                    $buyer_data['mem_pswd'] = doEncode($post['password']);
+                    $buyer_data['mem_code'] = $rando;
+                    $buyer_data['mem_type'] = 'buyer';
+                    $buyer_data['mem_status'] = 1;
+                    $buyer_data['mem_last_login'] = date('Y-m-d h:i:s');
+
+                    if($post['address_type'] == 'home')
+                    {
+                        $buyer_data['mem_country'] = $post['address_country']; 
+                        $buyer_data['mem_state']   = $post['address_state']; 
+                        $buyer_data['mem_city']    = trim($post['address_city']); 
+                        $buyer_data['mem_address'] = trim($post['address_field']); 
+                        $buyer_data['mem_zip']     = trim($post['address_zip']); 
+                        $buyer_data['mem_map_lat'] = $post['mem_map_lat']; 
+                        $buyer_data['mem_map_lng'] = $post['mem_map_lng']; 
+                    }
+                    elseif($post['address_type'] == 'office')
+                    {
+                        $buyer_data['mem_business_country'] = $post['address_country']; 
+                        $buyer_data['mem_business_state']   = $post['address_state']; 
+                        $buyer_data['mem_business_city']    = trim($post['address_city']); 
+                        $buyer_data['mem_business_address'] = trim($post['address_field']); 
+                        $buyer_data['mem_business_zip']     = trim($post['address_zip']); 
+                        $buyer_data['mem_business_map_lat'] = $post['mem_map_lat']; 
+                        $buyer_data['mem_business_map_lng'] = $post['mem_map_lng']; 
+                    }
+                    elseif($post['address_type'] == 'hotel')
+                    {
+                        $buyer_data['mem_hotel_country'] = $post['address_country']; 
+                        $buyer_data['mem_hotel_state']   = $post['address_state']; 
+                        $buyer_data['mem_hotel_city']    = trim($post['address_city']); 
+                        $buyer_data['mem_hotel_address'] = trim($post['address_field']); 
+                        $buyer_data['mem_hotel_zip']     = trim($post['address_zip']); 
+                        $buyer_data['mem_hotel_map_lat'] = $post['mem_map_lat']; 
+                        $buyer_data['mem_hotel_map_lng'] = $post['mem_map_lng']; 
+                    }
+
+                    $buyer_id = $this->member_model->save($buyer_data);
+                    $order['address'] = trim($post['address_city']).' '.trim($post['address_field']).' '.trim($post['address_zip']);
+
+                    $this->session->set_userdata('mem_id', $buyer_id);
+                    $this->session->set_userdata('mem_type', 'buyer');
+
+                    $verify_link = site_url('verification/' .$rando);
+                    $mem_data = array('name' => ucfirst($post['mem_fname']).' '.ucfirst($post['mem_lname']), "email" => $post['mem_email'], "link" => $verify_link);
+                    $this->send_site_email($mem_data, 'signup');
+
+
+                }
+                else
+                {
+                    $res['msg'] = '<p>E-mail Address Already In Use</p>';
+                }
             }   
             else
             {
                 $buyer_id = $this->session->mem_id;
+                $buyer = $this->member_model->getMember($buyer_id);
+                $order['address'] = $buyer->address_city.' '.$buyer->address_field.' '.$buyer->address_zip;
             }
+
+            //VENDOR
+            $vendor = $this->member_model->getMember($selections['vendor']);
+            #ORDER DATA
+            $order['buyer_id']  = $buyer_id;
+            $order['vendor_id'] = $selections['vendor'];
+            $order['searched_zipcode']  = $selections['zipcode'];
+            $order['extra_address_detail'] = $post['extra_address_detail'];
+            $order['address_type']      = $post['address_type'];
+            $order['location_map_lat']  = $selections['lat'];
+            $order['location_map_long'] = $selections['long'];
+
+            $order['order_price'] = 0; 
+            foreach($post['selected_service'] as $key => $value):
+                $row = sub_service_price($value, $selections['vendor']);
+                $order['order_price'] += $row->price*($post['qty'][$key]);
+            endforeach;
+
+            if($selections['place-order']['use_pickdrop'] && $selections['place-order']['use_pickdrop'] == 'on')
+            {
+                $order['collection_from'] = $order['address'];
+                $order['collection_date'] = db_format_date($post['collection_date']);
+                $order['collection_time'] = $post['collection_time'];
+                $order['delivery_to']     = $order['address'];
+                $order['delivery_date']   = db_format_date($post['delivery_date']);
+                $order['delivery_time']   = $post['delivery_time'];
+                $order['collection_or_delivery_notes'] = $post['collection_or_delivery_notes'];
+                $order['pick_and_drop_service'] = '1';
+                $order['pick_and_drop_charges'] = $vendor->mem_charges_per_miles*2;
+            }
+
+            $order['order_status'] = 'New';
+            $order['site_percentage'] = $this->data['site_settings']->site_percentage;
+
+            $order_id = $this->order_model->save($order);
+            if($order_id > 0)
+            {
+                foreach($post['selected_service'] as $key => $value):
+                    $order_detail = [];
+                    $row = sub_service_price($value, $selections['vendor']);
+                    $order_detail['order_id']           = $order_id;
+                    $order_detail['sub_service_id']     = $value;
+                    $order_detail['quantity']           = $post['qty'][$key];
+                    $order_detail['sub_service_price']  = $row->price;
+
+                    $this->orderd_model->save($order_detail);
+                endforeach;
+            }
+
         }
 
 		if($data)

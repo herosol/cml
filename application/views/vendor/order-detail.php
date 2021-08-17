@@ -3,21 +3,21 @@
 
 <head>
     <title>Order Detail — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-vendor.php'); ?>
+    <?php $this->load->view('includes/header-vendor'); ?>
     <main dash orders>
-        <?php require_once('../includes/sidebar-vendor.php'); ?>
+        <?php $this->load->view('includes/sidebar-vendor'); ?>
 
 
         <section id="orders">
             <div class="contain-fluid">
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= $base_url ?>images/users/7.jpg" alt=""></div>
+                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, Jennifer Kem!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
                         <div class="switchBtn">
@@ -320,7 +320,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

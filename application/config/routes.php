@@ -69,11 +69,13 @@ $route['reset-password']  = 'index/reset_password';
 $route['resend-email']    = 'index/resend_email';
 $route['verification/(:any)'] = 'index/verification/$1';
 # VENDOR PAGES
-$route['vendor/dashboard'] = 'vendor/dashboard';
+$route['vendor/dashboard']  = 'vendor/dashboard';
+$route['vendor/orders']     = 'vendor/orders';
+$route['vendor/order-detail/(:any)'] = 'vendor/order_detail/$1';
 $route['vendor/price-list'] = 'vendor/price_list';
 $route['vendor/facility-hours'] = 'vendor/facility_hours';
-# BUYER PAGES
 
+# BUYER PAGES
 $route['buyer/dashboard']   = 'buyer/dashboard';
 $route['buyer/credits']     = 'buyer/credits';
 $route['buyer/orders']      = 'buyer/orders';
@@ -82,7 +84,7 @@ $route['buyer/wallet']      = 'buyer/transactions';
 # SITE PAGES
 $route['service-selection'] = 'search/service_selection';
 $route['available-vendors'] = 'search/available_vendor';
-$route['vendor-detail/(:any)'] = 'search/vendor_detail/$1';
+$route['vendor-detail/(:any)/(:any)'] = 'search/vendor_detail/$1/$2';
 $route['order-booking']     = 'booking/index';
 # ADMIN
 $route['admin/login']     = 'admin/index/login';
