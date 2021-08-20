@@ -22,27 +22,28 @@
                     </div>
                     <div class="col col2">
                         <div class="logBlk">
-                            <form action="<?= base_url('ajax/contact') ?>" class="formAjax" method="post">
+                            <form action="<?= base_url('ajax/contact') ?>" class="frmAjax" method="post" id="frmContact">
                                 <h3 class="heading"><?= $content['form_heading'] ?></h3>
+                                <div class="alertMsg" style="display:none"></div>
                                 <div class="txtGrp">
                                     <label for="">Name</label>
-                                    <input type="text" name="name" id="" class="txtBox">
+                                    <input type="text" name="name" id="name" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Phone</label>
-                                    <input type="text" name="phone" id="" class="txtBox">
+                                    <input type="text" name="phone" id="phone" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Subject</label>
-                                    <input type="text" name="subject" id="" class="txtBox">
+                                    <input type="text" name="subject" id="subject" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Email Address</label>
-                                    <input type="text" name="email" id="" class="txtBox">
+                                    <input type="text" name="email" id="email" class="txtBox">
                                 </div>
                                 <div class="txtGrp">
                                     <label for="">Comments</label>
-                                    <textarea name="msg" id="" class="txtBox"></textarea>
+                                    <textarea name="msg" id="msg" class="txtBox"></textarea>
                                 </div>
                                 <div class="bTn formBtn"><button type="submit" class="webBtn"><?= $content['btn_title'] ?> <i class="fi-arrow-right"></i></button></div>
                             </form>

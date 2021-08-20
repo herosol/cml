@@ -11,13 +11,13 @@ class Contact extends Admin_Controller {
 
     public function index() {
         $this->data['enable_datatable'] = TRUE;
-        $this->data['pageView'] = 'admin/contact';
+        $this->data['pageView'] = ADMIN.'/contact';
         $this->data['rows'] = $this->master->getRows($this->table_name,'','','','DESC');;
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
     function manage() {
         $this->data['enable_editor'] = TRUE;
-        $this->data['pageView'] = 'admin/contact';
+        $this->data['pageView'] = ADMIN.'/contact';
         $arr['status'] = 1;
         $this->master->save($this->table_name, $arr, 'id', $this->uri->segment(4));
         $this->data['row'] = $this->master->getRow($this->table_name, array('id' => $this->uri->segment(4)));

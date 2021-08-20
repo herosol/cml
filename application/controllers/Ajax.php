@@ -33,12 +33,12 @@ class Ajax extends MY_Controller
 			//$okmsg=send_email($vals);
 			//$okmsg = $this->send_contact_email($vals,1);
 			if($okmsg){
-				$res['msg'] = 'Message send sucessfully!';
+				$res['msg'] = showMsg('success', 'Message send sucessfully!');
 				$res['status'] = 1;
 				$res['frm_reset'] = 1;
 				$res['hide_msg']=1;
 			}else{
-				$res['msg'] = 'Message send sucessfully!';
+				$res['msg'] = showMsg('success', 'Message send sucessfully!');
 				$res['status'] = 1;
 				$res['frm_reset'] = 1;
 				$res['hide_msg']=1;

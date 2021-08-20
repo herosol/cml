@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-md-12">
                             <label class="control-label"> Verified</label>
-                            <select name="mem_status" id="mem_status" class="form-control">
+                            <select name="mem_verified" id="mem_verified" class="form-control">
                                 <option value="1" <?php
                                     if (isset($row->mem_verified) && '1' == $row->mem_verified) {
                                     echo 'selected';
@@ -129,7 +129,9 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Email <span class="symbol required" style="color: red">*</span></label>
-                            <input type="text" name="mem_email" value="<?php if (isset($row->mem_email)) echo $row->mem_email; ?>"  class="form-control" required>
+                            <input type="text" name="mem_email" 
+                            <?php if (isset($row->mem_email)) { echo 'readonly';} ?>  
+                            value="<?php if (isset($row->mem_email)) echo $row->mem_email; ?>"  class="form-control" required>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Phone No <span class="symbol required" style="color: red">*</span></label>
@@ -137,7 +139,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Password <span class="symbol required" style="color: red">*</span></label>
-                            <?php if ($row->mem_pass): ?>
+                            <?php if ($row->mem_pswd): ?>
                                 <input type="text"  name="mem_pswd" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
                             <?php else:?>    
                                 <input type="password"  name="mem_pswd" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
@@ -157,7 +159,7 @@
                             <label class="control-label"> State</label>
                             <select name="mem_state" id="mem_state" class="form-control select2">
                                 <option value="">Select</option>
-                                <?php foreach (states_by_country($row->mem_country) as $state) : ?>
+                                <?php foreach (states_by_country('232') as $state) : ?>
                                     <option value="<?= $state->id ?>" <?= $row->mem_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -206,7 +208,7 @@
                             <label class="control-label"> State</label>
                             <select name="mem_business_state" id="mem_business_state" class="form-control select2">
                                 <option value="">Select</option>
-                                <?php foreach (states_by_country($row->mem_business_country) as $state) : ?>
+                                <?php foreach (states_by_country('232') as $state) : ?>
                                     <option value="<?= $state->id ?>" <?= $row->mem_business_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -255,7 +257,7 @@
                             <label class="control-label"> State</label>
                             <select name="mem_hotel_state" id="mem_hotel_state" class="form-control select2">
                                 <option value="">Select</option>
-                                <?php foreach (states_by_country($row->mem_hotel_country) as $state) : ?>
+                                <?php foreach (states_by_country('232') as $state) : ?>
                                     <option value="<?= $state->id ?>" <?= $row->mem_hotel_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -284,7 +286,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="control-label">Longitude</label>
-                            <input type="text" readonly name="mem_hotel_map_lng" id="mem_hotel_map_lat" value="<?php if (isset($row->mem_hotel_map_lng)) echo $row->mem_hotel_map_lng; ?>" class="form-control">
+                            <input type="text" readonly name="mem_hotel_map_lng" id="mem_hotel_map_lng" value="<?php if (isset($row->mem_hotel_map_lng)) echo $row->mem_hotel_map_lng; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">Address</label>
@@ -318,7 +320,7 @@
             <h2 class="no-margin"><i class="entypo-users"></i> Manage <strong>Customers</strong></h2>
         </div>
         <div class="col-md-6 text-right">
-            <a href="<?= site_url(ADMIN . '/members/manage'); ?>" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i> Add New</a>
+            <a href="<?= site_url(ADMIN . '/individuals/manage'); ?>" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i> Add New</a>
         </div>
     </div>
     <table class="table table-bordered datatable" id="table-1">

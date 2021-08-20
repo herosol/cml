@@ -46,9 +46,15 @@ class Individuals extends Admin_Controller {
                 redirect(ADMIN . '/individuals/manage/' . $this->uri->segment(4), 'refresh');
             }
             $mem_row = $this->member->emailExists($vals['mem_email']);
-            if (count($mem_row) > -2)
+            
+            if (count($mem_row) < 1 || $this->uri->segment(4))
             {
+                $rando = doEncode(rand(99, 999).'-'.$post['email']);
+                $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
+                
+                $vals['mem_code']=$rando;
                 $vals['mem_pswd']=doEncode($vals['mem_pswd'] );
+                $vals['mem_type']='buyer';
                 
                 if (($_FILES["mem_image"]["name"] != "")) {
                     $this->remove_file($this->uri->segment(4), 'mem_image');
@@ -66,29 +72,10 @@ class Individuals extends Admin_Controller {
                 //$this->send_signup_email($mem_id);
                 setMsg('success', 'Individual has been saved successfully.');
                 redirect(ADMIN . '/individuals', 'refresh');
-            }else{
-                if ($this->uri->segment(4)){
-                     $vals['mem_pass']=doEncode($vals['mem_pass'] );
-
-                    if (($_FILES["dp_image"]["name"] != "")) {
-                        $this->remove_file($this->uri->segment(4), 'dp_image');
-                        $image = upload_file(UPLOAD_PATH . 'members', 'dp_image');
-                        if (!empty($image['file_name'])) {
-                            $vals['mem_image'] = $image['file_name'];
-                            generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 100, 'thumb_');
-                            generate_thumb(UPLOAD_PATH . "members/", UPLOAD_PATH . "members/", $image['file_name'], 300, '300p_');
-                        } else {
-                            setMsg('error', 'Please upload a valid image file >> ' . strip_tags($image['error']));
-                            redirect(ADMIN . '/members/manage/' . $this->uri->segment(4), 'refresh');
-                        }
-                    }
-                 $mem_id = $this->member->save($vals,$this->uri->segment(4));
-                    setMsg('success', 'Individual has been saved successfully.');
-                    redirect(ADMIN . '/individuals', 'refresh');
-                }else{
-                    setMsg('error','Email Already Exits');
-                    redirect(ADMIN . '/individuals/manage', 'refresh');
-                }
+            }else{  
+                setMsg('error','Email Already Exits');
+                redirect(ADMIN . '/individuals/manage', 'refresh');
+                
             }
         }
 

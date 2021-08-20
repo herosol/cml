@@ -29,7 +29,7 @@ class Promos extends Admin_Controller
                 $image = upload_file(UPLOAD_PATH . "promos/", 'image');
                 if (!empty($image['file_name'])) {
                     $vals['image'] = $image['file_name'];
-                    generate_thumb(UPLOAD_PATH . "promos/", UPLOAD_PATH . "promos/", $image['file_name'],100,'thumb_');
+                    generate_thumb(UPLOAD_PATH . "promos/", UPLOAD_PATH . "promos/", $image['file_name'],200,'thumb_');
                 } else {
                     setMsg('error', 'Please upload a valid image file >> ' . strip_tags($image['error']));
                     redirect(ADMIN . '/promos/manage/' . $this->uri->segment(4), 'refresh');

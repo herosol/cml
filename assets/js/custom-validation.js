@@ -1,50 +1,50 @@
 $(document).ready(function() {
-    var input = document.querySelector("#phone")
-    if ((typeof input !== 'undefined') && input) {
-        var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-        var iti = window.intlTelInput(input, {
-            // initialCountry: "auto",
-            separateDialCode: true,
-            // hiddenInput: "full_phone",
-            nationalMode: true,
-            allowDropdown: false,
-            onlyCountries: ["us"],
-            initialCountry: 'us',
-            /*geoIpLookup: function(callback) {
-                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                    var countryCode = (resp && resp.country) ? resp.country : "";
-                    callback(countryCode);
-                });
-            },*/
-            utilsScript: base_url + "assets/intltelinput/utils.js"
-        });
-        iti.promise.then(function() {
-            // input.value = iti.getNumber();
-        });
-        var itihandleChange = function() {
-            iti.setNumber(input.value)
-        };
-        input.addEventListener('change', itihandleChange);
-        input.addEventListener('keyup', itihandleChange);
+    // var input = document.querySelector("#phone")
+    // if ((typeof input !== 'undefined') && input) {
+    //     var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+    //     var iti = window.intlTelInput(input, {
+    //         // initialCountry: "auto",
+    //         separateDialCode: true,
+    //         // hiddenInput: "full_phone",
+    //         nationalMode: true,
+    //         allowDropdown: false,
+    //         onlyCountries: ["us"],
+    //         initialCountry: 'us',
+    //         /*geoIpLookup: function(callback) {
+    //             $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+    //                 var countryCode = (resp && resp.country) ? resp.country : "";
+    //                 callback(countryCode);
+    //             });
+    //         },*/
+    //         utilsScript: base_url + "assets/intltelinput/utils.js"
+    //     });
+    //     iti.promise.then(function() {
+    //         // input.value = iti.getNumber();
+    //     });
+    //     var itihandleChange = function() {
+    //         iti.setNumber(input.value)
+    //     };
+    //     input.addEventListener('change', itihandleChange);
+    //     input.addEventListener('keyup', itihandleChange);
 
-        $.validator.addMethod(
-            "valid_phone",
-            function(value, element) {
-                if (input.value.trim()) {
-                    if (iti.isValidNumber()) {
-                        // $('#phnMsg').addClass('vald').removeClass('hide invald').text('Valid');
-                        $('#phnMsg').addClass('hide').removeClass('hide invald invald').text('');
-                        // element.value =iti.getNumber();
-                        return true;
-                    } else {
-                        var errorCode = iti.getValidationError();
-                        $('#phnMsg').addClass('invald').removeClass('hide vald').text(errorMap[errorCode]);
-                        return false;
-                    }
-                }
-            }
-        );
-    }
+    //     $.validator.addMethod(
+    //         "valid_phone",
+    //         function(value, element) {
+    //             if (input.value.trim()) {
+    //                 if (iti.isValidNumber()) {
+    //                     // $('#phnMsg').addClass('vald').removeClass('hide invald').text('Valid');
+    //                     $('#phnMsg').addClass('hide').removeClass('hide invald invald').text('');
+    //                     // element.value =iti.getNumber();
+    //                     return true;
+    //                 } else {
+    //                     var errorCode = iti.getValidationError();
+    //                     $('#phnMsg').addClass('invald').removeClass('hide vald').text(errorMap[errorCode]);
+    //                     return false;
+    //                 }
+    //             }
+    //         }
+    //     );
+    // }
 
     $.validator.addMethod("pwcheck", function(value, element) {
         if (!(/[a-z]/.test(value))) {
@@ -736,10 +736,17 @@ $(document).ready(function() {
             return false; // suppresses error message text
         }
     })
+    
+
     $('#frmContact').validate({
         rules: {
             name: {
                 required: true,
+                minlength: 2,
+                maxlength: 30,
+            },
+            phone: {
+                required: true
             },
             email: {
                 required: true,
@@ -750,13 +757,24 @@ $(document).ready(function() {
             },
             msg: {
                 required: true,
-                minlength: 2,
-            }
+            },
         },
-        errorPlacement: function() {
-            return false; // suppresses error message text
+        messages: {
+            name: {
+                minlength: "Name should contains atleast 2 letters.",
+                maxlength: "Name should not be greater than 30 letters.",
+            },
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), [ 'msg', 'name', 'phone', 'email','subject']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
         }
-    })
+    });
+
     $('#frmNewsletter').validate({
             rules: {
                 email: {
@@ -896,6 +914,7 @@ $(document).ready(function() {
 
     });
 
+/*--------------Contact Page -------------- */
 
 
 });

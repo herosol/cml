@@ -35,7 +35,7 @@ class Buyer extends MY_Controller
             $this->form_validation->set_rules('mem_city', 'Home Address city', 'trim|required');
             $this->form_validation->set_rules('mem_zip', 'Home Address zip', 'trim|required');
             $this->form_validation->set_rules('mem_address', 'Home Address', 'trim|required');
-            $this->form_validation->set_rules('mem_address_type', 'Home Address Type', 'required');
+            // $this->form_validation->set_rules('mem_address_type', 'Home Address Type', 'required');
 
 
             if ($this->form_validation->run() === FALSE)
