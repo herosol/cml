@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-md-12">
                             <label class="control-label"> Verified</label>
-                            <select name="mem_status" id="mem_status" class="form-control">
+                            <select name="mem_verified" id="mem_verified" class="form-control">
                                 <option value="1" <?php
                                     if (isset($row->mem_verified) && '1' == $row->mem_verified) {
                                     echo 'selected';
@@ -117,14 +117,16 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <label class="control-label">Email <span class="symbol required" style="color: red">*</span></label>
-                            <input type="text" name="mem_email" readonly value="<?php if (isset($row->mem_email)) echo $row->mem_email; ?>"  class="form-control" required>
+                            <input type="text" name="mem_email"
+                             <?php if (isset($row->mem_email)) { echo 'readonly';} ?>  
+                             value="<?php if (isset($row->mem_email)) echo $row->mem_email; ?>"  class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">Password <span class="symbol required" style="color: red">*</span></label>
-                            <?php if ($row->mem_pass): ?>
-                                <input type="text"  name="mem_pswd" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
+                            <?php if ($row->mem_pswd): ?>
+                                <input type="text"  name="mem_pswd" minlength="8" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
                             <?php else:?>    
-                                <input type="password"  name="mem_pswd" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
+                                <input type="password"  name="mem_pswd" minlength="8" value="<?php  if (isset($row->mem_pswd)) echo doDecode($row->mem_pswd);  ?>" class="form-control" autocomplete="off" placeholder="password" required="" >
                             <?php endif ?>
                         </div>
                     </div>
@@ -186,7 +188,7 @@
                     <div class="form-group">
                         <div class="col-md-4">
                             <label class="control-label"> Country</label>
-                            <select name="mem_business_country" id="mem_business_country" class="form-control ">
+                            <select name="mem_business_country" id="mem_business_country" class="form-control" onchange="fetchStates(this.value, 'mem_business_state')">
                                 <option value="0" selected="" readonly="">Country</option>
                                 <?php foreach (countries() as $country) : ?>
                                 <?php if (in_array($country->name, ['United Kingdom'])){ ?>
@@ -196,9 +198,9 @@
                         </div>
                         <div class="col-md-4">
                             <label class="control-label">State</label>
-                            <select name="mem_business_state" id="mem_business_state" class="form-control ">
+                            <select name="mem_business_state" id="mem_business_state" class="form-control" >
                                 <option value="0" selected="" readonly="">State</option>
-                                <?php foreach (states_by_country($row->mem_business_country) as $state) : ?>
+                                <?php foreach (states_by_country('232') as $state) : ?>
                                     <option value="<?= $state->id ?>" <?= $row->mem_business_state == $state->id ? 'selected' : '' ?>><?= $state->name ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -404,22 +406,22 @@
                             <input type="text" readonly name="mem_map_lng" id="mem_map_lng" value="<?php if (isset($row->mem_map_lng)) echo $row->mem_map_lng; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">Travel Distance </label>
-                            <input type="text" name="mem_travel_radius" value="<?php if (isset($row->mem_travel_radius)) echo $row->mem_travel_radius; ?>" class="form-control">
+                            <label class="control-label">Travel Distance (Miles)</label>
+                            <input type="number" step="0.1" name="mem_travel_radius" value="<?php if (isset($row->mem_travel_radius)) echo $row->mem_travel_radius; ?>" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <h3><i class="fa fa-bars"></i>Charges Information</h3>
                         <div class="col-md-4">
-                            <label class="control-label">Charges/Mile For Pickup & Drop Off </label>
+                            <label class="control-label">Charges/Mile For Pickup & Drop Off (£)</label>
                             <input type="number" step="0.01" name="mem_charges_per_miles" value="<?php if (isset($row->mem_charges_per_miles)) echo $row->mem_charges_per_miles; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">Free for over? </label>
+                            <label class="control-label">Free for over? (Miles)</label>
                             <input type="number" step="0.1" name="mem_charges_free_over" value="<?php if (isset($row->mem_charges_free_over)) echo $row->mem_charges_free_over; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">Min Order Value </label>
+                            <label class="control-label">Min Order Value (£)</label>
                             <input type="number" step="0.1" name="mem_charges_min_order" value="<?php if (isset($row->mem_charges_min_order)) echo $row->mem_charges_min_order; ?>" class="form-control">
                         </div>
                     </div>
@@ -445,7 +447,7 @@
             <h2 class="no-margin"><i class="entypo-users"></i> Manage <strong>Customers</strong></h2>
         </div>
         <div class="col-md-6 text-right">
-            <a href="<?= site_url(ADMIN . '/members/manage'); ?>" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i> Add New</a>
+            <a href="<?= site_url(ADMIN . '/vendors/manage'); ?>" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i> Add New</a>
         </div>
     </div>
     <table class="table table-bordered datatable" id="table-1">
@@ -455,7 +457,7 @@
                 <th width="10%">Photo</th>
                 <th width="20%">Name</th>
                 <th>Email</th>
-                <th>Phone</th>
+                <th>Company Name</th>
                 <th width="8%" class="text-center">Status</th>
                 <th width="12%" class="text-center">&nbsp;</th>
             </tr>
@@ -472,7 +474,7 @@
                 </td>
                 <td><b><?= $row->mem_fname . ' ' . $row->mem_lname; ?></b></td>
                 <td><?= $row->mem_email; ?></td>
-                <td><?= $row->mem_phone; ?></td>
+                <td><?= $row->mem_company_name; ?></td>
                 <td class="text-center"><?= getStatus($row->mem_status); ?></td>
                 <td class="text-center">
                     <div class="btn-group">
@@ -500,7 +502,6 @@
             jQuery("#wizard-picture").change(function(){
                 readURL(this);
             });
-            
         });
         const getFacilityHours = value => 
         {
@@ -520,7 +521,6 @@
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
         reader.onload = function (e) {
             jQuery('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
         }

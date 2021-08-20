@@ -30,6 +30,7 @@ class Vendors extends Admin_Controller {
 
             $this->form_validation->set_rules('mem_fname', 'First Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
             $this->form_validation->set_rules('mem_lname', 'Last Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'Last Name should contains only letters and avoid space.', 'min_length'=> 'Last Name should contains atleast 2 letters.', 'max_length'=> 'Last Name should not be greater than 20 letters.']);
+            $this->form_validation->set_rules('mem_email', 'Email', 'trim|required|valid_email');
             $this->form_validation->set_rules('mem_company_name', 'Company name', 'trim|required');
             $this->form_validation->set_rules('mem_company_email', 'Company email', 'trim|required|valid_email');
             $this->form_validation->set_rules('mem_company_phone', 'Company phone', 'trim|required');
@@ -88,9 +89,16 @@ class Vendors extends Admin_Controller {
                         redirect(ADMIN . '/vendors/manage/' . $this->uri->segment(4), 'refresh');
                     }
                 }
+
+                $rando = doEncode(rand(99, 999).'-'.$post['email']);
+                $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
+
+                $user_info['mem_type'] = 'vendor';
+                $user_info['mem_code'] = $rando;
                 $user_info['mem_fname'] = $vals['mem_fname'];
                 $user_info['mem_lname'] = $vals['mem_lname'];
                 $user_info['mem_pswd'] = $vals['mem_pswd'];
+                $user_info['mem_email'] = $vals['mem_email'];
                 $user_info['mem_company_name'] = $vals['mem_company_name'];
                 $user_info['mem_company_email']= $vals['mem_company_email'];
                 $user_info['mem_company_phone']= $vals['mem_company_phone'];
@@ -138,15 +146,15 @@ class Vendors extends Admin_Controller {
                     $facility_hours['mem_id'] = $mem_id;
                 }
 
-                $this->master->save('mem_facility_hours', $facility_hours, 'mem_id', $mem_id);
+                $this->master->save('mem_facility_hours', $facility_hours, 'mem_id', $this->uri->segment(4));
                 setMsg('success', 'Vendor has been saved successfully.');
                 redirect(ADMIN . '/vendors', 'refresh');
                     
             }
         }
 
-        $this->data['facility_hours'] = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->uri->segment('4')]);
         $this->data['row'] = $this->member->getMember($this->uri->segment('4'));
+        $this->data['facility_hours'] = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->uri->segment('4')]);
         $this->load->view(ADMIN . '/includes/siteMaster', $this->data);
     }
 
@@ -171,6 +179,7 @@ class Vendors extends Admin_Controller {
     {
         $this->remove_file($this->uri->segment(4));
         $this->member->delete($this->uri->segment('4'));
+        $this->master->delete('mem_facility_hours','mem_id',$this->uri->segment('4'));
         setMsg('success', 'Vendor has been deleted successfully.');
         redirect(ADMIN . '/vendors', 'refresh');
     }

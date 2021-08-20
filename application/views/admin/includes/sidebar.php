@@ -65,19 +65,19 @@
             </li>
             <li class=" <?= ($this->uri->segment(2) == 'vendors' || $this->uri->segment(2) == 'individuals') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
-                    <i class="fa fa-pagelines  "></i>
+                    <i class="fa fa-users"></i>
                     <span class="title">Manage Members</span>
                 </a>
                 <ul>
                     <li class=" <?= ($this->uri->segment(3) == 'vendors') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/vendors') ?>">
-                        <i class="fa fa-file"></i>
+                        <i class="fa fa-user"></i>
                             <span class="title">Vendors</span>
                         </a>
                     </li>
                     <li class=" <?= ($this->uri->segment(3) == 'individuals') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/individuals') ?>">
-                            <i class="entypo-doc-text  "></i>
+                            <i class="fa fa-user"></i>
                             <span class="title">Individuals </span>
                         </a>
                     </li>
