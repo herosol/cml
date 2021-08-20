@@ -796,7 +796,7 @@
                                                     <td><?=$row->name?></td>
                                                     <td><?=$row->service_name?></td>
                                                     <td id="item-qty-<?=$row->id?>">1</td>
-                                                    <td id="item-price-<?=$row->id?>">£<?=$row->price?></td>
+                                                    <td id="item-price-<?=$row->id?>">£<?=price_format($row->price)?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -805,31 +805,57 @@
                                 <div class="col col2">
                                     <table class="sm">
                                         <tbody>
-                                            <tr>
-                                                <th>Collection Date:</th>
-                                                <td><?=date_picker_format_date($selections['place-order']['collection_date'], 'D, d M Y')?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Collection Time:</th>
-                                                <td><?=$selections['place-order']['collection_time']?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Date:</th>
-                                                <td><?=date_picker_format_date($selections['place-order']['delivery_date'], 'D, d M Y')?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Delivery Time:</th>
-                                                <td><?=$selections['place-order']['delivery_time']?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <th colspan="2" id="drop-type"></th>
-                                            </tr>
+                                            <?php if($selections['place-order']['use_pickdrop'] == 'on'): ?>
+                                                <tr>
+                                                    <th>Collection Date:</th>
+                                                    <td><?=date_picker_format_date($selections['place-order']['collection_date'], 'D, d M Y')?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Collection Time:</th>
+                                                    <td><?=$selections['place-order']['collection_time']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Delivery Date:</th>
+                                                    <td><?=date_picker_format_date($selections['place-order']['delivery_date'], 'D, d M Y')?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Delivery Time:</th>
+                                                    <td><?=$selections['place-order']['delivery_time']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" id="drop-type"></th>
+                                                    <input type="hidden" name="drop_type" id="drop-type-value" value="">
+                                                </tr>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                        foreach(explode('@', $selections['place-order']['dropoffAddress']) as $val):
+                                                            echo $val;
+                                                            echo '<br>';
+                                                        endforeach;
+                                                        ?>
+                                                    </td>
+                                                    <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Drop Off Date:</th>
+                                                    <td><?=date_picker_format_date($selections['place-order']['delivery_date'], 'D, d M Y')?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Drop Off Time:</th>
+                                                    <td><?=$selections['place-order']['delivery_time']?></td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1077,6 +1103,10 @@
             const appendValueSelect = (obj, appendTo) => 
             {
                 let value = $(obj).find('option:selected').val();
+                if(appendTo == 'drop-type')
+                {
+                    $('#drop-type-value').val(value);
+                }
                 $('#' + appendTo).text($.trim(value));
             }
 

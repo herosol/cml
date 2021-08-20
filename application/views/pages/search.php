@@ -138,6 +138,7 @@
                                     </div>
                                 <?php endif; ?>
                                 <h6>Drop off</h6>
+                                <input type="hidden" name="dropoffAddress" value="<?= $vendor->mem_business_address.'@'.$vendor->mem_business_city.'@'.$vendor->mem_business_zip ?>" >
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">

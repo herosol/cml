@@ -63,8 +63,8 @@ class Booking extends MY_Controller
 
             $post = html_escape($this->input->post());
             $selections = $this->session->selections;
-            pr($post, false);
-            pr($selections);
+            // pr($post, false);
+            // pr($selections);
             $order = [];
             if(empty($this->session->mem_id))
             {
@@ -168,6 +168,13 @@ class Booking extends MY_Controller
                 $order['collection_or_delivery_notes'] = $post['collection_or_delivery_notes'];
                 $order['pick_and_drop_service'] = '1';
                 $order['pick_and_drop_charges'] = $vendor->mem_charges_per_miles*2;
+                $order['drop_type']       = $post['drop_type'];
+            }
+            else
+            {
+                $order['delivery_date']   = db_format_date($selections['place-order']['delivery_date']);
+                $order['delivery_time']   = $selections['place-order']['delivery_time'];
+                $order['address'] = $vendor->mem_business_city.'@'.$vendor->mem_business_address.'@'.$vendor->mem_business_zip;
             }
 
             $order['order_status'] = 'New';

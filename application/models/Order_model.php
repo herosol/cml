@@ -16,6 +16,7 @@ class Order_model extends CRUD_Model
         $this->db->select('o.*, m.mem_fname, m.mem_lname');
         $this->db->where(['o.vendor_id'=> $this->session->mem_id]);
         $this->db->group_by('o.order_id');
+        $this->db->order_by('o.order_id', 'DESC');
         return $this->db->get()->result();
     }
 

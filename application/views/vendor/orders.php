@@ -56,25 +56,50 @@
                                     <td>
                                         <table class="sm">
                                             <tbody>
-                                                <tr>
-                                                    <th>Collection Date:</th>
-                                                    <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></etd>
-                                                </tr>
-                                                <tr>
-                                                    <th>Collection Time:</th>
-                                                    <td><?=$order->collection_time?></etd>
-                                                </tr>
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Delivery Date:</th>
-                                                    <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></etd>
-                                                </tr>
-                                                <tr>
-                                                    <th>Delivery Time:</th>
-                                                    <td><?=$order->delivery_time?></etd>
-                                                </tr>
+                                                <?php if($order->pick_and_drop_service == '1'): ?>
+                                                    <tr>
+                                                        <th>Collection Date:</th>
+                                                        <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></etd>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Collection Time:</th>
+                                                        <td><?=$order->collection_time?></etd>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Delivery Date:</th>
+                                                        <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></etd>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Delivery Time:</th>
+                                                        <td><?=$order->delivery_time?></etd>
+                                                    </tr>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <th>Address</th>
+                                                        <td>
+                                                            <?php
+                                                            foreach(explode('@', $order->address) as $val):
+                                                                echo $val;
+                                                                echo '<br>';
+                                                            endforeach;
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Drop Off Date:</th>
+                                                        <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Drop Off Time:</th>
+                                                        <td><?=$order->delivery_time?></td>
+                                                    </tr>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                     </td>

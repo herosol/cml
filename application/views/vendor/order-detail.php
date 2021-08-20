@@ -63,12 +63,28 @@
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Collection Address</th>
-                                            </tr>
-                                            <tr>
-                                                <td><?=$order->collection_from?></td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Collection Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=$order->collection_from?></td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <th>Walk-in Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                            foreach(explode('@', $order->address) as $val):
+                                                                echo $val;
+                                                                echo '<br>';
+                                                            endforeach;
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -84,12 +100,21 @@
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Delivery Address</th>
-                                            </tr>
-                                            <tr>
-                                                <td><?=$order->delivery_to?></td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Delivery Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=$order->delivery_to?></td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <th>Customer Notes</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            <?php endif;?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -105,12 +130,14 @@
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Customer Notes</th>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Customer Notes</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -166,35 +193,48 @@
                         <div class="col col2">
                             <table class="sm">
                                 <tbody>
-                                    <tr>
-                                        <th>Collection Date:</th>
-                                        <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Collection Time:</th>
-                                        <td><?=$order->collection_time?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Delivery Date:</th>
-                                        <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Delivery Time:</th>
-                                        <td><?=$order->delivery_time?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">Driver drops, rings and waits</th>
-                                    </tr>
+                                    <?php if($order->pick_and_drop_service == '1'): ?>
+                                        <tr>
+                                            <th>Collection Date:</th>
+                                            <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Collection Time:</th>
+                                            <td><?=$order->collection_time?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Delivery Date:</th>
+                                            <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Delivery Time:</th>
+                                            <td><?=$order->delivery_time?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2"><?=$order->drop_type?></th>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <th>Drop Off Date:</th>
+                                            <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Drop Off Time:</th>
+                                            <td><?=$order->delivery_time?></td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div class="br"></div>
-                            <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
+                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
+                            <?php endif; ?>
                             <div class="bTn formBtn">
                                 <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
                             </div>
