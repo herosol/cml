@@ -296,9 +296,9 @@ function get_order_status($status)
     }
     elseif($status == 'Completed')
     {
-        return 'completed';
+        return 'delivered';
     }
-    elseif($status == 'cancelled')
+    elseif($status == 'Cancelled')
     {
         return 'cancelled';
     }

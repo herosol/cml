@@ -166,8 +166,8 @@ class Vendor extends MY_Controller
     public function order_detail($order_id)
     {
         $order_id = doDecode($order_id);
-        $this->data['order'] = $this->order_model->get_row($order_id);
-        $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id', $order_id]);
+        $this->data['order'] = $this->order_model->vendor_order_detail($order_id);
+        $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id]);
         // pr($this->data);
         $this->load->view('vendor/order-detail', $this->data);
     }

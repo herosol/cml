@@ -18,4 +18,13 @@ class Order_model extends CRUD_Model
         $this->db->group_by('o.order_id');
         return $this->db->get()->result();
     }
+
+    function vendor_order_detail($order_id)
+    {
+        $this->db->from($this->table_name.' o');
+        $this->db->join('members m', 'o.buyer_id=m.mem_id');
+        $this->db->select('o.*, m.mem_fname, m.mem_lname, m.mem_email, m.mem_phone');
+        $this->db->where(['o.order_id'=> $order_id]);
+        return $this->db->get()->row();
+    }
 }

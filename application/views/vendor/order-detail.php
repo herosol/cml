@@ -58,7 +58,7 @@
                                                 <th>Customer Name</th>
                                             </tr>
                                             <tr>
-                                                <td>Franc Mathurin</td>
+                                                <td><?=$order->mem_fname.' '.$order->mem_lname?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -67,7 +67,7 @@
                                                 <th>Collection Address</th>
                                             </tr>
                                             <tr>
-                                                <td>Scott H. Lewis, Director Hybrid House, LLC PO Box 48461.</td>
+                                                <td><?=$order->collection_from?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -79,7 +79,7 @@
                                                 <th>Customer Phone</th>
                                             </tr>
                                             <tr>
-                                                <td>+987542621475</td>
+                                                <td><?=$order->mem_phone?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -88,7 +88,7 @@
                                                 <th>Delivery Address</th>
                                             </tr>
                                             <tr>
-                                                <td>Scott H. Lewis, Director Hybrid House, LLC PO Box 48461.</td>
+                                                <td><?=$order->delivery_to?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -100,7 +100,7 @@
                                                 <th>Customer Email</th>
                                             </tr>
                                             <tr>
-                                                <td>johnwick87@gmail.com</td>
+                                                <td><?=$order->mem_email?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -109,7 +109,7 @@
                                                 <th>Customer Notes</th>
                                             </tr>
                                             <tr>
-                                                <td>Nulla iste hic voluptatem. Laborum eveniet cumque adipisci sint nisi totam aut velit, perferendis vitae accusamus.</td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -131,83 +131,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Shirt</td>
-                                        <td>Wash & Iron</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dress</td>
-                                        <td>Dry Cleaning</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trouser</td>
-                                        <td>Wash</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Outwear</td>
-                                        <td>Wash & Iron</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cardigan</td>
-                                        <td>Ironing</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shirt</td>
-                                        <td>Wash & Iron</td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Qty">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="" id="" class="txtBox" placeholder="Price">
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $services_total = 0;
+                                    foreach($order_detail as $key => $row):
+                                        $service = get_sub_service($row->sub_service_id, $order->vendor_id);
+                                        $services_total += $row->sub_service_price*$row->quantity;
+                                    ?>
+                                        <tr>
+                                            <td><?=$service->name?></td>
+                                            <td><?=$service->service_name?></td>
+                                            <td><?=$row->quantity?></td>
+                                            <td>£<?=price_format($row->sub_service_price)?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3" class="color">Pickup & Delivery Charges</td>
-                                        <td>£2.50</td>
+                                        <td colspan="3"></td>
+                                        <td class="color">£<?=price_format($services_total)?></td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="3">Minimum Order</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="color">Minimum Order Fee</td>
-                                        <td>£0.50</td>
-                                    </tr>
+                                    <?php if($order->pick_and_drop_service == '1'): ?>
+                                        <tr>
+                                            <td colspan="3" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                            <td>£<?=price_format($order->pick_and_drop_charges)?></td>
+                                        </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <th colspan="3" class="color">Estimated Total</th>
-                                        <th>£30.50</th>
+                                        <th>£<?=price_format($services_total+$order->pick_and_drop_charges)?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -217,22 +168,22 @@
                                 <tbody>
                                     <tr>
                                         <th>Collection Date:</th>
-                                        <td>Tue, 21 Jan 2021</td>
+                                        <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></td>
                                     </tr>
                                     <tr>
                                         <th>Collection Time:</th>
-                                        <td>11:00 am - 01:00 pm</td>
+                                        <td><?=$order->collection_time?></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <th>Delivery Date:</th>
-                                        <td>Wed, 21 Jan 2021</td>
+                                        <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
                                     </tr>
                                     <tr>
                                         <th>Delivery Time:</th>
-                                        <td>11:00 am - 01:00 pm</td>
+                                        <td><?=$order->delivery_time?></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;</td>
@@ -243,9 +194,9 @@
                                 </tbody>
                             </table>
                             <div class="br"></div>
-                            <div class="icon deliverIcon"><img src="<?= $base_url ?>images/vector-wait.svg" alt=""></div>
+                            <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
                             <div class="bTn formBtn">
-                                <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= $base_url ?>images/icon-price-list.svg" alt=""> Amend Invoice</button>
+                                <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
                             </div>
                             <div class="popup sm" data-popup="amend-invoice">
                                 <div class="tableDv">

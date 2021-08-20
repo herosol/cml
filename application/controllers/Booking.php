@@ -63,8 +63,8 @@ class Booking extends MY_Controller
 
             $post = html_escape($this->input->post());
             $selections = $this->session->selections;
-            // pr($post, false);
-            // pr($selections);
+            pr($post, false);
+            pr($selections);
             $order = [];
             if(empty($this->session->mem_id))
             {

@@ -3465,11 +3465,16 @@ video[poster] {
 
 /*_____ radioBtn _____*/
 
-.office-address-main, .home-address-main, .hotel-address-main{
-    display:none;
+.office-address-main,
+.home-address-main,
+.hotel-address-main {
+    display: none;
 }
-.office-address-main.show, .home-address-main.show, .hotel-address-main.show{
-    display:block;
+
+.office-address-main.show,
+.home-address-main.show,
+.hotel-address-main.show {
+    display: block;
 }
 
 .radioBtn {
@@ -5124,6 +5129,11 @@ aside~section>.contain-fluid {
 .jobBlk .webBtn.processed {
     background: #fbf0d4;
     color: #e8b736;
+}
+
+.jobBlk .webBtn.new {
+    background: #d4e9fb;
+    color: #367de8;
 }
 
 .jobBlk hr {
