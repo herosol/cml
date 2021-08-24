@@ -118,7 +118,8 @@
                                 <?php foreach (gender() as $val) : ?>
                                     <option value="<?= $val ?>" <?= $row->mem_sex == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
                                 <?php endforeach; ?>
-                            </select>                        </div>
+                            </select>                        
+                        </div>
                     </div>
                 </div>
                 <div class="row">
