@@ -195,6 +195,71 @@ class Booking extends MY_Controller
                 endforeach;
             }
 
+            // TOTAL PRICE OF ORDER
+            $total_order_price = $order['order_price'] + $order['pick_and_drop_charges'];
+
+            $payment_status = [];
+			if ($post['payment_type'] == 'credit-card') 
+            {
+				include_once APPPATH . "libraries/stripe/init.php";
+				\Stripe\Stripe::setApiKey(API_SECRET_KEY);
+				try {
+					if (!isset($post['nonce']))
+					    throw new Exception("The Stripe Token was not generated correctly");
+
+					$cents   = $total_order_price*100;
+					$charge = \Stripe\Charge::create([
+                        "amount"      => $cents,
+                        "currency"    => "gbp",
+                        "source"      => $post['nonce'],
+                        "description" => "Customer Charge",
+                        "statement_descriptor" => "Paid successfully"
+					]);
+				}
+                catch (Exception $e)
+                {
+					$res['msg']    = $e->getMessage();
+					$res['status'] = 0;
+					exit(json_encode($res));
+				}
+
+                $order_invoice = [];
+                $order_invoice['order_id']  = $order_id;
+                $order_invoice['charge_id'] = $charge['id'];
+                $this->master->save('order_invoices', $order_invoice);
+
+				$payment_status['paid_status'] = 'paid';
+			}
+            else
+            {
+				$payment_status['paid_status'] = 'pending';		
+			}
+
+            //UPDATE PAYMENT STATUS
+            $this->order_model->update($payment_status, ['order_id'=> $order_id]);
+
+			if ($order_id > 0)
+            {
+				if ($post['payment_type'] == 'credit-card') 
+                {
+					$res['msg'] = 'Your order has been completed successfully. We will contact you shortly.';
+					$res['status'] = 1;
+					$res['redirect_url'] = base_url('order_success/'.doEncode($order_id));
+				}
+                else
+                {
+					$res['msg'] = 'Your order has been completed successfully. Your are reditect to paypal for payment';
+					$res['status'] = 1;
+					$res['redirect_url'] = base_url('paypal/'.doEncode($order_id));
+				}
+			}
+            else
+            {
+				$res['status'] = 0;
+				$res['msg'] = 'Your order has not been completed successfully. Please try again';
+			}
+
+            exit(json_encode($res));
         }
 
 		if($data)
@@ -215,6 +280,18 @@ class Booking extends MY_Controller
 			show_404();
 		}
     }
+
+	function success($order_id)
+    {
+		setMsg('success','Your order has been placed successfully!');
+		$this->load->view('confirmation', $this->data);
+	}
+	
+	function cancel($order_id)
+    {
+		setMsg('success','Your order has not been placed successfully!');
+		$this->load->view('error', $this->data);
+	}
 
     function error()
     {

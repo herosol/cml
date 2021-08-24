@@ -226,21 +226,6 @@ $(function() {
         $("[inbox] .chatBlk").removeClass("active");
     });
 
-    /*_____ Form Button _____*/
-    $(".nextBtn").click(function() {
-        // fieldset
-        currStep = $(this).parents("fieldset");
-        nextStep = currStep.next("fieldset");
-        currStep.hide();
-        nextStep.fadeIn();
-    });
-    $(".prevBtn").click(function() {
-        // fieldset
-        currStep = $(this).parents("fieldset");
-        prevStep = currStep.prev("fieldset");
-        currStep.hide();
-        prevStep.fadeIn();
-    });
 
 
 

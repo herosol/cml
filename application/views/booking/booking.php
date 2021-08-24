@@ -87,7 +87,9 @@
                         </div>
                     </li>
                 </ul>
-                <form action="" method="post" id="placeOrderForm" class="frmAjax">
+
+                <div class="alertMsg alert alert-danger alert-sm text-white" style="display:none"></div>
+                <form action="" method="post" id="payment-form" class="">
                     <fieldset>
                         <h3 class="heading"><?= $content['step1_heading'] ?></h3>
                         <ul class="stepLst flex text-center">
@@ -313,7 +315,7 @@
                         </div>
                         <div class="bTn formBtn text-center">
                             <button type="button" class="webBtn labelBtn prevBtn">Back</button>
-                            <button type="button" class="webBtn nextBtn">Continue</button>
+                            <button type="button" class="webBtn nextBtn 1-step">Continue</button>
                         </div>
                     </fieldset>
                     <?php if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'): ?>
@@ -386,7 +388,7 @@
                             </div>
                             <div class="bTn formBtn text-center">
                                 <button type="button" class="webBtn labelBtn prevBtn">Back</button>
-                                <button type="button" class="webBtn nextBtn">Continue</button>
+                                <button type="button" class="webBtn nextBtn 2-step">Continue</button>
                             </div>
                         </fieldset>
                     <?php endif; ?>
@@ -698,7 +700,7 @@
                         </div>
                         <div class="bTn formBtn text-center">
                             <button type="button" class="webBtn labelBtn prevBtn">Back</button>
-                            <button type="button" class="webBtn nextBtn">Continue</button>
+                            <button type="button" class="webBtn nextBtn 3-step">Continue</button>
                         </div>
                     </fieldset>
                     <fieldset>
@@ -866,27 +868,27 @@
                                 <p>All transactions are secure and encrypted.</p>
                                 <div data-payment>
                                     <div class="lblBtn">
-                                        <input type="radio" name="payment" id="credit" class="tglBlk" value="credit-card" checked="">
+                                        <input type="radio" name="payment_type" id="credit" class="tglBlk" value="credit-card" checked="">
                                         <label for="credit">Credit card</label>
                                     </div>
                                     <div class="insideBlk active">
                                         <div class="row formRow">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
-                                                    <label for="">Card Number</label>
-                                                    <input type="text" name="" id="" class="txtBox">
+                                                    <label for="cardnumber">Card Number</label>
+                                                    <input type="text" name="cardnumber" id="cardnumber" class="txtBox">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
-                                                    <label for="">Card Holder</label>
-                                                    <input type="text" name="" id="" class="txtBox">
+                                                    <label for="card_holder_name">Card Holder</label>
+                                                    <input type="text" name="card_holder_name" id="card_holder_name" class="txtBox">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                                 <div class="txtGrp">
-                                                    <label for="" class="move">Month</label>
-                                                    <select name="" id="" class="txtBox">
+                                                    <label for="exp_month" class="move">Month</label>
+                                                    <select name="exp_month" id="exp_month" class="txtBox">
                                                         <option value="">Select</option>
                                                         <option value="01">01</option>
                                                         <option value="02">02</option>
@@ -905,8 +907,8 @@
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                                 <div class="txtGrp">
-                                                    <label for="" class="move">Year</label>
-                                                    <select name="" id="" class="txtBox">
+                                                    <label for="exp_year" class="move">Year</label>
+                                                    <select name="exp_year" id="exp_year" class="txtBox">
                                                         <option value="">Select</option>
                                                         <option value="2021">2021</option>
                                                         <option value="2022">2022</option>
@@ -924,22 +926,16 @@
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                                 <div class="txtGrp">
-                                                    <label for="">CVC?</label>
-                                                    <input type="text" name="" id="" class="txtBox">
+                                                    <label for="cvc">CVC?</label>
+                                                    <input type="text" name="cvc" id="cvc" class="txtBox">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="lblBtn">
-                                        <input type="radio" name="payment" id="paypal" class="tglBlk" value="paypal">
+                                        <input type="radio" name="payment_type" id="paypal" class="tglBlk" value="paypal">
                                         <label for="paypal">Paypal</label>
-                                    </div>
-                                    <div class="insideBlk">
-                                        <div class="txtGrp">
-                                            <label for="">PayPal Address</label>
-                                            <input type="email" name="" id="" class="txtBox">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -980,233 +976,385 @@
         </section>
         <!-- booking -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
+        <script src="https://js.stripe.com/v2/"></script>
         <script>
-            $(document).on("click", ".actBtn", function() {
-                let selectedArea = $('#selected_services');
-                let item_preview_area = $('#item_preview_area');
-                $('.alertMsg').hide();
-                if ($(this).hasClass("addBtn"))
-                {
-                    if($(this).hasClass('left'))
-                    {
-                        selectedArea.prepend(`<tr data-id="${$(this).data('subservice-id')}">
-                                                    <td>${$(this).data('name')}</td>
-                                                    <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
-                                                    <td>
-                                                        <div class="qtyBtn">
-                                                            <a class="qtyMinus"></a>
-                                                            <input type="text" name="qty[]" value="1" class="qty" data-price="${$(this).data('price')}" data-id="${$(this).data('subservice-id')}" readonly>
-                                                            <a class="qtyPlus"></a>
-                                                        </div>
-                                                    </td>
-                                                    <td id="price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
-                                                </tr>`);
-                        item_preview_area.prepend(`<tr id="preview-item-${$(this).data('subservice-id')}">
-                                                    <td>${$(this).data('name')}</td>
-                                                    <td>${$(this).data('service')}</td>
-                                                    <td id="item-qty-${$(this).data('subservice-id')}">1</td>
-                                                    <td id="item-price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
-                                                </tr>`);
+
+        $(document).on('submit','#payment-form',function(e){ 
+            e.preventDefault();
+            if ($('input[name="payment_type"]:checked').val() == 'paypal') {
+                    needToConfirm = true;
+                    let sbtn = $('#payment-form').find("button[type='submit']");
+                    sbtn.attr('disabled', true);
+                    $(this).find('button[type="submit"] i.spinner').removeClass('hidden');
+                    let form$ = $("#payment-form");
+                    let frmIcon = form$.find("button[type='submit'] i.spinner");
+                    let frmData = new FormData(form$[0]);
+                    let frmMsg = form$.find("div.alertMsg:first");
+                    sbtn.attr("disabled", true);
+                    $.ajax({
+                        url: form$.attr('action'),
+                        data: frmData,
+                        dataType: 'JSON',
+                        method: 'POST',
+                        processData: false,
+                        contentType: false,
+                        success: function(rs) {
+                            $("html, body").animate({
+                                scrollTop: 100
+                            }, "slow");
+                            frmMsg.html(rs.msg).slideDown(500);
+                            if (rs.status == 1) {
+                                toastr.success(rs.msg,"Success");
+                                setTimeout(function() {
+                                    frmIcon.addClass("hidden");
+                                    form$[0].reset();
+                                    window.location.href = rs.redirect_url;
+                                }, 3000);
+                            } else {
+                                toastr.error(rs.msg,"Error");
+                                setTimeout(function() {
+                                    frmIcon.addClass("hidden");
+                                    sbtn.attr("disabled", false);
+                                }, 3000);
+                            }
+                        },
+                        error: function(rs) {
+                            // console.log(rs);
+                            sbtn.attr("disabled", false);
+                            toastr.error('Please try again or refresh your page.Error occur due to sever response!',"Error");
+                        },
+                        complete: function(rs) {
+                            needToConfirm = false;
+                        }
+                    });
+                }
+                else if ($('input[name="payment_type"]:checked').val() == 'credit-card')
+                {    
+                    $('button[type="submit"]').prop('disabled',true);
+                    $('.spin').removeClass('hidden');
+                    object = $(this);
+                    Stripe.card.createToken({
+                        number: $('#cardnumber').val(),
+                        cvc: $('#cvc').val(),
+                        exp_month: $('#exp_month').val(),
+                        exp_year: $('#exp_year').val(),
+                        name: $('#card_holder_name').val()
+                
+                }, stripeResponseHandler);
+                return false; 
+                }
+        })
+        Stripe.setPublishableKey('<?= API_PUBLIC_KEY; ?>');
+        function stripeResponseHandler(status, response) {
+                let form$ = $("#payment-form");
+                let sbtn = form$.find("button[type='submit']");
+                let frmIcon = form$.find("button[type='submit'] i.spinner");
+            if (response.error) {
+                console.log(response.error.message)
+                toastr.error('<strong>Error:</strong> ' + response.error.message + '',"Error");
+                $('button[type="submit"]').prop('disabled',false);
+                $('.spin').addClass('hidden');
+            } 
+            else {
+                let nonce   = response['id'];
+                let frmData = new FormData(form$[0]);
+                let frmMsg  = form$.find("div.alertMsg:first");
+                frmData.append('nonce', nonce);
+                
+                object.append("<input type='hidden' name='nonce' value='" + nonce + "' />");
+                console.log(nonce);
+                $('.card_payment').prop('disabled',true);
+                $('.card_payment').parent().hide();
+                $.ajax({
+                    url: form$.attr('action'),
+                    data:object.serialize(),
+                    dataType:'JSON',
+                    method:'POST',
+                    error:function(er){
+                        toastr.error('<div>Please try again or refresh your page.Error occur due to sever response!</div>',"Error");
+                    },
+                    success:function(rs){
+                        if(rs.scroll_top)
+                            $("html, body").animate({ scrollTop: 0 }, "slow");
+                        if (rs.status == 1) {
+                            toastr.success(rs.msg,"Success");
+                            setTimeout(function () {
+                            if(rs.hide_msg)
+                                $('.alertMsg').slideUp(500);
+                            if(rs.redirect_url)
+                                window.location.href = rs.redirect_url;   
+                            },3000)
+                        }
+                        else{
+                            toastr.error(rs.msg,"Error");
+                        }
+                    },
+                    complete:function(){
+                        $('button[type="submit"]').prop('disabled',false);
+                        $('.spin').addClass('hidden');
                     }
-                    $(this).removeClass("addBtn").addClass("delBtn");
+                })
+            }
+        }
+
+        $(document).on("click", ".actBtn", function() {
+            let selectedArea = $('#selected_services');
+            let item_preview_area = $('#item_preview_area');
+            $('.alertMsg').hide();
+            if ($(this).hasClass("addBtn"))
+            {
+                if($(this).hasClass('left'))
+                {
+                    selectedArea.prepend(`<tr data-id="${$(this).data('subservice-id')}">
+                                                <td>${$(this).data('name')}</td>
+                                                <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
+                                                <td>
+                                                    <div class="qtyBtn">
+                                                        <a class="qtyMinus"></a>
+                                                        <input type="text" name="qty[]" value="1" class="qty" data-price="${$(this).data('price')}" data-id="${$(this).data('subservice-id')}" readonly>
+                                                        <a class="qtyPlus"></a>
+                                                    </div>
+                                                </td>
+                                                <td id="price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
+                                            </tr>`);
+                    item_preview_area.prepend(`<tr id="preview-item-${$(this).data('subservice-id')}">
+                                                <td>${$(this).data('name')}</td>
+                                                <td>${$(this).data('service')}</td>
+                                                <td id="item-qty-${$(this).data('subservice-id')}">1</td>
+                                                <td id="item-price-${$(this).data('subservice-id')}">£${$(this).data('price')}</td>
+                                            </tr>`);
+                }
+                $(this).removeClass("addBtn").addClass("delBtn");
+            }
+            else
+            {
+                if($(this).hasClass('right'))
+                {
+                    $("td button").filter("[data-subservice-id='" + $(this).data('subservice-id') + "']").removeClass('delBtn').addClass('addBtn');
+                    $(this).parent().parent().remove();
                 }
                 else
                 {
-                    if($(this).hasClass('right'))
-                    {
-                        $("td button").filter("[data-subservice-id='" + $(this).data('subservice-id') + "']").removeClass('delBtn').addClass('addBtn');
-                        $(this).parent().parent().remove();
-                    }
-                    else
-                    {
-                        $("tr").filter("[data-id='" + $(this).data('subservice-id') + "']").remove();
-                        $('#preview-item-' + $(this).data('subservice-id')).remove();
-                        $(this).removeClass("delBtn").addClass("addBtn");
-                    }
-                    
+                    $("tr").filter("[data-id='" + $(this).data('subservice-id') + "']").remove();
+                    $('#preview-item-' + $(this).data('subservice-id')).remove();
+                    $(this).removeClass("delBtn").addClass("addBtn");
                 }
-            });
-
-            // This button will increment the value
-            $(document).on("click", ".qtyPlus", function(e) {
-                e.preventDefault();
-
-                var parent = $(this).parent().children(".qty");
-                var currentVal = parent.val();
-                var price = parent.data('price');
-                var service_id = parent.data('id');
                 
-                if (!isNaN(currentVal)) {
-                    let incrementedVal = parseInt(currentVal) + 1; 
-                    parent.val(incrementedVal);
-                    $('#price-' + service_id).text(`£${price*incrementedVal}`);
-                    $('#item-qty-' + service_id).text(`${incrementedVal}`);
-                    $('#item-price-' + service_id).text(`£${price*incrementedVal}`);
+            }
+        });
+
+        // This button will increment the value
+        $(document).on("click", ".qtyPlus", function(e) {
+            e.preventDefault();
+
+            var parent = $(this).parent().children(".qty");
+            var currentVal = parent.val();
+            var price = parent.data('price');
+            var service_id = parent.data('id');
+            
+            if (!isNaN(currentVal)) {
+                let incrementedVal = parseInt(currentVal) + 1; 
+                parent.val(incrementedVal);
+                $('#price-' + service_id).text(`£${price*incrementedVal}`);
+                $('#item-qty-' + service_id).text(`${incrementedVal}`);
+                $('#item-price-' + service_id).text(`£${price*incrementedVal}`);
+            } else {
+                parent.val(1);
+                $('#price-' + service_id).text(`£${price*1}`);
+                $('#item-qty-' + service_id).text(1);
+                $('#item-price-' + service_id).text(`£${price*1}`);
+            }
+        });
+        // This button will decrement the value till 0
+        $(document).on("click", ".qtyMinus", function(e) {
+            e.preventDefault();
+            var parent = $(this).parent().children(".qty");
+            var currentVal = parent.val();
+            var price = parent.data('price');
+            var service_id = parent.data('id');
+
+            if (!isNaN(currentVal) && currentVal > 1) {
+                let decrementedVal = parseInt(currentVal) - 1; 
+                parent.val(decrementedVal);
+                $('#price-' + service_id).text(`£${price*decrementedVal}`);
+                $('#item-qty-' + service_id).text(`${decrementedVal}`);
+                $('#item-price-' + service_id).text(`£${price*decrementedVal}`);
+            } else {
+                parent.val(1);
+                $('#price-' + service_id).text(`£${price*1}`);
+                $('#item-qty-' + service_id).text(1);
+                $('#item-price-' + service_id).text(`£${price*1}`);
+            }
+        });
+
+        /// APPENDING TO FIELDS
+        const appendName = () => 
+        {
+            let fname = $.trim($('#mem_fname').val());
+            let lname = $.trim($('#mem_lname').val());
+            $('#customer-name').text(fname +' '+ lname);
+
+        }
+
+        const appendCollectionDeliveryAddress = () =>
+        {
+            let city = $('#address_city').val();
+            let zip  = $('#address_zip').val();
+            let address = $('#address_field').val();
+            let type = $("input[name='address_type']:checked"). val();
+            if(type != undefined && type != '')
+            {
+                type = ucfirst(type, false);
+            }
+
+            $('#collection-address').text(`${type}: ${city} - ${address} - ${zip}`);
+            $('#delivery-address').text(`${type}: ${city} - ${address} - ${zip}`);
+        }
+
+        const appendValue = (value, appendTo) => 
+        {
+            $('#' + appendTo).text($.trim(value));
+        }
+
+        const appendValueSelect = (obj, appendTo) => 
+        {
+            let value = $(obj).find('option:selected').val();
+            if(appendTo == 'drop-type')
+            {
+                $('#drop-type-value').val(value);
+            }
+            $('#' + appendTo).text($.trim(value));
+        }
+
+        /// MAP FUNCTION
+        var map, bounds, startLat = "", startLng = "";
+        var startLatLng = new google.maps.LatLng(startLat, startLng);
+        var image = {
+            url: base_url + "assets/images/marker.png", // url
+            scaledSize: new google.maps.Size(40, 40), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(25, 50) // anchor
+        };
+
+        const setAddress = obj => 
+        {
+            obj = $(obj);
+            let option = obj.find('option:selected'); 
+            let value  = option.val();
+            let startLat    = option.data('lat');
+            let startLng    = option.data('long');
+            let full_address= option.data('full-address');
+            $('#collection-address').text(full_address);
+            $('#delivery-address').text(full_address);
+            $('#address_type_' + value).prop('checked', true);
+            $('#map-area').removeClass('hidden');
+            startLatLng = new google.maps.LatLng(startLat, startLng);
+            init();
+        }
+
+        const getLocationAndInitMap = value => 
+        {
+            value = $.trim(value);
+            $('#invalid_zip').html('');
+            if($.trim(value).length == 0)
+                return false;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+            { 
+            componentRestrictions: { 
+                country: 'gb', 
+                postalCode: value
+            } 
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                    $('#mem_map_lat').val(latitude);
+                    $('#mem_map_lng').val(longitude);
+                    startLat = latitude;
+                    startLng = longitude;
+                    $('#map-area').removeClass('hidden');
+                    startLatLng = new google.maps.LatLng(startLat, startLng);
+                    init();
                 } else {
-                    parent.val(1);
-                    $('#price-' + service_id).text(`£${price*1}`);
-                    $('#item-qty-' + service_id).text(1);
-                    $('#item-price-' + service_id).text(`£${price*1}`);
+                    $('#invalid_zip').html('Please enter valid zipcode.');
+                    $('#map-area').addClass('hidden');
                 }
             });
-            // This button will decrement the value till 0
-            $(document).on("click", ".qtyMinus", function(e) {
-                e.preventDefault();
-                var parent = $(this).parent().children(".qty");
-                var currentVal = parent.val();
-                var price = parent.data('price');
-                var service_id = parent.data('id');
+        }
 
-                if (!isNaN(currentVal) && currentVal > 1) {
-                    let decrementedVal = parseInt(currentVal) - 1; 
-                    parent.val(decrementedVal);
-                    $('#price-' + service_id).text(`£${price*decrementedVal}`);
-                    $('#item-qty-' + service_id).text(`${decrementedVal}`);
-                    $('#item-price-' + service_id).text(`£${price*decrementedVal}`);
-                } else {
-                    parent.val(1);
-                    $('#price-' + service_id).text(`£${price*1}`);
-                    $('#item-qty-' + service_id).text(1);
-                    $('#item-price-' + service_id).text(`£${price*1}`);
-                }
+        function init() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), {
+                center: startLatLng,
+                zoom: 18
             });
-
-            /// APPENDING TO FIELDS
-            const appendName = () => 
-            {
-                let fname = $.trim($('#mem_fname').val());
-                let lname = $.trim($('#mem_lname').val());
-                $('#customer-name').text(fname +' '+ lname);
-
-            }
-
-            const appendCollectionDeliveryAddress = () =>
-            {
-                let city = $('#address_city').val();
-                let zip  = $('#address_zip').val();
-                let address = $('#address_field').val();
-                let type = $("input[name='address_type']:checked"). val();
-                if(type != undefined && type != '')
-                {
-                    type = ucfirst(type, false);
-                }
-
-                $('#collection-address').text(`${type}: ${city} - ${address} - ${zip}`);
-                $('#delivery-address').text(`${type}: ${city} - ${address} - ${zip}`);
-            }
-
-            const appendValue = (value, appendTo) => 
-            {
-                $('#' + appendTo).text($.trim(value));
-            }
-
-            const appendValueSelect = (obj, appendTo) => 
-            {
-                let value = $(obj).find('option:selected').val();
-                if(appendTo == 'drop-type')
-                {
-                    $('#drop-type-value').val(value);
-                }
-                $('#' + appendTo).text($.trim(value));
-            }
-
-            /// MAP FUNCTION
-            var map, bounds, startLat = "", startLng = "";
-            var startLatLng = new google.maps.LatLng(startLat, startLng);
-            var image = {
-                url: base_url + "assets/images/marker.png", // url
-                scaledSize: new google.maps.Size(40, 40), // scaled size
+            bounds = new google.maps.LatLngBounds();
+            var user_icon = {
+                url: base_url + "assets/images/user_marker.png", // url
+                scaledSize: new google.maps.Size(50, 50), // scaled size
                 origin: new google.maps.Point(0, 0), // origin
                 anchor: new google.maps.Point(25, 50) // anchor
             };
+            searchAreaMarker = new google.maps.Marker({
+                position: startLatLng,
+                map: map,
+                draggable: false,
+                icon: user_icon,
+                animation: google.maps.Animation.DROP,
+                title: 'My Location'
+            });
+        }
 
-            const setAddress = obj => 
-            {
-                obj = $(obj);
-                let option = obj.find('option:selected'); 
-                let value  = option.val();
-                let startLat    = option.data('lat');
-                let startLng    = option.data('long');
-                let full_address= option.data('full-address');
-                $('#collection-address').text(full_address);
-                $('#delivery-address').text(full_address);
-                $('#address_type_' + value).prop('checked', true);
-                $('#map-area').removeClass('hidden');
-                startLatLng = new google.maps.LatLng(startLat, startLng);
-                init();
-            }
-
-            const getLocationAndInitMap = value => 
-            {
-                value = $.trim(value);
-                $('#invalid_zip').html('');
-                if($.trim(value).length == 0)
-                    return false;
-
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode(
-                { 
-                componentRestrictions: { 
-                    country: 'gb', 
-                    postalCode: value
-                } 
-                }, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        latitude = results[0].geometry.location.lat();
-                        longitude = results[0].geometry.location.lng();
-                        $('#mem_map_lat').val(latitude);
-                        $('#mem_map_lng').val(longitude);
-                        startLat = latitude;
-                        startLng = longitude;
-                        $('#map-area').removeClass('hidden');
-                        startLatLng = new google.maps.LatLng(startLat, startLng);
-                        init();
-                    } else {
-                        $('#invalid_zip').html('Please enter valid zipcode.');
-                        $('#map-area').addClass('hidden');
-                    }
-                });
-            }
-
-            function init() {
-                map = new google.maps.Map(document.getElementById('map-canvas'), {
-                    center: startLatLng,
-                    zoom: 18
-                });
-                bounds = new google.maps.LatLngBounds();
-                var user_icon = {
-                    url: base_url + "assets/images/user_marker.png", // url
-                    scaledSize: new google.maps.Size(50, 50), // scaled size
-                    origin: new google.maps.Point(0, 0), // origin
-                    anchor: new google.maps.Point(25, 50) // anchor
-                };
-                searchAreaMarker = new google.maps.Marker({
-                    position: startLatLng,
-                    map: map,
-                    draggable: false,
-                    icon: user_icon,
-                    animation: google.maps.Animation.DROP,
-                    title: 'My Location'
-                });
-            }
-
-            function closeInfos() {
-                if (infowindows.length > 0) {
-                    for (var i = 0; i < infowindows.length; i++)
-                    {
-                        infowindows[i].close();
-                    }
+        function closeInfos() {
+            if (infowindows.length > 0) {
+                for (var i = 0; i < infowindows.length; i++)
+                {
+                    infowindows[i].close();
                 }
             }
+        }
 
-            function closeMarks() {
-                if (markers.length > 0) {
-                    for (var i = 0; i < markers.length; i++)
-                    {
-                        markers[i].setMap(null);
-                    }
+        function closeMarks() {
+            if (markers.length > 0) {
+                for (var i = 0; i < markers.length; i++)
+                {
+                    markers[i].setMap(null);
                 }
             }
+        }
+
+        $(function() {
+            $(".nextBtn").click(function()
+            {
+                // currBtn  = $(this);
+                // if(currBtn.hasClass('1-step'))
+                // {
+                //     if($('#account-info').length > 0)
+                //     {
+                //         let mem_fname = $('#mem_fname');
+                //         let mem_lname = $('#mem_lname');
+                //         let mem_phone = $('#mem_phone');
+                //         let mem_email = $('#mem_email');
+                //         let password  = $('#password');
+                //         let cpassword = $('#cpassword');
+
+                //         mem_fname.rules('add', {required: true});
+                //         return false;
+                //     }
+                // }
+                currStep = $(this).parents("fieldset");
+                nextStep = currStep.next("fieldset");
+                currStep.hide();
+                nextStep.fadeIn();
+            });
+            $(".prevBtn").click(function() {
+                currStep = $(this).parents("fieldset");
+                prevStep = currStep.prev("fieldset");
+                currStep.hide();
+                prevStep.fadeIn();
+            });
+        });
         </script>
     </main>
     <?php $this->load->view('includes/footer');?>

@@ -154,9 +154,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bTn">
-                                    <button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i>Place Order</button>
-                                </div>
+                                <?php if(empty($this->session->mem_id)): ?>
+                                    <div class="bTn">
+                                        <button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i>Place Order</button>
+                                    </div>
+                                <?php
+                                else:
+                                    if($this->session->mem_type == 'buyer'):
+                                ?>
+                                    <div class="bTn">
+                                        <button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i>Place Order</button>
+                                    </div>
+                                <?php
+                                    endif;
+                                endif; ?>
                                 <br>
                                 <div class="alertMsg" style="display:none"></div>
                             </div>
@@ -166,116 +177,6 @@
                         </div>
                     </div>
                 </form>
-                
-                <div class="srchBlk hidden">
-                    <div class="inside">
-                        <div class="icoBlk">
-                            <div class="icon"><img src="<?= base_url() ?>assets/images/iron_logo2.svg" alt=""></div>
-                            <h6>Laundry Heap</h6>
-                            <div class="rateYo"></div>
-                            <small>0.43 Miles Away</small>
-                        </div>
-                        <div class="txt">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Services</th>
-                                        <th width="5%">Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Wash & Dry</td>
-                                        <td>£2.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Iron Only</td>
-                                        <td>£5.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dry Clean</td>
-                                        <td>£3.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Delicate Shirt on Hanger</td>
-                                        <td>£2.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jumper</td>
-                                        <td>£2.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>T-shirt Folded</td>
-                                        <td>£1.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Polo on Hanger</td>
-                                        <td>£1.50</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Minimum Order</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="color">Minimum Order Fee</td>
-                                        <td>£0.50</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="color">Estimated Total</th>
-                                        <th>£30.50</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="side">
-                            <form action="booking.php" method="post">
-                                <div class="txtGrp">
-                                    <p>Tip Top Drycleaners <br> 21 Frask Street <br> London <br> SE5 8EZ</p>
-                                </div>
-                                <h6>Drop off any time between</h6>
-                                <div class="formRow row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="">Date</label>
-                                            <input type="text" name="" id="" class="txtBox datepicker">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
-                                        <div class="txtGrp">
-                                            <label for="" class="move">Time</label>
-                                            <select name="" id="" class="txtBox">
-                                                <option value="">Select</option>
-                                                <option value="">13:00 - 16:00</option>
-                                                <option value="">14:00 - 17:00</option>
-                                                <option value="">17:00 - 20:00</option>
-                                                <option value="">18:00 - 21:00</option>
-                                                <option value="">19:00 - 22:00</option>
-                                                <option value="">13:00 - 15:00</option>
-                                                <option value="">14:00 - 16:00</option>
-                                                <option value="">15:00 - 17:00</option>
-                                                <option value="">17:00 - 19:00</option>
-                                                <option value="">18:00 - 20:00</option>
-                                                <option value="">19:00 - 21:00</option>
-                                                <option value="">20:00 - 22:00</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="bTn">
-                                    <button type="submit" class="webBtn blockBtn">Place Order</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="btm">
-                        <small class="red-color">Disclaimer: Price shown is the estimated cost I Hate Ironing has a minimum order value of $20 | $5 no show/cancellation fee.</small>
-                        <!-- <div class="bTn"><a href="?" class="webBtn smBtn lightBtn">Current Vendor Deals</a></div> -->
-                    </div>
-                </div>
             </div>
         </section>
         <!-- srch -->

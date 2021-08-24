@@ -30,6 +30,7 @@
         <section id="query">
             <div class="contain">
                 <div class="inBlk">
+                    <?php echo showMsg(); ?>
                     <form action="" >
                         <div class="flexBox">
                             <div class="txtGrp">

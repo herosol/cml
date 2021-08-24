@@ -5,6 +5,7 @@ class Pages extends MY_Controller
     {
         parent::__construct();
         $this->load->model('Pages_model','page');
+        $this->load->model('order_model');
     }
     
     function promotions()
@@ -103,42 +104,6 @@ class Pages extends MY_Controller
         }
     }
 
-    // function paypal($encoded_id){
-    //     $this->load->library('Paypal_lib');
-    //     $id = intval(doDecode($encoded_id));
-    //     $row = $this->master->getRow('orders',array('id'=>$id));
-    //     // pr($row);
-    //     if($row){
-    //         $this->data['post'] = array(
-    //             "item_name" => "Paypal Payment",
-    //             "currency" => "USD",
-    //             "amount" => $row->total_price,
-    //             "custom" => $id
-    //         );
-    //         // pr($this->data['post']);
-    //         $notify_url = site_url('order-notify') ;
-    //         $this->data['setting']=array(
-    //             "website_name" => "".$this->data['site_settings']->site_name."",
-    //             "url" => "". base_url()."",
-    //             "notify_url" =>"".$notify_url."",
-    //             "return_url" => "".base_url()."success/".$encoded_id,
-    //             "cancel_url" => "".base_url()."cancel/".$encoded_id,
-    //         );
-            
-    //         if($this->data['site_settings']->site_paypal_environment):
-    //             $this->data['setting']["sandbox"] = true;
-    //             $this->data['setting']["sandbox_paypal"] = $this->data['site_settings']->site_sandbox_paypal;
-    //         else:
-    //             $this->data['setting']["live_paypal"] = $this->data['site_settings']->site_live_paypal;
-    //         endif;  
-    //         // pr($this->data);
-	// 	// die('here');
-    //         $this->load->view("includes/processing", $this->data);
-    //     }
-    //     else
-    //     exit('Access Denied!');
-    // }
-
     function terms_conditions()
     {
         $meta = $this->page->getMetaContent('terms_conditions');
@@ -169,6 +134,43 @@ class Pages extends MY_Controller
         }else{
             show_404();
         }
+    }
+
+    function paypal($order_id)
+    {
+        $this->load->library('Paypal_lib');
+        $order_id = intval(doDecode($order_id));
+        $row = $this->order_model->get_row($order_id);
+        // pr($row);
+        if($row)
+        {
+            $this->data['post'] = array(
+                "item_name" => "Paypal Payment",
+                "currency" => "GBP",
+                "amount" => $row->order_price + $row->pick_and_drop_charges,
+                "custom" => $order_id
+            );
+            $notify_url = site_url('order-notify');
+
+            $this->data['setting']=array(
+                "website_name" => "".$this->data['site_settings']->site_name."",
+                "url" => "". base_url()."",
+                "notify_url" =>"".$notify_url."",
+                "return_url" => "".base_url()."success/".$order_id,
+                "cancel_url" => "".base_url()."cancel/".$order_id,
+            );
+            
+            if($this->data['site_settings']->site_paypal_environment):
+                $this->data['setting']["sandbox"] = true;
+                $this->data['setting']["sandbox_paypal"] = $this->data['site_settings']->site_sandbox_paypal;
+            else:
+                $this->data['setting']["live_paypal"] = $this->data['site_settings']->site_live_paypal;
+            endif;  
+            // pr($this->data);
+            $this->load->view("includes/processing", $this->data);
+        }
+        else
+            exit('Access Denied!');
     }
 
     function error()

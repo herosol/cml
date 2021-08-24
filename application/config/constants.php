@@ -90,3 +90,12 @@ defined('UPLOAD_PATH') OR define('UPLOAD_PATH','./uploads/');
 defined('SITE_IMAGES') OR define('SITE_IMAGES','./uploads/');
 defined('UPLOADIMAGE') OR define('UPLOADIMAGE','./uploads/');
 defined('UPLOAD_VPATH') OR define('UPLOAD_VPATH','./v/');
+
+// Stripe keys
+if ($_SERVER['HTTP_HOST'] != 'localhost') {
+	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
+	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');
+} else {
+	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
+	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');
+}

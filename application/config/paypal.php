@@ -5,13 +5,13 @@
 // ------------------------------------------------------------------------
 
 // PayPal environment, Sandbox or Live
-$config['sandbox'] = FALSE; // FALSE for live environment
+$config['sandbox'] = TRUE; // FALSE for live environment
 
 // PayPal business email
 $config['business'] = 'info@impressservice.com';
 
 // What is the default currency?
-$config['paypal_lib_currency_code'] = 'USD';
+$config['paypal_lib_currency_code'] = 'GBP';
 
 // Where is the button located at?
 $config['paypal_lib_button_path'] = 'assets/images/';
