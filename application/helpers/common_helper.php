@@ -254,6 +254,10 @@ function yes_no()
 {
     return ['yes', 'no'];
 }
+function order_status()
+{
+    return ['New', 'In Progress', 'Completed', 'Delivered', 'Cancelled'];
+}
 
 function gender()
 {
@@ -284,11 +288,11 @@ function get_order_status($status)
 {
     if($status == 'New')
     {
-        return 'new';
+        return 'New';
     }
-    elseif($status == 'Process')
+    elseif($status == 'InProgress')
     {
-        return 'processed';
+        return 'InProgress';
     }
     elseif($status == 'Delivered')
     {
@@ -510,6 +514,23 @@ function yes_no_status($status)
         return '<strong style="color:red;">Yes</strong>';
     } else {
         return '<strong style="color:green;">No</strong>';
+    }
+}
+function get_order_status_label($status)
+{
+    if ($status == 'New') {
+        return '<span class="miniLbl gray">New</span>';
+    } else if ($status == 'InProgress') {
+        return '<span class="miniLbl yellow">InProgress</span>';
+    
+    } else if ($status == 'Delivered') {
+        return '<span class="miniLbl green">Delivered</span>';
+    
+    } else if ($status == 'Completed') {
+        return '<span class="miniLbl green">Completed</span>';
+    
+    } else if ($status == 'Cancelled') {
+        return '<span class="miniLbl red">Cancelled</span>';
     }
 }
 
@@ -1052,11 +1073,6 @@ function short_number_format($num)
     $x_display = $x_array[0] . ((int) $x_array[1][0] !== 0 ? '.' . $x_array[1][0] : '');
     $x_display .= $x_parts[$x_count_parts - 1];
     return $x_display;
-}
-
-function num_size($num, $size = 6)
-{
-    return sprintf('%0'.$size.'d', $num);
 }
 
 function profile_url($mem_id, $title)

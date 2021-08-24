@@ -57,6 +57,12 @@
                     <span class="title">Newsletter</span><span class="badge badge-danger"><?=new_subscribers()?></span>
                 </a>
             </li> -->
+            <li class="opened <?= ($this->uri->segment(2) == 'orders') ? 'active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/orders') ?>">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Orders</span>
+                </a>
+            </li>
             <li class="opened <?= ($this->uri->segment(2) == 'promos') ? 'active' : '' ?>">
                 <a href="<?= site_url(ADMIN.'/promos') ?>">
                     <i class="fa fa-file"></i>

@@ -9,6 +9,7 @@ function format_name($fname,$lname)
 }
 
 
+
 function get_gallery_images($ref_id, $ref_type = 'product', $main = 0, $admin = 0)
 {
     $CI = & get_instance();
@@ -46,6 +47,13 @@ function states_by_country($country_id)
     return $query->result();
 }
 
+function get_servicename($s_id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('services', array('id' => $s_id));
+    return ($row->name);
+}
 function get_sub_services($service_id)
 {
     global $CI;
@@ -169,6 +177,7 @@ function new_traders(){
     return intval($row->num_rows());
 }
 
+
 function get_header_msgs($limit = '', $order_by = 'desc')
 {
     global $CI;
@@ -212,6 +221,13 @@ function get_mem_name($mem_id)
     $CI = get_instance();
     $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
     return ucwords($row->mem_fname.' '.$row->mem_lname);
+}
+function get_mem_email($mem_id)
+{
+    global $CI;
+    $CI = get_instance();
+    $row = $CI->master->getRow('members', array('mem_id' => $mem_id));
+    return ($row->mem_email);
 }
 
 function get_mem_type($mem_id)
