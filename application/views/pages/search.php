@@ -206,7 +206,7 @@
                     $('#businessAdress').addClass('hidden');
                     $('#collectionArea').removeClass('hidden');
                     pickdrop_charges.removeClass('hidden');
-                    $('#estimated-total').text(`£${parseFloat(services_total)+parseFloat(pcharges)}`);
+                    $('#estimated-total').text(`£${(parseFloat(services_total)+parseFloat(pcharges)).toFixed(2)}`);
                 }
                 else
                 {

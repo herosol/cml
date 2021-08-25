@@ -21,6 +21,14 @@ class Booking extends MY_Controller
         $this->data['services']  = $selections['selected_service'];
         $this->data['zipcode']   = $selections['zipcode'];
         $this->data['facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
+        //VENDOR
+        $this->data['vendor'] = $vendor = $this->member_model->getMember($selections['vendor']);
+
+        $this->data['estimated_total'] = 0; 
+        foreach($selections['selected_service'] as $key => $value):
+            $row = sub_service_price($value, $selections['vendor']);
+            $this->data['estimated_total'] += $row->price;
+        endforeach;
 
         //START END SLEECTED DAY TIME
         $day = $selections['place-order']['collection_date'];
@@ -62,7 +70,6 @@ class Booking extends MY_Controller
             // }
 
             $post = html_escape($this->input->post());
-            $selections = $this->session->selections;
             // pr($post, false);
             // pr($selections);
             $order = [];
@@ -140,8 +147,6 @@ class Booking extends MY_Controller
                 $order['address'] = $buyer->address_city.' '.$buyer->address_field.' '.$buyer->address_zip;
             }
 
-            //VENDOR
-            $vendor = $this->member_model->getMember($selections['vendor']);
             #ORDER DATA
             $order['buyer_id']  = $buyer_id;
             $order['vendor_id'] = $selections['vendor'];
@@ -159,6 +164,16 @@ class Booking extends MY_Controller
 
             if($selections['place-order']['use_pickdrop'] && $selections['place-order']['use_pickdrop'] == 'on')
             {
+                $order['pick_and_drop_service'] = '1';
+                if($order['order_price'] > $vendor->mem_charges_free_over)
+                {
+                    $order['free_pick_and_drop_service'] = '1';
+                    $order['pick_and_drop_charges'] = 0;
+                }
+                else
+                {
+                    $order['pick_and_drop_charges'] = $vendor->mem_charges_per_miles*2;
+                }
                 $order['collection_from'] = $order['address'];
                 $order['collection_date'] = db_format_date($post['collection_date']);
                 $order['collection_time'] = $post['collection_time'];
@@ -166,8 +181,6 @@ class Booking extends MY_Controller
                 $order['delivery_date']   = db_format_date($post['delivery_date']);
                 $order['delivery_time']   = $post['delivery_time'];
                 $order['collection_or_delivery_notes'] = $post['collection_or_delivery_notes'];
-                $order['pick_and_drop_service'] = '1';
-                $order['pick_and_drop_charges'] = $vendor->mem_charges_per_miles*2;
                 $order['drop_type']       = $post['drop_type'];
             }
             else
@@ -177,6 +190,7 @@ class Booking extends MY_Controller
                 $order['address'] = $vendor->mem_business_city.'@'.$vendor->mem_business_address.'@'.$vendor->mem_business_zip;
             }
 
+            $order['order_total_price'] = $order['order_price'] + $order['pick_and_drop_charges'];
             $order['order_status'] = 'New';
             $order['site_percentage'] = $this->data['site_settings']->site_percentage;
 
@@ -195,9 +209,6 @@ class Booking extends MY_Controller
                 endforeach;
             }
 
-            // TOTAL PRICE OF ORDER
-            $total_order_price = $order['order_price'] + $order['pick_and_drop_charges'];
-
             $payment_status = [];
 			if ($post['payment_type'] == 'credit-card') 
             {
@@ -207,7 +218,7 @@ class Booking extends MY_Controller
 					if (!isset($post['nonce']))
 					    throw new Exception("The Stripe Token was not generated correctly");
 
-					$cents   = $total_order_price*100;
+					$cents   = $order['order_total_price']*100;
 					$charge = \Stripe\Charge::create([
                         "amount"      => $cents,
                         "currency"    => "gbp",

@@ -33,7 +33,7 @@
                             <tr>
                                 <td>
                                     <strong>Order No:</strong>
-                                    <em class="red-color">#ABC8745</em>
+                                    <em class="red-color">#<?= num_size($order->order_id);?></em>
                                 </td>
                                 <td width="5%">
                                     <div class="bTn dropDown">

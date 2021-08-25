@@ -39,7 +39,7 @@
                                                     <th>Order No:</th>
                                                 </tr>
                                                 <tr>
-                                                    <td class="red-color">#ABC8745</etd>
+                                                    <td class="red-color">#<?= num_size($order->order_id);?></etd>
                                                 </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
@@ -116,7 +116,7 @@
                                                     <td>&nbsp;</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="price">£<?=$order->order_price?></td>
+                                                    <td class="price">£<?=$order->order_total_price?></td>
                                                 </tr>
                                             </tbody>
                                         </table>

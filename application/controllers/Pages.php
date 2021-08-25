@@ -147,7 +147,7 @@ class Pages extends MY_Controller
             $this->data['post'] = array(
                 "item_name" => "Paypal Payment",
                 "currency" => "GBP",
-                "amount" => $row->order_price + $row->pick_and_drop_charges,
+                "amount" => $row->order_total_price,
                 "custom" => $order_id
             );
             $notify_url = site_url('order-notify');

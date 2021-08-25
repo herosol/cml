@@ -436,7 +436,7 @@
                             <div class="blk tab-content">
                                 <div id="WashDry" class="tab-pane fade in active">
                                     <div class="serveBlk">
-                                        <div class="icon"><img src="git add .<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt=""></div>
+                                        <div class="icon"><img src="<?= get_site_image_src("services", $wash_and_dry->image, ''); ?>" alt=""></div>
                                         <div class="txt">
                                             <h4><?=$wash_and_dry->name?></h4>
                                             <p><?=$wash_and_dry->details?></p>
@@ -677,11 +677,11 @@
                                             ?>
                                                 <tr data-id="<?=$row->id?>">
                                                     <td><?=$row->name?></td>
-                                                    <input type="hidden" name="selected_service[]" value="<?=$row->id?>">
+                                                    <input type="hidden" name="selected_service[]" value="<?=$row->id?>" data-price="<?=$row->price?>">
                                                     <td>
                                                         <div class="qtyBtn">
                                                             <a class="qtyMinus"></a>
-                                                            <input type="text" name="qty[]" value="1" class="qty" data-price="<?=$row->price?>" data-id="<?=$row->id?>" readonly>
+                                                            <input type="text" id="qty-<?=$row->id?>" name="qty[]" value="1" class="qty" data-price="<?=$row->price?>" data-id="<?=$row->id?>" readonly>
                                                             <a class="qtyPlus"></a>
                                                         </div>
                                                     </td>
@@ -692,9 +692,49 @@
                                     </table>
                                 </div>
                                 <hr>
-                                <div class="bTn txtGrp">
-                                    <button type="button" class="webBtn blockBtn nextBtn">Continue order</button>
+                                <div >
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Minimum Order:&nbsp;&nbsp;</td>
+                                                <td>£<?= price_format($vendor->mem_charges_min_order) ?></td>
+                                            </tr>
+                                            <?php
+                                            $pickup = 0;
+                                            if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'):
+                                            $pickup = price_format($vendor->mem_charges_per_miles*2);
+                                            ?>
+                                                <tr>
+                                                    <td>Pickup & Delivery Charges:&nbsp;&nbsp;</td>
+                                                    <td>£<?= price_format($vendor->mem_charges_per_miles*2) ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="color">Free Pickup Service Over:&nbsp;&nbsp;</td>
+                                                    <td>£<?= price_format($vendor->mem_charges_free_over) ?></td>
+                                                </tr>
+                                            <?php endif; ?>
+                                            <tr>
+                                                <td class="color">Items Total:&nbsp;&nbsp;</td>
+                                                <th id="items-total" data-total="<?=price_format($estimated_total)?>">£<?=price_format($estimated_total)?></th>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="color">Estimated Total:&nbsp;&nbsp;</th>
+                                                <th id="estimated-total">£<?=price_format($estimated_total + $pickup )?></th>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
                                 </div>
+                                <br>
+                                <div class="servicesMessage alert alert-danger alert-sm text-white" style="display:none"></div>
+                                <?php if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'): ?>
+                                    <div class="freePickupAndDelivery alert alert-info alert-sm text-white" style="display:none"></div>
+                                <?php endif; ?>
                                 <p class="small">Please note that final price may vary and it will be calculated after the cleaning process.</p>
                             </div>
                         </div>
@@ -862,6 +902,38 @@
                                     </table>
                                 </div>
                             </div>
+                            <hr>
+                            <?php if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'): ?>
+                                <div class="freePickupAndDelivery alert alert-info alert-sm text-white" style="display:none"></div>
+                            <?php endif; ?>
+                            <table>
+                                <tbody>
+                                    <?php
+                                    $pickup = 0;
+                                    if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'):
+                                    $pickup = price_format($vendor->mem_charges_per_miles*2);
+                                    ?>
+                                        <tr>
+                                            <td>Pickup & Delivery Charges:&nbsp;&nbsp;</td>
+                                            <td>£<?= price_format($vendor->mem_charges_per_miles*2) ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <tr>
+                                        <td class="color">Items Total:&nbsp;&nbsp;</td>
+                                        <th id="items-total-preview" data-total="<?=price_format($estimated_total)?>">£<?=price_format($estimated_total)?></th>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="color">Estimated Total:&nbsp;&nbsp;</th>
+                                        <th id="estimated-total-preview">£<?=price_format($estimated_total + $pickup )?></th>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
                             <div class="br"></div>
                             <div class="blk">
                                 <h4>Payment</h4>
@@ -978,19 +1050,127 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=geometry,places&ext=.js"></script>
         <script src="https://js.stripe.com/v2/"></script>
         <script>
+        <?php if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'): ?>
+            var pickupDeliveryCharges = '<?= price_format($vendor->mem_charges_per_miles*2) ?>';
+        <?php else: ?>
+            var pickupDeliveryCharges = '0.00';
+        <?php endif; ?>
+        $(function() {
+            $(".nextBtn").click(function()
+            {
+                currBtn  = $(this);
+                let check = true;
+                let errHtml;
+                if(currBtn.hasClass('1-stepp'))
+                {
+                    if($('#account-info').length > 0)
+                    {
+                        
+                        let mem_fname = $('#mem_fname');
+                        let mem_lname = $('#mem_lname');
+                        let mem_phone = $('#mem_phone');
+                        let mem_email = $('#mem_email');
+                        let password  = $('#password');
+                        let cpassword = $('#cpassword');
+
+                        if( !checkName($.trim(mem_fname.val()) ))
+                        {
+                            errHtml = '<p>Please enter first name.</p><br/>';
+                            $('.alertMsg').append(errHtml);
+                            check = false;
+                        }
+
+                        if( !checkName($.trim(mem_lname.val()) ))
+                        {
+                            errHtml = '<p>Please enter last name.</p><br/>';
+                            $('.alertMsg').append(errHtml);
+                            check = false;
+                        }
+
+                    }
+
+                }
+                else if(currBtn.hasClass('3-step'))
+                {
+                    let services = $('input[name="selected_service[]"]').length;
+                    if(services == '0')
+                    {
+                        $('.servicesMessage').html(`Please select some items`);
+                        $('.servicesMessage').fadeIn();
+                        return false;
+                    }
+                    else
+                    {
+                        $('.servicesMessage').fadeOut();
+
+                        // CHECK MINIMUM ORDER
+                        var total = 0;
+                        let index;
+                        let qty;   
+                        $('input[name="selected_service[]"]').each( function(){
+                            index = $(this).val(); 
+                            total += parseFloat($(this).data('price')) * parseInt($('#qty-' + index).val());
+                        });
+                        
+                        let minimumOrder = '<?= price_format($vendor->mem_charges_min_order) ?>';
+                        if(parseFloat(total.toFixed(2)) < parseFloat(minimumOrder))
+                        {
+                            $('.servicesMessage').html(`Please order atleast price of £${parseFloat(minimumOrder).toFixed(2)}`);
+                            $('.servicesMessage').fadeIn();
+                            return false;
+                        }
+                        else
+                        {
+                            $('.servicesMessage').fadeOut();
+                        }
+                    }
+                }
+
+                if(check)
+                {
+                    currStep = $(this).parents("fieldset");
+                    nextStep = currStep.next("fieldset");
+                    currStep.hide();
+                    nextStep.fadeIn();
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            $(".prevBtn").click(function() {
+                currStep = $(this).parents("fieldset");
+                prevStep = currStep.prev("fieldset");
+                currStep.hide();
+                prevStep.fadeIn();
+            });
+        });
+
+        const checkName = (value) => 
+        {
+            alert(value);
+            if(value == '')
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         $(document).on('submit','#payment-form',function(e){ 
             e.preventDefault();
+            let sbtn = $('#payment-form').find("button[type='submit']");
+            sbtn.attr('disabled', true);
+            $(this).find('button[type="submit"] i.spinner').removeClass('hidden');
+            let form$ = $("#payment-form");
+            let frmIcon = form$.find("button[type='submit'] i.spinner");
+            let frmData = new FormData(form$[0]);
+            let frmMsg = form$.find("div.alertMsg:first");
+            sbtn.attr("disabled", true);
             if ($('input[name="payment_type"]:checked').val() == 'paypal') {
                     needToConfirm = true;
-                    let sbtn = $('#payment-form').find("button[type='submit']");
-                    sbtn.attr('disabled', true);
-                    $(this).find('button[type="submit"] i.spinner').removeClass('hidden');
-                    let form$ = $("#payment-form");
-                    let frmIcon = form$.find("button[type='submit'] i.spinner");
-                    let frmData = new FormData(form$[0]);
-                    let frmMsg = form$.find("div.alertMsg:first");
-                    sbtn.attr("disabled", true);
                     $.ajax({
                         url: form$.attr('action'),
                         data: frmData,
@@ -1030,8 +1210,6 @@
                 }
                 else if ($('input[name="payment_type"]:checked').val() == 'credit-card')
                 {    
-                    $('button[type="submit"]').prop('disabled',true);
-                    $('.spin').removeClass('hidden');
                     object = $(this);
                     Stripe.card.createToken({
                         number: $('#cardnumber').val(),
@@ -1053,7 +1231,7 @@
                 console.log(response.error.message)
                 toastr.error('<strong>Error:</strong> ' + response.error.message + '',"Error");
                 $('button[type="submit"]').prop('disabled',false);
-                $('.spin').addClass('hidden');
+                frmIcon.addClass('hidden');
             } 
             else {
                 let nonce   = response['id'];
@@ -1090,14 +1268,15 @@
                         }
                     },
                     complete:function(){
-                        $('button[type="submit"]').prop('disabled',false);
-                        $('.spin').addClass('hidden');
+                        sbtn.attr("disabled", false);
+                        frmIcon.addClass('hidden');
                     }
                 })
             }
         }
 
         $(document).on("click", ".actBtn", function() {
+            $('.servicesMessage').fadeOut();
             let selectedArea = $('#selected_services');
             let item_preview_area = $('#item_preview_area');
             $('.alertMsg').hide();
@@ -1107,11 +1286,11 @@
                 {
                     selectedArea.prepend(`<tr data-id="${$(this).data('subservice-id')}">
                                                 <td>${$(this).data('name')}</td>
-                                                <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
+                                                <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}" data-price="${$(this).data('price')}">
                                                 <td>
                                                     <div class="qtyBtn">
                                                         <a class="qtyMinus"></a>
-                                                        <input type="text" name="qty[]" value="1" class="qty" data-price="${$(this).data('price')}" data-id="${$(this).data('subservice-id')}" readonly>
+                                                        <input type="text" id="qty-${$(this).data('subservice-id')}" name="qty[]" value="1" class="qty" data-price="${$(this).data('price')}" data-id="${$(this).data('subservice-id')}" readonly>
                                                         <a class="qtyPlus"></a>
                                                     </div>
                                                 </td>
@@ -1141,12 +1320,14 @@
                 }
                 
             }
+
+            calculateEstimatedAmount();
         });
 
         // This button will increment the value
         $(document).on("click", ".qtyPlus", function(e) {
             e.preventDefault();
-
+            $('.servicesMessage').fadeOut();
             var parent = $(this).parent().children(".qty");
             var currentVal = parent.val();
             var price = parent.data('price');
@@ -1155,19 +1336,22 @@
             if (!isNaN(currentVal)) {
                 let incrementedVal = parseInt(currentVal) + 1; 
                 parent.val(incrementedVal);
-                $('#price-' + service_id).text(`£${price*incrementedVal}`);
+                $('#price-' + service_id).text(`£${(price*incrementedVal).toFixed(2)}`);
                 $('#item-qty-' + service_id).text(`${incrementedVal}`);
-                $('#item-price-' + service_id).text(`£${price*incrementedVal}`);
+                $('#item-price-' + service_id).text(`£${(price*incrementedVal).toFixed(2)}`);
             } else {
                 parent.val(1);
-                $('#price-' + service_id).text(`£${price*1}`);
+                $('#price-' + service_id).text(`£${(price*1).toFixed(2)}`);
                 $('#item-qty-' + service_id).text(1);
-                $('#item-price-' + service_id).text(`£${price*1}`);
+                $('#item-price-' + service_id).text(`£${(price*1).toFixed(2)}`);
             }
+
+            calculateEstimatedAmount();
         });
         // This button will decrement the value till 0
         $(document).on("click", ".qtyMinus", function(e) {
             e.preventDefault();
+            $('.servicesMessage').fadeOut();
             var parent = $(this).parent().children(".qty");
             var currentVal = parent.val();
             var price = parent.data('price');
@@ -1176,16 +1360,48 @@
             if (!isNaN(currentVal) && currentVal > 1) {
                 let decrementedVal = parseInt(currentVal) - 1; 
                 parent.val(decrementedVal);
-                $('#price-' + service_id).text(`£${price*decrementedVal}`);
+                $('#price-' + service_id).text(`£${(price*decrementedVal).toFixed(2)}`);
                 $('#item-qty-' + service_id).text(`${decrementedVal}`);
-                $('#item-price-' + service_id).text(`£${price*decrementedVal}`);
+                $('#item-price-' + service_id).text(`£${(price*decrementedVal).toFixed(2)}`);
             } else {
                 parent.val(1);
-                $('#price-' + service_id).text(`£${price*1}`);
+                $('#price-' + service_id).text(`£${(price*1).toFixed(2)}`);
                 $('#item-qty-' + service_id).text(1);
-                $('#item-price-' + service_id).text(`£${price*1}`);
+                $('#item-price-' + service_id).text(`£${(price*1).toFixed(2)}`);
             }
+
+            calculateEstimatedAmount();
         });
+
+        const calculateEstimatedAmount = () => 
+        {
+            var total = 0;
+            let index;
+            let qty;   
+            $('input[name="selected_service[]"]').each( function(){
+                index = $(this).val(); 
+                total += parseFloat($(this).data('price')) * parseInt($('#qty-' + index).val());
+            });
+            $('#items-total').text(`£${total.toFixed(2)}`);
+            $('#items-total-preview').text(`£${total.toFixed(2)}`);
+
+            let pickupcharges = '<?= price_format($vendor->mem_charges_free_over) ?>'; 
+            if(parseFloat(total.toFixed(2)) > parseFloat(pickupcharges))
+            {
+                $('.freePickupAndDelivery').html(`Free Pickup & Delivery Service`);
+                $('.freePickupAndDelivery').fadeIn();
+                $('#estimated-total').text(`£${(parseFloat(total)).toFixed(2)}`);
+                $('#estimated-total-preview').text(`£${(parseFloat(total)).toFixed(2)}`);
+            }
+            else
+            {
+                $('.freePickupAndDelivery').fadeOut();
+                $('#estimated-total').text(`£${(parseFloat(total) + parseFloat(pickupDeliveryCharges)).toFixed(2)}`);
+                $('#estimated-total-preview').text(`£${(parseFloat(total) + parseFloat(pickupDeliveryCharges)).toFixed(2)}`);
+            }
+
+        
+        }
 
         /// APPENDING TO FIELDS
         const appendName = () => 
@@ -1323,38 +1539,6 @@
                 }
             }
         }
-
-        $(function() {
-            $(".nextBtn").click(function()
-            {
-                // currBtn  = $(this);
-                // if(currBtn.hasClass('1-step'))
-                // {
-                //     if($('#account-info').length > 0)
-                //     {
-                //         let mem_fname = $('#mem_fname');
-                //         let mem_lname = $('#mem_lname');
-                //         let mem_phone = $('#mem_phone');
-                //         let mem_email = $('#mem_email');
-                //         let password  = $('#password');
-                //         let cpassword = $('#cpassword');
-
-                //         mem_fname.rules('add', {required: true});
-                //         return false;
-                //     }
-                // }
-                currStep = $(this).parents("fieldset");
-                nextStep = currStep.next("fieldset");
-                currStep.hide();
-                nextStep.fadeIn();
-            });
-            $(".prevBtn").click(function() {
-                currStep = $(this).parents("fieldset");
-                prevStep = currStep.prev("fieldset");
-                currStep.hide();
-                prevStep.fadeIn();
-            });
-        });
         </script>
     </main>
     <?php $this->load->view('includes/footer');?>
