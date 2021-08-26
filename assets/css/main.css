@@ -988,6 +988,7 @@ section {
     text-align: left;
     padding: 6px 15px;
     border: 0;
+    cursor: pointer;
 }
 
 .dropLst>li>*:hover {
@@ -5158,6 +5159,7 @@ aside~section>.contain-fluid {
 
 .jobBlk .doneBlk {
     display: flex;
+    margin-bottom: 10px;
 }
 
 .jobBlk .doneBlk>.image {

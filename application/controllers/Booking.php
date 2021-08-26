@@ -237,17 +237,10 @@ class Booking extends MY_Controller
                 $order_invoice = [];
                 $order_invoice['order_id']  = $order_id;
                 $order_invoice['charge_id'] = $charge['id'];
+				$order_invoice['payment_method'] = 'stripe';
+				$order_invoice['payment_status'] = 'paid';
                 $this->master->save('order_invoices', $order_invoice);
-
-				$payment_status['paid_status'] = 'paid';
 			}
-            else
-            {
-				$payment_status['paid_status'] = 'pending';		
-			}
-
-            //UPDATE PAYMENT STATUS
-            $this->order_model->update($payment_status, ['order_id'=> $order_id]);
 
 			if ($order_id > 0)
             {

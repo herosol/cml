@@ -110,7 +110,7 @@
                                                     <th>Order Service</th>
                                                 </tr>
                                                 <tr>
-                                                    <td><?=implode(',', $order->services)?></etd>
+                                                    <td><?=implode(', ', $order->services)?></etd>
                                                 </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>

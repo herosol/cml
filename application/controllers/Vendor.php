@@ -149,7 +149,7 @@ class Vendor extends MY_Controller
             $order_detail = $this->orderd_model->get_rows(['order_id'=> $order->order_id]);
             foreach($order_detail as $key => $row):
                 $sub_service = $this->master->get_data_row('sub_services', ['id'=> $row->sub_service_id]);
-                $service     = $this->master->get_data_row(['services', ['id'=> $sub_service->service_id]]);
+                $service     = $this->master->get_data_row('services', ['id'=> $sub_service->service_id]);
                 if(!in_array($service->name, $services))
                 {
                     $services[] = $service->name;
@@ -159,7 +159,6 @@ class Vendor extends MY_Controller
         endforeach;
 
         $this->data['orders'] = $orders;
-        // pr($orders);
         $this->load->view('vendor/orders', $this->data);
     }
 
@@ -168,8 +167,34 @@ class Vendor extends MY_Controller
         $order_id = doDecode($order_id);
         $this->data['order'] = $this->order_model->vendor_order_detail($order_id);
         $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id]);
-        // pr($this->data);
+        $delivery_proofs = $this->master->get_data_rows('order_delivery_proof', ['order_id'=> $order_id], 'DESC', 'proof_id');
+        $this->data['delivery_proof'] = false;
+        
+        if(empty($delivery_proofs))
+        {
+            $this->data['delivery_proof'] = true;
+        }
+        else
+        {
+            foreach($delivery_proofs as $index => $row):
+                if($index == 0):
+                    if($row->status == 'rejected')
+                        $this->data['delivery_proof'] = true;
+                endif;
+            endforeach;
+        }
+
         $this->load->view('vendor/order-detail', $this->data);
+    }
+
+    public function credits()
+    {
+        $this->load->view('vendor/credits', $this->data);
+    }
+
+    public function wallet()
+    {
+        $this->load->view('vendor/earnings', $this->data);
     }
 
     public function facility_hours()
@@ -239,6 +264,86 @@ class Vendor extends MY_Controller
             exit;
         }
         echo json_encode(['status'=> 'failed', 'lat'=> '', 'long'=> '']);
+    }
+
+    ### AJAX FUNCTION
+    public function change_order_status()
+    {
+        if($this->input->post())
+        {
+            $post = html_escape($this->input->post());
+            $status = $post['statusToChange'];
+            $order_id = doDecode($post['order_id']);
+
+            $is_update = $this->order_model->save(['order_status'=> trim($status)], $order_id);
+            if($is_update)
+            {
+                exit(json_encode(['status'=> 'success']));
+            }
+            else
+            {
+                exit(json_encode(['status'=> 'failed']));
+            }
+        }
+    }
+
+    public function complete_order()
+    {
+        if($this->input->post())
+        {
+            $res = [];
+            $order_info  = [];
+            $order_proof = [];
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 1;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+
+            $post = html_escape($this->input->post());
+            $post['order_id'] = doDecode($post['order_id']);
+
+            // $this->form_validation->set_rules('proof_image', 'Image', 'required');
+            $this->form_validation->set_rules('proof_comment', 'Comment', 'required|trim');
+            if ($this->form_validation->run() === FALSE)
+                $res['msg'] = validation_errors();
+            if (!empty($res['msg']))
+                exit(json_encode($res));
+
+            $order_proof['order_id']      = $post['order_id'];
+            $order_proof['proof_comment'] = $post['proof_comment'];
+            if (isset($_FILES["proof_image"]["name"]) && $_FILES["proof_image"]["name"] != "")
+            {
+                $image = upload_file(UPLOAD_PATH . 'orders', 'proof_image');
+                if (!empty($image['file_name'])) 
+                {
+                    $order_proof['proof_image'] = $image['file_name'];
+                    generate_thumb(UPLOAD_PATH . "orders/", UPLOAD_PATH . "orders/", $image['file_name'], 100, 'thumb_');
+                    generate_thumb(UPLOAD_PATH . "orders/", UPLOAD_PATH . "orders/", $image['file_name'], 300, '300p_');
+                } 
+                else
+                {
+                    $res['msg'] = '<p> Please upload a valid image file >> ' . strip_tags($image['error']).'</p>';
+                    exit(json_encode($res));
+                }
+            }
+
+            # MEMBER INFO TO BE SAVE
+            $is_added = $this->master->save('order_delivery_proof', $order_proof);
+            if($is_added)
+            {
+                $order_info['order_status'] = 'Delivered';
+                $this->order_model->save($order_info, $post['order_id']);
+            }
+
+            $res['msg'] = showMsg('success', 'Completions request sent successfully!');
+            $res['status'] = 1;
+            $res['hide_msg'] = 1;
+            $res['frm_reset'] = 1;
+            $res['status_dropdown'] = order_status_dropdown('Delivered', $post['order_id']);
+            $res['delivery_proofs'] =  get_delivey_proof($post['order_id']);
+            exit(json_encode($res));
+        }
     }
 
     ### REMOVE FILE

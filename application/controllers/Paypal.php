@@ -67,12 +67,10 @@ class Paypal extends MY_Controller {
             $custom = $resArray['custom'];
             $txn_id = $resArray['txn_id'];
             $row = $this->order_model->get_row('orders',['order_id'=> $custom]);
-            if ($row)
+            if (!empty($row))
             {
-                $this->order_model->save(['paid_status'=>'paid'], $custom);
+                $this->master->save('order_invoices', ['order_id'=> $custom, 'charge_id'=> $txn_id, 'payment_method'=> 'paypal', 'payment_status'=> 'paid']);
             }
-
-            $this->master->save(['order_id'=> $custom, 'charge_id'=> $txn_id]);
         }
         elseif (strcmp ($res, "INVALID") == 0)
         {

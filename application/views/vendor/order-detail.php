@@ -35,14 +35,8 @@
                                     <strong>Order No:</strong>
                                     <em class="red-color">#<?= num_size($order->order_id);?></em>
                                 </td>
-                                <td width="5%">
-                                    <div class="bTn dropDown">
-                                        <span class="webBtn mdBtn blockBtn dropBtn processed"><em>Process</em> <i class="fi-chevron-down"></i></span>
-                                        <ul class="dropCnt dropLst right">
-                                            <li><span>Complete</span></li>
-                                            <li><span>Cancel</span></li>
-                                        </ul>
-                                    </div>
+                                <td width="5%" id="order-status-dropdown">
+                                    <?php echo order_status_dropdown($order->order_status, $order->order_id) ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -154,6 +148,7 @@
                                         <th>Items</th>
                                         <th>Service</th>
                                         <th>Qty</th>
+                                        <th>Unit Price</th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
@@ -169,23 +164,31 @@
                                             <td><?=$service->service_name?></td>
                                             <td><?=$row->quantity?></td>
                                             <td>£<?=price_format($row->sub_service_price)?></td>
+                                            <td>£<?=price_format($row->sub_service_price*$row->quantity)?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
                                         <td class="color">£<?=price_format($services_total)?></td>
                                     </tr>
                                     <?php if($order->pick_and_drop_service == '1'): ?>
-                                        <tr>
-                                            <td colspan="3" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
-                                            <td>£<?=price_format($order->pick_and_drop_charges)?></td>
-                                        </tr>
+                                        <?php if($order->free_pick_and_drop_service == '0'): ?>
+                                            <tr>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td>£<?=price_format($order->pick_and_drop_charges)?></td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td>Free</td>
+                                            </tr>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     <tr>
-                                        <th colspan="3" class="color">Estimated Total</th>
-                                        <th>£<?=price_format($services_total+$order->pick_and_drop_charges)?></th>
+                                        <th colspan="4" class="color">Estimated Total</th>
+                                        <th>£<?=price_format($order->order_total_price)?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -269,18 +272,18 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <hr>
-                    <div class="txtGrp">
-                        <label for="">Comments</label>
-                        <textarea name="" id="" class="txtBox"></textarea>
-                    </div> -->
-                </div>
-                <div class="blk text-center">
-                    <p>When you have completed the job, please mark it as done.</p>
-                    <div class="bTn">
-                        <button type="button" class="webBtn popBtn" data-popup="mark-complete">Yes it's Done</button>
+                    <div id="delivery-proof">
+                        <?php echo get_delivey_proof($order->order_id) ?>
                     </div>
                 </div>
+                <?php if($delivery_proof && ($order->order_status == 'Delivered' || $order->order_status == 'In Progress')): ?>
+                    <div class="blk text-center" id="order-completion-section">
+                        <p>When you have completed the job, please mark it as done.</p>
+                        <div class="bTn">
+                            <button type="button" class="webBtn popBtn" data-popup="mark-complete" data-status="<?=$order->order_status?>">Yes it's Done</button>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="popup" data-popup="mark-complete">
                 <div class="tableDv">
@@ -289,17 +292,19 @@
                             <div class="_inner">
                                 <div class="crosBtn"></div>
                                 <h4>You have complete the job</h4>
-                                <form action="" method="post">
+                                <form action="<?=base_url()?>vendor/complete_order" method="post" class="frmCompleteOrder">
+                                    <div class="alertMsg" style="display:none"></div>
+                                    <input type="hidden" name="order_id" value="<?= doEncode($order->order_id) ?>" />
                                     <div class="txtGrp">
-                                        <label for="" class="move">Order Photo</label>
+                                        <label for="proof_image" class="move">Order Photo</label>
                                         <button type="button" class="txtBox uploadImg" data-upload="bag_pic" data-text="Choose file"></button>
-                                        <input type="file" name="" id="" class="uploadFile" data-upload="bag_pic">
+                                        <input type="file" name="proof_image" id="proof_image" class="uploadFile" data-upload="bag_pic">
                                     </div>
                                     <div class="txtGrp">
-                                        <label for="">Comments</label>
-                                        <textarea name="" id="" class="txtBox"></textarea>
+                                        <label for="proof_comment">Comments</label>
+                                        <textarea name="proof_comment" id="proof_comment" class="txtBox"></textarea>
                                     </div>
-                                    <div class="bTn text-center"><button type="submit" class="webBtn">Submit</button></div>
+                                    <div class="bTn text-center"><button type="submit" class="webBtn"><i class="spinner hidden"></i>Submit</button></div>
                                 </form>
                             </div>
                         </div>
@@ -309,7 +314,34 @@
         </section>
         <!-- orders -->
 
+    <script>
+        $(function() {
+            $(document).on('click', '.order-status', function(e) 
+            {
+                e.preventDefault();
+                var current = $(this);
+                let statusToChange = current.data('status');
+                let order_id = current.data('order-id');
+                $.ajax({
+                    url: base_url + 'vendor/change_order_status',
+                    data: {
+                        'statusToChange': statusToChange,
+                        'order_id': order_id
 
+                    },
+                    dataType: 'JSON',
+                    method: 'POST',
+                    success: function(rs) {
+                        if(rs.status == 'success')
+                            location.reload();
+                    },
+                    complete: function() {
+
+                    }
+                })
+            })
+        });
+    </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
 </body>

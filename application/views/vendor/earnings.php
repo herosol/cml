@@ -3,13 +3,13 @@
 
 <head>
     <title>My Earnings — Compare My Laundry</title>
-    <?php require_once('../includes/site-master.php'); ?>
+    <?php $this->load->view('includes/site-master'); ?>
 </head>
 
 <body id="home-page">
-    <?php require_once('../includes/header-vendor.php'); ?>
+    <?php $this->load->view('includes/header-vendor'); ?>
     <main dash trans>
-        <?php require_once('../includes/sidebar-vendor.php'); ?>
+        <?php $this->load->view('includes/sidebar-vendor'); ?>
 
 
         <section id="trans">
@@ -134,7 +134,7 @@
 
 
     </main>
-    <?php require_once('../includes/footer.php'); ?>
+    <?php $this->load->view('includes/footer'); ?>
 </body>
 
 </html>

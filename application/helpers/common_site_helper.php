@@ -265,40 +265,38 @@ function total_favorites($ref_id, $ref_type)
     return short_number_format(intval($query->num_rows()));
 }
 
-function favorite_btn($ref_id, $ref_type, $total = 0)
-{
-    $CI = get_instance();
-    if($CI->session->mem_id && $CI->session->mem_type && $CI->session->mem_id>0)
-    {
-        if($CI->master->getRow('favorites', array('mem_id' => $CI->session->mem_id, 'ref_id' => $ref_id, 'ref_type' => $ref_type)))
-            return '<div class="heart lkBtn fill" data-id="'. doEncode('favorite'.$ref_type.'-'.$ref_id).'" data-store="'.doEncode($ref_type.'-'.$ref_id).'"></div>';
-            // return '<a href="javascript:void(0)" class="lkBtn active" data-id="'. doEncode('favorite'.$ref_type.'-'.$ref_id).'" data-store="'.doEncode($ref_type.'-'.$ref_id).'"><i class="fi-heart"></i><span>'.$total.'</span></a>';
-        else
-            return '<div class="heart lkBtn" data-id="'. doEncode('favorite'.$ref_type.'-'.$ref_id).'" data-store="'.doEncode($ref_type.'-'.$ref_id).'"></div>';
-            // return '<a href="javascript:void(0)" class="lkBtn" data-id="'. doEncode('favorite'.$ref_type.'-'.$ref_id).'" data-store="'.doEncode($ref_type.'-'.$ref_id).'"><i class="fi-heart"></i><span>'.$total.'</span></a>';
-    }
-    else{
-        return '<div class="heart"></div>';
-        // return '<a href="javascript:void(0)"><i class="fi-heart"></i><span>'.$total.'</span></a>';
-    }
-}
-
-/*
-function get_categories($parent_id = '', $id = '', $limit = 0)
+function get_delivey_proof($order_id)
 {
     global $CI;
-    $CI = get_instance();
-    if ($parent_id!=='')
-        $CI->db->where('cat_parent', $parent_id);
-    if (!empty($id))
-        $CI->db->where('cat_id', $id);
-    if ($limit>0)
-        $CI->db->limit($limit);
+    $CI->db->select("*");
+    $CI->db->from('order_delivery_proof');
+    $CI->db->where('order_id', $order_id);
+    $CI->db->order_by('proof_id', 'DESC');
+    $query = $CI->db->get();
+    $rows = $query->result();
 
-    $query = $CI->db->get('categories');
-    return $query->result();
+    if(empty($rows))
+    {
+        return $html = '';
+    }
+    else
+    {
+        $html .= '<hr>
+        <h4>Delivery Proof</h4>';
+        foreach($rows as $key => $row):
+            $html .= '<div class="doneBlk">
+                <div class="image"><img src="'.get_site_image_src("orders", $row->proof_image, '').'" alt=""></div>
+                <div class="txt">
+                    <h5>Comment</h5>
+                    <span class="webBtn mdBtn '.get_delivery_proof_status($row->status).'">'.ucfirst($row->status).'</span>
+                    <p>'.$row->proof_comment.'</p>
+                </div>
+            </div>';
+        endforeach;
+    }
+
+    return $html;
 }
-*/
 
 function get_categories($type='comic', $offset = '') {
     global $CI;

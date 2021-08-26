@@ -19,7 +19,7 @@
         <li class="<?php if ($page == "credits") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/credits.php">
+            <a href="<?= base_url() ?>vendor/credits">
                 <img src="<?= base_url() ?>assets/images/icon-credit-card.svg" alt="">
                 <em>Credits</em>
             </a>
@@ -27,7 +27,7 @@
         <li class="<?php if ($page == "earnings") {
                         echo 'active';
                     } ?>">
-            <a href="<?= $base_url ?>vendor/earnings.php">
+            <a href="<?= base_url() ?>vendor/wallet">
                 <img src="<?= base_url() ?>assets/images/icon-earnings.svg" alt="">
                 <em>Wallet</em>
             </a>

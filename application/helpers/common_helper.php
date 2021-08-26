@@ -254,10 +254,6 @@ function yes_no()
 {
     return ['yes', 'no'];
 }
-function order_status()
-{
-    return ['New', 'In Progress', 'Completed', 'Delivered', 'Cancelled'];
-}
 
 function gender()
 {
@@ -284,15 +280,47 @@ function price_format($price)
     return number_format((float)$price, 2, '.', '');
 }
 
+function order_status()
+{
+    return ['New', 'In Progress', 'Completed', 'Delivered', 'Cancelled', 'Cleared'];
+}
+
+function order_status_dropdown($value, $order_id)
+{
+    $html = '';
+    $status['New'] = ['In Progress' => 'In Progress', 'Cancelled' => 'Cancel'];
+    $status['In Progress'] = ['Cancelled' => 'Cancel'];
+    $status['Completed']   = [];
+    $status['Cancelled']   = [];
+    $status['Delivered']   = [];
+    $status['Cleared']     = [];
+
+    if(empty($status[$value]))
+        $dropdown_icon = '';
+    else
+        $dropdown_icon = '<i class="fi-chevron-down"></i>';
+
+    $html .= '<div class="bTn dropDown">
+        <span class="webBtn mdBtn blockBtn dropBtn '.get_order_status($value).'"><em>'.$value.'</em> '.$dropdown_icon.'</span>
+        <ul class="dropCnt dropLst right">';
+            foreach($status[$value] as $key => $status):
+                $html .= '<li class="order-status" data-status="'.$key.'" data-order-id="'.doEncode($order_id).'"><span>'.$status.'</span></li>';
+            endforeach;
+    $html .= '</ul>
+    </div>';
+
+    return $html;
+}
+
 function get_order_status($status)
 {
     if($status == 'New')
     {
-        return 'New';
+        return 'new';
     }
-    elseif($status == 'InProgress')
+    elseif($status == 'In Progress')
     {
-        return 'InProgress';
+        return 'processed';
     }
     elseif($status == 'Delivered')
     {
@@ -302,10 +330,31 @@ function get_order_status($status)
     {
         return 'delivered';
     }
+    elseif($status == 'Cleared')
+    {
+        return 'delivered';
+    }
     elseif($status == 'Cancelled')
     {
         return 'cancelled';
     }
+}
+
+function get_delivery_proof_status($status)
+{
+    if($status == 'pending')
+    {
+        return 'new';
+    }
+    elseif($status == 'rejected')
+    {
+        return 'cancelled';
+    }
+    elseif($status == 'accepted')
+    {
+        return 'delivered';
+    }
+
 }
 
 function halfHourTimes()
