@@ -288,7 +288,7 @@ function get_delivey_proof($order_id)
                 <div class="image"><img src="'.get_site_image_src("orders", $row->proof_image, '').'" alt=""></div>
                 <div class="txt">
                     <h5>Comment</h5>
-                    <span class="webBtn mdBtn '.get_delivery_proof_status($row->status).'">'.ucfirst($row->status).'</span>
+                    <span class="badge '.get_delivery_proof_status($row->status).'">'.ucfirst($row->status).'</span>
                     <p>'.$row->proof_comment.'</p>
                 </div>
             </div>';

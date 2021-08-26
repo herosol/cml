@@ -344,15 +344,15 @@ function get_delivery_proof_status($status)
 {
     if($status == 'pending')
     {
-        return 'new';
+        return 'yellow';
     }
     elseif($status == 'rejected')
     {
-        return 'cancelled';
+        return 'red';
     }
     elseif($status == 'accepted')
     {
-        return 'delivered';
+        return 'green';
     }
 
 }
