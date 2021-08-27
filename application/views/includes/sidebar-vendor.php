@@ -32,7 +32,7 @@
                 <em>Wallet</em>
             </a>
         </li>
-        <li class="<?php if ($page == "pickup-delivery") {
+        <!-- <li class="<?php if ($page == "pickup-delivery") {
                         echo 'active';
                     } ?>">
             <a href="<?= $base_url ?>vendor/pickup-delivery.php">
@@ -47,7 +47,7 @@
                 <img src="<?= base_url() ?>assets/images/icon-calendar.svg" alt="">
                 <em>Facility Hours</em>
             </a>
-        </li>
+        </li> -->
         <li class="<?php if ($page == "price-list") {
                         echo 'active';
                     } ?>">

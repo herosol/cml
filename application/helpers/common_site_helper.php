@@ -298,6 +298,68 @@ function get_delivey_proof($order_id)
     return $html;
 }
 
+function amended_invoice($services_total, $amended_records)
+{
+    $html = '';
+    $total = $services_total;
+    if(!empty($amended_records)):
+        $html .= '<hr>
+        <h4>Amended Invoice</h4>
+        <table class="sm pb data_list">
+            <thead>
+                <tr>
+                    <th>Items</th>
+                    <th>Qty</th>
+                    <th></th>
+                    <th>Unit Price</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>';
+                $amend_total = 0;
+                foreach($amended_records as $key => $row):
+                    $total += $row->sub_service_price*$row->quantity;
+                    $amend_total += $row->sub_service_price*$row->quantity;
+                    $html .= '<tr>
+                        <td>'.$row->sub_service_name.'</td>
+                        <td>'.$row->quantity.'</td>
+                        <td></td>
+                        <td>£'.price_format($row->sub_service_price).'</td>
+                        <td>£'.price_format($row->sub_service_price*$row->quantity).'</td>
+                    </tr>';
+                endforeach;
+            $html .= '</tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td class="color">£'.price_format($amend_total).'</td>
+                </tr>
+            </tfoot>
+        </table>';
+    endif;
+
+    $html .= '<table class="sm pb data_list">
+        <thead>
+        </thead>
+        <tbody>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" class="color">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Estimated Total
+                </th>
+                <th>£'.price_format($total).'</th>
+            </tr>
+        </tfoot>
+    </table>';
+
+    return $html;
+}
+
 function get_categories($type='comic', $offset = '') {
     global $CI;
     $CI = get_instance();

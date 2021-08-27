@@ -166,7 +166,8 @@ class Vendor extends MY_Controller
     {
         $order_id = doDecode($order_id);
         $this->data['order'] = $this->order_model->vendor_order_detail($order_id);
-        $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id]);
+        $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'basic']);
+        $this->data['amended'] = $this->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'amended']);
         $delivery_proofs = $this->master->get_data_rows('order_delivery_proof', ['order_id'=> $order_id], 'DESC', 'proof_id');
         $this->data['delivery_proof'] = false;
         
@@ -189,6 +190,22 @@ class Vendor extends MY_Controller
 
     public function credits()
     {
+        $order = $this->order_model->get_latest_order();
+        $order_detail = $this->orderd_model->get_rows(['order_id'=> $order->order_id]);
+        $services = [];
+        foreach($order_detail as $key => $row):
+            $sub_service = $this->master->get_data_row('sub_services', ['id'=> $row->sub_service_id]);
+            $service     = $this->master->get_data_row('services', ['id'=> $sub_service->service_id]);
+            if(!in_array($service->name, $services))
+            {
+                $services[] = $service->name;
+            }
+        endforeach;
+        $order->services = $services;
+        $this->data['latest_order'] = $order;
+        $this->data['today_sales']  = $this->order_model->vendor_today_sales();
+        $this->data['week_sales']   = $this->order_model->vendor_week_sales();
+        $this->data['month_sales']  = $this->order_model->vendor_month_sales();
         $this->load->view('vendor/credits', $this->data);
     }
 
@@ -267,6 +284,46 @@ class Vendor extends MY_Controller
     }
 
     ### AJAX FUNCTION
+    public function amend_invoice()
+    {
+        if($this->input->post())
+        {
+            $res = [];
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 0;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+
+            $post = html_escape($this->input->post());
+            $post['order_id'] = doDecode($post['order_id']);
+
+            $this->form_validation->set_rules('sub_service_name', 'Title', 'required|trim');
+            $this->form_validation->set_rules('quantity', 'Quantity', 'required|trim');
+            $this->form_validation->set_rules('sub_service_price', 'Unit Price', 'required|trim');
+            if ($this->form_validation->run() === FALSE)
+                $res['msg'] = validation_errors();
+            if (!empty($res['msg']))
+                exit(json_encode($res));
+
+            $post['service_type'] = 'amended';
+            # MEMBER INFO TO BE SAVE
+            $is_added = $this->orderd_model->save($post);
+
+            $order = $this->order_model->vendor_order_detail($post['order_id']);
+            $order_detail = $this->orderd_model->get_rows(['order_id'=> $post['order_id'], 'service_type'=> 'basic']);
+            $amended = $this->orderd_model->get_rows(['order_id'=> $post['order_id'], 'service_type'=> 'amended']);
+
+            $res['msg']       = showMsg('success', 'Invoice sent successfully!');
+            $res['status']    = 1;
+            $res['hide_msg']  = 1;
+            $res['frm_reset'] = 1;
+            $res['html'] = amended_invoice($order->order_total_price, $amended);
+            exit(json_encode($res));
+        }
+    }
+
+
     public function change_order_status()
     {
         if($this->input->post())

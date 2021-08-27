@@ -55,6 +55,41 @@ class Order_model extends CRUD_Model
         return $query->row();
     }
 
+    function get_latest_order()
+    {
+        $this->db->from($this->table_name.' o');
+        $this->db->join('members b', 'o.buyer_id=b.mem_id');
+        $this->db->select('o.*, b.mem_image');
+        $this->db->where(['o.vendor_id' => $this->session->mem_id]);
+        $this->db->order_by('o.order_id', 'DESC');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+
+    function vendor_today_sales()
+    {
+        $this->db->from($this->table_name);
+        $this->db->select('SUM(order_total_price) as total');
+        $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date'=> TODAY_DATE]);
+        return $this->db->get()->row()->total;
+    }
+
+    function vendor_week_sales()
+    {
+
+        $this->db->from($this->table_name);
+        $this->db->select('SUM(order_total_price) as total, COUNT(order_total_price) as total_sales');
+        $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date <=' => TODAY_DATE, 'completed_date >=' => THIS_WEEK_FIRST_DATE]);
+        return $this->db->get()->row();
+    }
+
+    function vendor_month_sales()
+    {
+        $this->db->from($this->table_name);
+        $this->db->select('SUM(order_total_price) as total, COUNT(order_total_price) as total_sales');
+        $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date<=' => TODAY_DATE, 'completed_date>=' => THIS_MONTH_FIRST_DATE]);
+        return $this->db->get()->row();
+    }
     /*** end admin orders ***/
 
     /*** start mem orders ***/

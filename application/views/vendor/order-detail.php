@@ -186,12 +186,12 @@
                                             </tr>
                                         <?php endif; ?>
                                     <?php endif; ?>
-                                    <tr>
-                                        <th colspan="4" class="color">Estimated Total</th>
-                                        <th>£<?=price_format($order->order_total_price)?></th>
-                                    </tr>
                                 </tfoot>
                             </table>
+                            <div id="amended-invoice">
+                                <?php echo amended_invoice($order->order_total_price, $amended); ?>
+                                
+                            </div>
                         </div>
                         <div class="col col2">
                             <table class="sm">
@@ -238,9 +238,12 @@
                             <?php if($order->pick_and_drop_service == '1'): ?>
                                 <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
                             <?php endif; ?>
-                            <div class="bTn formBtn">
-                                <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
-                            </div>
+                            <?php if($order->order_status == 'New' || $order->order_status == 'In Progress'): ?>
+                                <div class="bTn formBtn">
+                                    <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
+                                </div>
+                            <?php endif; ?>
+
                             <div class="popup sm" data-popup="amend-invoice">
                                 <div class="tableDv">
                                     <div class="tableCell">
@@ -248,21 +251,23 @@
                                             <div class="_inner">
                                                 <div class="crosBtn"></div>
                                                 <h3>Amend Invoice</h3>
-                                                <form action="" method="post">
+                                                <form action="<?=base_url()?>vendor/amend_invoice" method="post" id="frmAmendInvoice" class="frmAmendInvoice">
+                                                    <div class="alertMsg" style="display:none"></div>
+                                                    <input type="hidden" name="order_id" value="<?= doEncode($order->order_id) ?>" />
                                                     <div class="txtGrp">
-                                                        <label for="">Title</label>
-                                                        <input type="text" name="" id="" class="txtBox">
+                                                        <label for="sub_service_name">Title</label>
+                                                        <input type="text" name="sub_service_name" id="sub_service_name" class="txtBox">
                                                     </div>
                                                     <div class="txtGrp">
-                                                        <label for="">Quantity</label>
-                                                        <input type="text" name="" id="" class="txtBox">
+                                                        <label for="quantity">Quantity</label>
+                                                        <input type="text" name="quantity" id="quantity" class="txtBox">
                                                     </div>
                                                     <div class="txtGrp">
-                                                        <label for="">Price</label>
-                                                        <input type="text" name="" id="" class="txtBox">
+                                                        <label for="sub_service_price">Price</label>
+                                                        <input type="text" name="sub_service_price" id="sub_service_price" class="txtBox">
                                                     </div>
                                                     <div class="bTn formBtn text-center">
-                                                        <button type="submit" class="webBtn">Submit</button>
+                                                        <button type="submit" class="webBtn"><i class="spinner hidden"></i>Submit</button>
                                                     </div>
                                                 </form>
                                             </div>

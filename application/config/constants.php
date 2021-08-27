@@ -84,14 +84,20 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
-
 define('ADMIN', 'admin');
-defined('UPLOAD_PATH') OR define('UPLOAD_PATH','./uploads/');
-defined('SITE_IMAGES') OR define('SITE_IMAGES','./uploads/');
-defined('UPLOADIMAGE') OR define('UPLOADIMAGE','./uploads/');
+
+### UPLOAD PATH CONSTANTS
+defined('UPLOAD_PATH')  OR define('UPLOAD_PATH','./uploads/');
+defined('SITE_IMAGES')  OR define('SITE_IMAGES','./uploads/');
+defined('UPLOADIMAGE')  OR define('UPLOADIMAGE','./uploads/');
 defined('UPLOAD_VPATH') OR define('UPLOAD_VPATH','./v/');
 
-// Stripe keys
+### DATE CONSTANTS
+defined('TODAY_DATE')            OR define('TODAY_DATE', date('Y-m-d'));
+defined('THIS_WEEK_FIRST_DATE')  OR define('THIS_WEEK_FIRST_DATE', date('Y-m-d', strtotime('this week')));
+defined('THIS_MONTH_FIRST_DATE') OR define('THIS_MONTH_FIRST_DATE', date('Y-m-01'));
+
+### STIRPE KEY CONSTANTS
 if ($_SERVER['HTTP_HOST'] != 'localhost') {
 	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
 	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');

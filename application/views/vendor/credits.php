@@ -31,46 +31,77 @@
                     <div class="col">
                         <div class="blk latestBlk">
                             <h4 class="heading text-center">Latest Order</h4>
-                            <div class="icoBlk">
-                                <div class="ico"><img src="<?= base_url() ?>assets/images/users/8.jpg" alt=""></div>
-                                <div class="txt">
-                                    <strong>Wash Iron & Dry Cleaning</strong>
+                            <?php if(empty($latest_order)): ?>
+                                <div class="freePickupAndDelivery alert alert-info alert-sm text-white">No Order yet.</div>
+                            <?php else: ?>
+                                <div class="icoBlk">
+                                    <div class="ico"><img src="<?= get_site_image_src("members", $latest_order->mem_image, 'thumb_'); ?>" alt=""></div>
+                                    <div class="txt">
+                                        <strong><?= implode(', ', $latest_order->services)?></strong>
+                                    </div>
+                                    <div class="price">£<?= $latest_order->order_total_price ?></div>
                                 </div>
-                                <div class="price">£32.00</div>
-                            </div>
-                            <ul class="keyLst">
-                                <li>
-                                    <div>Address:</div>
-                                    <div>Scott H. Lewis, Director Hybrid House, LLC PO Box 48461.</div>
-                                </li>
-                                <li>
-                                    <div>Collection:</div>
-                                    <div>Collection from customer</div>
-                                </li>
-                                <li>
-                                    <div>Drop off:</div>
-                                    <div>Ring, doorbell and stand</div>
-                                </li>
-                            </ul>
-                            <ul class="lst">
-                                <li>
-                                    <strong>Collection Date:</strong>
-                                    <em>Tue, 21 Jan 2021</em>
-                                </li>
-                                <li>
-                                    <strong>Collection Time:</strong>
-                                    <em>11:00 am - 01:00 pm</em>
-                                </li>
-                                <li>&nbsp;</li>
-                                <li>
-                                    <strong>Delivery Date:</strong>
-                                    <em>Wed, 21 Jan 2021</em>
-                                </li>
-                                <li>
-                                    <strong>Delivery Time:</strong>
-                                    <em>11:00 am - 01:00 pm</em>
-                                </li>
-                            </ul>
+                                <ul class="keyLst">
+                                    <?php if($latest_order->pick_and_drop_service == '1'): ?>
+                                        <li>
+                                            <div>Address:</div>
+                                            <div><?=$latest_order->delivery_to?></div>
+                                        </li>
+                                        <li>
+                                            <div>Collection:</div>
+                                            <div>Collection from customer</div>
+                                        </li>
+                                        <li>
+                                            <div>Drop off:</div>
+                                            <div><?=$latest_order->drop_type?></div>
+                                        </li>
+                                    <?php else: ?>
+                                        <li>
+                                            <div>Address:</div>
+                                            <div>
+                                                <?php
+                                                    foreach(explode('@', $latest_order->address) as $val):
+                                                        echo $val;
+                                                        echo '<br>';
+                                                    endforeach;
+                                                ?>
+                                            </div>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                                <?php if($latest_order->pick_and_drop_service == '1'): ?>
+                                    <ul class="lst">
+                                        <li>
+                                            <strong>Collection Date:</strong>
+                                            <em><?=date_picker_format_date($latest_order->collection_date, 'D, d M Y', false)?></em>
+                                        </li>
+                                        <li>
+                                            <strong>Collection Time:</strong>
+                                            <em><?=$latest_order->collection_time?></em>
+                                        </li>
+                                        <li>&nbsp;</li>
+                                        <li>
+                                            <strong>Delivery Date:</strong>
+                                            <em><?=date_picker_format_date($latest_order->delivery_date, 'D, d M Y', false)?></em>
+                                        </li>
+                                        <li>
+                                            <strong>Delivery Time:</strong>
+                                            <em><?=$latest_order->delivery_time?></em>
+                                        </li>
+                                    </ul>
+                                <?php else: ?>
+                                    <ul class="lst">
+                                        <li>
+                                            <strong>Drop Off Date:</strong>
+                                            <em><?=date_picker_format_date($latest_order->delivery_date, 'D, d M Y', false)?></em>
+                                        </li>
+                                        <li>
+                                            <strong>Drop Off Time:</strong>
+                                            <em><?=$latest_order->delivery_time?></em>
+                                        </li>
+                                    </ul>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col">
@@ -78,7 +109,7 @@
                             <h4 class="heading text-center">Todays Sales</h4>
                             <div class="progressbar" data-animate="false">
                                 <div class="circle" data-percent="100">
-                                    <strong>£123.45</strong>
+                                    <strong>£<?=price_format($today_sales)?></strong>
                                 </div>
                             </div>
                             <div class="br"></div>
@@ -104,18 +135,18 @@
                             <h4 class="heading">Total Sales this Weak</h4>
                             <div class="progressbar" data-animate="false">
                                 <div class="circle" data-percent="100">
-                                    <strong>12</strong>
+                                    <strong><?=$week_sales->total_sales?></strong>
                                 </div>
                             </div>
-                            <strong class="color">£1246.00</strong>
+                            <strong class="color">£<?=price_format($week_sales->total)?></strong>
                             <hr>
                             <h4 class="heading">Total Order this Month</h4>
                             <div class="progressbar" data-animate="false">
                                 <div class="circle" data-percent="100">
-                                    <strong>50</strong>
+                                    <strong><?=$month_sales->total_sales?></strong>
                                 </div>
                             </div>
-                            <strong class="color">£12546.00</strong>
+                            <strong class="color">£<?=price_format($month_sales->total)?></strong>
                         </div>
                     </div>
                 </div>

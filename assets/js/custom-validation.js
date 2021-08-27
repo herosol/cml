@@ -560,6 +560,31 @@ $(document).ready(function() {
         }
     });
 
+    $('#frmAmendInvoice').validate({
+        errorElement: 'div',
+        rules: {
+            sub_service_name: {
+                required: true
+            },
+            quantity: {
+                required: true
+            },
+            sub_service_price: {
+                required: true
+            }
+        },
+        messages: {
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), ['sub_service_name', 'quantity', 'sub_service_price']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
+        }
+    });
+
     $('#frmSignin').validate({
         rules: {
             email: {
