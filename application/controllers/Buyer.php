@@ -7,6 +7,8 @@ class Buyer extends MY_Controller
     {
         parent::__construct();
         $this->load->model('member_model');
+        $this->load->model('order_model');
+        $this->load->model('Master');
     }
 
     public function dashboard()
@@ -73,16 +75,34 @@ class Buyer extends MY_Controller
 
         $this->load->view('buyer/dashboard', $this->data);
     }
-    public function orders(){
-        
+    public function orders(){      
+
+        $orders = $this->order_model->get_buyer_orders();
+        $services = [];
+        foreach($orders as $index => $order):
+            $order_detail = $this->master->getRows('order_detail',array('order_id'=> $order->order_id));
+            
+            
+            $orders[$index]->services = $order_detail;
+        endforeach;
+
+        $this->data['orders'] = $orders;
+        // pr($orders);
         $this->load->view('buyer/orders', $this->data);
+
+    }
+    public function order_detail($o_id){
+        $o_id = intval(doDecode($o_id));
+          
+        $this->data['order'] = $this->master->getRow('orders',array('order_id'=>$o_id));
+        $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id));    
+        
+        $this->load->view('buyer/order-detail', $this->data);
     }
     public function transactions(){
-
         $this->load->view('buyer/transactions', $this->data);
     }
     public function credits(){
-
         $this->load->view('buyer/credits', $this->data);
     }
     ### REMOVE FILE

@@ -81,6 +81,7 @@ $route['vendor/credits']        = 'vendor/credits';
 $route['buyer/dashboard']   = 'buyer/dashboard';
 $route['buyer/credits']     = 'buyer/credits';
 $route['buyer/orders']      = 'buyer/orders';
+$route['buyer/order_detail/(:any)'] = 'buyer/order_detail/$1';
 $route['buyer/wallet']      = 'buyer/transactions';
 
 # SITE PAGES

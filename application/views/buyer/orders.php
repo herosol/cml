@@ -23,14 +23,16 @@
                          <a href="<?= base_url()?>buyer/orders" class="webBtn mdBtn simpleBtn">Cancel Orders</a>
                     </div>
                 </div>
+                <?php if(!empty($orders)){ ?>
+                <?php foreach($orders as $order){ ?>
                 <div class="flexRow flex">
                     <div class="col col1">
-                        <div class="orderBlk blk">
+                        <div class="orderBlk blk <?= $order->order_status == 'Completed' ? 'expire' :'' ?>">
                             <div class="inside">
                                 <div class="lSide">
                                     <div class="_header">
-                                        <h3>Current Order</h3>
-                                        <div class="cmpnyLogo icon"><img src="<?= base_url()?>assets/images/iron_logo.svg" alt=""></div>
+                                        <h3> <?= $order->order_status == 'Completed' ? 'Previous Order' :'Current Order' ?></h3>
+                                        <div class="cmpnyLogo icon"><img src="<?= get_site_image_src("members", $order->mem_image, 'thumb_'); ?>" alt=""></div>
                                     </div>
                                     <h5>Quantity</h5>
                                     <ul class="itmLst flex">
@@ -153,11 +155,21 @@
                             <div class="btm">
                                 <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                 <div class="bTn text-center">
-                                    <a href="<?= base_url()?>buyer/order-detail" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                    <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <?php   
+                    }
+                    }else{
+                ?>
+                    <div class="row">
+                        <h1>No Orders Found.... !</h1>
+                    </div>
+                <?php } ?>
+                <div class="flexRow flex">    
                     <div class="col col1">
                         <div class="orderBlk blk expire">
                             <div class="inside">
@@ -269,6 +281,8 @@
                             <p>Friday, 25 Jun 2021 <br> 9am - 11am</p>
                         </div>
                     </div>
+                </div>
+                <div class="flexRow flex">    
                     <div class="col col1">
                         <div class="orderBlk blk expire">
                             <div class="inside">

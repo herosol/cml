@@ -9,6 +9,25 @@ class Order_model extends CRUD_Model
         $this->field = "order_id";
     }
 
+    function get_buyer_orders()
+    {
+        $this->db->from($this->table_name.' o');
+        $this->db->join('members m', 'o.vendor_id=m.mem_id');
+        $this->db->select('o.*, m.mem_image, m.mem_company_phone');
+        $this->db->where(['o.buyer_id'=> $this->session->mem_id]);
+        $this->db->group_by('o.order_id');
+        $this->db->order_by('o.order_id', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    function buyer_order_detail($order_id)
+    {
+        $this->db->from($this->table_name.' o');
+        $this->db->join('order_detail od', 'o.order_id=od.order_id');
+        $this->db->select(' od.*');
+        $this->db->where(['o.order_id'=> $order_id]);
+        return $this->db->get()->row();
+    }
     function get_vendor_orders()
     {
         $this->db->from($this->table_name.' o');
@@ -32,7 +51,6 @@ class Order_model extends CRUD_Model
 
     function get_admin_orders()
     {
-
         $this->db->select("o.*,
          @product_total := IFNULL((select sum(quantity*sub_service_price) from tbl_order_detail where order_id = o.order_id), 0) as product_total, count(od.id) as product_count", FALSE);
         $this->db->from($this->table_name.' o');
@@ -98,7 +116,6 @@ class Order_model extends CRUD_Model
 
     function get_order_total($oid)
     {
-
         $this->db->select("o.* ,
          @product_total := IFNULL((select sum(quantity*sub_service_price) from tbl_order_detail where order_id = o.order_id), 0) as product_total, count(od.id) as product_count", FALSE);
         $this->db->from($this->table_name.' o');
