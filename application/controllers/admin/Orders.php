@@ -13,14 +13,11 @@ class Orders extends Admin_Controller
 
     function index()
     {
-
         $this->data['enable_datatable'] = TRUE;
         $this->data['pageView'] = ADMIN . '/orders';
-
         $this->data['rows'] = $this->order_model->get_admin_orders('', $start, $per_page, 'desc');
         // pr($this->data['rows']);
         $this->load->view(ADMIN.'/includes/siteMaster', $this->data);
-
     }
 
     function detail($id = 0)
