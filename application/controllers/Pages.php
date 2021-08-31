@@ -8,6 +8,21 @@ class Pages extends MY_Controller
         $this->load->model('order_model');
     }
     
+    function landing()
+    {
+        $meta = $this->page->getMetaContent('landing');
+		$this->data['page_title'] = $meta->page_name;
+		$this->data['slug'] = $meta->slug;
+		$data = $this->page->getPageContent('landing');
+		if($data){
+			$this->data['content'] = unserialize($data->code);
+			$this->data['meta_desc'] = json_decode($meta->content);
+            
+			$this->load->view('pages/landing',$this->data);
+		}else{
+			show_404();
+		}
+    }
     function promotions()
     {
         $meta = $this->page->getMetaContent('promotions');

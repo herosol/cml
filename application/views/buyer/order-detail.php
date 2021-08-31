@@ -20,7 +20,7 @@
                         <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="bTn">
-                        <a href="<?= $base_url ?>buyer/orders.php" class="webBtn mdBtn simpleBtn">View Orders</a>
+                        <a href="<?= base_url() ?>buyer/orders" class="webBtn mdBtn simpleBtn">View Orders</a>
                     </div>
                 </div>
                 <div class="blk jobBlk">
@@ -29,7 +29,7 @@
                             <tr>
                                 <td>
                                     <strong>Order No:</strong>
-                                    <em class="red-color">#ABC8745</em>
+                                    <em class="red-color">#<?= num_size($order->order_id) ?></em>
                                 </td>
                                 <td width="5%">
                                     <div class="bTn">
@@ -55,12 +55,28 @@
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Collection Address</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Scott H. Lewis, Director Hybrid House, LLC PO Box 48461.</td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Collection Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=$order->collection_from?></td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <th>Walk-in Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                            foreach(explode('@', $order->address) as $val):
+                                                                echo $val;
+                                                                echo '<br>';
+                                                            endforeach;
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -76,12 +92,21 @@
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Delivery Address</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Scott H. Lewis, Director Hybrid House, LLC PO Box 48461.</td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Delivery Address</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><?=$order->delivery_to?></td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <th>Notes</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -92,17 +117,19 @@
                                                 <th>Email</th>
                                             </tr>
                                             <tr>
-                                                <td>johnwick87@gmail.com</td>
+                                                <td>Red@email.com</td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
-                                                <th>Notes</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Nulla iste hic voluptatem. Laborum eveniet cumque adipisci sint nisi totam aut velit, perferendis vitae accusamus.</td>
-                                            </tr>
+                                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                                <tr>
+                                                    <th>Notes</th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </td>
@@ -119,79 +146,89 @@
                                         <th>Items</th>
                                         <th>Service</th>
                                         <th>Qty</th>
+                                        <th>Unit Price</th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Shirt</td>
-                                        <td>Wash & Iron</td>
-                                        <td>2</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dress</td>
-                                        <td>Dry Cleaning</td>
-                                        <td>3</td>
-                                        <td>£3.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trouser</td>
-                                        <td>Wash</td>
-                                        <td>2</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Outwear</td>
-                                        <td>Wash & Iron</td>
-                                        <td>4</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cardigan</td>
-                                        <td>Ironing</td>
-                                        <td>2</td>
-                                        <td>£2.50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shirt</td>
-                                        <td>Wash & Iron</td>
-                                        <td>2</td>
-                                        <td>£2.50</td>
-                                    </tr>
+                                    <?php
+                                    $services_total = 0;
+                                    foreach($order_detail as $key => $row):
+                                        $service = get_sub_service($row->sub_service_id, $order->vendor_id);
+                                        $services_total += $row->sub_service_price*$row->quantity;
+                                    ?>
+                                        <tr>
+                                            <td><?=$service->name?></td>
+                                            <td><?=$service->service_name?></td>
+                                            <td><?=$row->quantity?></td>
+                                            <td>£<?=price_format($row->sub_service_price)?></td>
+                                            <td>£<?=price_format($row->sub_service_price*$row->quantity)?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="color">£<?=price_format($services_total)?></td>
+                                    </tr>
+                                    <?php if($order->pick_and_drop_service == '1'): ?>
+                                        <?php if($order->free_pick_and_drop_service == '0'): ?>
+                                            <tr>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td>£<?=price_format($order->pick_and_drop_charges)?></td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td>Free</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="col col2">
                             <table class="sm">
                                 <tbody>
-                                    <tr>
-                                        <th>Collection Date:</th>
-                                        <td>Tue, 21 Jan 2021</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Collection Time:</th>
-                                        <td>11:00 am - 01:00 pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Delivery Date:</th>
-                                        <td>Wed, 21 Jan 2021</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Delivery Time:</th>
-                                        <td>11:00 am - 01:00 pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">Driver drops, rings and waits</th>
-                                    </tr>
+                                  <?php if($order->pick_and_drop_service == '1'): ?>
+                                        <tr>
+                                            <th>Collection Date:</th>
+                                            <td><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Collection Time:</th>
+                                            <td><?=$order->collection_time?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Delivery Date:</th>
+                                            <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Delivery Time:</th>
+                                            <td><?=$order->delivery_time?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2"><?=$order->drop_type?></th>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <th>Drop Off Date:</th>
+                                            <td><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Drop Off Time:</th>
+                                            <td><?=$order->delivery_time?></td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
+                            <div class="alertMsg" style="display:none"></div>
                         </div>
                     </div>
                     <!-- <hr>
@@ -200,22 +237,23 @@
                         <textarea name="" id="" class="txtBox"></textarea>
                     </div> -->
                     <hr>
-                    <div class="doneBlk">
-                        <div class="image"><img src="<?= $base_url ?>images/bag.jpg" alt=""></div>
-                        <div class="txt">
-                            <h5>Comments</h5>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis aut deleniti repellendus odio voluptates corporis minima excepturi. Incidunt consectetur ipsa nulla pariatur distinctio, fuga temporibus adipisci, provident voluptatibus, sed obcaecati!</p>
-                            <p>Inventore velit cumque ab expedita earum ex possimus modi ducimus, nisi, quia quos incidunt molestias, ut fugit repellendus! Temporibus aliquam adipisci aut!</p>
+                    <?php if(!empty($delivery_proof)){ ?>
+                        <div class="doneBlk">
+                            <div class="image"><img src="<?= get_site_image_src("orders", $delivery_proof->proof_image); ?>" alt=""></div>
+                            <div class="txt">
+                                <h5>Comments</h5>
+                                <p><?=$delivery_proof->proof_comment?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="blk text-center">
-                    <p>You've received your order, please accept or decline.</p>
-                    <div class="bTn">
-                        <button type="button" class="webBtn lightBtn">Decline</button>
-                        <button type="button" class="webBtn popBtn" data-popup="leave-review">Accept</button>
+                    <div class="blk text-center">
+                        <p>You've received your order, please accept or decline.</p>
+                        <div class="bTn">
+                            <a href="<?= base_url('buyer/reject/').doEncode($delivery_proof->proof_id); ?>" type="button" class="webBtn lightBtn">Decline</a>
+                            <button type="button" class="webBtn popBtn" data-popup="leave-review">Accept</button>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
             <div class="popup" data-popup="leave-review">
                 <div class="tableDv">
@@ -224,7 +262,7 @@
                             <div class="_inner">
                                 <div class="crosBtn"></div>
                                 <h4>Leave Review</h4>
-                                <form action="" method="post">
+                                <form action="<?= base_url('buyer/accept/').doEncode($delivery_proof->proof_id); ?>" method="post">
                                     <div class="txtGrp">
                                         <div class="rateYo" data-rateyo-star-width="20px" data-rateyo-read-only="false"></div>
                                     </div>

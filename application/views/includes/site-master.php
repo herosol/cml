@@ -32,6 +32,7 @@
 <!-- Toastr Css -->
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/toastr.min.css">
 <link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/jquery.passwordRequirements.css">
+<link type="text/css" rel="stylesheet" href="<?= base_url() ?>assets/css/countdown.css">
 <!-- JS Files -->
 <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>

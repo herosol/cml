@@ -5727,3 +5727,212 @@ ul.pagination>li>a.active {
     max-width: none;
     margin-bottom: 20px;
 }
+
+
+
+
+/*
+|----------------------------------------------------------------------
+|       Landing
+|----------------------------------------------------------------------
+*/
+
+[lndg] .logo {
+	filter: brightness(0) invert(1);
+}
+
+[lndg] #banner:before {
+	content: "";
+	background: linear-gradient(-80deg, #a800d8, #006bd8, #0171c5);
+    opacity: 1;
+	z-index: -10;
+}
+
+[lndg] #banner .content {
+	max-width: 460px;
+	color: #fff;
+}
+
+[lndg] #banner .content p {
+	color: inherit;
+}
+
+#what {
+	background: #f5f8ff !important;
+	color: inherit !important;
+	margin-top: 0 !important;
+}
+
+/*
+|----------------------------------------------------------------------
+|       Timer
+|----------------------------------------------------------------------
+*/
+
+#timer {
+	background: linear-gradient(240deg, #a800d8, #006bd8, #0171c5);
+	color: #fff;
+	overflow: hidden;
+}
+
+#timer:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url("../images/curve_layer.svg");
+	background-size: 100%;
+    background-position: bottom -80px center;
+	background-repeat: no-repeat;
+	filter: drop-shadow(4px -4px 10px #212426);
+    opacity: 0.2;
+	z-index: 1;
+}
+
+#timer .contain {
+	z-index: 3;
+}
+
+#timer #counter {
+	margin-top: 0;
+}
+
+#timer .main-example .label {
+    font-size: 12px;
+    padding: 0;
+}
+
+/*
+|----------------------------------------------------------------------
+|       What We Do
+|----------------------------------------------------------------------
+*/
+
+#what {
+	background: linear-gradient(40deg, #a800d8, #006bd8, #0171c5);
+	color: #fff;
+	margin-top: 60px;
+}
+
+#what .flexRow {
+	flex-flow: row-reverse;
+	align-items: center;
+}
+
+#what .flexRow > .col {
+	width: 50%;
+}
+
+#what .content p {
+	color: inherit;
+}
+
+#counter {
+	margin-top: 40px;
+}
+
+#counter h2 {
+	margin-bottom: 20px;
+}
+
+#counter .countdown-container {
+    font-family: "Futura BT";
+}
+
+/*
+|----------------------------------------------------------------------
+|       Customer
+|----------------------------------------------------------------------
+*/
+
+#customer .flexRow > .col {
+	width: 50%;
+}
+
+#customer .inner {
+	position: relative;
+	height: 100%;
+	background: linear-gradient(40deg, #a800d8, #006bd8, #0171c5);
+	color: #fff;
+	padding: 25px;
+	text-transform: uppercase;
+	border-radius: 7px;
+	transform: scale(1.05);
+	box-shadow: 0 5px 20px rgb(18 15 56 / 10%);
+	transition: all ease 0.5s;
+}
+
+#customer .inner.disable {
+	background: #afdaec;
+	transform: scale(0.95);
+}
+
+#customer .inner:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 5;
+}
+
+#customer .inner.disable:before {
+	content: "";
+}
+
+#customer .inner h4 {
+	margin: 10px 0 0;
+}
+
+#customer .inner h4 a {
+	color: inherit;
+}
+
+#customer .inner.disable .vidBlk {
+	filter: grayscale(1) brightness(1.2);
+}
+
+#customer form {
+	display: flex;
+	color: #212426;
+	margin-top: 10px;
+}
+
+#customer form .txtGrp {
+    flex: 1;
+    margin: 0;
+    margin-right: 10px;
+}
+
+/*
+|----------------------------------------------------------------------
+|       Blocks
+|----------------------------------------------------------------------
+*/
+
+#blocks {
+	background: linear-gradient(#fff, #f5f8ff 50%, #fff);
+	padding-top: 0;
+}
+
+#blocks .flexRow > .col {
+	width: 33.3334%;
+}
+
+#blocks .inner {
+	height: 100%;
+	background: #fff;
+	padding: 25px;
+	border-radius: 7px;
+	box-shadow: 0 5px 20px rgb(18 15 56 / 7%);
+}
+
+#blocks .inner .icon {
+    max-width: 120px;
+    margin: 0 auto 20px;
+}
+
+
+

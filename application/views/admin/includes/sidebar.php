@@ -115,6 +115,12 @@
                     <span class="title">Manage Pages</span>
                 </a>
                 <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'landing') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/sitecontent/landing') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Landing</span>
+                        </a>
+                    </li>
                     <li class=" <?= ($this->uri->segment(3) == 'home') ? ' active' : '' ?>">
                         <a href="<?= site_url(ADMIN.'/sitecontent/home') ?>">
                             <i class="entypo-doc-text  "></i>

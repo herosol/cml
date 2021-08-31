@@ -91,20 +91,47 @@ class Buyer extends MY_Controller
         $this->load->view('buyer/orders', $this->data);
 
     }
+
     public function order_detail($o_id){
         $o_id = intval(doDecode($o_id));
-          
         $this->data['order'] = $this->master->getRow('orders',array('order_id'=>$o_id));
-        $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id));    
-        
+        $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id));
+        $this->data['delivery_proof'] = $this->master->getRow('order_delivery_proof',array('order_id'=>$o_id,'status'=>'pending'));   
         $this->load->view('buyer/order-detail', $this->data);
     }
+
+    public function accept($proof_id){
+        $proof_id = intval(doDecode($proof_id));
+        // pr($proof_id);
+
+        $proof = $this->master->getRow('order_delivery_proof',array('proof_id'=>$proof_id));
+        
+        $arr['order_status']='completed';
+        $this->master->save('orders',$arr,'order_id',$proof->order_id);
+        $proof_data['status']='accepted';
+        $this->master->save('order_delivery_proof',$proof_data,'proof_id',$proof_id);
+        setMsg('success', 'Delivery Proof Accepted Successfully.');
+        redirect('buyer/order_detail/'.doEncode($proof->order_id), 'refresh');
+    }
+
+    public function reject($proof_id){
+        $proof_id = intval(doDecode($proof_id));
+        $proof = $this->master->getRow('order_delivery_proof',array('proof_id'=>$proof_id));
+        $proof_data['status']='rejected';
+        $this->master->save('order_delivery_proof',$proof_data,'proof_id',$proof_id);
+        setMsg('success', 'Delivery Proof Rejected Successfully.');
+        redirect('buyer/order_detail/'.doEncode($proof->order_id), 'refresh');
+    }
+
     public function transactions(){
         $this->load->view('buyer/transactions', $this->data);
     }
+
     public function credits(){
         $this->load->view('buyer/credits', $this->data);
     }
+
+    
     ### REMOVE FILE
     private function remove_file($id, $type = '')
     {
