@@ -105,3 +105,7 @@ if ($_SERVER['HTTP_HOST'] != 'localhost') {
 	define('API_PUBLIC_KEY', 'pk_test_NthcfPBoehkm2AT0fecUIB2w0080vhuO5E');
 	define('API_SECRET_KEY', 'sk_test_4yKglgTyIxCetlNijlRBh2zN00MWjZFHsv');
 }
+
+// BUYER ORDER CREDITS
+defined('BUYER_ORDER_CREDITS') OR define('BUYER_ORDER_CREDITS', 9);
+defined('BUYER_CREDITS_PERCENTAGE') OR define('BUYER_CREDITS_PERCENTAGE', 15);

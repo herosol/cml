@@ -92,6 +92,11 @@ class Booking extends MY_Controller
                     $buyer_data['mem_status'] = 1;
                     $buyer_data['mem_last_login'] = date('Y-m-d h:i:s');
 
+                    $order['mem_fname'] = ucfirst($post['mem_fname']);
+                    $order['mem_lname'] = ucfirst($post['mem_lname']);
+                    $order['mem_email'] = $post['mem_email'];
+                    $order['mem_phone'] = $post['mem_phone'];
+
                     if($post['address_type'] == 'home')
                     {
                         $buyer_data['mem_country'] = $post['address_country']; 
@@ -144,9 +149,18 @@ class Booking extends MY_Controller
             {
                 $buyer_id = $this->session->mem_id;
                 $buyer = $this->member_model->getMember($buyer_id);
-                $order['address'] = $buyer->address_city.' '.$buyer->address_field.' '.$buyer->address_zip;
+
+                $order['buyer_fname'] = $buyer->mem_fname;
+                $order['buyer_lname'] = $buyer->mem_lname;
+                $order['buyer_email'] = $buyer->mem_email;
+                $order['buyer_phone'] = $buyer->mem_phone;
+                $order['address']     = $post['address'];
             }
 
+            // CHECK BUYER CREDIT
+            $total_buyer_order = intval($this->master->num_rows('orders', ['order_status'=>'Completed', 'buyer_id'=>$buyer_id]));
+            $total_buyer_order = 29;
+            $buyer_credits = $total_buyer_order % 10;
             #ORDER DATA
             $order['buyer_id']  = $buyer_id;
             $order['vendor_id'] = $selections['vendor'];
@@ -190,7 +204,14 @@ class Booking extends MY_Controller
                 $order['address'] = $vendor->mem_business_city.'@'.$vendor->mem_business_address.'@'.$vendor->mem_business_zip;
             }
 
-            $order['order_total_price'] = $order['order_price'] + $order['pick_and_drop_charges'];
+            $order['order_total_price'] = price_format($order['order_price'] + $order['pick_and_drop_charges']);
+            if($buyer_credits === intval(BUYER_ORDER_CREDITS))
+            {
+                $order['buyer_get_credit'] = 1;
+                $order['buyer_credit_discount'] = price_format($order['order_total_price'] / 100 * intval(BUYER_CREDITS_PERCENTAGE));
+                $order['order_total_price'] -= $order['buyer_credit_discount'];
+            }
+            
             $order['order_status'] = 'New';
             $order['site_percentage'] = $this->data['site_settings']->site_percentage;
 

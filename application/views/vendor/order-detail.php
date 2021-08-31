@@ -169,10 +169,10 @@
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
+                                    <!-- <tr>
                                         <td colspan="4"></td>
                                         <td class="color">£<?=price_format($services_total)?></td>
-                                    </tr>
+                                    </tr> -->
                                     <?php if($order->pick_and_drop_service == '1'): ?>
                                         <?php if($order->free_pick_and_drop_service == '0'): ?>
                                             <tr>
@@ -185,6 +185,25 @@
                                                 <td>Free</td>
                                             </tr>
                                         <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if($order->buyer_get_credit == '1'): ?>
+                                        <tr>
+                                            <td colspan="4" class="color">Original Order Price</td>
+                                            <td>£<?=price_format($order->order_total_price + $order->buyer_credit_discount)?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="color">Get Discount 15%</td>
+                                            <td>£<?=price_format($order->buyer_credit_discount)?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="color">After Discount</td>
+                                            <td>£<?=price_format($order->order_total_price)?></td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4" class="color">Total</td>
+                                            <td>£<?=price_format($order->order_total_price)?></td>
+                                        </tr>
                                     <?php endif; ?>
                                 </tfoot>
                             </table>

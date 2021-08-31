@@ -201,13 +201,28 @@
                                         <label for="address" class="move">Address</label>
                                         <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
                                             <option value="">Select</option>
-                                            <option value="home" data-lat="<?=$mem_data->mem_map_lat?>" data-long="<?=$mem_data->mem_map_lng?>" data-full-address="<?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>">
+                                            <option
+                                                value="<?=$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>"
+                                                data-type="home"
+                                                data-lat="<?=$mem_data->mem_map_lat?>"
+                                                data-long="<?=$mem_data->mem_map_lng?>"
+                                                data-full-address="<?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>">
                                                 <?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>
                                             </option>
-                                            <option value="office" data-lat="<?=$mem_data->mem_business_map_lat?>" data-long="<?=$mem_data->mem_business_map_lng?>" data-full-address="<?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>">
+                                            <option 
+                                                value="<?=$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>"
+                                                data-type="office"
+                                                data-lat="<?=$mem_data->mem_business_map_lat?>"
+                                                data-long="<?=$mem_data->mem_business_map_lng?>"
+                                                data-full-address="<?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>">
                                                 <?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>
                                             </option>
-                                            <option value="hotel" data-lat="<?=$mem_data->mem_hotel_map_lat?>" data-long="<?=$mem_data->mem_hotel_map_lng?>" data-full-address="<?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>">
+                                            <option 
+                                                value="<?=$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>"
+                                                data-type="hotel"
+                                                data-lat="<?=$mem_data->mem_hotel_map_lat?>"
+                                                data-long="<?=$mem_data->mem_hotel_map_lng?>"
+                                                data-full-address="<?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>">
                                                 <?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>
                                             </option>
                                         </select>
@@ -1456,7 +1471,7 @@
         {
             obj = $(obj);
             let option = obj.find('option:selected'); 
-            let value  = option.val();
+            let value  = option.data('type');
             let startLat    = option.data('lat');
             let startLng    = option.data('long');
             let full_address= option.data('full-address');

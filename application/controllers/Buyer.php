@@ -8,7 +8,6 @@ class Buyer extends MY_Controller
         parent::__construct();
         $this->load->model('member_model');
         $this->load->model('order_model');
-        $this->load->model('Master');
     }
 
     public function dashboard()
@@ -100,25 +99,55 @@ class Buyer extends MY_Controller
         $this->load->view('buyer/order-detail', $this->data);
     }
 
-    public function accept($proof_id){
-        $proof_id = intval(doDecode($proof_id));
-        // pr($proof_id);
+    public function accept_proof_delivery()
+    {
+        if($this->input->post())
+        {
+            $res = array();
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 1;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+            // pr($_POST);
+            $post = html_escape($this->input->post());
+            $this->form_validation->set_rules('review_comment', 'Comment', 'trim|required');
 
-        $proof = $this->master->getRow('order_delivery_proof',array('proof_id'=>$proof_id));
-        
-        $arr['order_status']='completed';
-        $this->master->save('orders',$arr,'order_id',$proof->order_id);
-        $proof_data['status']='accepted';
-        $this->master->save('order_delivery_proof',$proof_data,'proof_id',$proof_id);
-        setMsg('success', 'Delivery Proof Accepted Successfully.');
-        redirect('buyer/order_detail/'.doEncode($proof->order_id), 'refresh');
+            if ($this->form_validation->run() === FALSE)
+                $res['msg'] = validation_errors();
+
+            if (!empty($res['msg']))
+                exit(json_encode($res));
+
+            $proof_id = intval(doDecode($post['proof_id']));
+            $proof = $this->master->getRow('order_delivery_proof', ['proof_id'=>$proof_id]);
+
+            $this->order_model->save(['order_status'=> 'Completed'], $proof->order_id);
+            $proof_data['status'] = 'accepted';
+            $this->master->save('order_delivery_proof', $proof_data, 'proof_id', $proof_id);
+
+            $order = $this->order_model->get_row($proof->order_id);
+
+            $review['mem_id']   = $order->vendor_id;
+            $review['rating']   = $post['rating'];
+            $review['order_id'] = $proof->order_id;
+            $review['review_comment'] = $post['review_comment'];
+
+            $is_added = $this->master->save('reviews', $review);
+            //RATING
+            $res['msg'] = showMsg('success', 'Request accepted successfully!');
+            $res['status'] = 1;
+            $res['hide_msg'] = 1;
+            exit(json_encode($res));
+        }
     }
 
-    public function reject($proof_id){
+    public function reject($proof_id)
+    {
         $proof_id = intval(doDecode($proof_id));
         $proof = $this->master->getRow('order_delivery_proof',array('proof_id'=>$proof_id));
         $proof_data['status']='rejected';
-        $this->master->save('order_delivery_proof',$proof_data,'proof_id',$proof_id);
+        $this->master->save('order_delivery_proof', $proof_data, 'proof_id',$proof_id);
         setMsg('success', 'Delivery Proof Rejected Successfully.');
         redirect('buyer/order_detail/'.doEncode($proof->order_id), 'refresh');
     }

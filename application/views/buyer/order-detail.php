@@ -246,7 +246,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="blk text-center">
+                    <div class="blk text-center" id="deliveryProofRequest">
                         <p>You've received your order, please accept or decline.</p>
                         <div class="bTn">
                             <a href="<?= base_url('buyer/reject/').doEncode($delivery_proof->proof_id); ?>" type="button" class="webBtn lightBtn">Decline</a>
@@ -262,15 +262,18 @@
                             <div class="_inner">
                                 <div class="crosBtn"></div>
                                 <h4>Leave Review</h4>
-                                <form action="<?= base_url('buyer/accept/').doEncode($delivery_proof->proof_id); ?>" method="post">
+                                <form action="<?= base_url() ?>buyer/accept_proof_delivery" method="post" id="acceptDeliveryAndRating" class="acceptDeliveryAndRating">
+                                <div class="alertMsg" style="display:none"></div>
+                                <input type="hidden" name="rating" value="4" />
+                                <input type="hidden" name="proof_id" value="<?=doEncode($delivery_proof->proof_id)?>" />
                                     <div class="txtGrp">
-                                        <div class="rateYo" data-rateyo-star-width="20px" data-rateyo-read-only="false"></div>
+                                        <div class="rateYo" id="rating" data-rateyo-star-width="20px" data-rateyo-read-only="false"></div>
                                     </div>
                                     <div class="txtGrp">
-                                        <label for="">Write a little description</label>
-                                        <textarea name="" id="" class="txtBox"></textarea>
+                                        <label for="review_comment">Write a little description</label>
+                                        <textarea name="review_comment" id="review_comment" class="txtBox"></textarea>
                                     </div>
-                                    <div class="bTn text-center"><button type="submit" class="webBtn">Submit</button></div>
+                                    <div class="bTn text-center"><button type="submit" class="webBtn"><i class="spinner hidden"></i>Submit</button></div>
                                 </form>
                             </div>
                         </div>

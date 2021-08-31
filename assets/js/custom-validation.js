@@ -585,6 +585,26 @@ $(document).ready(function() {
         }
     });
 
+    $('#acceptDeliveryAndRating').validate({
+        errorElement: 'div',
+        rules: {
+            review_comment: {
+                required: true
+            }
+        },
+        messages: {
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), ['review_comment']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
+        }
+    });
+
+    
     $('#frmSignin').validate({
         rules: {
             email: {

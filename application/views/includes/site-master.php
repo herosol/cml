@@ -138,6 +138,11 @@
             starWidth: '14px',
             spacing: '2px'
         });
+
+        $(document).on("rateyo.set", '#rating', function(e, data) {
+            let rating = data.rating;
+            $('input[name="rating"]').val(rating);
+        });
     });
 </script>
 <!-- Progress Bar Js -->
