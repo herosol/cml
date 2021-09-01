@@ -33,7 +33,7 @@
                                 </td>
                                 <td width="5%">
                                     <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn processed">Process</span>
+                                        <span class="webBtn mdBtn blockBtn <?= $order->order_status ?>"><?= ucfirst($order->order_status) ?></span>
                                     </div>
                                 </td>
                             </tr>
@@ -50,7 +50,7 @@
                                                 <th>Name</th>
                                             </tr>
                                             <tr>
-                                                <td>Franc Mathurin</td>
+                                                <td><?= $order->buyer_fname.' '.$order->buyer_lname ?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -87,7 +87,7 @@
                                                 <th>Phone</th>
                                             </tr>
                                             <tr>
-                                                <td>+987542621475</td>
+                                                <td><?= $order->buyer_phone ?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -117,7 +117,7 @@
                                                 <th>Email</th>
                                             </tr>
                                             <tr>
-                                                <td>Red@email.com</td>
+                                                <td><?= $order->buyer_email ?></td>
                                             </tr>
                                             <tr>
                                                 <td>&nbsp;</td>
