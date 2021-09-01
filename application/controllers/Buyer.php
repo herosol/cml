@@ -157,6 +157,12 @@ class Buyer extends MY_Controller
     }
 
     public function credits(){
+        $buyer_id = $this->session->mem_id;
+        $total_orders = intval($this->master->num_rows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id)));
+        $cal_orders = $total_orders % 10;
+        
+        $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id),'',$cal_orders,'desc','order_id');
+        // pr($this->data['orders']);
         $this->load->view('buyer/credits', $this->data);
     }
 
