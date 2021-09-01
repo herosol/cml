@@ -304,7 +304,7 @@
     <?= getBredcrum(ADMIN, array('#' => 'Product Orders Management')); ?>
     <div class="row margin-bottom-10">
         <div class="col-md-12">
-            <h2 class="no-margin"><i class="entypo-list"></i> Manage <?php if ($this->uri->segment(4) > 0): ?><strong>" <?php echo ucwords($member_row->mem_fname.' '.$member_row->mem_lname); ?> "</strong> <?php endif; ?>Orders</h2>
+            <h2 class="no-margin"><i class="entypo-list"></i> Manage Orders</h2>
         </div>
     </div>
     <table class="table table-bordered datatable" id="table-1">

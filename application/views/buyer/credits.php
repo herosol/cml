@@ -30,73 +30,50 @@
                         <h3 class="heading">Congratulations!</h3>
                     </div>
                     <div class="br"></div>
-                    <h4>You now have a <span class="color">15% off on your next order </span> worth ever $30.</h4>
+                    <h4>You now have a <span class="color">15% off </span>on your 10th order .</h4>
                     <h4>We make sure you save wishlist your spend!</h4>
                     <div class="br"></div>
                     <h4 class="color regular">Your 15% off automatically be applied at checkout.</h4>
                     <div class="br"></div>
                     <h2 class="heading">Orders</h2>
-                    <div class="itmRow flex">
+                    <?php if(!empty($orders)){?>
+                        <div class="itmRow flex">
+                        <?php foreach($orders as $order){?>
                         <div class="col">
                             <div class="minOrderBlk">
                                 <div class="_header">
                                     <h4>Order</h4>
-                                    <em>#078954</em>
+                                    <em>#<?= num_size($order->order_id)?></em>
                                 </div>
                                 <ul>
+                                    <?php if($order->pick_and_drop_service == '1'){ ?>
                                     <li>Collection Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
+                                    <li><?=date_picker_format_date($order->collection_date, 'D, d M Y', false)?> - <?=$order->collection_time?></li>
                                     <li>&nbsp;</li>
                                     <li>Delivery Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
-                                </ul>
-                                <p>You Paid:</p>
-                                <div class="price">£28.45</div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="minOrderBlk">
-                                <div class="_header">
-                                    <h4>Order</h4>
-                                    <em>#078954</em>
-                                </div>
-                                <ul>
-                                    <li>Collection Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
+                                    <li><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?> - <?=$order->delivery_time?></li>
+                                    <?php }else if($order->pick_and_drop_service == '0'){ ?>
                                     <li>&nbsp;</li>
-                                    <li>Delivery Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
-                                </ul>
-                                <p>You Paid:</p>
-                                <div class="price">£28.45</div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="minOrderBlk">
-                                <div class="_header">
-                                    <h4>Order</h4>
-                                    <em>#078954</em>
-                                </div>
-                                <ul>
-                                    <li>Collection Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
+                                    <li>Drop Off Date and Time:</li>
+                                    <li><?=date_picker_format_date($order->delivery_date, 'D, d M Y', false)?> - <?=$order->delivery_time?></li>
                                     <li>&nbsp;</li>
-                                    <li>Delivery Date & Time:</li>
-                                    <li>20-09-21 - 08:00pm</li>
+                                    <?php } ?>
                                 </ul>
                                 <p>You Paid:</p>
-                                <div class="price">£28.45</div>
+                                <div class="price">£<?= $order->order_total_price ?></div>
                             </div>
                         </div>
+                        <?php } ?>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </section>
         <!-- credits -->
 
 
-        <script src="<?= $base_url ?>js/highcharts.js"></script>
-        <script src="<?= $base_url ?>js/pie-chart.js"></script>
+        <script src="<?= base_url() ?>assets/js/highcharts.js"></script>
+        <script src="<?= base_url() ?>assets/js/pie-chart.js"></script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
 </body>
