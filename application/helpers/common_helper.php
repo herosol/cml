@@ -956,6 +956,46 @@ function get_full_time($d)
     return date("H:i", strtotime($d));
 }
 
+function earning_status_badge($val)
+{
+    if($val == 'pending')
+    {
+        return 'yellow';
+    }
+    else if($val == 'available')
+    {
+        return 'gray';
+    }
+    else if($val == 'paid')
+    {
+        return 'green';
+    }
+    else
+    {
+        return 'blue';
+    }
+}
+
+function earning_status($val)
+{
+    if($val == 'pending')
+    {
+        return 'Pending';
+    }
+    else if($val == 'paid')
+    {
+        return 'Cleared';
+    }
+    else if($val == 'available')
+    {
+        return 'In Balance';
+    }
+    else
+    {
+        return 'Requested';
+    }
+}
+
 function hours_format($h)
 {
     $d = @explode('.', $h);
@@ -1037,8 +1077,13 @@ function compare_dates($date1, $date2, $format = 'm/d/Y')
     return false;
 }
 
-function get_dates_days($date1, $date2, $format = 'm/d/Y')
+function chat_message_time($time)
 {
+    return format_date($time).' at '.get_full_time($time);
+}
+
+function get_dates_days($date1, $date2, $format = 'Y-m-d H:i:s'){
+
     $d1 = DateTime::createFromFormat($format, $date1);
     $d2 = DateTime::createFromFormat($format, $date2);
     $interval = $d1->diff($d2);

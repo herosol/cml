@@ -8,6 +8,7 @@ class Buyer extends MY_Controller
         parent::__construct();
         $this->load->model('member_model');
         $this->load->model('order_model');
+        $this->load->model('orderd_model');
     }
 
     public function dashboard()
@@ -126,7 +127,12 @@ class Buyer extends MY_Controller
             $proof_data['status'] = 'accepted';
             $this->master->save('order_delivery_proof', $proof_data, 'proof_id', $proof_id);
 
-            $order = $this->order_model->get_row($proof->order_id);
+            //EARNING AMOUNT
+            $order   = $this->order_model->get_row($proof->order_id);
+            $amended_price = $this->orderd_model->order_amended_price($proof->order_id);
+            $amended_price = price_format($amended_price);
+            $price = price_format($order->order_total_price + $amended_price);
+            $earning_amount = price_format($price - ( ($order->site_percentage / 100) * $price ));
 
             $review['mem_id']   = $order->vendor_id;
             $review['rating']   = $post['rating'];
@@ -134,6 +140,15 @@ class Buyer extends MY_Controller
             $review['review_comment'] = $post['review_comment'];
 
             $is_added = $this->master->save('reviews', $review);
+            $earning = [];
+            if($is_added)
+            {
+                $earning['order_id'] = $proof->order_id;
+                $earning['mem_id']   = $order->vendor_id; 
+                $earning['amount']   = $earning_amount; 
+            }
+
+            $this->master->save('earnings', $earning);
             //RATING
             $res['msg'] = showMsg('success', 'Request accepted successfully!');
             $res['status'] = 1;
@@ -157,12 +172,6 @@ class Buyer extends MY_Controller
     }
 
     public function credits(){
-        $buyer_id = $this->session->mem_id;
-        $total_orders = intval($this->master->num_rows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id)));
-        $cal_orders = $total_orders % 10;
-        
-        $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id),'',$cal_orders,'desc','order_id');
-        // pr($this->data['orders']);
         $this->load->view('buyer/credits', $this->data);
     }
 

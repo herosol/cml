@@ -16,10 +16,13 @@
             <div class="contain-fluid">
                 <div class="blk blansBlk">
                     <ul class="blans">
-                        <li>Deliveries: <span>50</span></li>
-                        <li>Payouts: <span class="price">£1,258.5</span></li>
-                        <li>Current Balance: <span class="price">£00.0</span></li>
-                        <li><button type="button" class="webBtn smBtn simpleBtn popBtn" data-popup="withdraw-funds">Withdraw Funds</button></li>
+                        <li>Deliveries: <span><?=$deliveries?></span></li>
+                        <li>Payouts: <span class="price">£<?=price_format($payouts)?></span></li>
+                        <li>Current Balance: <span class="price">£<?=price_format($availBalance)?></span></li>
+                        <li>Requested Balance: <span class="price">£<?=price_format($requested)?></span></li>
+                        <?php if(price_format($availBalance) >= 1): ?>
+                            <li><button type="button" class="webBtn smBtn simpleBtn popBtn" data-popup="withdraw-funds">Withdraw Funds</button></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
                 <div class="blk blockLst">
@@ -33,54 +36,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>John Wick</td>
-                                <td class="price">£250</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Abraham Adam</td>
-                                <td class="price">£220</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jenifer Kem</td>
-                                <td class="price">£150</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Samira Jones</td>
-                                <td class="price">£140</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge red">Canceled</span></td>
-                            </tr>
-                            <tr>
-                                <td>Preety Zinta</td>
-                                <td class="price">£180</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Tai Chi</td>
-                                <td class="price">£390</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Christoper Smith</td>
-                                <td class="price">£280</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge red">Canceled</span></td>
-                            </tr>
-                            <tr>
-                                <td>Julian Adam</td>
-                                <td class="price">£170</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
+                            <?php foreach($earnings as $key => $value): ?>
+                                <tr>
+                                    <td><?= $value->cfname.' '.$value->clname ?></td>
+                                    <td class="price">$<?=$value->amount?></td>
+                                    <td><?=chat_message_time($value->date)?></td>
+                                    <td><span class="badge <?=earning_status_badge($value->status)?>"><?=earning_status($value->status)?></span></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -92,36 +55,38 @@
                             <div class="_inner">
                                 <div class="crosBtn"></div>
                                 <h3>Add Payment method</h3>
-                                <form action="" method="post">
+                                <form action="<?=base_url()?>earnings/withdraw_request" method="post" id="withdrawForm" class="withdrawForm">
+                                    <div class="alertMsg" style="display:none"></div>
                                     <div data-payment>
                                         <div class="lblBtn">
-                                            <input type="radio" name="payment" id="bank" class="tglBlk" value="bank-account" checked="">
+                                            <input type="radio" name="payment_method" id="bank" class="tglBlk" value="bank-account" checked="">
                                             <label for="bank">Bank Account</label>
                                         </div>
                                         <div class="insideBlk active">
                                             <div class="txtGrp">
-                                                <label for="" class="move">Bank Account</label>
-                                                <select name="" id="" class="txtBox">
+                                                <label for="bank_id" class="move">Bank Account</label>
+                                                <select name="bank_id" id="bank_id" class="txtBox">
                                                     <option value="">Select</option>
-                                                    <option value="">Wells Fargo Checking Account</option>
-                                                    <option value="">SunTrust Checking Account</option>
+                                                    <?php foreach($bank_accounts as $key => $bank ): ?>
+                                                        <option value="<?=$bank->id?>"><?=$bank->bank_name?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="lblBtn">
-                                            <input type="radio" name="payment" id="paypal" class="tglBlk" value="paypal">
+                                            <input type="radio" name="payment_method" id="paypal" class="tglBlk" value="paypal">
                                             <label for="paypal">Paypal</label>
                                         </div>
                                         <div class="insideBlk">
                                             <div class="txtGrp">
-                                                <label for="">PayPal Address</label>
-                                                <input type="email" name="" id="" class="txtBox">
+                                                <label for="paypal_address">PayPal Address</label>
+                                                <input type="paypal_address" name="paypal_address" id="paypal_address" class="txtBox">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="bTn formBtn text-center">
-                                        <button type="submit" class="webBtn">Submit</button>
+                                        <button type="submit" class="webBtn"><i class="spinner hidden"></i>Submit</button>
                                     </div>
                                 </form>
                             </div>

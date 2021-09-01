@@ -143,6 +143,7 @@ class Vendor extends MY_Controller
 
     public function orders()
     {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $orders = $this->order_model->get_vendor_orders();
         $services = [];
         foreach($orders as $index => $order):
@@ -164,6 +165,7 @@ class Vendor extends MY_Controller
 
     public function order_detail($order_id)
     {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $order_id = doDecode($order_id);
         $this->data['order'] = $this->order_model->vendor_order_detail($order_id);
         $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'basic']);
@@ -190,6 +192,7 @@ class Vendor extends MY_Controller
 
     public function credits()
     {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $order = $this->order_model->get_latest_order();
         $order_detail = $this->orderd_model->get_rows(['order_id'=> $order->order_id]);
         $services = [];
@@ -207,11 +210,6 @@ class Vendor extends MY_Controller
         $this->data['week_sales']   = $this->order_model->vendor_week_sales();
         $this->data['month_sales']  = $this->order_model->vendor_month_sales();
         $this->load->view('vendor/credits', $this->data);
-    }
-
-    public function wallet()
-    {
-        $this->load->view('vendor/earnings', $this->data);
     }
 
     public function facility_hours()
