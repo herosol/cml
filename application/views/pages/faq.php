@@ -63,29 +63,30 @@
                     </div>
                     <?php } ?>
                 </div>
-                <form action="" method="post">
+                <form action="<?= base_url('ajax/contact') ?>" class="frmAjax" method="post" id="frmContact">
+                    <div class="alertMsg" style="display:none"></div>
                     <h3 class="heading text-center"><?= $content['form_heading'] ?></h3>
                     <div class="txtGrp">
                         <label for="">Name</label>
-                        <input type="text" name="" id="" class="txtBox">
+                        <input type="text" name="name" id="name" class="txtBox">
                     </div>
                     <div class="txtGrp">
                         <label for="">Phone</label>
-                        <input type="text" name="" id="" class="txtBox">
+                        <input type="text" name="phone" id="phone" class="txtBox">
                     </div>
                     <div class="txtGrp">
                         <label for="">Subject</label>
-                        <input type="text" name="" id="" class="txtBox">
+                        <input type="text" name="subject" id="subject" class="txtBox">
                     </div>
                     <div class="txtGrp">
                         <label for="">Email Address</label>
-                        <input type="text" name="" id="" class="txtBox">
+                        <input type="text" name="email" id="email" class="txtBox">
                     </div>
                     <div class="txtGrp">
                         <label for="">Comments</label>
-                        <textarea name="" id="" class="txtBox"></textarea>
+                        <textarea name="msg" id="msg" class="txtBox"></textarea>
                     </div>
-                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn"><?= $content['form_btn_title'] ?></button></div>
+                    <div class="bTn formBtn"><button type="submit" class="webBtn blockBtn"><i class="spinner hidden"></i><?= $content['form_btn_title'] ?></button></div>
                 </form>
             </div>
         </section>

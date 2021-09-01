@@ -1,6 +1,6 @@
 <aside>
     <ul>
-        <li class="<?php if ($page == "dashboard") {
+        <li class="<?php if ($this->uri->segment(2) == "dashboard") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/dashboard">
@@ -8,7 +8,7 @@
                 <em>Account</em>
             </a>
         </li>
-        <li class="<?php if ($page == "orders") {
+        <li class="<?php if ($this->uri->segment(2) == "orders") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/orders">
@@ -16,7 +16,7 @@
                 <em>Orders</em>
             </a>
         </li>
-        <li class="<?php if ($page == "credits") {
+        <li class="<?php if ($this->uri->segment(2) == "credits") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/credits">
@@ -24,7 +24,7 @@
                 <em>Credits</em>
             </a>
         </li>
-        <li class="<?php if ($page == "earnings") {
+        <li class="<?php if ($this->uri->segment(2) == "wallet") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/wallet">
@@ -32,23 +32,7 @@
                 <em>Wallet</em>
             </a>
         </li>
-        <!-- <li class="<?php if ($page == "pickup-delivery") {
-                        echo 'active';
-                    } ?>">
-            <a href="<?= $base_url ?>vendor/pickup-delivery.php">
-                <img src="<?= base_url() ?>assets/images/icon-van.svg" alt="">
-                <em>Pickup & Delivery</em>
-            </a>
-        </li>
-        <li class="<?php if ($page == "facility-hours") {
-                        echo 'active';
-                    } ?>">
-            <a href="<?= base_url() ?>vendor/facility-hours">
-                <img src="<?= base_url() ?>assets/images/icon-calendar.svg" alt="">
-                <em>Facility Hours</em>
-            </a>
-        </li> -->
-        <li class="<?php if ($page == "price-list") {
+        <li class="<?php if ($this->uri->segment(2) == "price-list") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/price-list">

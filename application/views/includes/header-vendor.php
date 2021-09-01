@@ -1,7 +1,7 @@
 <header class="ease log">
     <div class="contain-fluid">
         <div class="logo">
-            <a href="<?= base_url() ?>vendor/dashboard">
+            <a href="<?= base_url() ?>">
                 <img src="<?= getImageSrc(UPLOADIMAGE.'images/',$site_settings->site_logo) ?>" alt="">
             </a>
         </div>
@@ -32,7 +32,7 @@
                     <ul class="dropLst">
                         <li><a href="<?= base_url() ?>vendor/dashboard">Dashboard <small>See and Manage Data</small></a></li>
                         <li><a href="<?= base_url() ?>vendor/orders">My Orders <small>View Order Details</small></a></li>
-                        <li><a href="<?= base_url() ?>vendor/earnings">My Earnings <small>See & Mange Your Payouts</small></a></li>
+                        <li><a href="<?= base_url() ?>vendor/wallet">My Earnings <small>See & Mange Your Payouts</small></a></li>
                         <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
                     </ul>
                 </div>

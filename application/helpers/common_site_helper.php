@@ -164,6 +164,14 @@ function new_messages(){
     $row=$CI->db->get('contact');
     return intval($row->num_rows());
 }
+
+function new_withdraws_requests()
+{
+    global $CI;
+    $CI->db->where('status', 'pending');
+    $row = $CI->db->get('withdraws');
+    return intval($row->num_rows());
+}
 function new_subscribers(){
     global $CI;
     $CI->db->where('status',0);
@@ -529,6 +537,16 @@ function get_comments($ref_id,$ref_type,$parent_id=0,$start = '', $offset = '',$
 }
 
 /** reviews **/
+function get_mem_avg_rating($mem_id)
+{
+    $CI = get_instance();
+    $CI->db->select('AVG(rating) as total')
+    ->where('mem_id', $mem_id);
+    $query = $CI->db->get('reviews');
+    $total = $query->row()->total;
+    return round(floatval($total), 1);
+}
+
 function get_reviews($ref_id, $ref_type = 'booking')
 {
     $CI = get_instance();

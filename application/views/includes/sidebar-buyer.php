@@ -1,6 +1,6 @@
 <aside>
     <ul>
-        <li class="<?php if ($page == "dashboard") {
+        <li class="<?php if ($this->uri->segment(2) == "dashboard") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>buyer/dashboard">
@@ -8,7 +8,7 @@
                 <em>Account</em>
             </a>
         </li>
-        <li class="<?php if ($page == "orders") {
+        <li class="<?php if ($this->uri->segment(2) == "orders") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>buyer/orders">
@@ -16,7 +16,7 @@
                 <em>Orders</em>
             </a>
         </li>
-        <li class="<?php if ($page == "credits") {
+        <li class="<?php if ($this->uri->segment(2) == "credits") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>buyer/credits">
@@ -24,7 +24,7 @@
                 <em>Credits</em>
             </a>
         </li>
-        <li class="<?php if ($page == "transactions") {
+        <li class="<?php if ($this->uri->segment(2) == "transactions") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>buyer/transactions">

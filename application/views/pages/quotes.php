@@ -33,7 +33,7 @@
                                 <div class="icoBlk">
                                     <div class="icon"><img src="<?= get_site_image_src("members", $row->mem_image, ''); ?>" alt=""></div>
                                     <h6><?=$row->mem_fname.' '.$row->mem_lname?></h6>
-                                    <div class="rateYo"></div>
+                                    <div class="rateYo" data-rateyo-rating="<?=get_mem_avg_rating($row->mem_id)?>"></div>
                                     <small><?=round($row->distance, 2)?> Miles Away</small>
                                     <?php if($row->mem_company_pickdrop == 'yes'): ?>
                                         <div class="fig"><img src="<?=base_url()?>assets/images/vector-wait.svg" alt=""></div>

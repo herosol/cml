@@ -26,7 +26,7 @@ class Earnings extends MY_Controller
 		$this->data['availBalance']     = $this->withdraw_model->get_avail_balance();
 		$this->data['requested']        = $this->withdraw_model->get_requested_balance();
 		$this->data['payouts']          = $this->withdraw_model->get_payouts();
-		$this->data['deliveries']       = $this->withdraw_model->count_rows_where(['mem_id'=> $this->session->user_id, 'status'=> 'completed']);
+		$this->data['deliveries']       = $this->withdraw_model->count_rows_where(['mem_id'=> $this->session->mem_id, 'status'=> 'completed']);
 		// pr($this->data);
         $this->load->view('vendor/earnings', $this->data);
 	}

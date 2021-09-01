@@ -557,6 +557,15 @@ function get_paid_status($status)
     }
 }
 
+function get_paid_status_withdraws($status)
+{
+    if ($status == 'pending') {
+        return '<span class="miniLbl yellow">Pending</span>';
+    } else {
+        return '<span class="miniLbl green">Complete</span>';
+    }
+}
+
 function yes_no_status($status)
 {
     if ($status == '1') {

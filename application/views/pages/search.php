@@ -32,7 +32,7 @@
                         <div class="icoBlk">
                             <div class="icon"><img src="<?= get_site_image_src("members", $vendor->mem_image, ''); ?>" alt=""></div>
                             <h6><?=$vendor->mem_fname.' '.$vendor->mem_lname?></h6>
-                            <div class="rateYo"></div>
+                            <div class="rateYo" data-rateyo-rating="<?=get_mem_avg_rating($vendor->mem_id)?>"></div>
                             <small><?=$miles?> Miles Away</small>
                             <?php if($vendor->mem_company_pickdrop == 'yes'): ?>
                                 <div class="fig"><img src="<?=base_url()?>assets/images/vector-wait.svg" alt=""></div>
@@ -101,7 +101,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_date">Date</label>
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -120,7 +120,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                 <div class="txtGrp">
                                                     <label for="collection_date">Date</label>
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
+                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?=$mem_id?>', 'collection_time')">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -143,7 +143,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="delivery_date">Date</label>
-                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepickerWithDisabledDAys" onchange="fetchTime(this.value, '<?=$mem_id?>', 'delivery_time')">
+                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?=$mem_id?>', 'delivery_time')">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -192,8 +192,8 @@
                         leftArrow: '<i class="fi-arrow-left"></i>',
                         rightArrow: '<i class="fi-arrow-right"></i>'
                     },
-                    daysOfWeekDisabled: disableDays,
-                    minDate: new Date()
+                    minDate: 0,
+                    daysOfWeekDisabled: disableDays
                 });
             });
 

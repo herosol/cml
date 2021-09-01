@@ -64,7 +64,7 @@
                         <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
-                        <div class="switchBtn">
+                        <div class="switchBtn hidden">
                             <input type="checkbox" name="" id="" checked>
                             <em></em>
                             <small></small>

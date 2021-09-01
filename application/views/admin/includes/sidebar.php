@@ -72,6 +72,27 @@
             <li class=" <?= ($this->uri->segment(2) == 'vendors' || $this->uri->segment(2) == 'individuals') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="fa fa-users"></i>
+                    <span class="title">Manage Withdraws</span>
+                    <span class="badge badge-info"><?=new_withdraws_requests()?></span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(3) == 'vendors') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/withdraws') ?>">
+                        <i class="fa fa-user"></i>
+                            <span class="title">Completed Withdraws</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(3) == 'individuals') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/withdraws/requests') ?>">
+                            <i class="fa fa-user"></i>
+                            <span class="title">Withdraws Requests</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" <?= ($this->uri->segment(2) == 'vendors' || $this->uri->segment(2) == 'individuals') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-users"></i>
                     <span class="title">Manage Members</span>
                 </a>
                 <ul>
