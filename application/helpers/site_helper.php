@@ -14,6 +14,11 @@ function get_pages()
     $page_arr = array(1=>'index',2=>'faq',3=>'promotions-offers',4=>'contact',5=>'signin',6=>'signup-as',7=>'terms-and-conditions');
     return $page_arr;  
 }
+function get_sub_service_name($id){
+    $CI = get_instance();
+    $service = $CI->master->getRow('sub_services',array('id'=>$id));
+    return $service->name;
+}
 function get_service_name($id){
     $CI = get_instance();
     $service = $CI->master->getRow('services',array('id'=>$id));
