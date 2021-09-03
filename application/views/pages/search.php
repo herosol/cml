@@ -137,7 +137,7 @@
                                         <p><?= $vendor->mem_business_address ?> <br> <?= $vendor->mem_business_city ?> <br> <?= $vendor->mem_business_zip ?></p>
                                     </div>
                                 <?php endif; ?>
-                                <h6>Drop off</h6>
+                                <h6 id="drop-delivery">Drop off</h6>
                                 <input type="hidden" name="dropoffAddress" value="<?= $vendor->mem_business_address.'@'.$vendor->mem_business_city.'@'.$vendor->mem_business_zip ?>" >
                                 <div class="formRow row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -183,8 +183,8 @@
         <script>
             $(window).on('load', function() {
                 let disableDays = <?php echo json_encode($cdays); ?>;
-                console.log(disableDays);
                 $('.datepickerWithDisabledDAys').datepicker({
+                    startDate: new Date(),
                     format: 'mm-dd-yyyy',
                     todayHighlight: true,
                     multidateSeparator: ',  ',
@@ -192,7 +192,6 @@
                         leftArrow: '<i class="fi-arrow-left"></i>',
                         rightArrow: '<i class="fi-arrow-right"></i>'
                     },
-                    minDate: 0,
                     daysOfWeekDisabled: disableDays
                 });
             });
@@ -207,6 +206,7 @@
                     $('#collectionArea').removeClass('hidden');
                     pickdrop_charges.removeClass('hidden');
                     $('#estimated-total').text(`£${(parseFloat(services_total)+parseFloat(pcharges)).toFixed(2)}`);
+                    $('#drop-delivery').html('Delivery');
                 }
                 else
                 {
@@ -214,6 +214,7 @@
                     $('#collectionArea').addClass('hidden');
                     pickdrop_charges.addClass('hidden');
                     $('#estimated-total').text(`£${services_total}`);
+                    $('#drop-delivery').html('Drop off');
                 }
             });
 

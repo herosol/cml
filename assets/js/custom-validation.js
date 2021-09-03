@@ -560,6 +560,34 @@ $(document).ready(function() {
         }
     });
 
+    $('#vendorBankAccount').validate({
+        errorElement: 'div',
+        rules: {
+            bank_name: {
+                required: true
+            },
+            account_number: {
+                required: true
+            },
+            short_code: {
+                required: true
+            },
+            beneficiary_name: {
+                required: true
+            }
+        },
+        messages: {
+        },
+        errorPlacement: function(error, element) {
+            if ($.inArray(element.attr('id'), ['bank_name', 'account_number', 'short_code', 'beneficiary_name']) !== -1 && error.text() != 'This field is required.') {
+                error.addClass('alert alert-danger alert-sm')
+                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
+                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+            }
+            return false;
+        }
+    });
+
     $('#frmAmendInvoice').validate({
         errorElement: 'div',
         rules: {

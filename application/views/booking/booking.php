@@ -88,7 +88,7 @@
                     </li>
                 </ul>
 
-                <div class="alertMsg alert alert-danger alert-sm text-white" style="display:none"></div>
+                <div class="alertMsg-form alert alert-danger alert-sm text-white" style="display:none"></div>
                 <form action="" method="post" id="payment-form" class="">
                     <fieldset>
                         <h3 class="heading"><?= $content['step1_heading'] ?></h3>
@@ -199,7 +199,7 @@
                                     <h6>Select your address</h6>
                                     <div class="txtGrp">
                                         <label for="address" class="move">Address</label>
-                                        <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
+                                        <select name="address" id="address" class="txtBox" onchange="setAddress()">
                                             <option value="">Select</option>
                                             <option
                                                 value="<?=$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>"
@@ -287,10 +287,11 @@
                             </div>
                             <h6>Address type</h6>
                             <div class="txtGrp">
+                                <span id="address_type_error" style="color:red"></span>
                                 <ul class="selectLst flex">
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_home" value="home" <?=empty($this->session->mem_id) ? '' : 'disabled'?> onclick="appendCollectionDeliveryAddress()">
+                                            <input type="radio" name="address_type" id="address_type_home" value="home" <?=empty($this->session->mem_id) ? 'checked' : ''?> onclick="appendCollectionDeliveryAddress(); setAddress()">
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                                 <div class="txt">
@@ -301,7 +302,7 @@
                                     </li>
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_office" value="office" <?=empty($this->session->mem_id) ? '' : 'disabled'?> onclick="appendCollectionDeliveryAddress()">
+                                            <input type="radio" name="address_type" id="address_type_office" value="office" onclick="appendCollectionDeliveryAddress(); setAddress()">
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                                 <div class="txt">
@@ -312,7 +313,7 @@
                                     </li>
                                     <li>
                                         <div class="radioBtn">
-                                            <input type="radio" name="address_type" id="address_type_hotel" value="hotel" <?=empty($this->session->mem_id) ? '' : 'disabled'?> onclick="appendCollectionDeliveryAddress()">
+                                            <input type="radio" name="address_type" id="address_type_hotel" value="hotel" onclick="appendCollectionDeliveryAddress(); setAddress()">
                                             <div class="inner">
                                                 <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                                 <div class="txt">
@@ -342,7 +343,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="collection_date">Date</label>
-                                            <input type="text" name="collection_date" id="collection_date" value="<?=$selections['place-order']['collection_date']?>" class="txtBox datepicker">
+                                            <input type="text" name="collection_date" id="collection_date" value="<?=$selections['place-order']['collection_date']?>" class="txtBox datepicker" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -371,7 +372,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <label for="delivery_date">Date</label>
-                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker" value="<?=$selections['place-order']['delivery_date']?>">
+                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepicker" value="<?=$selections['place-order']['delivery_date']?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
@@ -677,7 +678,7 @@
                             <div class="blk smryBlk">
                                 <div class="_header">
                                     <h5>Price Estimator</h5>
-                                    <div class="bTn">
+                                    <div class="bTn hidden">
                                         <button type="reset" class="webBtn labelBtn">Reset</button>
                                     </div>
                                 </div>
@@ -1076,7 +1077,7 @@
                 currBtn  = $(this);
                 let check = true;
                 let errHtml;
-                if(currBtn.hasClass('1-stepp'))
+                if(currBtn.hasClass('1-step'))
                 {
                     if($('#account-info').length > 0)
                     {
@@ -1088,22 +1089,165 @@
                         let password  = $('#password');
                         let cpassword = $('#cpassword');
 
-                        if( !checkName($.trim(mem_fname.val()) ))
+                        let address_country = $('#address_country');
+                        let address_state   = $('#address_state');
+                        let address_city    = $('#address_city');
+                        let address_zip     = $('#address_zip');
+                        let address_field   = $('#address_field');
+                        let address_type    = $('#address_type');
+
+                        if(address_country.val() == '')
                         {
-                            errHtml = '<p>Please enter first name.</p><br/>';
-                            $('.alertMsg').append(errHtml);
+                            address_country.addClass('error');
                             check = false;
                         }
-
-                        if( !checkName($.trim(mem_lname.val()) ))
+                        else
                         {
-                            errHtml = '<p>Please enter last name.</p><br/>';
-                            $('.alertMsg').append(errHtml);
+                            address_country.removeClass('error');
+                        }
+
+                        if(address_state.val() == '')
+                        {
+                            address_state.addClass('error');
                             check = false;
+                        }
+                        else
+                        {
+                            address_state.removeClass('error');
+                        }
+
+                        if($.trim(address_city.val()).length == 0)
+                        {
+                            address_city.addClass('error');
+                            check = false;
+                        }
+                        else
+                        {
+                            address_city.removeClass('error');
+                        }
+
+                        if($.trim(address_zip.val()).length == 0)
+                        {
+                            address_zip.addClass('error');
+                            check = false;
+                        }
+                        else
+                        {
+                            address_zip.removeClass('error');
+                        }
+
+                        if($.trim(address_field.val()).length == 0)
+                        {
+                            address_field.addClass('error');
+                            check = false;
+                        }
+                        else
+                        {
+                            address_field.removeClass('error');
+                        }
+
+                        if($('input[name="address_type"]:checked').length == 0)
+                        {
+                            $('#address_type_error').html('please select one.');
+                            check = false;
+                        }
+                        else
+                        {
+                            $('#address_type_error').html('');
+                        }
+                        
+                    }
+                    else
+                    {
+                        let address = $('#address');
+
+                        if(address.val() == '')
+                        {
+                            address.addClass('error');
+                            check = false;
+                        }
+                        else
+                        {
+                            address.removeClass('error');
                         }
 
                     }
 
+                    if(!check)
+                        return false;
+
+                }
+                else if(currBtn.hasClass('2-step'))
+                {
+                    let collection_date = $('#collection_date');
+                    let collection_time = $('#collection_time');
+                    let collection_from = $('#collection_from');
+                    let delivery_date   = $('#delivery_date');
+                    let delivery_time   = $('#delivery_time');
+                    let delivery_from   = $('#delivery_from');
+
+                    if(collection_date.val() == '')
+                    {
+                        collection_date.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        collection_date.removeClass('error');
+                    }
+
+                    if(collection_time.val() == '')
+                    {
+                        collection_time.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        collection_time.removeClass('error');
+                    }
+
+                    if(collection_from.val() == '')
+                    {
+                        collection_from.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        collection_from.removeClass('error');
+                    }
+
+                    if(delivery_date.val() == '')
+                    {
+                        delivery_date.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        delivery_date.removeClass('error');
+                    }
+
+                    if(delivery_time.val() == '')
+                    {
+                        delivery_time.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        delivery_time.removeClass('error');
+                    }
+
+                    if(delivery_from.val() == '')
+                    {
+                        delivery_from.addClass('error');
+                        check = false;
+                    }
+                    else
+                    {
+                        delivery_from.removeClass('error');
+                    }
+
+                    if(!check)
+                        return false;
                 }
                 else if(currBtn.hasClass('3-step'))
                 {
@@ -1161,19 +1305,6 @@
             });
         });
 
-        const checkName = (value) => 
-        {
-            alert(value);
-            if(value == '')
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         $(document).on('submit','#payment-form',function(e){ 
             e.preventDefault();
             let sbtn = $('#payment-form').find("button[type='submit']");
@@ -1182,7 +1313,7 @@
             let form$ = $("#payment-form");
             let frmIcon = form$.find("button[type='submit'] i.spinner");
             let frmData = new FormData(form$[0]);
-            let frmMsg = form$.find("div.alertMsg:first");
+            let frmMsg = $('.alertMsg-form');
             sbtn.attr("disabled", true);
             if ($('input[name="payment_type"]:checked').val() == 'paypal') {
                     needToConfirm = true;
@@ -1251,7 +1382,7 @@
             else {
                 let nonce   = response['id'];
                 let frmData = new FormData(form$[0]);
-                let frmMsg  = form$.find("div.alertMsg:first");
+                let frmMsg  = $('.alertMsg-form');
                 frmData.append('nonce', nonce);
                 
                 object.append("<input type='hidden' name='nonce' value='" + nonce + "' />");
@@ -1467,9 +1598,9 @@
             anchor: new google.maps.Point(25, 50) // anchor
         };
 
-        const setAddress = obj => 
+        const setAddress = () => 
         {
-            obj = $(obj);
+            let obj = $('#address');
             let option = obj.find('option:selected'); 
             let value  = option.data('type');
             let startLat    = option.data('lat');
@@ -1478,6 +1609,8 @@
             $('#collection-address').text(full_address);
             $('#delivery-address').text(full_address);
             $('#address_type_' + value).prop('checked', true);
+            $('#address_type_' + value).removeAttr('disabled');
+            $('input[name="address_type"]').not(':checked').prop('disabled', true);
             $('#map-area').removeClass('hidden');
             startLatLng = new google.maps.LatLng(startLat, startLng);
             init();

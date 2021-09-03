@@ -77,7 +77,7 @@ $route['vendor/price-list'] = 'vendor/price_list';
 $route['vendor/facility-hours'] = 'vendor/facility_hours';
 $route['vendor/wallet']         = 'earnings/index';
 $route['vendor/credits']        = 'vendor/credits';
-
+$route['vendor/bank-accounts']  = 'vendor/bank_accounts';
 # BUYER PAGES
 $route['buyer/dashboard']   = 'buyer/dashboard';
 $route['buyer/credits']     = 'buyer/credits';

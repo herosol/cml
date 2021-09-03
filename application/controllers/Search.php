@@ -106,10 +106,26 @@ class Search extends MY_Controller
                 $selections['place-order'] = $post;
                 if(isset($post['use_pickdrop']))
                 {
-                    if($post['use_pickdrop'] == 'on')
-                        $selections['pick-or-facility'] = 'pickdrop';
+                    $c_time_indexes = explode(' - ', $post['collection_time']);
+                    $d_time_indexes = explode(' - ', $post['delivery_time']);
+                    $collection_datetime = $post['collection_date'] . ' ' . $c_time_indexes[1];
+                    $delivery_datetime   = $post['delivery_date'] . ' ' .$d_time_indexes[1];
+
+                    $collection_datetime = strtotime(format_date($collection_datetime, 'Y-m-d H:i:s'));
+                    $delivery_datetime = strtotime(format_date($delivery_datetime, 'Y-m-d H:i:s'));
+
+                    if($delivery_datetime <= $collection_datetime)
+                    {
+                        $res['msg'] = 'Please select valid collection and delivery time.';
+                        exit(json_encode($res));
+                    }
                     else
-                        $selections['pick-or-facility'] = 'walkin';
+                    {
+                        if($post['use_pickdrop'] == 'on')
+                            $selections['pick-or-facility'] = 'pickdrop';
+                        else
+                            $selections['pick-or-facility'] = 'walkin';
+                    }
                         
                 }
                 else

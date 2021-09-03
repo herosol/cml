@@ -26,9 +26,9 @@
         <section id="quotes">
             <div class="contain">
                 <h2 class="heading text-center">Best Deals in your Area</h2>
-                <div class="flexRow flex">
+                <div class="flexRow flex quotes">
                     <?php foreach($vendors as $key => $row): ?>
-                        <div class="col">
+                        <div class="col" style="display:none">
                             <div class="srchBlk">
                                 <div class="icoBlk">
                                     <div class="icon"><img src="<?= get_site_image_src("members", $row->mem_image, ''); ?>" alt=""></div>
@@ -51,13 +51,40 @@
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <div class="bTn formBtn text-center">
-                    <a href="?" class="webBtn lightBtn">More Quotes <i class="fi-arrow-right"></i></a>
-                </div>
+                    <?php if(count($vendors) > 4): ?>
+                    <div class="bTn formBtn text-center more-less-quotes">
+                        <button onclick="loadMore();" class="webBtn lightBtn">More Quotes <i class="fi-arrow-right"></i></button>
+                    </div>
+                    <?php endif; ?>
             </div>
         </section>
         <!-- quotes -->
+        <script>
+            var total = '<?= count($vendors) ?>';
+            var size_quotes = $(".quotes .col").length;
+            var append_size = 4;
+            var x = 4;
+            $(document).ready(function () {
+                $('.quotes .col:lt('+x+')').show(); 
+            });
 
+            const loadMore = () =>
+            {
+                x = (x+append_size <= size_quotes) ? x+append_size : size_quotes;
+                $('.quotes .col:lt('+x+')').show();
+                if(x == total)
+                {
+                    $('.more-less-quotes').empty().append(`<button onclick="showLess();" class="webBtn lightBtn">Show Less <i class="fi-arrow-right"></i></button>`);
+                }
+            }
+
+            const showLess = () =>
+            {
+                x = 4;
+                $('.quotes .col').not(':lt('+x+')').hide();
+                $('.more-less-quotes').empty().append(`<button onclick="loadMore();" class="webBtn lightBtn">More Quotes <i class="fi-arrow-right"></i></button>`);
+            }
+        </script>
 
     </main>
     <?php $this->load->view('includes/footer');?></body>

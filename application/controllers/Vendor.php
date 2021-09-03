@@ -268,6 +268,53 @@ class Vendor extends MY_Controller
         $this->data['deals']         = $this->master->get_data_row('services', ['id'=> '7']);
         $this->load->view('vendor/price-list', $this->data);
     } 
+    
+    public function bank_accounts()
+    {
+        $this->isMemLogged($this->session->mem_type, false, $this->uri->segment(1));
+        if($this->input->post())
+        {
+            $res = [];
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 1;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+
+            $post = html_escape($this->input->post());
+            $this->form_validation->set_rules('bank_name', 'Company phone', 'trim|required');
+            $this->form_validation->set_rules('account_number', 'Company email', 'trim|required');
+            $this->form_validation->set_rules('short_code', 'Company website', 'trim|required');
+            $this->form_validation->set_rules('beneficiary_name', 'Company order email', 'trim|required');
+
+            if ($this->form_validation->run() === FALSE)
+                $res['msg'] = validation_errors();
+
+            if (!empty($res['msg']))
+                exit(json_encode($res));
+
+            # BANK INFO TO BE SAVE
+            $bank_id = intval(doDecode($post['bank_id']));
+            unset($post['bank_id']);
+            $post['mem_id'] = $this->session->mem_id;
+
+            if($bank_id > 0)
+                $this->master->save('mem_bank_accounts', $post, 'id', $bank_id);
+            else
+                $this->master->save('mem_bank_accounts', $post);
+
+            $res['msg'] = showMsg('success', 'Bank detail saved successfully!');
+            $res['status'] = 1;
+            $res['hide_msg'] = 1;
+            $res['html'] = get_mem_banks($this->session->mem_id);
+            exit(json_encode($res));
+        }
+        else
+        {
+            $this->data['banks'] = $this->master->get_data_rows('mem_bank_accounts', ['mem_id'=> $mem_id], 'DESC');
+            $this->load->view('vendor/bank-accounts', $this->data);
+        }
+    }
 
     public function get_location_and_initmap()
     {
@@ -320,6 +367,22 @@ class Vendor extends MY_Controller
             exit(json_encode($res));
         }
     }
+
+    public function edit_bank_fetch()
+    {
+        if($this->input->post())
+        {
+            exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
+        }
+    }
+
+    // public function delete_bank_fetch()
+    // {
+    //     if($this->input->post())
+    //     {
+    //         exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
+    //     }
+    // }
 
 
     public function change_order_status()

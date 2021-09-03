@@ -8,7 +8,7 @@
                 <em>Account</em>
             </a>
         </li>
-        <li class="<?php if ($this->uri->segment(2) == "orders") {
+        <li class="<?php if ($this->uri->segment(2) == "orders" || $this->uri->segment(2) == "order-detail") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>vendor/orders">
@@ -38,6 +38,14 @@
             <a href="<?= base_url() ?>vendor/price-list">
                 <img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt="">
                 <em>Price List</em>
+            </a>
+        </li>
+        <li class="<?php if ($this->uri->segment(2) == "bank-accounts") {
+                        echo 'active';
+                    } ?>">
+            <a href="<?= base_url() ?>vendor/bank-accounts">
+                <img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt="">
+                <em>Bank Accounts</em>
             </a>
         </li>
     </ul>

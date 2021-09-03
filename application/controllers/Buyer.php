@@ -123,7 +123,7 @@ class Buyer extends MY_Controller
             $proof_id = intval(doDecode($post['proof_id']));
             $proof = $this->master->getRow('order_delivery_proof', ['proof_id'=>$proof_id]);
 
-            $this->order_model->save(['order_status'=> 'Completed'], $proof->order_id);
+            $this->order_model->save(['order_status'=> 'Completed', 'completed_date'=> date('Y-m-d')], $proof->order_id);
             $proof_data['status'] = 'accepted';
             $this->master->save('order_delivery_proof', $proof_data, 'proof_id', $proof_id);
 

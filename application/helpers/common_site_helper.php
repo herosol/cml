@@ -84,6 +84,84 @@ function get_sub_service($sub_service_id, $mem_id)
     return $CI->db->get()->row();
 }
 
+function mem_bank_form($bank_id = 0)
+{
+    global $CI;
+    $bank_id = doDecode($bank_id);
+    $CI->db->select("*");
+    $CI->db->where(['id'=> $bank_id]);
+    $query = $CI->db->get('mem_bank_accounts');
+    $bank  = $query->row();
+
+    $html = '';
+    $html .= '<div class="row formRow">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+            <div class="txtGrp">
+                <label for="bank_name">Bank Name</label>
+                <input type="hidden" name="bank_id" value="'.doEncode($bank_id).'">
+                <input type="text" name="bank_name" id="bank_name" value="'.$bank->bank_name.'" class="txtBox">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+            <div class="txtGrp">
+                <label for="account_number">Account Number</label>
+                <input type="text" name="account_number" id="account_number" value="'.$bank->account_number.'" class="txtBox">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+            <div class="txtGrp">
+                <label for="short_code">Short Code</label>
+                <input type="text" name="short_code" id="short_code" value="'.$bank->short_code.'" class="txtBox">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+            <div class="txtGrp">
+                <label for="beneficiary_name">Beneficiary Name</label>
+                <input type="text" id="beneficiary_name" name="beneficiary_name" value="'.$bank->beneficiary_name.'" class="txtBox">
+            </div>
+        </div> 
+    </div>';
+
+    return $html;
+}
+
+function get_mem_banks($mem_id)
+{
+    global $CI;
+    $CI->db->select("*");
+    $CI->db->where(['mem_id'=> $mem_id]);
+    $query = $CI->db->get('mem_bank_accounts');
+    $banks = $query->result();
+
+    $html = '';
+    if(count($banks) == 0)
+    {
+        $html .='<tr>
+        <td>No Bank Account Added.</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>';
+    }
+    else
+    {
+        foreach($banks as $key => $bank):
+            $html .='<tr>
+                <td>'.$bank->bank_name.'</td>
+                <td>'.$bank->account_number.'</td>
+                <td>'.$bank->short_code.'</td>
+                <td>'.$bank->beneficiary_name.'</td>
+                <td>
+                    <button class="btn-sm edit-bank-account" data-bank-id="'.doEncode($bank->id).'">Edit</button>
+                </td>
+            </tr>';
+        endforeach;
+    }
+
+    return $html;
+}
+
 function sub_service_price($sub_service_id, $mem_id)
 {
     global $CI;

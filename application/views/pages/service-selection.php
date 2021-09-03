@@ -222,7 +222,7 @@
                         <div class="blk smryBlk">
                             <div class="_header">
                                 <h5>Item Summary</h5>
-                                <div class="bTn">
+                                <div class="bTn hidden">
                                     <button type="reset" class="webBtn labelBtn">Reset</button>
                                 </div>
                             </div>
