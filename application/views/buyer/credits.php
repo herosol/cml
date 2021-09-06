@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>My Credits — Compare My Laundry</title>
+    <title>My Credits — <?= $site_settings->site_name ?></title>
     <?php $this->load->view('includes/site-master'); ?>
 </head>
 
@@ -23,20 +23,23 @@
                         <a href="<?= $base_url ?>buyer/orders.php" class="webBtn mdBtn simpleBtn">View Orders</a>
                     </div>
                 </div>
+                <?php $count = count($orders);?>
                 <div class="blk text-center">
                     <h2 class="heading">My Account Credit</h2>
                     <div class="chart relative">
                         <div id="pie"></div>
-                        <h3 class="heading">Congratulations!</h3>
+                        <h3 class="heading"><?=($count == '9') ? 'Congratulations!' :  9-$count.' More Orders to go' ?></h3>
                     </div>
                     <div class="br"></div>
-                    <h4>You now have a <span class="color">15% off </span>on your 10th order .</h4>
-                    <h4>We make sure you save wishlist your spend!</h4>
+                    <h4>You will have a <span class="color"><?= $site_settings->site_buyer_credit_percentage ?>% off </span>on every 10th order .</h4>
+                    <!-- <h4>We make sure you save wishlist your spend!</h4> -->
                     <div class="br"></div>
-                    <h4 class="color regular">Your 15% off automatically be applied at checkout.</h4>
+                    <?php if($count == '9') { ?>
+                    <h4 class="color regular">Your <?= $site_settings->site_buyer_credit_percentage ?>% off automatically be applied at checkout.</h4>
+                    <?php } ?>
                     <div class="br"></div>
-                    <h2 class="heading">Orders</h2>
                     <?php if(!empty($orders)){?>
+                        <h2 class="heading">Orders</h2>
                         <div class="itmRow flex">
                         <?php foreach($orders as $order){?>
                         <div class="col">
@@ -65,6 +68,11 @@
                         </div>
                         <?php } ?>
                     </div>
+                    <?php }else{ ?>
+                    <br>
+                    <br>
+                    <br>
+                    <h2 class="heading">No Orders Yet</h2>
                     <?php } ?>
                 </div>
             </div>

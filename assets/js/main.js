@@ -258,3 +258,5 @@ $(window).on("load", function() {
         .delay(1200)
         .fadeOut("slow");
 });
+
+

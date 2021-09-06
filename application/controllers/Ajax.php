@@ -197,15 +197,16 @@ class Ajax extends MY_Controller
         }
         exit(json_encode($res));
     }
-	function filter_products(){
+	function search_promo(){
 		$vals=$this->input->post();
+		// pr($vals);
+		if(!empty($vals['zip_promo'])){
+			$promos = $this->master->getRows('promos',array('status'=>1,'zip'=>$vals['zip_promo']));
+		}else{
+			$promos = $this->master->getRows('promos',array('status'=>1));
+		}
 		
-		
-			$this->load->model('product_model');
-			$this->data['rows'] = $this->product_model->get_filter_rows($vals);
-			
-			$products = $this->data['rows'];
-			exit(json_encode($products));
+		exit(json_encode($promos));
 		
 	}
     function trade()

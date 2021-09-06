@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>My Transactions — Compare My Laundry</title>
+    <title>My Transactions — <?= $site_settings->site_name ?></title>
     <?php $this->load->view('includes/site-master'); ?>
 </head>
 
