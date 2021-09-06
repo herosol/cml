@@ -8,7 +8,7 @@
                 <em>Account</em>
             </a>
         </li>
-        <li class="<?php if ($this->uri->segment(2) == "orders") {
+        <li class="<?php if ($this->uri->segment(2) == "orders" || $this->uri->segment(2) == "order-detail") {
                         echo 'active';
                     } ?>">
             <a href="<?= base_url() ?>buyer/orders">

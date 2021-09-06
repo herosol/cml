@@ -75,8 +75,9 @@ class Buyer extends MY_Controller
 
         $this->load->view('buyer/dashboard', $this->data);
     }
-    public function orders(){      
-
+    public function orders()
+    {      
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $orders = $this->order_model->get_buyer_orders();
         $services = [];
         foreach($orders as $index => $order):
@@ -92,10 +93,12 @@ class Buyer extends MY_Controller
 
     }
 
-    public function order_detail($o_id){
+    public function order_detail($o_id)
+    {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $o_id = intval(doDecode($o_id));
         $this->data['order'] = $this->master->getRow('orders',array('order_id'=>$o_id));
-        $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id));
+        $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id, 'service_type'=> 'basic'));
         $this->data['amended'] = $this->orderd_model->get_rows(['order_id'=> $o_id, 'service_type'=> 'amended']);
         $this->data['delivery_proof'] = $this->master->getRow('order_delivery_proof',array('order_id'=>$o_id,'status'=>'pending'));   
         $this->load->view('buyer/order-detail', $this->data);
@@ -103,6 +106,7 @@ class Buyer extends MY_Controller
 
     public function accept_proof_delivery()
     {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         if($this->input->post())
         {
             $res = array();
@@ -160,6 +164,7 @@ class Buyer extends MY_Controller
 
     public function reject_proof_delivery()
     {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         if($this->input->post())
         {
             $res = array();
@@ -183,11 +188,15 @@ class Buyer extends MY_Controller
     }
 
     
-    public function transactions(){
+    public function transactions()
+    {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $this->load->view('buyer/transactions', $this->data);
     }
 
-    public function credits(){
+    public function credits()
+    {
+        $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $buyer_id = $this->session->mem_id;
         $total_orders = intval($this->master->num_rows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id)));
         $cal_orders = $total_orders % 10;
@@ -195,6 +204,89 @@ class Buyer extends MY_Controller
         $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id),'',$cal_orders,'desc','order_id');
         // pr($this->data['orders']);
         $this->load->view('buyer/credits', $this->data);
+    }
+
+    ### PAY AMENDED INVOICE AMOUNT METHODS
+    public function pay_amend_invoice()
+    {
+        $post = html_escape($this->input->post());
+        $amended_records = $this->orderd_model->get_rows(['order_id'=> doDecode($post['order_id']), 'service_type'=> 'amended']);
+        $amend_pending = 0;
+        foreach($amended_records as $key => $row):
+            if(check_amend_item_pay_status($row->order_id, $row->id) == 'Pending')
+            {
+                $amend_pending += price_format($row->sub_service_price*$row->quantity);
+            }
+        endforeach;
+
+        // echo price_format($amend_pending); die;
+
+        if ($post['payment_type'] == 'credit-card') 
+        {
+            include_once APPPATH . "libraries/stripe/init.php";
+            \Stripe\Stripe::setApiKey(API_SECRET_KEY);
+            try {
+                if (!isset($post['nonce']))
+                    throw new Exception("The Stripe Token was not generated correctly");
+
+                $cents   = $amend_pending*100;
+                $charge = \Stripe\Charge::create([
+                    "amount"      => $cents,
+                    "currency"    => "gbp",
+                    "source"      => $post['nonce'],
+                    "description" => "Customer Charge",
+                    "statement_descriptor" => "Paid successfully"
+                ]);
+            }
+            catch (Exception $e)
+            {
+                $res['msg']    = $e->getMessage();
+                $res['status'] = 0;
+                exit(json_encode($res));
+            }
+
+            $amended_item_ids = [];
+            foreach($amended_records as $key => $row):
+                if(check_amend_item_pay_status($row->order_id, $row->id) == 'Pending')
+                {
+                    $amended_item_ids[] = $row->id;
+                }
+            endforeach;
+
+            $amended_item_ids = implode(',', $amended_item_ids);
+            
+            $order_invoice = [];
+            $order_invoice['order_id']  = doDecode($post['order_id']);
+            $order_invoice['charge_id'] = $charge['id'];
+            $order_invoice['payment_method']   = 'stripe';
+            $order_invoice['amended_item_ids'] = $amended_item_ids;
+            $order_invoice['invoice_type']     = 'amended';
+            $order_invoice['payment_status']   = 'paid';
+            $this->master->save('order_invoices', $order_invoice);
+        }
+
+        if (doDecode($post['order_id']) > 0)
+        {
+            if ($post['payment_type'] == 'credit-card') 
+            {
+                $res['msg'] = 'Your order has been completed successfully. We will contact you shortly.';
+                $res['status'] = 1;
+                // $res['redirect_url'] = base_url('order_success/'.doEncode($order_id));
+            }
+            else
+            {
+                $res['msg'] = 'Your order has been completed successfully. Your are reditect to paypal for payment';
+                $res['status'] = 1;
+                $res['redirect_url'] = base_url('paypal/'.doEncode($order_id));
+            }
+        }
+        else
+        {
+            $res['status'] = 0;
+            $res['msg'] = 'Your order has not been completed successfully. Please try again';
+        }
+
+        exit(json_encode($res));
     }
     
     ### REMOVE FILE

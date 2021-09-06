@@ -185,7 +185,7 @@
                                         <div class="btm">
                                             <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                             <div class="bTn text-center">
-                                                <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                                <a href="<?= base_url('buyer/order-detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                             </div>
                                         </div>
                                     </div>
@@ -356,7 +356,7 @@
                                         <div class="btm">
                                             <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                             <div class="bTn text-center">
-                                                <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                                <a href="<?= base_url('buyer/order-detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                             </div>
                                         </div>
                                     </div>
@@ -527,7 +527,7 @@
                                         <div class="btm">
                                             <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                             <div class="bTn text-center">
-                                                <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                                <a href="<?= base_url('buyer/order-detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                             </div>
                                         </div>
                                     </div>
@@ -698,7 +698,7 @@
                                         <div class="btm">
                                             <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                             <div class="bTn text-center">
-                                                <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                                <a href="<?= base_url('buyer/order-detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                             </div>
                                         </div>
                                     </div>
@@ -869,7 +869,7 @@
                                         <div class="btm">
                                             <!-- <div class="icon"><img src="<?= base_url()?>assets/images/vector-wait.svg" alt=""></div> -->
                                             <div class="bTn text-center">
-                                                <a href="<?= base_url('buyer/order_detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
+                                                <a href="<?= base_url('buyer/order-detail/').doEncode($order->order_id) ?>" class="webBtn mdBtn blankBtn borderBtn">More Details</a>
                                             </div>
                                         </div>
                                     </div>

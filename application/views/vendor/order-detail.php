@@ -257,7 +257,7 @@
                             <?php if($order->pick_and_drop_service == '1'): ?>
                                 <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
                             <?php endif; ?>
-                            <?php if(($order->order_status == 'New' || $order->order_status == 'In Progress') && count($amended) == 0): ?>
+                            <?php if(($order->order_status == 'New' || $order->order_status == 'In Progress')): ?>
                                 <div class="bTn formBtn" id="amend-invoice-div">
                                     <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
                                 </div>

@@ -33,7 +33,7 @@
                                 </td>
                                 <td width="5%">
                                     <div class="bTn">
-                                        <span class="webBtn mdBtn blockBtn <?= $order->order_status ?>"><?= ucfirst($order->order_status) ?></span>
+                                        <span class="webBtn mdBtn blockBtn <?= get_order_status($order->order_status) ?>"><?= ucfirst($order->order_status) ?></span>
                                     </div>
                                 </td>
                             </tr>
@@ -195,7 +195,7 @@
                                         </tr>
                                     <?php endif; ?>
                                         <tr>
-                                            <td colspan="4" class="color">Grand Total</td>
+                                            <td colspan="4" class="color">Total</td>
                                             <td>£<?=price_format($order->order_total_price)?></td>
                                         </tr>
                                 </tfoot>
@@ -246,7 +246,10 @@
                                     <?php endif; ?>
                                 </tbody>
                             </table>
-                            
+                            <div class="br"></div>
+                            <?php if($order->pick_and_drop_service == '1'): ?>
+                                <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
+                            <?php endif; ?>
                             <div class="alertMsg" style="display:none"></div>
                         </div>
                     </div>
@@ -320,10 +323,216 @@
                     </div>
                 </div>
             </div>
+            <div class="popup" data-popup="pay-amend-invoice">
+                <div class="tableDv">
+                    <div class="tableCell">
+                        <div class="contain">
+                            <div class="_inner">
+                                <div class="crosBtn"></div>
+                                <h3>Pay Amended Amount</h3><hr/>
+                                <form action="<?= base_url() ?>buyer/pay_amend_invoice" method="post" id="payment-form">
+                                    <p>All transactions are secure and encrypted.</p>
+                                    <div data-payment>
+                                        <div class="lblBtn">
+                                            <input type="radio" name="payment_type" id="credit" class="tglBlk" value="credit-card" checked="">
+                                            <label for="credit">Credit card</label>
+                                        </div>
+                                        <div class="insideBlk active">
+                                            <div class="row formRow">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                    <div class="txtGrp">
+                                                        <label for="cardnumber">Card Number</label>
+                                                        <input type="text" name="cardnumber" id="cardnumber" class="txtBox">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                                    <div class="txtGrp">
+                                                        <label for="card_holder_name">Card Holder</label>
+                                                        <input type="text" name="card_holder_name" id="card_holder_name" class="txtBox">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                                    <div class="txtGrp">
+                                                        <label for="exp_month" class="move">Month</label>
+                                                        <select name="exp_month" id="exp_month" class="txtBox">
+                                                            <option value="">Select</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04">04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                                    <div class="txtGrp">
+                                                        <label for="exp_year" class="move">Year</label>
+                                                        <select name="exp_year" id="exp_year" class="txtBox">
+                                                            <option value="">Select</option>
+                                                            <option value="2021">2021</option>
+                                                            <option value="2022">2022</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2024">2024</option>
+                                                            <option value="2025">2025</option>
+                                                            <option value="2026">2026</option>
+                                                            <option value="2027">2027</option>
+                                                            <option value="2028">2028</option>
+                                                            <option value="2029">2029</option>
+                                                            <option value="2030">2030</option>
+                                                            <option value="2031">2031</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                                    <div class="txtGrp">
+                                                        <label for="cvc">CVC?</label>
+                                                        <input type="text" name="cvc" id="cvc" class="txtBox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="lblBtn">
+                                            <input type="radio" name="payment_type" id="paypal" class="tglBlk" value="paypal">
+                                            <label for="paypal">Paypal</label>
+                                        </div>
+                                    </div>
+                                    <div class="bTn formBtn text-center">
+                                        <button type="submit" class="webBtn"><i class="spinner hidden"></i>Pay</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- orders -->
-
-
+        <script src="https://js.stripe.com/v2/"></script>
+        <script>
+            $(document).on('submit','#payment-form',function(e){ 
+                e.preventDefault();
+                let sbtn = $('#payment-form').find("button[type='submit']");
+                sbtn.attr('disabled', true);
+                $(this).find('button[type="submit"] i.spinner').removeClass('hidden');
+                let form$ = $("#payment-form");
+                let frmIcon = form$.find("button[type='submit'] i.spinner");
+                let frmData = new FormData(form$[0]);
+                let frmMsg = $('.alertMsg-form');
+                sbtn.attr("disabled", true);
+                if ($('input[name="payment_type"]:checked').val() == 'paypal') {
+                        needToConfirm = true;
+                        $.ajax({
+                            url: form$.attr('action'),
+                            data: frmData,
+                            dataType: 'JSON',
+                            method: 'POST',
+                            processData: false,
+                            contentType: false,
+                            success: function(rs) {
+                                $("html, body").animate({
+                                    scrollTop: 100
+                                }, "slow");
+                                frmMsg.html(rs.msg).slideDown(500);
+                                if (rs.status == 1) {
+                                    toastr.success(rs.msg,"Success");
+                                    setTimeout(function() {
+                                        frmIcon.addClass("hidden");
+                                        form$[0].reset();
+                                        window.location.href = rs.redirect_url;
+                                    }, 3000);
+                                } else {
+                                    toastr.error(rs.msg,"Error");
+                                    setTimeout(function() {
+                                        frmIcon.addClass("hidden");
+                                        sbtn.attr("disabled", false);
+                                    }, 3000);
+                                }
+                            },
+                            error: function(rs) {
+                                // console.log(rs);
+                                sbtn.attr("disabled", false);
+                                toastr.error('Please try again or refresh your page.Error occur due to sever response!',"Error");
+                            },
+                            complete: function(rs) {
+                                needToConfirm = false;
+                            }
+                        });
+                    }
+                    else if ($('input[name="payment_type"]:checked').val() == 'credit-card')
+                    {    
+                        object = $(this);
+                        Stripe.card.createToken({
+                            number: $('#cardnumber').val(),
+                            cvc: $('#cvc').val(),
+                            exp_month: $('#exp_month').val(),
+                            exp_year: $('#exp_year').val(),
+                            name: $('#card_holder_name').val()
+                    
+                    }, stripeResponseHandler);
+                    return false; 
+                    }
+            })
+            Stripe.setPublishableKey('<?= API_PUBLIC_KEY; ?>');
+            function stripeResponseHandler(status, response) {
+                    let form$ = $("#payment-form");
+                    let sbtn = form$.find("button[type='submit']");
+                    let frmIcon = form$.find("button[type='submit'] i.spinner");
+                if (response.error) {
+                    console.log(response.error.message)
+                    toastr.error('<strong>Error:</strong> ' + response.error.message + '',"Error");
+                    $('button[type="submit"]').prop('disabled',false);
+                    frmIcon.addClass('hidden');
+                } 
+                else {
+                    let nonce   = response['id'];
+                    let frmData = new FormData(form$[0]);
+                    let frmMsg  = $('.alertMsg-form');
+                    frmData.append('nonce', nonce);
+                    
+                    object.append("<input type='hidden' name='nonce' value='" + nonce + "' />");
+                    object.append("<input type='hidden' name='order_id' value='<?=doEncode($order->order_id)?>' />");
+                    $('.card_payment').prop('disabled',true);
+                    $('.card_payment').parent().hide();
+                    $.ajax({
+                        url: form$.attr('action'),
+                        data:object.serialize(),
+                        dataType:'JSON',
+                        method:'POST',
+                        error:function(er){
+                            toastr.error('<div>Please try again or refresh your page.Error occur due to sever response!</div>',"Error");
+                        },
+                        success:function(rs){
+                            if(rs.scroll_top)
+                                $("html, body").animate({ scrollTop: 0 }, "slow");
+                            if (rs.status == 1) {
+                                toastr.success(rs.msg,"Success");
+                                setTimeout(function () {
+                                if(rs.hide_msg)
+                                    $('.alertMsg').slideUp(500);
+                                if(rs.redirect_url)
+                                    window.location.href = rs.redirect_url;   
+                                },3000)
+                            }
+                            else{
+                                toastr.error(rs.msg,"Error");
+                            }
+                        },
+                        complete:function(){
+                            sbtn.attr("disabled", false);
+                            frmIcon.addClass('hidden');
+                        }
+                    })
+                }
+            }
+        </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
 </body>

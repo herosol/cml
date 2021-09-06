@@ -386,8 +386,15 @@ function get_delivey_proof($order_id)
 
 function amended_invoice($services_total, $amended_records)
 {
+    global $CI;
+    $CI = get_instance();
     $html = '';
     $total = $services_total;
+    $payButton = '';
+    if($CI->session->mem_type == 'buyer')
+    {
+        $payButton .= '<button type="button" class="webBtn smBtn popBtn icoBtn" data-popup="pay-amend-invoice"><img src="'.base_url().'assets/images/icon-price-list.svg" alt="">Pay</button>';
+    }
     if(!empty($amended_records)):
         $html .= '<hr>
         <h4>Amended Invoice</h4>
@@ -399,28 +406,46 @@ function amended_invoice($services_total, $amended_records)
                     <th></th>
                     <th>Unit Price</th>
                     <th>Price</th>
+                    <th>Payment Status</th>
                 </tr>
             </thead>
             <tbody>';
-                $amend_total = 0;
+                $amend_total   = 0;
+                $amend_pending = 0;
                 foreach($amended_records as $key => $row):
                     $total += $row->sub_service_price*$row->quantity;
                     $amend_total += $row->sub_service_price*$row->quantity;
+                    if(check_amend_item_pay_status($row->order_id, $row->id) == 'Pending')
+                    {
+                        $amend_pending += price_format($row->sub_service_price*$row->quantity);
+                    }
+                    
                     $html .= '<tr>
                         <td>'.$row->sub_service_name.'</td>
                         <td>'.$row->quantity.'</td>
                         <td></td>
                         <td>£'.price_format($row->sub_service_price).'</td>
                         <td>£'.price_format($row->sub_service_price*$row->quantity).'</td>
+                        <td><span class="badge '.amend_item_pay_status(check_amend_item_pay_status($row->order_id, $row->id)).'">'.check_amend_item_pay_status($row->order_id, $row->id).'</span></td>
                     </tr>';
                 endforeach;
             $html .= '</tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4"></td>
+                    <td colspan="5" class="color text-right">Total Amended</td>
                     <td class="color">£'.price_format($amend_total).'</td>
-                </tr>
-            </tfoot>
+                </tr>';
+            if($amend_pending > 0)
+            {
+                if($CI->session->mem_type == 'buyer')
+                {
+                    $html .= '<tr>
+                                <td colspan="5" class="color text-right">Pending <strong>£'.price_format($amend_pending).'</strong></td>
+                                <td class="color">'.$payButton.'</td>
+                            </tr>';
+                }
+            }
+            $html .'</tfoot>
         </table>';
     endif;
 
@@ -444,6 +469,53 @@ function amended_invoice($services_total, $amended_records)
     </table>';
 
     return $html;
+}
+
+function check_amend_item_pay_status($order_id, $amend_id)
+{
+    global $CI;
+    $CI = get_instance();
+    $CI->db->where(['order_id'=> $order_id, 'payment_status'=> 'paid']);
+    $CI->db->where('FIND_IN_SET("'.$amend_id.'", `amended_item_ids`) <>', '0');
+    $query = $CI->db->get('order_invoices');
+    // pr($CI->db->last_query());
+    if($query->num_rows() > 0)
+    {
+        return 'Paid';
+    } 
+    else
+    {
+        return 'Pending';
+    }
+}
+
+// function order_total_price($order_id)
+// {
+//     global $CI;
+//     $CI = get_instance();
+//     $CI->db->where(['order_id'=> $order_id]);
+//     $query = $CI->db->get('orders');
+//     $order = $query->row();
+
+//     $total_price = 0;
+//     if($order->pick_and_drop_service == '1')
+//     {
+//         $total_price += $order->
+//     }
+
+
+// }
+
+function amend_item_pay_status($status)
+{
+    if($status == 'Pending')
+    {
+        return 'yellow';
+    }
+    else
+    {
+        return 'green';
+    }
 }
 
 function get_categories($type='comic', $offset = '') {

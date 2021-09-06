@@ -29,8 +29,7 @@
                     <li class="<?php if ($page == "place-order") {
                                     echo 'active';
                                 } ?>">
-                        <a href="<?= base_url() ?>search.php" class="webBtn mdBtn simpleBtn"><i class="fi-plus fi-2x"></i> Place an Order</a>
-                        <!-- <a href="<?= base_url() ?>buyer/place-order.php" class="webBtn mdBtn simpleBtn"><i class="fi-plus fi-2x"></i> Place an Order</a> -->
+                        <a href="<?= base_url() ?>" class="webBtn mdBtn simpleBtn"><i class="fi-plus fi-2x"></i> Place an Order</a>
                     </li>
                 </ul>
             </div>
