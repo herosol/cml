@@ -75,7 +75,7 @@
                         <input type="text" name="name" id="name" value="<?php if (isset($row->name)) echo $row->name; ?>" class="form-control" autofocus required>
                     </div>
                     <div class="col-md-6">
-                        <label class="control-label" for="city"> Tagline</label>
+                        <label class="control-label" for="tagline"> Tagline</label>
                         <input type="text" name="tagline" id="tagline" value="<?php if (isset($row->tagline)) echo $row->tagline; ?>" class="form-control">
                     </div>
                 </div>
@@ -88,7 +88,11 @@
                         <label class="control-label" for="price"> Price (£)</label>
                         <input type="number" name="price"  step="0.01" id="price" value="<?php if (isset($row->price)) echo $row->price; ?>" class="form-control">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                        <label class="control-label" for="added_by"> Zip Code</label>
+                        <input type="text" name="zip" id="zip" value="<?php if (isset($row->zip)) echo $row->zip; ?>" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
                         <label class="control-label" for="added_by"> Added By</label>
                         <input type="text" name="added_by" id="added_by" value="<?php if (isset($row->added_by)) echo $row->added_by; ?>" class="form-control">
                     </div>
@@ -129,6 +133,7 @@
                 <!-- <th width="10%">Photo</th> -->
                 <th>Name</th>
                 <th>Image</th>
+                <th>Zip Code</th>
                 <th>Expiry Date</th>
                 <th width="12%" class="text-center">&nbsp;</th>
             </tr>
@@ -144,6 +149,7 @@
                                 <img src = "<?= get_site_image_src('promos', $row->image, '', true); ?>" height = "60">
                             </div>
                         </td>
+                        <td><b><?= $row->zip ; ?></b></td>
                         <td><b><?= $row->expiry_date ; ?></b></td>
                         <td class="text-center">
                             <div class="btn-group">

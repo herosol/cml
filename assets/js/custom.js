@@ -440,6 +440,82 @@ $(document).ready(function() {
                         $(".popup").fadeOut();
                         $("html").removeClass("flow");
                         $('#deliveryProofRequest').empty().append(`<div class="alert alert-success alert-sm text-white" style="">Request has been accepted successfully.</div>`);
+                        $('#delivery_proof').empty();
+                        if (rs.frm_reset) {
+                            frm.reset();
+                        }
+
+                        if (rs.hide_msg)
+                            frmMsg.slideUp(500);
+                        frmIcon.addClass("hidden");
+                        if (rs.redirect_url) {
+                            window.location.href = rs.redirect_url;
+                        } else {
+                            frmbtn.attr("disabled", false);
+                        }
+                    }, 3000);
+                } else {
+                    setTimeout(function() {
+                        if (rs.hide_msg)
+                            frmMsg.slideUp(500);
+                        frmbtn.attr("disabled", false);
+                        frmIcon.addClass("hidden");
+                        if (rs.redirect_url)
+                            window.location.href = rs.redirect_url;
+                    }, 2000);
+                }
+            })
+            .fail(function(rs) {
+                console.log(rs);
+                // alert('Network error has occurred please try again!');
+            })
+            .always(function() {
+                needToConfirm = false;
+            });
+    });
+});
+
+$(document).ready(function() {
+    $(document).on('submit', '.rejectDeliveryAndRating', function(e) {
+        e.preventDefault();
+        needToConfirm = true;
+        var frmbtn = $(this).find("button[type='submit']");
+        var frmIcon = $(this).find("button[type='submit'] i.spinner");
+        var frmMsg = $(this).find("div.alertMsg:first");
+        var frm = this;
+
+        frmbtn.attr("disabled", true);
+        frmMsg.hide();
+        frmIcon.removeClass("hidden");
+        $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(frm),
+                processData: false,
+                contentType: false,
+                dataType: 'JSON',
+                method: 'POST'
+            })
+            .done(function(rs) {
+                console.log(rs);
+
+                frmMsg.removeClass('alert alert-danger alert-sm text-white');
+                if (rs.status == 1)
+                    frmMsg.html(rs.msg).slideDown(500);
+                else
+                    frmMsg.addClass('alert alert-danger alert-sm text-white').html(rs.msg).slideDown(500);
+
+                if (rs.scroll_to_msg)
+                    $('html, body').animate({ scrollTop: frmMsg.offset().top - 300 }, 'slow');
+
+                if ((typeof recaptcha !== 'undefined') && recaptcha)
+                    grecaptcha.reset();
+
+                if (rs.status == 1) {
+                    setTimeout(function() {
+                        $(".popup").fadeOut();
+                        $("html").removeClass("flow");
+                        $('#deliveryProofRequest').empty().append(`<div class="alert alert-success alert-sm text-white" style="">Request has been rejected successfully.</div>`);
+                        $('#delivery_proof').empty();
                         if (rs.frm_reset) {
                             frm.reset();
                         }
@@ -585,3 +661,40 @@ const fetchTime = (day, mem_id, appendTo) => {
         }
     })
 }
+
+
+$(document).on("submit", ".frm_promo", function (e) {
+    e.preventDefault();
+    needToConfirm = true;
+    var frmbtn = $(this).find("button[type='submit']");
+    var frm = this;
+    $.ajax({
+        url: base_url + 'Ajax/search_promo/',
+        data: new FormData(frm),
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        method: 'POST',
+        error: function (rs) {
+            console.log(rs);
+        },
+        success: function (promotions) {
+            var promos = '';
+            promotions.map((promotion) => {
+                promos += 	'<div class="promoBlk text-center"><div class="inside"><div class="icon"><img src="'+base_url+'/uploads/promos/'+promotion.image+'"></div><div class="txt"><h3>'+promotion.name+'</h3><p>This offer will expire on: '+promotion.expiry_date+'</p><p>'+promotion.tagline+'</p></div><div class="side"><div class="price">£'+promotion.price+'</div><div class="bTn"><a href="'+base_url+'" class="webBtn mdBtn blockBtn">Order Now</a></div> </div></div><div class="btm">Added By:'+promotion.added_by+'</div></div>';
+            })
+            $('.filter_promos').html('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
+            setTimeout(
+                function() 
+                {
+                    if(promos == '' || promos == null){
+                        $('.filter_promos').html('<h2 class="heading text-center">No Promotions Found </h2>');
+                    }else{
+                        $('.filter_promos').html(promos);
+                    }
+                }, 900);
+            
+        },
+        
+    });
+});

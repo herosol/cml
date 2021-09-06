@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Dashboard — Compare My Laundry</title>
+    <title>Dashboard — <?= $site_settings->site_name ?></title>
     <?php $this->load->view('includes/site-master'); ?>
 </head>
 

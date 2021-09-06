@@ -96,6 +96,7 @@ class Buyer extends MY_Controller
         $o_id = intval(doDecode($o_id));
         $this->data['order'] = $this->master->getRow('orders',array('order_id'=>$o_id));
         $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id));
+        $this->data['amended'] = $this->orderd_model->get_rows(['order_id'=> $o_id, 'service_type'=> 'amended']);
         $this->data['delivery_proof'] = $this->master->getRow('order_delivery_proof',array('order_id'=>$o_id,'status'=>'pending'));   
         $this->load->view('buyer/order-detail', $this->data);
     }
@@ -157,24 +158,44 @@ class Buyer extends MY_Controller
         }
     }
 
-    public function reject($proof_id)
+    public function reject_proof_delivery()
     {
-        $proof_id = intval(doDecode($proof_id));
-        $proof = $this->master->getRow('order_delivery_proof',array('proof_id'=>$proof_id));
-        $proof_data['status']='rejected';
-        $this->master->save('order_delivery_proof', $proof_data, 'proof_id',$proof_id);
-        setMsg('success', 'Delivery Proof Rejected Successfully.');
-        redirect('buyer/order_detail/'.doEncode($proof->order_id), 'refresh');
+        if($this->input->post())
+        {
+            $res = array();
+            $res['hide_msg'] = 0;
+            $res['scroll_to_msg'] = 1;
+            $res['status'] = 0;
+            $res['frm_reset'] = 0;
+            $res['redirect_url'] = 0;
+            
+            $post = html_escape($this->input->post());
+            $proof_id = intval(doDecode($post['proof_id']));
+            $proof_data['status'] = 'rejected';
+            $this->master->save('order_delivery_proof', $proof_data, 'proof_id', $proof_id);
+
+            //RATING
+            $res['msg'] = showMsg('success', 'Request rejected successfully!');
+            $res['status'] = 1;
+            $res['hide_msg'] = 1;
+            exit(json_encode($res));
+        }
     }
 
+    
     public function transactions(){
         $this->load->view('buyer/transactions', $this->data);
     }
 
     public function credits(){
+        $buyer_id = $this->session->mem_id;
+        $total_orders = intval($this->master->num_rows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id)));
+        $cal_orders = $total_orders % 10;
+        
+        $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id),'',$cal_orders,'desc','order_id');
+        // pr($this->data['orders']);
         $this->load->view('buyer/credits', $this->data);
     }
-
     
     ### REMOVE FILE
     private function remove_file($id, $type = '')
