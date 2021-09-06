@@ -273,6 +273,7 @@ $(document).ready(function() {
                         $(".popup").fadeOut();
                         $("html").removeClass("flow");
                         $('#amended-invoice').empty().append(rs.html);
+                        $('#amend-invoice-div').remove();
                         if (rs.frm_reset) {
                             frm.reset();
                         }
