@@ -20,7 +20,7 @@
                         <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
-                        <div class="switchBtn">
+                        <div class="switchBtn hidden">
                             <input type="checkbox" name="" id="" checked>
                             <em></em>
                             <small></small>
@@ -257,8 +257,8 @@
                             <?php if($order->pick_and_drop_service == '1'): ?>
                                 <div class="icon deliverIcon"><img src="<?= base_url() ?>assets/images/vector-wait.svg" alt=""></div>
                             <?php endif; ?>
-                            <?php if($order->order_status == 'New' || $order->order_status == 'In Progress'): ?>
-                                <div class="bTn formBtn">
+                            <?php if(($order->order_status == 'New' || $order->order_status == 'In Progress') && count($amended) == 0): ?>
+                                <div class="bTn formBtn" id="amend-invoice-div">
                                     <button type="button" class="webBtn mdBtn icoBtn popBtn" data-popup="amend-invoice"><img src="<?= base_url() ?>assets/images/icon-price-list.svg" alt=""> Amend Invoice</button>
                                 </div>
                             <?php endif; ?>

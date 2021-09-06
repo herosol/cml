@@ -33,12 +33,13 @@ class Member_model extends CRUD_Model
 
     function get_nearby_vendors($selections)
     {
+        $search_radius = $this->data['site_settings']->site_radius > 0 ? $this->data['site_settings']->site_radius : '10'; 
         $this->db->select('*, ( 3959 * acos( cos( radians("'.$selections['lat'].'") ) * cos( radians( mem_map_lat ) )
         * cos( radians( mem_map_lng ) - radians("'.$selections['long'].'") ) + sin( radians("'.$selections['lat'].'") ) 
         * sin( radians( mem_map_lat ) ) ) ) AS distance');
         $this->db->from($this->table_name);
         $this->db->where(['mem_type'=> 'vendor', 'mem_status'=> '1', 'mem_verified'=> '1']);
-        $this->db->having(['distance <=' => '20', 'distance >' => '0']);
+        $this->db->having(['distance <=' => $search_radius, 'distance >' => '0']);
         $nearby_vendors = $this->db->get()->result();
 
         $vendors = [];
