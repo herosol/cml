@@ -75,6 +75,12 @@
                     <span class="title">Email Logs</span>
                 </a>
             </li>
+            <li class="opened <?= ($this->uri->segment(2) == 'invoices') ? 'active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/invoices') ?>">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Invoices</span>
+                </a>
+            </li>
             <li class=" <?= ($this->uri->segment(2) == 'vendors' || $this->uri->segment(2) == 'individuals') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="fa fa-users"></i>

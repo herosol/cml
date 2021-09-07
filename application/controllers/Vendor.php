@@ -65,10 +65,6 @@ class Vendor extends MY_Controller
                 $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
                 // $this->form_validation->set_rules('mem_show_cancellation', 'Show cancellation policy', 'trim|required');
             }
-            $this->form_validation->set_rules('pickup_zip', 'Pickup and collection zip', 'trim|required');
-            $this->form_validation->set_rules('mem_charges_per_miles', 'Charges per mils', 'trim|required');
-            $this->form_validation->set_rules('mem_charges_free_over', 'Charges free over', 'trim|required');
-            $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
 
 
             if ($this->form_validation->run() === FALSE)
@@ -105,39 +101,43 @@ class Vendor extends MY_Controller
             $user_info['mem_company_trustpilot']  = $post['mem_company_trustpilot'];
             $user_info['mem_company_pickdrop']    = $post['mem_company_pickdrop'];
             $user_info['mem_company_walkin_facility'] = $post['mem_company_walkin_facility'];
-            $user_info['mem_business_country'] = $post['mem_business_country'];
-            $user_info['mem_business_state']   = $post['mem_business_state'];
-            $user_info['mem_business_city']    = $post['mem_business_city'];
-            $user_info['mem_business_zip']     = $post['mem_business_zip'];
-            $user_info['mem_business_address'] = $post['mem_business_address'];
             if($post['mem_company_walkin_facility'] == 'yes')
             {
+                $user_info['mem_business_country'] = $post['mem_business_country'];
+                $user_info['mem_business_state']   = $post['mem_business_state'];
+                $user_info['mem_business_city']    = $post['mem_business_city'];
+                $user_info['mem_business_zip']     = $post['mem_business_zip'];
+                $user_info['mem_business_address'] = $post['mem_business_address'];
+            }
+            if($user_info['mem_company_pickdrop'] == 'yes'){
+                $user_info['pickup_zip']      = $post['pickup_zip'];
                 $user_info['mem_map_lat'] = $post['mem_map_lat'];
                 $user_info['mem_map_lng'] = $post['mem_map_lng'];
+                $user_info['mem_charges_per_miles'] = $post['mem_charges_per_miles'];
+                $user_info['mem_charges_free_over'] = $post['mem_charges_free_over'];
+                $user_info['mem_charges_min_order'] = $post['mem_charges_min_order'];
+                $user_info['mem_travel_radius']     = $post['mem_travel_radius'];
             }
-            $user_info['pickup_zip']      = $post['pickup_zip'];
-            $user_info['mem_charges_per_miles'] = $post['mem_charges_per_miles'];
-            $user_info['mem_charges_free_over'] = $post['mem_charges_free_over'];
-            $user_info['mem_charges_min_order'] = $post['mem_charges_min_order'];
-            $user_info['mem_travel_radius']     = $post['mem_travel_radius'];
 
             $this->member_model->save($user_info, $mem_id);
 
             # MEMBER FACILITY HOURS
-            $facility_hours['mon_opening'] = $post['mon_opening'] == '' ? NULL : $post['mon_opening'];
-            $facility_hours['mon_closing'] = $post['mon_closing'] == '' ? NULL : $post['mon_closing'];
-            $facility_hours['tue_opening'] = $post['tue_opening'] == '' ? NULL : $post['tue_opening'];
-            $facility_hours['tue_closing'] = $post['tue_closing'] == '' ? NULL : $post['tue_closing'];
-            $facility_hours['wed_opening'] = $post['wed_opening'] == '' ? NULL : $post['wed_opening'];
-            $facility_hours['wed_closing'] = $post['wed_closing'] == '' ? NULL : $post['wed_closing'];
-            $facility_hours['thu_opening'] = $post['thu_opening'] == '' ? NULL : $post['thu_opening'];
-            $facility_hours['thu_closing'] = $post['thu_closing'] == '' ? NULL : $post['thu_closing'];
-            $facility_hours['fri_opening'] = $post['fri_opening'] == '' ? NULL : $post['fri_opening'];
-            $facility_hours['fri_closing'] = $post['fri_closing'] == '' ? NULL : $post['fri_closing'];
-            $facility_hours['sat_opening'] = $post['sat_opening'] == '' ? NULL : $post['sat_opening'];
-            $facility_hours['sat_closing'] = $post['sat_closing'] == '' ? NULL : $post['sat_closing'];
-            $facility_hours['sun_opening'] = $post['sun_opening'] == '' ? NULL : $post['sun_opening'];
-            $facility_hours['sun_closing'] = $post['sun_closing'] == '' ? NULL : $post['sun_closing'];
+            if($post['mem_company_walkin_facility'] == 'yes'){
+                $facility_hours['mon_opening'] = $post['mon_opening'] == '' ? NULL : $post['mon_opening'];
+                $facility_hours['mon_closing'] = $post['mon_closing'] == '' ? NULL : $post['mon_closing'];
+                $facility_hours['tue_opening'] = $post['tue_opening'] == '' ? NULL : $post['tue_opening'];
+                $facility_hours['tue_closing'] = $post['tue_closing'] == '' ? NULL : $post['tue_closing'];
+                $facility_hours['wed_opening'] = $post['wed_opening'] == '' ? NULL : $post['wed_opening'];
+                $facility_hours['wed_closing'] = $post['wed_closing'] == '' ? NULL : $post['wed_closing'];
+                $facility_hours['thu_opening'] = $post['thu_opening'] == '' ? NULL : $post['thu_opening'];
+                $facility_hours['thu_closing'] = $post['thu_closing'] == '' ? NULL : $post['thu_closing'];
+                $facility_hours['fri_opening'] = $post['fri_opening'] == '' ? NULL : $post['fri_opening'];
+                $facility_hours['fri_closing'] = $post['fri_closing'] == '' ? NULL : $post['fri_closing'];
+                $facility_hours['sat_opening'] = $post['sat_opening'] == '' ? NULL : $post['sat_opening'];
+                $facility_hours['sat_closing'] = $post['sat_closing'] == '' ? NULL : $post['sat_closing'];
+                $facility_hours['sun_opening'] = $post['sun_opening'] == '' ? NULL : $post['sun_opening'];
+                $facility_hours['sun_closing'] = $post['sun_closing'] == '' ? NULL : $post['sun_closing'];
+            }   
             if($this->master->num_rows('mem_facility_hours', ['mem_id'=> $mem_id]) > 0)
             {
                 $this->master->save('mem_facility_hours', $facility_hours, 'mem_id', $mem_id);
@@ -392,6 +392,14 @@ class Vendor extends MY_Controller
             exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
         }
     }
+
+    // public function delete_bank_fetch()
+    // {
+    //     if($this->input->post())
+    //     {
+    //         exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
+    //     }
+    // }
 
 
     public function change_order_status()
