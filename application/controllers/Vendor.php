@@ -380,7 +380,7 @@ class Vendor extends MY_Controller
             $res['status']    = 1;
             $res['hide_msg']  = 1;
             $res['frm_reset'] = 1;
-            $res['html'] = amended_invoice($order->order_total_price, $amended);
+            $res['html'] = amended_invoice($post['order_id'], $amended);
             exit(json_encode($res));
         }
     }

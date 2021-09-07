@@ -539,6 +539,47 @@ function order_total_price($order_id, $what_to_return = 'FINAL')
         return price_format($total_price);
 }
 
+function buyer_transaction_price($order_id)
+{
+    global $CI;
+    $CI = get_instance();
+    $CI->db->where(['order_id'=> $order_id]);
+    $query = $CI->db->get('orders');
+    $order = $query->row();
+
+
+    $order_detail = $CI->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'basic']);
+    $amended      = $CI->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'amended']);
+
+    $total_price = 0;
+    foreach($order_detail as $key => $row):
+        $total_price += $row->sub_service_price*$row->quantity;
+    endforeach;
+
+
+    if($order->pick_and_drop_service == '1')
+    {
+        $total_price += $order->pick_and_drop_charges;
+    }
+
+    $total_price = price_format($total_price);
+    
+    if($order->buyer_get_credit == '1')
+    {
+        $discount = price_format($total_price / 100 * intval($order->buyer_credit_percentage));
+        $total_price -= $discount;
+    }
+
+    foreach($amended as $key => $row):
+        if(check_amend_item_pay_status($row->order_id, $row->id) == 'Paid')
+        {
+            $total_price += $row->sub_service_price*$row->quantity;
+        }
+    endforeach;
+
+    return price_format($total_price);
+}
+
 function amend_item_pay_status($status)
 {
     if($status == 'Pending')

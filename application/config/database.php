@@ -74,21 +74,22 @@ $active_group = 'default';
 $query_builder = TRUE;
 if($_SERVER['HTTP_HOST']!='localhost'){
 	$db['default'] = array(
-		'dsn'	=> '',
+		'dsn'	   => '',
 		'hostname' => 'mysql1003.mochahost.com',
-		'username' => 'herosol_sadaan',
-		'password' => 'X(cz5RUD8qY%',
-		'database' => 'herosols_cml'
+		'username' => 'herosol_saad',
+		'password' => 'k4J!a7O4~l4Y',
+		'database' => 'herosol_cmlsite'
 	);
 }else{
 	$db['default'] = array(
-		'dsn'	=> '',
+		'dsn'	   => '',
 		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => '',
 		'database' => 'herosols_cml'
 	);
 }
+
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = 'tbl_';
 $db['default']['pconnect'] = TRUE;

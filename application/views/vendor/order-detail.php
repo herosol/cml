@@ -200,10 +200,10 @@
                                             <td>£<?=order_total_price($order->order_id, 'AFTER_DISCOUNT')?></td>
                                         </tr>
                                     <?php else: ?>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="4" class="color">Total</td>
                                             <td>£<?=order_total_price($order->order_id)?></td>
-                                        </tr>
+                                        </tr> -->
                                     <?php endif; ?>
                                 </tfoot>
                             </table>

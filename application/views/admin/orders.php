@@ -100,8 +100,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="text-right bold"> Total</th>
-                        <td class="text-right"><b><?= format_amount($gtotal)?></b></td>
+                        <th colspan="5" class="text-right bold"> Services Total</th>
+                        <td class="text-right"><b>£<?=order_total_price($row->order_id, 'SERVICES')?></b></td>
                     </tr>
                     <?php if (!empty($row->pick_and_drop_charges)): ?>
                         <tr>
@@ -121,7 +121,7 @@
                     </tr> -->
                     <tr>
                         <th colspan="5" class="text-right bold">Grand Total</th>
-                        <td class="text-right"><b><?= format_amount($row->order_total_price)?></b></td>
+                        <td class="text-right"><b>£<?= order_total_price($row->order_id)?></b></td>
                     </tr>
                 </tfoot>
             </table>

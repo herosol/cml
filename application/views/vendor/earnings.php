@@ -39,7 +39,7 @@
                             <?php foreach($earnings as $key => $value): ?>
                                 <tr>
                                     <td><?= $value->cfname.' '.$value->clname ?></td>
-                                    <td class="price">$<?=$value->amount?></td>
+                                    <td class="price">$<?=price_format($value->amount)?></td>
                                     <td><?=chat_message_time($value->date)?></td>
                                     <td><span class="badge <?=earning_status_badge($value->status)?>"><?=earning_status($value->status)?></span></td>
                                 </tr>

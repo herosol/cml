@@ -45,7 +45,11 @@
                                 <ul class="dropLst">
                                     <li><a href="<?= base_url() ?>vendor/dashboard">Dashboard <small>See and Manage Data</small></a></li>
                                     <li><a href="<?= base_url() ?>vendor/orders">My Orders <small>View Order Details</small></a></li>
-                                    <li><a href="<?= base_url() ?>vendor/earnings">My Earnings <small>See & Mange Your Payouts</small></a></li>
+                                    <?php if($this->session->mem_type == 'vendor'): ?>
+                                        <li><a href="<?= base_url() ?>vendor/wallet">My Earnings <small>See & Mange Your Earnings</small></a></li>
+                                    <?php else: ?>
+                                        <li><a href="<?= base_url() ?>buyer/transactions">My Transactions <small>See & Mange Your Payouts</small></a></li>
+                                    <?php endif; ?>
                                     <li><a href="<?= base_url() ?>index/logout">Sign out</a></li>
                                 </ul>
                             </div>

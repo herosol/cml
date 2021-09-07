@@ -18,6 +18,7 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>Order No.</th>
                                 <th>Customer Name</th>
                                 <th width="140">Amount</th>
                                 <th>Date</th>
@@ -25,54 +26,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>John Wick</td>
-                                <td class="price">£250</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Abraham Adam</td>
-                                <td class="price">£220</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jenifer Kem</td>
-                                <td class="price">£150</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Samira Jones</td>
-                                <td class="price">£140</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge red">Canceled</span></td>
-                            </tr>
-                            <tr>
-                                <td>Preety Zinta</td>
-                                <td class="price">£180</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>Tai Chi</td>
-                                <td class="price">£390</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge green">Complete</span></td>
-                            </tr>
-                            <tr>
-                                <td>Christoper Smith</td>
-                                <td class="price">£280</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge red">Canceled</span></td>
-                            </tr>
-                            <tr>
-                                <td>Julian Adam</td>
-                                <td class="price">£170</td>
-                                <td>September 25, 2018</td>
-                                <td><span class="badge yellow">Pending</span></td>
-                            </tr>
+                            <?php if(count($transactions) == 0): ?>
+                                <tr>
+                                    <td>No transaction yet.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php
+                            else:
+                                foreach($transactions as $index => $transaction):
+                            ?>
+                                <tr>
+                                    <td><a href="<?=base_url()?>buyer/order-detail/<?=doEncode($transaction->order_id)?>"><?=num_size($transaction->order_id)?></a></td>
+                                    <td><?=$transaction->vendor_name?></td>
+                                    <td class="price">£<?=$transaction->amount?></td>
+                                    <td><?=$transaction->date?></td>
+                                    <td><span class="badge green">Completed</span></td>
+                                </tr>
+                            <?php
+                                endforeach;
+                            endif; ?>
                         </tbody>
                     </table>
                 </div>

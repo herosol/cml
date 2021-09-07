@@ -191,6 +191,7 @@ class Buyer extends MY_Controller
     public function transactions()
     {
         $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
+        $this->data['transactions'] = $this->order_model->buyer_transactions();
         $this->load->view('buyer/transactions', $this->data);
     }
 

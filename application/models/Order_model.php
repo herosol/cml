@@ -134,6 +134,28 @@ class Order_model extends CRUD_Model
         return (object) ['total_sales'=> count($orders), 'total'=> number_format($total)];
     }
 
+    function buyer_transactions()
+    {
+        $this->db->from($this->table_name);
+        $this->db->select('*');
+        $this->db->where(['buyer_id'=> $this->session->mem_id]);
+        $this->db->order_by('order_id', 'DESC');
+        $orders = $this->db->get()->result();
+
+        $transactions = [];
+        foreach($orders as $index => $order):
+            $transactions[] = (object)
+            [
+                'order_id'    => $order->order_id,
+                'vendor_name' => get_mem_name($order->vendor_id), 
+                'amount'      => buyer_transaction_price($order->order_id), 
+                'date'        => date_picker_format_date($order->order_date, 'D, d M Y', false)
+            ];
+        endforeach;
+
+        return (object)$transactions;
+    }
+
     function get_order_total($oid)
     {
         $this->db->select("o.* ,
