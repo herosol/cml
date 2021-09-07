@@ -22,15 +22,20 @@
                         <td><?= get_order_status_label($row->order_status);?></td>
                     </tr>
                     <tr>
-                        <th>Name</th>
-                        <td><b><?= get_mem_name($row->buyer_id) ?></b></td>
+                        <th>First Name</th>
+                        <td><b><?= ($row->buyer_fname) ?></b></td>
+                        <th>Last Name</th>
+                        <td><?= ($row->buyer_lname);?></td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td><b><?= ($row->buyer_phone) ?></b></td>
                         <th>Date</th>
                         <td><?= format_date($row->order_date, 'M d, Y h:i:s a');?></td>
                     </tr>
-
                     <tr>
                         <th>Email</th>
-                        <td><?= get_mem_email($row->buyer_id )?></td>
+                        <td><?= ($row->buyer_email )?></td>
                         <?php if($row->order_status == 'Completed'){ ?>
                             <th>Delivered Date</th>
                             <td><?= format_date($row->deliver_date, 'M d, Y h:i:s a');?></td>
@@ -104,13 +109,19 @@
                             <td class="text-right"><b><?= format_amount($row->pick_and_drop_charges)?></b></td>
                         </tr>
                     <?php endif ?>
+                    <?php if (!empty($row->buyer_credit_discount)): ?>
+                        <tr>
+                            <th colspan="5" class="text-right bold"> Discount</th>
+                            <td class="text-right">£<?=price_format($row->buyer_credit_discount)?></td>
+                        </tr>
+                    <?php endif ?>
                     <!-- <tr>
                         <th colspan="5" class="text-right bold">Shipping Fee</th>
                         <td class="text-right"><b><?= empty($adminsite_setting->site_shipping_fee) ? "Free" : format_amount( $adminsite_setting->site_shipping_fee)?></b></td>
                     </tr> -->
                     <tr>
                         <th colspan="5" class="text-right bold">Grand Total</th>
-                        <td class="text-right"><b><?= format_amount($row->pick_and_drop_charges+$gtotal)?></b></td>
+                        <td class="text-right"><b><?= format_amount($row->order_total_price)?></b></td>
                     </tr>
                 </tfoot>
             </table>
@@ -142,7 +153,6 @@
                         <th>Delivery Address</th>
                         <td><?= $row->delivery_to ?></td>
                     <tr>
-                    
                 </tbody>
             </table>
             <?php }else{ ?>
@@ -161,7 +171,6 @@
                         <th>Drop Off Time</th>
                         <td><b><?= ($row->delivery_time) ?></b></td>
                     </tr>
-                    
                 </tbody>
             </table>
             <?php } ?>
@@ -172,7 +181,7 @@
                 <tbody>
                     <tr>
                         <th>Name</th>
-                        <td><?= $vendor->mem_fname.' '.$buyer->mem_lname?></td>
+                        <td><?= $vendor->mem_fname.' '.$vendor->mem_lname?></td>
                         <th> Email</th>
                         <td><?= $vendor->mem_email ?></td>
                         <th>Company Name</th>
@@ -207,11 +216,11 @@
                 <tbody>
                     <tr>
                         <th>Name</th>
-                        <td><?= $buyer->mem_fname.' '.$buyer->mem_lname?></td>
+                        <td><?= $buyer->bmem_fname.' '.$buyer->mem_lname ?></td>
                         <th> Phone</th>
                         <td><?= $buyer->mem_phone?></td>
                         <th>Email</th>
-                        <td><?= $buyer->mem_email?></td>
+                        <td><?= $buyer->memr_email?></td>
                         <th>Address Type</th>
                         <td><?= $row->address_type ?></td>
                     </tr>
@@ -227,8 +236,8 @@
                             <td><?= $buyer->mem_zip?></td>
                         </tr>
                         <tr>
-                            <th colspan="4">Address</th>
-                            <td colspan="4"><?= $buyer->mem_address?></td>
+                            <th colspan="1">Address</th>
+                            <td colspan="3"><?= $buyer->mem_address?></td>
                         </tr>
                     <?php }  if($row->address_type == 'hotel'){ ?>
                         <tr>
@@ -326,7 +335,7 @@
                     <tr class="odd gradeX">
                         <td class="text-center"><?= ++$count; ?></td>
                         <td class="text-center"><?= num_size($row->order_id); ?></td>
-                        <td><b><?= get_mem_name($row->buyer_id) ?></b></td>
+                        <td><b><?= $row->buyer_fname.' '.$row->buyer_lname?></b></td>
                         <td><b><?= get_mem_name($row->vendor_id) ?></b></td>s
                         <td><?= format_amount($row->product_total-$row->discount_amount+$row->tax_amount+$row->shipping_fee)?></td>
                         <td><?= format_date($row->order_date,'M d, Y h:i:s a'); ?></td>

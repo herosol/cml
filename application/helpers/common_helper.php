@@ -284,6 +284,10 @@ function order_status()
 {
     return ['New', 'In Progress', 'Completed', 'Delivered', 'Cancelled', 'Cleared'];
 }
+function proof_status()
+{
+    return ['accepted', 'rejected', 'pending'];
+}
 
 function order_status_dropdown($value, $order_id)
 {
@@ -590,6 +594,19 @@ function get_order_status_label($status)
     } else if ($status == 'Cancelled') {
         return '<span class="miniLbl red">Cancelled</span>';
     }
+}
+function get_proof_status_label($status)
+{
+    if ($status == 'pending') {
+        return '<span class="miniLbl yellow">Pending</span>';
+    
+    } else if ($status == 'accepted') {
+        return '<span class="miniLbl green">Accepted</span>';
+    
+    } else if ($status == 'rejected') {
+        return '<span class="miniLbl red">Rejected</span>';
+    
+    } 
 }
 
 function verified_status($status)

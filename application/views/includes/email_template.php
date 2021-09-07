@@ -13,7 +13,7 @@
                         <tr>
                             <td width="25%" style="padding: 20px 15px" align="left">
                                 <a href="<?php echo base_url(); ?>" style="display: inline-block;">
-                                    <img src="<?= SITE_IMAGES.'/images/'.$site_settings->site_logo.'?v-'.$site_settings->site_version?>" alt="<?=$site_settings->site_name?> Logo" style="height: 50px" align="left">
+                                    <img src="<?= !empty($site_settings->site_logo) ? get_site_image_src('images', $site_settings->site_logo.'?v-'.$site_settings->site_version) : 'http://placehold.it/700x620'?>" alt="<?=$site_settings->site_name?> Logo" style="height: 50px" align="left">
                                 </a>
                             </td>
                             <td style="font-size: 12px; font-weight: bold; padding: 20px 15px; line-height: 1.5; text-align: right;">

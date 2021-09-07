@@ -7,6 +7,7 @@ class Search extends MY_Controller
     {
         parent::__construct();
         $this->load->model('member_model');
+        $this->load->model('Pages_model','page');
     }
 
     public function service_selection()
@@ -41,14 +42,36 @@ class Search extends MY_Controller
         $this->data['iron_only']     = $this->master->get_data_row('services', ['id'=> '5']);
         $this->data['buly_items']    = $this->master->get_data_row('services', ['id'=> '6']);
         $this->data['deals']         = $this->master->get_data_row('services', ['id'=> '7']);
-        $this->load->view('pages/service-selection', $this->data);
+
+        $meta = $this->page->getMetaContent('service_selection');
+		$this->data['page_title'] = $meta->page_name;
+		$this->data['slug'] = $meta->slug;
+		$data = $this->page->getPageContent('service_selection');
+		if($data){
+			$this->data['content'] = unserialize($data->code);
+			$this->data['meta_desc'] = json_decode($meta->content);
+            $this->load->view('pages/service-selection', $this->data);
+		}else{
+			show_404();
+		}
+
     }
 
     public function available_vendor()
     {
-        $this->data['selections'] = $selections = $this->session->selection; 
-        $this->data['vendors'] = $this->member_model->get_nearby_vendors($selections);
-        $this->load->view('pages/quotes', $this->data);
+        $meta = $this->page->getMetaContent('available_vendors');
+		$this->data['page_title'] = $meta->page_name;
+		$this->data['slug'] = $meta->slug;
+		$data = $this->page->getPageContent('available_vendors');
+		if($data){
+			$this->data['content'] = unserialize($data->code);
+			$this->data['meta_desc'] = json_decode($meta->content);
+            $this->data['selections'] = $selections = $this->session->selection; 
+            $this->data['vendors'] = $this->member_model->get_nearby_vendors($selections);
+            $this->load->view('pages/quotes', $this->data);
+		}else{
+			show_404();
+		}
     }
 
     public function vendor_detail($mem_id, $miles)
@@ -142,9 +165,20 @@ class Search extends MY_Controller
 
             exit(json_encode($res));
         }
-
+        
         $this->data['services'] = $services;
-        $this->load->view('pages/search', $this->data);
+
+        $meta = $this->page->getMetaContent('vendor_detail');
+		$this->data['page_title'] = $meta->page_name;
+		$this->data['slug'] = $meta->slug;
+		$data = $this->page->getPageContent('vendor_detail');
+		if($data){
+			$this->data['content'] = unserialize($data->code);
+			$this->data['meta_desc'] = json_decode($meta->content);
+            $this->load->view('pages/search', $this->data);
+		}else{
+			show_404();
+		}
     }
 
 }

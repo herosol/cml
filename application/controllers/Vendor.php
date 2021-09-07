@@ -26,7 +26,11 @@ class Vendor extends MY_Controller
             $res['redirect_url'] = 0;
 
             $post = html_escape($this->input->post());
-
+            
+            if($post['mem_company_walkin_facility'] == 'no' && $post['mem_company_pickdrop'] == 'no'){
+                $res['msg'] = 'Please Choose altleast one of the following<br>1. Pick And Drop Service <br>2.Walk In Facility';
+                exit(json_encode($res));
+            }
             $this->form_validation->set_message('integer', 'Please select a valid {field}');
 
             $this->form_validation->set_rules('mem_fname', 'First Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
@@ -47,11 +51,24 @@ class Vendor extends MY_Controller
                 $this->form_validation->set_rules('mem_business_zip', 'Business zip', 'trim|required');
                 $this->form_validation->set_rules('mem_business_address', 'Business address', 'trim|required');
             }
+            if($post['mem_company_pickdrop'] == 'yes')
+            {
+                if (!empty($post['pickup_zip'])) {
+                    $this->form_validation->set_rules('mem_map_lat', 'Pick Up', 'required',
+                    array(
+                        'required'  => 'You have not provided Correct Zip for %s.',
+                    ));
+                }
+                $this->form_validation->set_rules('pickup_zip', 'Pickup and collection zip', 'trim|required');
+                $this->form_validation->set_rules('mem_charges_per_miles', 'Charges per mils', 'trim|required');
+                $this->form_validation->set_rules('mem_charges_free_over', 'Charges free over', 'trim|required');
+                $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
+                // $this->form_validation->set_rules('mem_show_cancellation', 'Show cancellation policy', 'trim|required');
+            }
             $this->form_validation->set_rules('pickup_zip', 'Pickup and collection zip', 'trim|required');
             $this->form_validation->set_rules('mem_charges_per_miles', 'Charges per mils', 'trim|required');
             $this->form_validation->set_rules('mem_charges_free_over', 'Charges free over', 'trim|required');
             $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
-            $this->form_validation->set_rules('mem_show_cancellation', 'Show cancellation policy', 'trim|required');
 
 
             if ($this->form_validation->run() === FALSE)

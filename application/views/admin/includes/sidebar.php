@@ -69,6 +69,12 @@
                     <span class="title">Promotions</span>
                 </a>
             </li>
+            <li class="opened <?= ($this->uri->segment(2) == 'email_logs') ? 'active' : '' ?>">
+                <a href="<?= site_url(ADMIN.'/email_logs') ?>">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Email Logs</span>
+                </a>
+            </li>
             <li class=" <?= ($this->uri->segment(2) == 'vendors' || $this->uri->segment(2) == 'individuals') ? ' opened  active' : '' ?>">
                 <a href="javascript:void(0)">
                     <i class="fa fa-users"></i>
@@ -106,6 +112,32 @@
                         <a href="<?= site_url(ADMIN.'/individuals') ?>">
                             <i class="fa fa-user"></i>
                             <span class="title">Individuals </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" <?= ($this->uri->segment(2) == 'pending-proof' || $this->uri->segment(2) == 'rejected-proof' || $this->uri->segment(2) == 'accepted-proof') ? ' opened  active' : '' ?>">
+                <a href="javascript:void(0)">
+                    <i class="entypo-doc-text  "></i>
+                    <span class="title">Delivery Proof</span>
+                </a>
+                <ul>
+                    <li class=" <?= ($this->uri->segment(2) == 'pending-proof') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/pending-proof') ?>">
+                        <i class="entypo-doc-text  "></i>
+                            <span class="title">Pending Proof</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(2) == 'accepted-proof') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/accepted-proof') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Accepted Proof</span>
+                        </a>
+                    </li>
+                    <li class=" <?= ($this->uri->segment(2) == 'rejected-proof') ? ' active' : '' ?>">
+                        <a href="<?= site_url(ADMIN.'/rejected-proof') ?>">
+                            <i class="entypo-doc-text  "></i>
+                            <span class="title">Rejected Proof</span>
                         </a>
                     </li>
                 </ul>
