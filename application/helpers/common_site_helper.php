@@ -384,7 +384,7 @@ function get_delivey_proof($order_id)
     return $html;
 }
 
-function amended_invoice($services_total, $amended_records)
+function amended_invoice($order_id, $amended_records)
 {
     global $CI;
     $CI = get_instance();
@@ -463,7 +463,7 @@ function amended_invoice($services_total, $amended_records)
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     Estimated Total
                 </th>
-                <th>£'.price_format($total).'</th>
+                <th>£'.order_total_price($order_id).'</th>
             </tr>
         </tfoot>
     </table>';
@@ -489,22 +489,55 @@ function check_amend_item_pay_status($order_id, $amend_id)
     }
 }
 
-// function order_total_price($order_id)
-// {
-//     global $CI;
-//     $CI = get_instance();
-//     $CI->db->where(['order_id'=> $order_id]);
-//     $query = $CI->db->get('orders');
-//     $order = $query->row();
-
-//     $total_price = 0;
-//     if($order->pick_and_drop_service == '1')
-//     {
-//         $total_price += $order->
-//     }
+function order_total_price($order_id, $what_to_return = 'FINAL')
+{
+    global $CI;
+    $CI = get_instance();
+    $CI->db->where(['order_id'=> $order_id]);
+    $query = $CI->db->get('orders');
+    $order = $query->row();
 
 
-// }
+    $order_detail = $CI->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'basic']);
+    $amended      = $CI->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'amended']);
+
+    $total_price = 0;
+    foreach($order_detail as $key => $row):
+        $total_price += $row->sub_service_price*$row->quantity;
+    endforeach;
+
+    if($what_to_return == 'SERVICES')
+        return price_format($total_price);
+
+    if($order->pick_and_drop_service == '1')
+    {
+        $total_price += $order->pick_and_drop_charges;
+    }
+
+    $total_price = price_format($total_price);
+
+    if($what_to_return == 'SERVICES_PICKUP')
+        return price_format($total_price);
+    
+    if($order->buyer_get_credit == '1')
+    {
+        $discount = price_format($total_price / 100 * intval($order->buyer_credit_percentage));
+        $total_price -= $discount;
+    }
+
+    if($what_to_return == 'DISCOUNT')
+        return $discount;
+
+    if($what_to_return == 'AFTER_DISCOUNT')
+        return $total_price;
+
+    foreach($amended as $key => $row):
+        $total_price += $row->sub_service_price*$row->quantity;
+    endforeach;
+
+    if($what_to_return == 'FINAL')
+        return price_format($total_price);
+}
 
 function amend_item_pay_status($status)
 {

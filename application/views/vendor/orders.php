@@ -116,7 +116,7 @@
                                                     <td>&nbsp;</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="price">£<?=$order->order_total_price?></td>
+                                                    <td class="price">£<?=order_total_price($order->order_id)?></td>
                                                 </tr>
                                             </tbody>
                                         </table>

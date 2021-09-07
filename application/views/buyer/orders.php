@@ -122,7 +122,7 @@
                                                     </li>
                                                     <li class="semi">
                                                         <div>Grand Total</div>
-                                                        <div>£<?=price_format($order->order_total_price)?></div>
+                                                        <div>£<?=order_total_price($order->order_id)?></div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -293,7 +293,7 @@
                                                     </li>
                                                     <li class="semi">
                                                         <div>Grand Total</div>
-                                                        <div>£<?=price_format($order->order_total_price)?></div>
+                                                        <div>£<?=order_total_price($order->order_id)?></div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -464,7 +464,7 @@
                                                     </li>
                                                     <li class="semi">
                                                         <div>Grand Total</div>
-                                                        <div>£<?=price_format($order->order_total_price)?></div>
+                                                        <div>£<?=order_total_price($order->order_id)?></div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -635,7 +635,7 @@
                                                     </li>
                                                     <li class="semi">
                                                         <div>Grand Total</div>
-                                                        <div>£<?=price_format($order->order_total_price)?></div>
+                                                        <div>£<?=order_total_price($order->order_id)?></div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -806,7 +806,7 @@
                                                     </li>
                                                     <li class="semi">
                                                         <div>Grand Total</div>
-                                                        <div>£<?=price_format($order->order_total_price)?></div>
+                                                        <div>£<?=order_total_price($order->order_id)?></div>
                                                     </li>
                                                 </ul>
                                             </div>

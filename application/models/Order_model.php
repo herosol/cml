@@ -87,32 +87,52 @@ class Order_model extends CRUD_Model
     function vendor_today_sales()
     {
         $this->db->from($this->table_name);
-        $this->db->select('SUM(order_total_price) as total');
+        $this->db->select('order_id');
         $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date'=> TODAY_DATE]);
-        return $this->db->get()->row()->total;
+        $order =  $this->db->get()->row();
+
+        if(empty($order))
+        {
+            return '0.00';
+        }
+        else
+        {
+            return order_total_price($order->order_id);
+        }
     }
 
     function vendor_week_sales()
     {
 
         $this->db->from($this->table_name);
-        $this->db->select('SUM(order_total_price) as total, COUNT(order_total_price) as total_sales');
+        $this->db->select('*');
         $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date <=' => TODAY_DATE, 'completed_date >=' => THIS_WEEK_FIRST_DATE]);
-        return $this->db->get()->row();
-    }
+        $orders = $this->db->get()->result();
 
+        $total = 0;
+        foreach($orders as $order)
+        {
+            $total += order_total_price($order->order_id);
+        }
+
+        return (object) ['total_sales'=> count($orders), 'total'=> number_format($total)];
+    }
+    
     function vendor_month_sales()
     {
         $this->db->from($this->table_name);
-        $this->db->select('SUM(order_total_price) as total, COUNT(order_total_price) as total_sales');
+        $this->db->select('*');
         $this->db->where(['vendor_id'=> $this->session->mem_id, 'order_status'=> 'Completed', 'completed_date<=' => TODAY_DATE, 'completed_date>=' => THIS_MONTH_FIRST_DATE]);
-        return $this->db->get()->row();
+        $orders = $this->db->get()->result();
+
+        $total = 0;
+        foreach($orders as $order)
+        {
+            $total += order_total_price($order->order_id);
+        }
+
+        return (object) ['total_sales'=> count($orders), 'total'=> number_format($total)];
     }
-    /*** end admin orders ***/
-
-    /*** start mem orders ***/
-
-
 
     function get_order_total($oid)
     {
@@ -232,7 +252,7 @@ class Order_model extends CRUD_Model
         return $query->result();
     }
 
-    /*** end mem orders ***/
+
 
     function get_detail($order_id)
     {

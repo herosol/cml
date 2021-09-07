@@ -169,7 +169,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="4"></td>
-                                        <td class="color">£<?=price_format($services_total)?></td>
+                                        <td class="color">£<?=order_total_price($order->order_id, 'SERVICES')?></td>
                                     </tr>
                                     <?php if($order->pick_and_drop_service == '1'): ?>
                                         <?php if($order->free_pick_and_drop_service == '0'): ?>
@@ -185,24 +185,27 @@
                                         <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if($order->buyer_get_credit == '1'): ?>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="4" class="color">Total Price</td>
                                             <td>£<?=price_format($order->order_total_price + $order->buyer_credit_discount)?></td>
+                                        </tr> -->
+                                        <tr>
+                                            <td colspan="4" class="color">Get Discount <?=$order->buyer_credit_percentage?>%</td>
+                                            <td>£<?=order_total_price($order->order_id, 'DISCOUNT')?></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4" class="color">Discount</td>
-                                            <td>£<?=price_format($order->buyer_credit_discount)?></td>
+                                            <td colspan="4" class="color">After Discount</td>
+                                            <td>£<?=order_total_price($order->order_id, 'AFTER_DISCOUNT')?></td>
                                         </tr>
                                     <?php endif; ?>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="4" class="color">Total</td>
-                                            <td>£<?=price_format($order->order_total_price)?></td>
-                                        </tr>
+                                            <td>£<?=order_total_price($order->order_id)?></td>
+                                        </tr> -->
                                 </tfoot>
                             </table>
                             <div id="amended-invoice">
-                                <?php echo amended_invoice($order->order_total_price, $amended); ?>
-                                
+                                <?php echo amended_invoice($order->order_id, $amended); ?>
                             </div>
                         </div>
                         <div class="col col2">
@@ -332,6 +335,7 @@
                                 <h3>Pay Amended Amount</h3><hr/>
                                 <form action="<?= base_url() ?>buyer/pay_amend_invoice" method="post" id="payment-form">
                                     <p>All transactions are secure and encrypted.</p>
+                                    <div class="alertMsg" style="display:none"></div>
                                     <div data-payment>
                                         <div class="lblBtn">
                                             <input type="radio" name="payment_type" id="credit" class="tglBlk" value="credit-card" checked="">
@@ -515,6 +519,9 @@
                             if (rs.status == 1) {
                                 toastr.success(rs.msg,"Success");
                                 setTimeout(function () {
+                                    $(".popup").fadeOut();
+                                    $("html").removeClass("flow");
+                                    $('#amended-invoice').empty().append(rs.html);
                                 if(rs.hide_msg)
                                     $('.alertMsg').slideUp(500);
                                 if(rs.redirect_url)

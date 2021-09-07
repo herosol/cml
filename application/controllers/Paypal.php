@@ -16,7 +16,8 @@ class Paypal extends MY_Controller {
             exit;
     }
     
-    function order_notify(){
+    function order_notify()
+    {
         $raw_post_data = file_get_contents('php://input');
         // pr($raw_post_data );
         $raw_post_array = explode('&', $raw_post_data);

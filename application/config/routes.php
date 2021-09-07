@@ -100,10 +100,11 @@ $route['admin/meta-info/delete/(:any)'] = 'admin/Meta_info/delete/$1';
 
 #PAYPAL
 $route['pay-now/(:num)'] = 'paypal/pay_now/$1';
-$route['success/(:any)'] = 'paypal/success/$1';
+$route['success/(:any)'] = 'booking/success/$1';
 $route['cancel/(:any)']  = 'paypal/cancel/$1';
 $route['order-notify']   = 'paypal/order_notify';
 $route['paypal/(:any)']  =  'Pages/paypal/$1';
+$route['paypal-amended-invoice/(:any)'] =  'Pages/paypal_amended_invoice/$1';
 
 $route['order-success/(:any)'] = 'booking/success/$1';
 $route['order-cancel/(:any)']  = 'booking/cancel/$1';

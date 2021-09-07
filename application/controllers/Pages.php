@@ -6,6 +6,7 @@ class Pages extends MY_Controller
         parent::__construct();
         $this->load->model('Pages_model','page');
         $this->load->model('order_model');
+        $this->load->model('orderd_model');
     }
     
     function landing()
@@ -155,18 +156,53 @@ class Pages extends MY_Controller
     {
         $this->load->library('Paypal_lib');
         $order_id = intval(doDecode($order_id));
+        // echo $order_id; die;
         $row = $this->order_model->get_row($order_id);
-        // pr($row);
         if($row)
         {
             $this->data['post'] = array(
                 "item_name" => "Paypal Payment",
                 "currency" => "GBP",
-                "amount" => $row->order_total_price,
+                "amount" => order_total_price($order_id),
                 "custom" => $order_id
             );
             $notify_url = site_url('order-notify');
+            $this->data['setting']=array(
+                "website_name" => "".$this->data['site_settings']->site_name."",
+                "url" => "". base_url()."",
+                "notify_url" =>"".$notify_url."",
+                "return_url" => "".base_url()."success/".$order_id,
+                "cancel_url" => "".base_url()."cancel/".$order_id,
+            );
+            
+            if($this->data['site_settings']->site_paypal_environment):
+                $this->data['setting']["sandbox"] = true;
+                $this->data['setting']["sandbox_paypal"] = $this->data['site_settings']->site_sandbox_paypal;
+            else:
+                $this->data['setting']["live_paypal"] = $this->data['site_settings']->site_live_paypal;
+            endif;  
+            // pr($this->data);
+            $this->load->view("includes/processing", $this->data);
+        }
+        else
+            exit('Access Denied!');
+    }
 
+    function paypal_amended_invoice($order_id)
+    {
+        $this->load->library('Paypal_lib');
+        $order_id = intval(doDecode($order_id));
+        echo $order_id; die;
+        $row = $this->order_model->get_row($order_id);
+        if($row)
+        {
+            $this->data['post'] = array(
+                "item_name" => "Paypal Payment",
+                "currency" => "GBP",
+                "amount" => order_total_price($order_id),
+                "custom" => $order_id
+            );
+            $notify_url = site_url('order-notify');
             $this->data['setting']=array(
                 "website_name" => "".$this->data['site_settings']->site_name."",
                 "url" => "". base_url()."",

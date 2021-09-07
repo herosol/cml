@@ -63,7 +63,7 @@
                                     <?php } ?>
                                 </ul>
                                 <p>You Paid:</p>
-                                <div class="price">£<?= $order->order_total_price ?></div>
+                                <div class="price">£<?= order_total_price($order->order_id) ?></div>
                             </div>
                         </div>
                         <?php } ?>

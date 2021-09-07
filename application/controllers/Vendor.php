@@ -376,14 +376,6 @@ class Vendor extends MY_Controller
         }
     }
 
-    // public function delete_bank_fetch()
-    // {
-    //     if($this->input->post())
-    //     {
-    //         exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
-    //     }
-    // }
-
 
     public function change_order_status()
     {

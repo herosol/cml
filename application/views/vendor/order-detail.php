@@ -169,10 +169,10 @@
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                    <!-- <tr>
+                                    <tr>
                                         <td colspan="4"></td>
-                                        <td class="color">£<?=price_format($services_total)?></td>
-                                    </tr> -->
+                                        <td class="color">£<?=order_total_price($order->order_id, 'SERVICES')?></td>
+                                    </tr>
                                     <?php if($order->pick_and_drop_service == '1'): ?>
                                         <?php if($order->free_pick_and_drop_service == '0'): ?>
                                             <tr>
@@ -187,28 +187,28 @@
                                         <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if($order->buyer_get_credit == '1'): ?>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="4" class="color">Original Order Price</td>
                                             <td>£<?=price_format($order->order_total_price + $order->buyer_credit_discount)?></td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
-                                            <td colspan="4" class="color">Get Discount 15%</td>
-                                            <td>£<?=price_format($order->buyer_credit_discount)?></td>
+                                            <td colspan="4" class="color">Get Discount <?=$order->buyer_credit_percentage?>%</td>
+                                            <td>£<?=order_total_price($order->order_id, 'DISCOUNT')?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class="color">After Discount</td>
-                                            <td>£<?=price_format($order->order_total_price)?></td>
+                                            <td>£<?=order_total_price($order->order_id, 'AFTER_DISCOUNT')?></td>
                                         </tr>
                                     <?php else: ?>
                                         <tr>
                                             <td colspan="4" class="color">Total</td>
-                                            <td>£<?=price_format($order->order_total_price)?></td>
+                                            <td>£<?=order_total_price($order->order_id)?></td>
                                         </tr>
                                     <?php endif; ?>
                                 </tfoot>
                             </table>
                             <div id="amended-invoice">
-                                <?php echo amended_invoice($order->order_total_price, $amended); ?>
+                                <?php echo amended_invoice($order->order_id, $amended); ?>
                                 
                             </div>
                         </div>

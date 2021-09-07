@@ -12,6 +12,11 @@ class Booking extends MY_Controller
     
     function index()
     {
+        if(!isset($this->session->selections))
+        {
+            redirect(base_url(), 'refresh');
+        }
+        
         $meta = $this->page->getMetaContent('booking');
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
@@ -189,7 +194,7 @@ class Booking extends MY_Controller
 
                 // CHECK BUYER CREDIT
                 $total_buyer_order = intval($this->master->num_rows('orders', ['order_status'=>'Completed', 'buyer_id'=>$buyer_id]));
-                $buyer_credits = $total_buyer_order % 10;
+                $buyer_credits     = $total_buyer_order % 10;
                 #ORDER DATA
                 $order['buyer_id']  = $buyer_id;
                 $order['vendor_id'] = $selections['vendor'];
@@ -236,14 +241,19 @@ class Booking extends MY_Controller
                 $order['order_total_price'] = price_format($order['order_price'] + $order['pick_and_drop_charges']);
                 if($buyer_credits === intval(BUYER_ORDER_CREDITS))
                 {
-                    $order['buyer_get_credit'] = 1;
-                    $order['buyer_credit_discount'] = price_format($order['order_total_price'] / 100 * intval($this->data['site_settings']->site_buyer_credit_percentage));
-                    $order['order_total_price'] -= $order['buyer_credit_discount'];
+                    $order['buyer_get_credit'] = '1';
+                    $order['buyer_credit_discount']   = price_format($order['order_total_price'] / 100 * intval($this->data['site_settings']->site_buyer_credit_percentage));
+                    $order['buyer_credit_percentage'] = intval($this->data['site_settings']->site_buyer_credit_percentage);
+                    $order['order_total_price']       -= $order['buyer_credit_discount'];
                 }
                 
                 $order['order_status'] = 'New';
                 $order['site_percentage'] = $this->data['site_settings']->site_percentage;
 
+                $order_total_price = price_format($order['order_total_price']); 
+                unset($order['order_price']);
+                unset($order['order_total_price']);
+                unset($order['buyer_credit_discount']);
                 $order_id = $this->order_model->save($order);
                 if($order_id > 0)
                 {
@@ -269,7 +279,7 @@ class Booking extends MY_Controller
                         if (!isset($post['nonce']))
                             throw new Exception("The Stripe Token was not generated correctly");
 
-                        $cents   = $order['order_total_price']*100;
+                        $cents   = $order_total_price*100;
                         $charge = \Stripe\Charge::create([
                             "amount"      => $cents,
                             "currency"    => "gbp",
@@ -320,8 +330,8 @@ class Booking extends MY_Controller
 
 		if($data)
         {
-			$this->data['content'] = unserialize($data->code);
-			$this->data['meta_desc'] = json_decode($meta->content);
+			$this->data['content']       = unserialize($data->code);
+			$this->data['meta_desc']     = json_decode($meta->content);
 			$this->data['wash_and_dry']  = $this->master->get_data_row('services', ['id'=> '1']);
             $this->data['wash_and_iron'] = $this->master->get_data_row('services', ['id'=> '3']);
             $this->data['dry_cleaning']  = $this->master->get_data_row('services', ['id'=> '4']);
@@ -339,8 +349,19 @@ class Booking extends MY_Controller
 
 	function success($order_id)
     {
-		setMsg('success','Your order has been placed successfully!');
-		$this->load->view('confirmation', $this->data);
+        $this->session->unset_userdata('selections');
+        $meta = $this->page->getMetaContent('terms_conditions');
+        $this->data['page_title'] = $meta->page_name;
+        $this->data['slug'] = $meta->slug;
+        $data = $this->page->getPageContent('terms_conditions');
+        if($data){
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->load->view('pages/order-confirmation',$this->data);
+        }else{
+            show_404();
+        }
 	}
 	
 	function cancel($order_id)

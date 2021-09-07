@@ -39,7 +39,7 @@
                                     <div class="txt">
                                         <strong><?= implode(', ', $latest_order->services)?></strong>
                                     </div>
-                                    <div class="price">£<?= $latest_order->order_total_price ?></div>
+                                    <div class="price">£<?= order_total_price($latest_order->order_id) ?></div>
                                 </div>
                                 <ul class="keyLst">
                                     <?php if($latest_order->pick_and_drop_service == '1'): ?>
