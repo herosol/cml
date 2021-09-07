@@ -7,7 +7,7 @@ class Booking extends MY_Controller
         $this->load->model('Pages_model','page');
         $this->load->model('member_model');
         $this->load->model('order_model');
-        $this->load->model('orderd_model');
+        $this->load->model('OrderD_model', 'orderd_model');
     }
     
     function index()

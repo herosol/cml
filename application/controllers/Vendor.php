@@ -8,7 +8,7 @@ class Vendor extends MY_Controller
         parent::__construct();
         $this->load->model('member_model');
         $this->load->model('order_model');
-        $this->load->model('orderd_model');
+        $this->load->model('OrderD_model', 'orderd_model');
     }
 
     public function dashboard()
