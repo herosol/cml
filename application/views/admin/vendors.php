@@ -441,10 +441,10 @@
     </div>
     <?php else: ?>
     <?= showMsg(); ?>
-    <?= getBredcrum(ADMIN, array('#' => 'Manage Customers')); ?>
+    <?= getBredcrum(ADMIN, array('#' => 'Manage Vendors')); ?>
     <div class="row margin-bottom-10">
         <div class="col-md-6">
-            <h2 class="no-margin"><i class="entypo-users"></i> Manage <strong>Customers</strong></h2>
+            <h2 class="no-margin"><i class="entypo-users"></i> Manage <strong>Vendors</strong></h2>
         </div>
         <div class="col-md-6 text-right">
             <a href="<?= site_url(ADMIN . '/vendors/manage'); ?>" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i> Add New</a>

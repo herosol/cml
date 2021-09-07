@@ -25,7 +25,7 @@ class Pages extends MY_Controller
     }
     function promotions()
     {
-        $meta = $this->page->getMetaContent('promotions');
+        $meta = $this->page->getMetaContent('promotion');
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
 		$data = $this->page->getPageContent('promotions');

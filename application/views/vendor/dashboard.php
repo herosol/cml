@@ -368,7 +368,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
                                         <label for="mem_company_pickdrop" class="move">Provide pickup & drop off services?</label>
-                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox">
+                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox"  onchange="getPickupDetail(this.value)">
                                             <option value="">Select</option>
                                             <?php foreach (yes_no() as $val) : ?>
                                                 <option value="<?= $val ?>" <?= $mem_data->mem_company_pickdrop == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
@@ -376,6 +376,20 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>    
+                            <div id="pickupdetails" <?=$mem_data->mem_company_pickdrop == 'yes' ? '' : 'style="display:none"'?>>
+                            <div class="row formRow">
+                                <!-- <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="txtGrp">
+                                        <label for="mem_company_pickdrop" class="move">Provide pickup & drop off services?</label>
+                                        <select name="mem_company_pickdrop" id="mem_company_pickdrop" class="txtBox"  onchange="getPickupDetail(this.value)">
+                                            <option value="">Select</option>
+                                            <?php foreach (yes_no() as $val) : ?>
+                                                <option value="<?= $val ?>" <?= $mem_data->mem_company_pickdrop == $val ? 'selected' : '' ?>><?= ucfirst($val) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-xx-12">
                                     <div class="txtGrp">
                                         <label for="pickup_zip">Zip Code</label>
@@ -430,6 +444,7 @@
                                 </div>
                                 
                             </div>
+                            </div>    
                             <div class="bTn formBtn text-center">
                                 <button type="submit" class="webBtn submit" title="Please make any change to enable save button."><i class="spinner hidden"></i>Save</button>
                             </div>
@@ -732,7 +747,17 @@
         }
 
         google.maps.event.addDomListener(window, 'load', init);
+
+        const getPickupDetail = value => 
+        {
+            if(value == 'no' || value == '')
+                document.getElementById('pickupdetails').style.display = "none";
+            else
+                document.getElementById('pickupdetails').style.display = "block";
+        }
     </script>
+
+    
 </body>
 
 </html>

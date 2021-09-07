@@ -14,11 +14,11 @@
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <h2 class="heading">Quotes</h2>
-                    <p>Deleniti iste earum sed est distinctio corporis dolore autem, omnis facere amet blanditiis velit!</p>
+                    <h2 class="heading"><?= $content['heading'] ?></h2>
+                    <p><?= $content['header_detail'] ?></p>
                 </div>
             </div>
-            <div class="image"><img src="<?= base_url() ?>assets/images/illustration_promotion.svg" alt=""></div>
+            <div class="image"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image1'] )?>" alt=""></div>
         </section>
         <!-- sBanner -->
 

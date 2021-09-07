@@ -136,17 +136,21 @@
                 </div>
             </div>
              <div class="form-group">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label" for="site_radius"> Site Default Radius <span class="symbol required"></span></label>
                     <input type="number" step="0.1" name="site_radius" id="site_radius" value="<?php if (isset($adminsite_setting->site_radius)) echo $adminsite_setting->site_radius; ?>"  class="form-control" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label" for="site_percentage"> Site Percentage <span class="symbol required"></span></label>
                     <input type="number" step="0.1" name="site_percentage" id="site_percentage" value="<?php if (isset($adminsite_setting->site_percentage)) echo $adminsite_setting->site_percentage; ?>"  class="form-control" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label" for="site_buyer_credit_percentage"> Site Discount <span class="symbol required"></span></label>
                     <input type="number" step="0.1" name="site_buyer_credit_percentage" id="site_buyer_credit_percentage" value="<?php if (isset($adminsite_setting->site_buyer_credit_percentage)) echo $adminsite_setting->site_buyer_credit_percentage; ?>"  class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label" for="site_accept_days"> Site Auto Accept Delivery Proof (Days) <span class="symbol required"></span></label>
+                    <input type="number" name="site_accept_days" id="site_accept_days" value="<?php if (isset($adminsite_setting->site_accept_days)) echo $adminsite_setting->site_accept_days; ?>"  class="form-control" required>
                 </div>
             </div> 
             <div class="form-group">
