@@ -461,6 +461,8 @@ $(document).ready(function() {
                         $("html").removeClass("flow");
                         $('#deliveryProofRequest').empty().append(`<div class="alert alert-success alert-sm text-white" style="">Request has been accepted successfully.</div>`);
                         $('#delivery_proof').empty();
+                        $('#btn_order_status').empty().append(`<span class="webBtn mdBtn blockBtn completed>Completed</span>
+                        `);
                         if (rs.frm_reset) {
                             frm.reset();
                         }

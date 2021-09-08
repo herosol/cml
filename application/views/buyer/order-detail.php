@@ -32,7 +32,7 @@
                                     <em class="red-color">#<?= num_size($order->order_id) ?></em>
                                 </td>
                                 <td width="5%">
-                                    <div class="bTn">
+                                    <div class="bTn" id="btn_order_status">
                                         <span class="webBtn mdBtn blockBtn <?= get_order_status($order->order_status) ?>"><?= ucfirst($order->order_status) ?></span>
                                     </div>
                                 </td>

@@ -38,7 +38,7 @@
                         <td><?= ($row->buyer_email )?></td>
                         <?php if($row->order_status == 'Completed'){ ?>
                             <th>Delivered Date</th>
-                            <td><?= format_date($row->deliver_date, 'M d, Y h:i:s a');?></td>
+                            <td><?= format_date($row->delivery_date, 'M d, Y h:i:s a');?></td>
                         <?php } ?>
                         <?php if($row->order_status == 'Delivered' || $row->order_status == 'New' || $row->order_status == 'InProgress'){ ?>
                             <th>Cancelled Request</th>
