@@ -27,7 +27,11 @@
                         </div>
                     </div>
                 </div>
-                <?php foreach($orders as $key => $order): ?>
+                <?php if(empty($orders)): ?>
+                    <div class="alert alert-info alert-sm text-white">No order yet.</div>
+                <?php
+                else:
+                    foreach($orders as $key => $order): ?>
                     <div class="blk jobBlk">
                         <table>
                             <tbody>
@@ -131,7 +135,9 @@
                             </tbody>
                         </table>
                     </div>
-                <?php endforeach; ?>
+                <?php 
+                    endforeach;
+                endif;?>
             </div>
         </section>
         <!-- orders -->

@@ -8,7 +8,7 @@ class Orders extends Admin_Controller
         parent::__construct();
         $this->isLogged();
         $this->load->model('order_model');
-        $this->load->model('orderd_model');
+        $this->load->model('OrderD_model', 'orderd_model');
         $this->load->model('master');
     }
 

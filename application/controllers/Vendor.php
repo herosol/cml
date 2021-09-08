@@ -27,12 +27,7 @@ class Vendor extends MY_Controller
 
             $post = html_escape($this->input->post());
             
-            if($post['mem_company_walkin_facility'] == 'no' && $post['mem_company_pickdrop'] == 'no'){
-                $res['msg'] = 'Please Choose altleast one of the following<br>1. Pick And Drop Service <br>2.Walk In Facility';
-                exit(json_encode($res));
-            }
             $this->form_validation->set_message('integer', 'Please select a valid {field}');
-
             $this->form_validation->set_rules('mem_fname', 'First Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
             $this->form_validation->set_rules('mem_lname', 'Last Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'Last Name should contains only letters and avoid space.', 'min_length'=> 'Last Name should contains atleast 2 letters.', 'max_length'=> 'Last Name should not be greater than 20 letters.']);
             $this->form_validation->set_rules('mem_company_name', 'Company name', 'trim|required');
@@ -43,6 +38,10 @@ class Vendor extends MY_Controller
             $this->form_validation->set_rules('mem_company_trustpilot', 'Trustpilot And Google Review URL', 'trim|required');
             $this->form_validation->set_rules('mem_company_pickdrop', 'Company Pickup & Drop', 'trim|required');
             $this->form_validation->set_rules('mem_company_walkin_facility', 'Company walk in facility', 'trim|required');
+            if($post['mem_company_walkin_facility'] == 'no' && $post['mem_company_pickdrop'] == 'no'){
+                $res['msg'] = 'Please Choose altleast one of the following<br>1. Pick And Drop Service <br>2.Walk In Facility';
+                exit(json_encode($res));
+            }
             if($post['mem_company_walkin_facility'] == 'yes')
             {
                 $this->form_validation->set_rules('mem_business_country', 'Business country', 'trim|required');
@@ -88,6 +87,7 @@ class Vendor extends MY_Controller
                     exit(json_encode($res));
                 }
                 $user_info['mem_image'] = $image['file_name'];
+                $res['dp_image'] = '<img src="'.get_site_image_src("members", $user_info['mem_image'], '300p_').'" alt="">';
             }
 
             # MEMBER INFO TO BE SAVE
@@ -151,6 +151,7 @@ class Vendor extends MY_Controller
             $res['msg'] = showMsg('success', 'Profile update successfully!');
             $res['status'] = 1;
             $res['hide_msg'] = 1;
+            $res['name_head'] = '<span class="regular">Welcome,</span> Dear, '.$user_info['mem_fname'].' '.$user_info['mem_lname'].'!<span class="regular">Nice to see you again.</span>';
             exit(json_encode($res));
         }
 
@@ -221,7 +222,10 @@ class Vendor extends MY_Controller
                 $services[] = $service->name;
             }
         endforeach;
-        $order->services = $services;
+        if(!empty($order))
+        {
+            $order->services = $services;
+        }
         $this->data['latest_order'] = $order;
         $this->data['today_sales']  = $this->order_model->vendor_today_sales();
         $this->data['week_sales']   = $this->order_model->vendor_week_sales();
@@ -438,7 +442,11 @@ class Vendor extends MY_Controller
             $post = html_escape($this->input->post());
             $post['order_id'] = doDecode($post['order_id']);
 
-            // $this->form_validation->set_rules('proof_image', 'Image', 'required');
+            // pr($_FILES);
+            if(empty($_FILES["proof_image"]["name"]))
+            {
+                $this->form_validation->set_rules('proof_image', 'Image', 'required');
+            }
             $this->form_validation->set_rules('proof_comment', 'Comment', 'required|trim');
             if ($this->form_validation->run() === FALSE)
                 $res['msg'] = validation_errors();

@@ -105,8 +105,6 @@ $(document).ready(function() {
                 method: 'POST'
             })
             .done(function(rs) {
-                console.log(rs);
-
                 frmMsg.removeClass('alert alert-danger alert-sm text-white');
                 if (rs.status == 1)
                     frmMsg.html(rs.msg).slideDown(500);
@@ -121,12 +119,24 @@ $(document).ready(function() {
 
                 if (rs.status == 1) {
                     setTimeout(function() {
+                        if(typeof rs.dp_image !== undefined)
+                        {
+                            $('#dp-image-head').html(rs.dp_image);
+                        }
+                        if(typeof rs.name_head !== undefined)
+                        {
+                            $('#name-head').html(rs.name_head);
+                        }
+                        
                         if (rs.frm_reset) {
                             frm.reset();
-                            if ((typeof recaptcha !== 'undefined') && recaptcha)
-                                grecaptcha.reset();
+                            $(".popup").fadeOut();
+                            $("html").removeClass("flow");
+                            if(rs.updated_email != '')
+                            {
+                                $('#currently-signin-email').html(`<strong>${rs.updated_email}</strong>`);
+                            }
                         }
-
                         if (rs.hide_msg)
                             frmMsg.slideUp(500);
                         frmIcon.addClass("hidden");
@@ -362,22 +372,32 @@ $(document).ready(function() {
                         $('#customer-name').text(`${mem.mem_fname} ${mem.mem_lname}`);
                         $('#customer-phone').text(`${mem.mem_phone}`);
                         $('#customer-email').text(`${mem.mem_email}`);
-                        $('#select-address').html(`<h6>Select your address</h6>
-                                    <div class="txtGrp">
-                                    <label for="address" class="move">Address</label>
-                                    <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
-                                    <option value="">Select</option>
-                                    <option data-type="home" value="${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}" data-lat="${mem.mem_map_lat}" data-long="${mem.mem_map_lng}" data-full-address="Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}">
-                                        Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}
-                                    </option>
-                                    <option data-type="office" value="${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}" data-lat="${mem.mem_business_map_lat}" data-long="${mem.mem_business_map_lng}" data-full-address="Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}">
-                                        Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}
-                                    </option>
-                                    <option data-type="hotel" value="${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}" data-lat="${mem.mem_hotel_map_lat}" data-long="${mem.mem_hotel_map_lng}" data-full-address="Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}">
-                                        Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}
-                                    </option>
-                                    </select>
-                                    </div>`);
+                        let select_address = '';
+                        select_address += `<h6>Select your address</h6>
+                        <div class="txtGrp">
+                        <label for="address" class="move">Address</label>
+                        <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
+                        <option value="">Select</option>`;
+                        if($.trim(mem.mem_city).length != 0 && $.trim(mem.mem_address).length != 0 && $.trim(mem.mem_zip).length != 0)
+                        {
+                            select_address += `<option data-type="home" value="${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}" data-lat="${mem.mem_map_lat}" data-long="${mem.mem_map_lng}" data-full-address="Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}">
+                            Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}
+                            </option>`;
+                        }
+                        if($.trim(mem.mem_business_city).length != 0 && $.trim(mem.mem_business_address).length != 0 && $.trim(mem.mem_business_zip).length != 0)
+                        {
+                            select_address += ` <option data-type="office" value="${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}" data-lat="${mem.mem_business_map_lat}" data-long="${mem.mem_business_map_lng}" data-full-address="Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}">
+                            Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}
+                            </option>`;
+                        }
+                        if($.trim(mem.mem_hotel_city).length != 0 && $.trim(mem.mem_business_address).length != 0 && $.trim(mem.mem_business_zip).length != 0)
+                        {
+                            select_address += `<option data-type="hotel" value="${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}" data-lat="${mem.mem_hotel_map_lat}" data-long="${mem.mem_hotel_map_lng}" data-full-address="Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}">
+                            Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}
+                            </option>`;
+                        }
+                        select_address += `</select></div>`;
+                        $('#select-address').html(select_address);
                     }, 3000);
                 } else {
                     setTimeout(function() {

@@ -36,14 +36,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($earnings as $key => $value): ?>
+                            <?php if(empty($earnings)): ?>
                                 <tr>
-                                    <td><?= $value->cfname.' '.$value->clname ?></td>
-                                    <td class="price">$<?=price_format($value->amount)?></td>
-                                    <td><?=chat_message_time($value->date)?></td>
-                                    <td><span class="badge <?=earning_status_badge($value->status)?>"><?=earning_status($value->status)?></span></td>
+                                    <td>No earning yet.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php
+                            else:
+                                foreach($earnings as $key => $value): ?>
+                                    <tr>
+                                        <td><?= $value->cfname.' '.$value->clname ?></td>
+                                        <td class="price">$<?=price_format($value->amount)?></td>
+                                        <td><?=chat_message_time($value->date)?></td>
+                                        <td><span class="badge <?=earning_status_badge($value->status)?>"><?=earning_status($value->status)?></span></td>
+                                    </tr>
+                            <?php
+                                endforeach;
+                            endif;
+                            ?>
                         </tbody>
                     </table>
                 </div>

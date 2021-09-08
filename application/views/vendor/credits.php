@@ -32,7 +32,7 @@
                         <div class="blk latestBlk">
                             <h4 class="heading text-center">Latest Order</h4>
                             <?php if(empty($latest_order)): ?>
-                                <div class="freePickupAndDelivery alert alert-info alert-sm text-white">No Order yet.</div>
+                                <div class="alert alert-info alert-sm text-white">No order yet.</div>
                             <?php else: ?>
                                 <div class="icoBlk">
                                     <div class="ico"><img src="<?= get_site_image_src("members", $latest_order->mem_image, 'thumb_'); ?>" alt=""></div>

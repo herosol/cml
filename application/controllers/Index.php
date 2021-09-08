@@ -439,6 +439,7 @@ class Index extends MY_Controller
                     $res['status'] = 1;
                     $res['frm_reset'] = 1;
                     $res['hide_msg'] = 1;
+                    $res['updated_email'] = trim($post['email']);
                 }
                 else
                 {
@@ -468,11 +469,12 @@ class Index extends MY_Controller
 
         $verify_link = site_url('verification/'.$rando);
 
-        $mem_data = array('name' => $this->data['mem_data']->mem_fname.' '.$this->data['mem_data']->mem_lname,"email"=>$this->data['mem_data']->mem_email,"link"=>$verify_link);
+        $mem_data = array('name' => $this->data['mem_data']->mem_fname.' '.$this->data['mem_data']->mem_lname, "email"=> $this->data['mem_data']->mem_email,"link"=>$verify_link);
 
         $ok = $this->send_site_email($mem_data, 'verify_email');
 
-        $res['msg'] = $ok ? showMsg('success', 'Email sent successfully.') : showMsg('error', 'There is an error occurred, Please try again later.');
+        $sucess_message = 'Verification email has been resent successfully to '.$this->data['mem_data']->mem_email.'.';
+        $res['msg'] = $ok ? showMsg('success', $sucess_message) : showMsg('error', 'There is an error occurred, Please try again later.');
         $res['status'] = 1;
         $res['hide_msg'] = 1;
         exit(json_encode($res));
@@ -483,6 +485,7 @@ class Index extends MY_Controller
         $this->session->unset_userdata('mem_id');
         $this->session->unset_userdata('mem_type');
         $this->session->unset_userdata('redirect_url');
+        $this->session->unset_userdata('selections');
         $this->load->helper('cookie');
         delete_cookie('remember');
         redirect('signin', 'refresh');

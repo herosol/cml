@@ -176,12 +176,12 @@
                                     <?php if($order->pick_and_drop_service == '1'): ?>
                                         <?php if($order->free_pick_and_drop_service == '0'): ?>
                                             <tr>
-                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges</td>
                                                 <td>£<?=price_format($order->pick_and_drop_charges)?></td>
                                             </tr>
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="4" class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                                <td colspan="4" class="color">Pickup & Delivery Charges</td>
                                                 <td>Free</td>
                                             </tr>
                                         <?php endif; ?>

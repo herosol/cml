@@ -25,7 +25,7 @@
                 <div class="inBlk blk">
                     <h3 class="heading">Email Verification</h3>
                     <div id="resndCntnt">
-                        <p>Please verify your email address, We've sent a verify email to your email address. If you don't see the email, check your spam folder. If you didn't get email click on resend email link, or if you want to change email address click link below.</p>
+                        <p>Please verify your email address, As you are currently signed in with email : <span id="currently-signin-email" class="color"><strong><?=$mem_data->mem_email?></strong></span>. We've sent a verify email to your email address. If you don't see the email, check your spam folder. If you didn't get email click on resend email link, or if you want to change email address click link below.</p>
                         <p><a href="javascript:void(0)" id="rsnd-email">Resend Email</a> OR <a href="javascript:void(0)" class="popBtn" data-popup="change-email">Change Email</a>
                         </p>
                     </div>
@@ -59,9 +59,9 @@
                 </div>
                 <?php endif; ?>
                 <div class="blk topBlk">
-                    <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt=""></div>
+                    <div class="ico" id="dp-image-head"><img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
+                        <h3 id="name-head"><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
                     </div>
                     <div class="toggleBlk">
                         <div class="switchBtn hidden">
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                     <div class="txtGrp">
-                                        <label for="mem_lname">Contact Email</label>
+                                        <label for="mem_lname">Last Name</label>
                                         <input type="text" name="mem_lname" id="mem_lname" value="<?=$mem_data->mem_lname?>" class="txtBox">
                                     </div>
                                 </div>

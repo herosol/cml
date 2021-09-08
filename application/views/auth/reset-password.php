@@ -30,7 +30,7 @@
                                 <h6>Password</h6>
                                 <div class="txtGrp pasDv">
                                     <label for="pswd">••••••••</label>
-                                    <input type="password" name="pswd" id="password" class="txtBox">
+                                    <input type="password" name="pswd" id="password" class="txtBox pr-password">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <h6>Confirm Password</h6>

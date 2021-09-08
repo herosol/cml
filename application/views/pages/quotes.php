@@ -26,7 +26,10 @@
         <section id="quotes">
             <div class="contain">
                 <h2 class="heading text-center">Best Deals in your Area</h2>
-                <div class="flexRow flex quotes">
+                <?php if (empty($vendors)): ?>
+                    <div class="alert alert-info alert-sm text-white">No quote available.</div>
+                <?php else: ?>
+                    <div class="flexRow flex quotes">
                     <?php foreach($vendors as $key => $row): ?>
                         <div class="col" style="display:none">
                             <div class="srchBlk">
@@ -49,7 +52,9 @@
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php 
+                     endforeach;
+                    endif;?>
                 </div>
                     <?php if(count($vendors) > 4): ?>
                     <div class="bTn formBtn text-center more-less-quotes">

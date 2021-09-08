@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(count($transactions) == 0): ?>
+                            <?php if(count((array)$transactions) == 0): ?>
                                 <tr>
                                     <td>No transaction yet.</td>
                                     <td></td>

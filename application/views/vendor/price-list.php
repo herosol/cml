@@ -69,8 +69,8 @@
                     <div class="bTn text-right">
                         <button type="submit" class="webBtn"><i class="spinner hidden"></i>Save</button>
                     </div>
-                    <div class="alertMsg" style="display:none"></div>
                     <br>
+                    <div class="alertMsg" style="display:none"></div>
                     <div class="blk tab-content mt-1">
                         <div id="WashDry" class="tab-pane fade in active">
                             <div class="serveBlk">

@@ -35,7 +35,7 @@
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image2'] )?>" alt=""></div>
                             <div class="txt">
                                 <h6><?= $content['step1_title'] ?></h6>
-                                <p class="small"><?= $content['step1_desc'] ?></p>
+                                <p class="small"></p>
                             </div>
                         </div>
                     </li>
@@ -44,7 +44,7 @@
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image3'] )?>" alt=""></div>
                             <div class="txt">
                                 <h6><?= $content['step2_title'] ?></h6>
-                                <p class="small">The Broadway, 341-343 Bowes Road, LONDON, N11 1AA</p>
+                                <p class="small"></p>
                             </div>
                         </div>
                     </li>
@@ -54,7 +54,7 @@
                                 <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image4'] )?>" alt=""></div>
                                 <div class="txt">
                                     <h6><?= $content['step3_title'] ?></h6>
-                                    <p class="small">Today 12:00-15:00</p>
+                                    <p class="small"></p>
                                 </div>
                             </div>
                         </li>
@@ -64,7 +64,7 @@
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image5'] )?>" alt=""></div>
                             <div class="txt">
                                 <h6><?= $content['step4_title'] ?></h6>
-                                <p class="small">Dry Cleaning, Ironing</p>
+                                <p class="small"></p>
                             </div>
                         </div>
                     </li>
@@ -73,7 +73,7 @@
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH."images/", $content['image6'] )?>" alt=""></div>
                             <div class="txt">
                                 <h6><?= $content['step5_title'] ?></h6>
-                                <p class="small">Credit Card</p>
+                                <p class="small"></p>
                             </div>
                         </div>
                     </li>
@@ -82,7 +82,7 @@
                             <div class="icon"><img src="<?= $base_url ?>images/icon-credit-card.svg" alt=""></div>
                             <div class="txt">
                                 <h6><?= $content['heading'] ?></h6>
-                                <p class="small"><?= $content['instruction3_heading'] ?></p>
+                                <p class="small"></p>
                             </div>
                         </div>
                     </li>
@@ -201,30 +201,36 @@
                                         <label for="address" class="move">Address</label>
                                         <select name="address" id="address" class="txtBox" onchange="setAddress()">
                                             <option value="">Select</option>
-                                            <option
-                                                value="<?=$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>"
-                                                data-type="home"
-                                                data-lat="<?=$mem_data->mem_map_lat?>"
-                                                data-long="<?=$mem_data->mem_map_lng?>"
-                                                data-full-address="<?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>">
-                                                <?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>
-                                            </option>
-                                            <option 
-                                                value="<?=$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>"
-                                                data-type="office"
-                                                data-lat="<?=$mem_data->mem_business_map_lat?>"
-                                                data-long="<?=$mem_data->mem_business_map_lng?>"
-                                                data-full-address="<?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>">
-                                                <?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>
-                                            </option>
-                                            <option 
-                                                value="<?=$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>"
-                                                data-type="hotel"
-                                                data-lat="<?=$mem_data->mem_hotel_map_lat?>"
-                                                data-long="<?=$mem_data->mem_hotel_map_lng?>"
-                                                data-full-address="<?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>">
-                                                <?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>
-                                            </option>
+                                            <?php if(!empty($mem_data->mem_city) && !empty($mem_data->mem_address) && !empty($mem_data->mem_zip)): ?>
+                                                <option
+                                                    value="<?=$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>"
+                                                    data-type="home"
+                                                    data-lat="<?=$mem_data->mem_map_lat?>"
+                                                    data-long="<?=$mem_data->mem_map_lng?>"
+                                                    data-full-address="<?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>">
+                                                    <?='Home: '.$mem_data->mem_city.' - '.$mem_data->mem_address.' - '.$mem_data->mem_zip?>
+                                                </option>
+                                            <?php endif; ?>
+                                            <?php if(!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)): ?>
+                                                <option 
+                                                    value="<?=$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>"
+                                                    data-type="office"
+                                                    data-lat="<?=$mem_data->mem_business_map_lat?>"
+                                                    data-long="<?=$mem_data->mem_business_map_lng?>"
+                                                    data-full-address="<?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>">
+                                                    <?='Office: '.$mem_data->mem_business_city.' - '.$mem_data->mem_business_address.' - '.$mem_data->mem_business_zip?>
+                                                </option>
+                                            <?php endif; ?>
+                                            <?php if(!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)): ?>
+                                                <option 
+                                                    value="<?=$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>"
+                                                    data-type="hotel"
+                                                    data-lat="<?=$mem_data->mem_hotel_map_lat?>"
+                                                    data-long="<?=$mem_data->mem_hotel_map_lng?>"
+                                                    data-full-address="<?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>">
+                                                    <?='Hotel: '.$mem_data->mem_hotel_city.' - '.$mem_data->mem_hotel_address.' - '.$mem_data->mem_hotel_zip?>
+                                                </option>
+                                            <?php endif; ?>
                                         </select>
                                     </div>
                                 <?php else: ?>
@@ -469,9 +475,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -481,7 +489,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
-                                                    ?>
+                                                    if($check === 0):
+                                                        ?>
+                                                        <tr>
+                                                            <td colspan="3"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -506,9 +519,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($dry_cleaning->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -518,7 +533,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
+                                                    if($check === 0):
                                                     ?>
+                                                        <tr>
+                                                            <td colspan="3"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -543,9 +563,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($wash_and_iron->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -555,7 +577,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
+                                                    if($check === 0):
                                                     ?>
+                                                        <tr>
+                                                            <td colspan="3"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -580,9 +607,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($iron_only->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -592,7 +621,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
+                                                    if($check === 0):
                                                     ?>
+                                                        <tr>
+                                                            <td colspan="3"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -617,9 +651,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($buly_items->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -629,7 +665,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
+                                                    if($check === 0):
                                                     ?>
+                                                        <tr>
+                                                            <td colspan="3"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -655,9 +696,11 @@
                                                         <th>Select</th>
                                                     </tr>
                                                     <?php
+                                                    $check = 0;
                                                     foreach(get_sub_services($buly_items->id) as $key => $sub_service):
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if($row->price != '' && $row->price != '0' && $row->price != '0.00'):
+                                                            $check++;
                                                     ?>
                                                             <tr id="<?=$sub_service->id?>">
                                                                 <td><?=$sub_service->name?></td>
@@ -668,7 +711,12 @@
                                                     <?php
                                                         endif;
                                                     endforeach;
+                                                    if($check === 0):
                                                     ?>
+                                                        <tr>
+                                                            <td colspan="4"><div class="alert alert-info alert-sm text-white">Vendor service not available.</div></td>
+                                                        </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -1608,6 +1656,7 @@
             let full_address= option.data('full-address');
             $('#collection-address').text(full_address);
             $('#delivery-address').text(full_address);
+            $('#step-address').text(full_address);
             $('#address_type_' + value).prop('checked', true);
             $('#address_type_' + value).removeAttr('disabled');
             $('input[name="address_type"]').not(':checked').prop('disabled', true);

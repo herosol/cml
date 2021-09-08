@@ -884,7 +884,7 @@
                     }else{
                 ?>
                     <div class="row">
-                        <h1>No Orders Found.... !</h1>
+                        <div class="alert alert-info alert-sm text-white">No order yet.</div>
                     </div>
                 <?php } ?>
             </div>

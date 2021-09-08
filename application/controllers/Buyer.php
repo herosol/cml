@@ -61,6 +61,7 @@ class Buyer extends MY_Controller
                     exit(json_encode($res));
                 }
                 $post['mem_image'] = $image['file_name'];
+                $res['dp_image'] = '<img src="'.get_site_image_src("members", $post['mem_image'], '300p_').'" alt="">';
             }
 
             // unset($post['address_type']);
@@ -70,6 +71,7 @@ class Buyer extends MY_Controller
             $res['msg'] = showMsg('success', 'Profile update successfully!');
             $res['status'] = 1;
             $res['hide_msg'] = 1;
+            $res['name_head'] = '<span class="regular">Welcome,</span> Dear, '.$post['mem_fname'].' '.$post['mem_lname'].'!<span class="regular">Nice to see you again.</span>';
             exit(json_encode($res));
         }
 
@@ -137,7 +139,10 @@ class Buyer extends MY_Controller
             $amended_price = $this->orderd_model->order_amended_price($proof->order_id);
             $amended_price = price_format($amended_price);
             $price = price_format($order->order_total_price + $amended_price);
-            $earning_amount = price_format($price - ( ($order->site_percentage / 100) * $price ));
+
+            $earning_amount = buyer_transaction_price($order->order_id);
+            $earning_amount -= price_format($earning_amount / 100 * intval($order->site_percentage));
+
 
             $review['mem_id']   = $order->vendor_id;
             $review['rating']   = $post['rating'];
@@ -150,7 +155,7 @@ class Buyer extends MY_Controller
             {
                 $earning['order_id'] = $proof->order_id;
                 $earning['mem_id']   = $order->vendor_id; 
-                $earning['amount']   = $earning_amount; 
+                $earning['amount']   = price_format($earning_amount); 
             }
 
             $this->master->save('earnings', $earning);

@@ -309,7 +309,7 @@ class Booking extends MY_Controller
                     {
                         $res['msg'] = 'Your order has been completed successfully. We will contact you shortly.';
                         $res['status'] = 1;
-                        $res['redirect_url'] = base_url('order_success/'.doEncode($order_id));
+                        $res['redirect_url'] = base_url('order-success/'.doEncode($order_id));
                     }
                     else
                     {

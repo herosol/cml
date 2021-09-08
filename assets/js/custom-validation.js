@@ -149,11 +149,11 @@ $(document).ready(function() {
         },
         messages: {
             npswd: {
-                required: "New password required.",
+                required: "This field is required.",
                 minlength: "New password must be at least 8 characters.",
             },
             cpswd: {
-                required: "Confirm password required.",
+                required: "This field is required.",
                 equalTo: "Confirm password must be the as the password."
             }
         },
@@ -213,15 +213,15 @@ $(document).ready(function() {
                 lettersonly: "Last Name should contains only letters."
             },
             password: {
-                required: "Password required.",
+                required: "This field is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpassword: {
-                required: "Confirm password required.",
+                required: "This field is required.",
                 equalTo: "Confirm password must be the as the password."
             },
             confirm: {
-                required: "Please accept our terms and conditions."
+                required: "This field is required."
             }
         },
         errorPlacement: function(error, element) {
@@ -542,11 +542,11 @@ $(document).ready(function() {
         },
         messages: {
             npswd: {
-                required: "Password required!",
+                required: "This field is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpswd: {
-                required: "Confirm password required!",
+                required: "This field is required.",
                 equalTo: "Confirm password must be the same as the password!"
             }
         },
@@ -674,25 +674,25 @@ $(document).ready(function() {
     $('#frmReset').validate({
         errorElement: 'div',
         rules: {
-            // pswd: {
-            //     required: true,
-            //     minlength: 8,
-            //     pwcheck: true
-            // },
-            // cpswd: {
-            //     required: true,
-            //     minlength: 8,
-            //     pwcheck: true,
-            //     equalTo: '#password'
-            // }
+            pswd: {
+                required: true,
+                minlength: 8,
+                pwcheck: true
+            },
+            cpswd: {
+                required: true,
+                minlength: 8,
+                pwcheck: true,
+                equalTo: '#password'
+            }
         },
         messages: {
             pswd: {
-                required: "Password required.",
+                required: "This field is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpswd: {
-                required: "Confirm password required.",
+                required: "This field is required.",
                 equalTo: "Confirm password must be the same as the password."
             }
         },
