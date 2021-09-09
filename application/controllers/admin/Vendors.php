@@ -95,6 +95,9 @@ class Vendors extends Admin_Controller {
 
                 $user_info['mem_type'] = 'vendor';
                 $user_info['mem_code'] = $rando;
+                $user_info['mem_verified'] = $vals['mem_verified'];
+                $user_info['mem_status'] = $vals['mem_status'];
+                $user_info['mem_featured'] = $vals['mem_featured'];
                 $user_info['mem_fname'] = $vals['mem_fname'];
                 $user_info['mem_lname'] = $vals['mem_lname'];
                 $user_info['mem_pswd'] = $vals['mem_pswd'];
@@ -173,6 +176,23 @@ class Vendors extends Admin_Controller {
         $this->member->save($vals,$mem_id );
 
         setMsg('success', 'Vendor has been deactivated successfully.');
+        redirect(ADMIN . '/vendors', 'refresh');
+    }
+    function verify() 
+    {
+        $mem_id = $this->uri->segment(4);
+        $vals['mem_verified'] = '1';
+        $this->member->save($vals,$mem_id);
+        setMsg('success', 'Vendor has been verified successfully.');
+        redirect(ADMIN . '/vendors', 'refresh');
+    }
+    function unverify() 
+    {
+        $mem_id = $this->uri->segment(4);
+        $vals['mem_verified'] = '0';
+        $this->member->save($vals,$mem_id );
+
+        setMsg('success', 'Vendor has been unverified successfully.');
         redirect(ADMIN . '/vendors', 'refresh');
     }
     function delete() 
