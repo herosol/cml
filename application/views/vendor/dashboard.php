@@ -61,7 +61,7 @@
                 <div class="blk topBlk">
                     <div class="ico" id="dp-image-head"><img src="<?= get_site_image_src("members", $mem_data->mem_image, '300p_'); ?>" alt=""></div>
                     <div class="txt">
-                        <h3 id="name-head"><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
+                        <h3 id="name-head"><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you<?=$mem_data->mem_first_time_login == 'no' ? ' again.' : '.'?></span></h3>
                     </div>
                     <div class="toggleBlk">
                         <div class="switchBtn hidden">

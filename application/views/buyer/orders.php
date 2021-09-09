@@ -17,7 +17,7 @@
                 <div class="blk topBlk">
                     <div class="ico"><img src="<?= get_site_image_src("members", $mem_data->mem_image, ''); ?>" alt=""></div>
                     <div class="txt">
-                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you again.</span></h3>
+                        <h3><span class="regular">Welcome,</span> Dear, <?=$mem_data->mem_fname.' '.$mem_data->mem_lname?>!<span class="regular">Nice to see you<?=$mem_data->mem_first_time_login == 'no' ? ' again.' : '.'?></span></h3>
                     </div>
                     <div class="bTn">
                          <a href="<?= base_url()?>buyer/orders" class="webBtn mdBtn simpleBtn">My Orders</a>

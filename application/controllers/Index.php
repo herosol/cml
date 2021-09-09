@@ -64,6 +64,7 @@ class Index extends MY_Controller
                         $this->input->set_cookie($cookie);
                     }
 
+                    $this->member_model->save(['mem_first_time_login'=> 'no'], $row->mem_id);
                     $this->member_model->update_last_login($row->mem_id, $remember_token);
                     $this->session->set_userdata('mem_id', $row->mem_id);
                     $this->session->set_userdata('mem_type', $row->mem_type);

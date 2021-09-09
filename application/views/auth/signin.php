@@ -33,7 +33,7 @@
                                 </div>
                                 <h6>Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="password">••••••••</label>
+                                    <label for="password">password</label>
                                     <input type="password" name="password" id="password" class="txtBox">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>

@@ -201,31 +201,38 @@ $(document).ready(function() {
         },
         messages: {
             mem_fname: {
+                required: "First name is required.",
                 minlength: "First Name should contains atleast 2 letters.",
                 maxlength: "First Name should not be greater than 20 letters.",
                 noSpace: "First Name should contains only letters and avoid space.",
                 lettersonly: "First Name should contains only letters."
             },
             mem_lname: {
+                required: "Last name is required.",
                 minlength: "Last Name should contains atleast 2 letters.",
                 maxlength: "Last Name should not be greater than 20 letters.",
                 noSpace: "Last Name should contains only letters and avoid space.",
                 lettersonly: "Last Name should contains only letters."
             },
+            email:
+            {
+                required: "Email is required.",
+                email: "Please enter a valid email.",
+            },
             password: {
-                required: "This field is required.",
+                required: "Password is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpassword: {
-                required: "This field is required.",
+                required: "Confirm Password is required.",
                 equalTo: "Confirm password must be the as the password."
             },
             confirm: {
-                required: "This field is required."
+                required: "Please accept our terms and conditions."
             }
         },
         errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['password', 'cpassword', 'mem_fname', 'mem_lname', 'confirm']) !== -1 && error.text() != 'This field is required.') {
+            if ($.inArray(element.attr('id'), ['password', 'cpassword', 'mem_fname', 'mem_email', 'mem_lname', 'confirm']) !== -1) {
                 error.addClass('alert alert-danger alert-sm')
                 error.appendTo(element.parents('form').find("div.alertMsg:first").show());
                 $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");

@@ -43,13 +43,13 @@
                                 </div>
                                 <h6>Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="password">••••••••</label>
+                                    <label for="password">password</label>
                                     <input type="password" name="password" id="password" class="txtBox pr-password">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
                                 <h6>Confirm Password</h6>
                                 <div class="txtGrp pasDv">
-                                    <label for="cpassword">••••••••</label>
+                                    <label for="cpassword">confirm password</label>
                                     <input type="password" name="cpassword" id="cpassword" class="txtBox">
                                     <i class="icon-eye" id="eye"></i>
                                 </div>
