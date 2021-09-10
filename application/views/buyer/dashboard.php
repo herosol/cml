@@ -106,7 +106,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
                                     <div class="txtGrp">
                                         <label for="mem_dob">Date of birth</label>
-                                        <input type="text" name="mem_dob" id="mem_dob" value="<?=format_date($mem_data->mem_dob, 'm-d-Y')?>" class="txtBox datepicker">
+                                        <input type="text" name="mem_dob" id="mem_dob" value="<?=empty($mem_data->mem_dob) ? NULL : format_date($mem_data->mem_dob, 'm-d-Y')?>" class="txtBox datepicker">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">

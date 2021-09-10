@@ -1,51 +1,4 @@
 $(document).ready(function() {
-    // var input = document.querySelector("#phone")
-    // if ((typeof input !== 'undefined') && input) {
-    //     var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-    //     var iti = window.intlTelInput(input, {
-    //         // initialCountry: "auto",
-    //         separateDialCode: true,
-    //         // hiddenInput: "full_phone",
-    //         nationalMode: true,
-    //         allowDropdown: false,
-    //         onlyCountries: ["us"],
-    //         initialCountry: 'us',
-    //         /*geoIpLookup: function(callback) {
-    //             $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-    //                 var countryCode = (resp && resp.country) ? resp.country : "";
-    //                 callback(countryCode);
-    //             });
-    //         },*/
-    //         utilsScript: base_url + "assets/intltelinput/utils.js"
-    //     });
-    //     iti.promise.then(function() {
-    //         // input.value = iti.getNumber();
-    //     });
-    //     var itihandleChange = function() {
-    //         iti.setNumber(input.value)
-    //     };
-    //     input.addEventListener('change', itihandleChange);
-    //     input.addEventListener('keyup', itihandleChange);
-
-    //     $.validator.addMethod(
-    //         "valid_phone",
-    //         function(value, element) {
-    //             if (input.value.trim()) {
-    //                 if (iti.isValidNumber()) {
-    //                     // $('#phnMsg').addClass('vald').removeClass('hide invald').text('Valid');
-    //                     $('#phnMsg').addClass('hide').removeClass('hide invald invald').text('');
-    //                     // element.value =iti.getNumber();
-    //                     return true;
-    //                 } else {
-    //                     var errorCode = iti.getValidationError();
-    //                     $('#phnMsg').addClass('invald').removeClass('hide vald').text(errorMap[errorCode]);
-    //                     return false;
-    //                 }
-    //             }
-    //         }
-    //     );
-    // }
-
     $.validator.addMethod("pwcheck", function(value, element) {
         if (!(/[a-z]/.test(value))) {
             $(element).data('error', "Password must contains atleast 1 small letter");
@@ -130,7 +83,8 @@ $(document).ready(function() {
         }
     });
     $('#frmChangePass').validate({
-        errorElement: 'div',
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             pswd: {
                 required: true,
@@ -156,19 +110,12 @@ $(document).ready(function() {
                 required: "This field is required.",
                 equalTo: "Confirm password must be the as the password."
             }
-        },
-        errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['password', 'cpassword']) !== -1 && error.text() != 'This field is required.') {
-                error.addClass('alert alert-danger alert-sm')
-                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
-                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
-            }
-            return false;
         }
     });
 
     $('#frmSignup').validate({
-        errorElement: 'div',
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             mem_fname: {
                 required: true,
@@ -231,13 +178,16 @@ $(document).ready(function() {
                 required: "Please accept our terms and conditions."
             }
         },
-        errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['password', 'cpassword', 'mem_fname', 'mem_email', 'mem_lname', 'confirm']) !== -1) {
-                error.addClass('alert alert-danger alert-sm')
-                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
-                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
+        errorPlacement: (error, element) => 
+        {   
+            if (element.attr('name') == 'confirm') 
+            {
+                error.appendTo($('#confirm-error'));
             }
-            return false;
+            else
+            {
+                error.insertAfter(element);
+            }
         }
     });
 
@@ -530,7 +480,8 @@ $(document).ready(function() {
     });
 
     $('#changePassword').validate({
-        errorElement: 'div',
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             pswd: {
                 required: true
@@ -548,27 +499,23 @@ $(document).ready(function() {
             }
         },
         messages: {
+            pswd: {
+                required: "Current password is required."
+            },
             npswd: {
-                required: "This field is required.",
+                required: "New password is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpswd: {
-                required: "This field is required.",
+                required: "New confirm password is required.",
                 equalTo: "Confirm password must be the same as the password!"
             }
-        },
-        errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['npswd', 'cpswd']) !== -1 && error.text() != 'This field is required.') {
-                error.addClass('alert alert-danger alert-sm')
-                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
-                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
-            }
-            return false;
         }
     });
 
     $('#vendorBankAccount').validate({
-        errorElement: 'div',
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             bank_name: {
                 required: true
@@ -584,14 +531,6 @@ $(document).ready(function() {
             }
         },
         messages: {
-        },
-        errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['bank_name', 'account_number', 'short_code', 'beneficiary_name']) !== -1 && error.text() != 'This field is required.') {
-                error.addClass('alert alert-danger alert-sm')
-                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
-                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
-            }
-            return false;
         }
     });
 
@@ -641,6 +580,8 @@ $(document).ready(function() {
 
     
     $('#frmSignin').validate({
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             email: {
                 required: true,
@@ -649,9 +590,17 @@ $(document).ready(function() {
             password: {
                 required: true,
             }
-        },
-        errorPlacement: function() {
-            return false; // suppresses error message text
+        }, 
+        messages: 
+        {
+            email: {
+                required: 'Email is required.',
+                email: 'Please enter a valid email address.'
+            },
+            password: 
+            {
+                required: 'Password is required.'
+            }
         }
     })
 
@@ -679,7 +628,8 @@ $(document).ready(function() {
     })
 
     $('#frmReset').validate({
-        errorElement: 'div',
+        errorElement: 'span',
+        errorClass: 'validation-error',
         rules: {
             pswd: {
                 required: true,
@@ -695,21 +645,13 @@ $(document).ready(function() {
         },
         messages: {
             pswd: {
-                required: "This field is required.",
+                required: "Password is required.",
                 minlength: "Password must be at least 8 characters.",
             },
             cpswd: {
-                required: "This field is required.",
+                required: "Confirm passowrd is required.",
                 equalTo: "Confirm password must be the same as the password."
             }
-        },
-        errorPlacement: function(error, element) {
-            if ($.inArray(element.attr('id'), ['password', 'cpassword']) !== -1 && error.text() != 'This field is required.') {
-                error.addClass('alert alert-danger alert-sm')
-                error.appendTo(element.parents('form').find("div.alertMsg:first").show());
-                $("html, body").animate({ scrollTop: (element.parents('form').find("div.alertMsg:first").offset().top - 300) }, "slow");
-            }
-            return false;
         }
     });
     $('#frmSetting').validate({

@@ -69,14 +69,7 @@ class Index extends MY_Controller
                     $this->session->set_userdata('mem_id', $row->mem_id);
                     $this->session->set_userdata('mem_type', $row->mem_type);
                     
-                    if($row->mem_type == 'vendor')
-                    {
-                        $res['redirect_url'] = base_url().'vendor/dashboard';
-                    }
-                    else
-                    {
-                        $res['redirect_url'] = base_url().'buyer/dashboard';
-                    }
+                    $res['redirect_url'] = base_url();
 
                     $res['msg'] = showMsg('success', 'Login successful! Please wait...');
 

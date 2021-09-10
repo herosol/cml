@@ -5176,6 +5176,11 @@ aside~section>.contain-fluid {
     max-width: 80px;
 }
 
+span.validation-error {
+    color: red;
+    font-size: 12px;
+}
+
 
 /*
 |----------------------------------------------------------------------
@@ -5992,3 +5997,9 @@ ul.pagination>li>a.active {
       transform: translate(24px, 0);
     }
   }
+
+
+.txtGrp > span {
+    position: absolute;
+    top: 100%;
+}

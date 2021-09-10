@@ -62,6 +62,7 @@
                                             <a target="_blank" href="<?= base_url() ?>privacy-policy">Privacy Policy.</a>
                                         </label>
                                     </div>
+                                    <span id="confirm-error" class="validation-error"></span>
                                 </div>
                                 <div class="bTn text-center">
                                     <button type="submit" class="webBtn lgBtn blockBtn"><i class="spinner hidden"></i>Sign up</button>

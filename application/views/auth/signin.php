@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="txtGrp flex">
                                     <div class="lblBtn">
-                                        <input type="checkbox" name="remember" id="remember" checked="">
+                                        <input type="checkbox" name="remember" id="remember">
                                         <label for="remember">Remember me</label>
                                     </div>
                                     <a href="<?= base_url() ?>forgot-password" id="pass">Forgot Password?</a>
