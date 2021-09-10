@@ -459,6 +459,7 @@
                 <th>Email</th>
                 <th>Company Name</th>
                 <th width="8%" class="text-center">Status</th>
+                <th width="8%" class="text-center">Verify</th>
                 <th width="12%" class="text-center">&nbsp;</th>
             </tr>
         </thead>
@@ -476,10 +477,16 @@
                 <td><?= $row->mem_email; ?></td>
                 <td><?= $row->mem_company_name; ?></td>
                 <td class="text-center"><?= getStatus($row->mem_status); ?></td>
+                <td class="text-center"><?= ($row->mem_verified)? 'Yes' : 'No' ?></td>
                 <td class="text-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Action <span class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-primary" role="menu">
+                            <?php if ($row->mem_verified == '0'): ?>
+                            <li><a href="<?= site_url(ADMIN); ?>/vendors/verify/<?= $row->mem_id; ?>">Verify</a></li>
+                            <?php else: ?>
+                            <li><a href="<?= site_url(ADMIN); ?>/vendors/unverify/<?= $row->mem_id; ?>">Unverify</a></li>
+                            <?php endif; ?>
                             <?php if ($row->mem_status == '0'): ?>
                             <li><a href="<?= site_url(ADMIN); ?>/vendors/active/<?= $row->mem_id; ?>">Active</a></li>
                             <?php else: ?>
