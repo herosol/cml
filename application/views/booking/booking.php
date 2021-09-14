@@ -735,7 +735,7 @@
                                     <table class="sm pb data_list">
                                         <tbody id="selected_services">
                                             <?php
-                                            foreach($services as $id):
+                                            foreach($services as $index => $id):
                                                 $row = get_sub_service($id, $vendor_id);
 
                                             ?>
@@ -745,11 +745,11 @@
                                                     <td>
                                                         <div class="qtyBtn">
                                                             <a class="qtyMinus"></a>
-                                                            <input type="text" id="qty-<?=$row->id?>" name="qty[]" value="1" class="qty" data-price="<?=$row->price?>" data-id="<?=$row->id?>" readonly>
+                                                            <input type="text" id="qty-<?=$row->id?>" name="qty[]" value="<?=$qty[$index]?>" class="qty" data-price="<?=$row->price?>" data-id="<?=$row->id?>" readonly>
                                                             <a class="qtyPlus"></a>
                                                         </div>
                                                     </td>
-                                                    <td id="price-<?=$row->id?>" >£<?=$row->price?></td>
+                                                    <td id="price-<?=$row->id?>" >£<?=price_format($row->price*$qty[$index])?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -977,7 +977,7 @@
                                     if(isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop'):
                                     $pickup = price_format($vendor->mem_charges_per_miles*2);
                                     ?>
-                                        <tr>
+                                        <tr id="pickup-and-delivery-preview">
                                             <td>Pickup & Delivery Charges:&nbsp;&nbsp;</td>
                                             <td>£<?= price_format($vendor->mem_charges_per_miles*2) ?></td>
                                         </tr>
@@ -1376,16 +1376,16 @@
                             $("html, body").animate({
                                 scrollTop: 100
                             }, "slow");
-                            frmMsg.html(rs.msg).slideDown(500);
+                            // frmMsg.html(rs.msg).slideDown(500);
                             if (rs.status == 1) {
-                                toastr.success(rs.msg,"Success");
+                                toastr.success(rs.msg, "Success");
                                 setTimeout(function() {
                                     frmIcon.addClass("hidden");
                                     form$[0].reset();
                                     window.location.href = rs.redirect_url;
                                 }, 3000);
                             } else {
-                                toastr.error(rs.msg,"Error");
+                                toastr.error(rs.msg, "Error");
                                 setTimeout(function() {
                                     frmIcon.addClass("hidden");
                                     sbtn.attr("disabled", false);
@@ -1444,17 +1444,22 @@
                     method:'POST',
                     error:function(er){
                         toastr.error('<div>Please try again or refresh your page.Error occur due to sever response!</div>',"Error");
+                        sbtn.attr("disabled", false);
                     },
                     success:function(rs){
                         if(rs.scroll_top)
                             $("html, body").animate({ scrollTop: 0 }, "slow");
                         if (rs.status == 1) {
+                            $("html, body").animate({
+                                scrollTop: 100
+                            }, "slow");
                             toastr.success(rs.msg,"Success");
                             setTimeout(function () {
                             if(rs.hide_msg)
                                 $('.alertMsg').slideUp(500);
                             if(rs.redirect_url)
                                 window.location.href = rs.redirect_url;   
+                                sbtn.attr("disabled", false);
                             },3000)
                         }
                         else{
@@ -1462,7 +1467,6 @@
                         }
                     },
                     complete:function(){
-                        sbtn.attr("disabled", false);
                         frmIcon.addClass('hidden');
                     }
                 })
@@ -1584,12 +1588,14 @@
             {
                 $('.freePickupAndDelivery').html(`Free Pickup & Delivery Service`);
                 $('.freePickupAndDelivery').fadeIn();
+                $('#pickup-and-delivery-preview').hide();
                 $('#estimated-total').text(`£${(parseFloat(total)).toFixed(2)}`);
                 $('#estimated-total-preview').text(`£${(parseFloat(total)).toFixed(2)}`);
             }
             else
             {
                 $('.freePickupAndDelivery').fadeOut();
+                $('#pickup-and-delivery-preview').show();
                 $('#estimated-total').text(`£${(parseFloat(total) + parseFloat(pickupDeliveryCharges)).toFixed(2)}`);
                 $('#estimated-total-preview').text(`£${(parseFloat(total) + parseFloat(pickupDeliveryCharges)).toFixed(2)}`);
             }

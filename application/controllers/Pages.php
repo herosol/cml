@@ -171,8 +171,8 @@ class Pages extends MY_Controller
                 "website_name" => "".$this->data['site_settings']->site_name."",
                 "url" => "". base_url()."",
                 "notify_url" =>"".$notify_url."",
-                "return_url" => "".base_url()."success/".$order_id,
-                "cancel_url" => "".base_url()."cancel/".$order_id,
+                "return_url" => "".base_url()."success/".doEncode($order_id),
+                "cancel_url" => "".base_url()."cancel",
             );
             
             if($this->data['site_settings']->site_paypal_environment):

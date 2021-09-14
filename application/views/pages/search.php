@@ -51,38 +51,46 @@
                                 <tbody>
                                     <tr>
                                         <th>Services</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
                                         <th width="5%">Price</th>
                                     </tr>
                                     <?php
                                     $estimated_amount = 0; 
-                                    foreach($services as $key => $value):
+                                    foreach($services as $index => $value):
                                         $row = sub_service_price($value->id, $mem_id);
-                                        $estimated_amount += $row->price;
+                                        $estimated_amount += $row->price*$qty[$index];
                                     ?>
                                         <tr>
                                             <td><?= $value->name ?></td>
-                                            <td>£<?= $row->price ?></td>
+                                            <td>£<?= price_format($row->price) ?></td>
+                                            <td><?= $qty[$index] ?></td>
+                                            <td>£<?= price_format($row->price*$qty[$index]) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td class="color">£<?=price_format($estimated_amount)?></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr class="hidden pickdrop_charges">
-                                        <td class="color">Pickup & Delivery Charges (x2 of both sides)</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="color">Pickup & Delivery Charges</td>
                                         <td>£<?= $vendor->mem_charges_per_miles .'x2 = £'.($vendor->mem_charges_per_miles*2) ?></td>
                                     </tr>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <td>Minimum Order</td>
                                         <td>£<?= price_format($vendor->mem_charges_min_order) ?></td>
                                     </tr>
-                                    <tr class="hidden">
-                                        <td class="color">Minimum Order Fee</td>
-                                        <td>£0.50</td>
-                                    </tr>
                                     <tr>
+                                        <td></td>
+                                        <td></td>
                                         <th class="color">Estimated Total</th>
                                         <th id="estimated-total" data-total="<?=price_format($estimated_amount)?>">£<?=price_format($estimated_amount)?></th>
                                     </tr>

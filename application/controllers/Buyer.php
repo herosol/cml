@@ -84,8 +84,6 @@ class Buyer extends MY_Controller
         $services = [];
         foreach($orders as $index => $order):
             $order_detail = $this->master->getRows('order_detail',array('order_id'=> $order->order_id));
-            
-            
             $orders[$index]->services = $order_detail;
         endforeach;
 
@@ -207,7 +205,7 @@ class Buyer extends MY_Controller
         $total_orders = intval($this->master->num_rows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id)));
         $cal_orders = $total_orders % 10;
         
-        $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id),'',$cal_orders,'desc','order_id');
+        $this->data['orders'] = $this->master->getRows('orders',array('order_status'=>'completed','buyer_id'=>$buyer_id), '', $cal_orders, 'desc', 'order_id');
         // pr($this->data['orders']);
         $this->load->view('buyer/credits', $this->data);
     }

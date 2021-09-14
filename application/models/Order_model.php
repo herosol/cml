@@ -14,7 +14,7 @@ class Order_model extends CRUD_Model
         $this->db->from($this->table_name.' o');
         $this->db->join('members m', 'o.vendor_id=m.mem_id');
         $this->db->select('o.*, m.mem_image, m.mem_company_phone');
-        $this->db->where(['o.buyer_id'=> $this->session->mem_id]);
+        $this->db->where(['o.buyer_id'=> $this->session->mem_id, 'o.paypal_pending'=> 'no']);
         $this->db->group_by('o.order_id');
         $this->db->order_by('o.order_id', 'DESC');
         return $this->db->get()->result();
@@ -33,7 +33,7 @@ class Order_model extends CRUD_Model
         $this->db->from($this->table_name.' o');
         $this->db->join('members m', 'o.buyer_id=m.mem_id');
         $this->db->select('o.*, m.mem_fname, m.mem_lname');
-        $this->db->where(['o.vendor_id'=> $this->session->mem_id]);
+        $this->db->where(['o.vendor_id'=> $this->session->mem_id, 'o.paypal_pending'=> 'no']);
         $this->db->group_by('o.order_id');
         $this->db->order_by('o.order_id', 'DESC');
         return $this->db->get()->result();
@@ -78,7 +78,7 @@ class Order_model extends CRUD_Model
         $this->db->from($this->table_name.' o');
         $this->db->join('members b', 'o.buyer_id=b.mem_id');
         $this->db->select('o.*, b.mem_image');
-        $this->db->where(['o.vendor_id' => $this->session->mem_id]);
+        $this->db->where(['o.vendor_id' => $this->session->mem_id, 'o.paypal_pending'=> 'no']);
         $this->db->order_by('o.order_id', 'DESC');
         $this->db->limit(1);
         return $this->db->get()->row();

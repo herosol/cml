@@ -83,7 +83,6 @@ class Search extends MY_Controller
         $this->data['selections'] = $selections = $this->session->selection;
         $this->data['vendor'] = $this->member_model->get_row($mem_id);
         $this->data['facility_hours']  = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $mem_id]);
-        $this->data['estimated_price'] = vendor_service_check($mem_id, $selections['selected_service']);
 
         $services = [];
         foreach($selections['selected_service'] as $key => $value):
@@ -167,6 +166,7 @@ class Search extends MY_Controller
         }
         
         $this->data['services'] = $services;
+        $this->data['qty']      = $selections['qty'];
 
         $meta = $this->page->getMetaContent('vendor_detail');
 		$this->data['page_title'] = $meta->page_name;

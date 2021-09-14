@@ -9,13 +9,7 @@ class Paypal extends MY_Controller {
         $this->load->model('order_model');
     }
     
-    function success($encoded_id){
-            setMsg('success','Payment has been processed successfully');
-            // redirect(base_url('order-success/'.$encoded_id));
-            redirect(base_url());
-            exit;
-    }
-    
+
     function order_notify()
     {
         $raw_post_data = file_get_contents('php://input');
@@ -70,6 +64,7 @@ class Paypal extends MY_Controller {
             $row = $this->order_model->get_row('orders',['order_id'=> $custom]);
             if (!empty($row))
             {
+                $this->order_model->save(['paypal_pending'=> 'no'], $custom);
                 $this->master->save('order_invoices', ['order_id'=> $custom, 'charge_id'=> $txn_id, 'payment_method'=> 'paypal', 'payment_status'=> 'paid']);
             }
         }
@@ -87,11 +82,5 @@ class Paypal extends MY_Controller {
         $fp = fopen(APPPATH.'logs/'.$filename.".txt","wb");
         fwrite($fp,$filecontent);
         fclose($fp);
-    }
-
-    function cancel($encoded_id) {
-        setMsg('error','Payment has not been processed successfully');
-        redirect(base_url('order-cancel/'.$encoded_id),'refresh');
-        exit;
     }
 }

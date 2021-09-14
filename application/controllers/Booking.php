@@ -24,15 +24,16 @@ class Booking extends MY_Controller
         $this->data['selections'] = $selections = $this->session->selections;
         $this->data['vendor_id'] = $selections['vendor'];
         $this->data['services']  = $selections['selected_service'];
+        $this->data['qty']       = $qty = $selections['qty'];
         $this->data['zipcode']   = $selections['zipcode'];
         $this->data['facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
         //VENDOR
         $this->data['vendor'] = $vendor = $this->member_model->getMember($selections['vendor']);
 
         $this->data['estimated_total'] = 0; 
-        foreach($selections['selected_service'] as $key => $value):
+        foreach($selections['selected_service'] as $index => $value):
             $row = sub_service_price($value, $selections['vendor']);
-            $this->data['estimated_total'] += $row->price;
+            $this->data['estimated_total'] += $row->price*$qty[$index];
         endforeach;
 
         //START END SLEECTED DAY TIME
@@ -249,8 +250,10 @@ class Booking extends MY_Controller
                 
                 $order['order_status'] = 'New';
                 $order['site_percentage'] = $this->data['site_settings']->site_percentage;
-
                 $order_total_price = price_format($order['order_total_price']); 
+                if ($post['payment_type'] == 'paypal') 
+                    $order['paypal_pending'] = 'yes';
+
                 unset($order['order_price']);
                 unset($order['order_total_price']);
                 unset($order['buyer_credit_discount']);
@@ -353,21 +356,40 @@ class Booking extends MY_Controller
         $meta = $this->page->getMetaContent('terms_conditions');
         $this->data['page_title'] = $meta->page_name;
         $this->data['slug'] = $meta->slug;
+        $this->data['order_id'] = $order_id;
         $data = $this->page->getPageContent('terms_conditions');
-        if($data){
+        if($data)
+        {
             $this->data['content'] = unserialize($data->code);
             $this->data['details'] = ($data->full_code);
             $this->data['meta_desc'] = json_decode($meta->content);
-            $this->load->view('pages/order-confirmation',$this->data);
-        }else{
+            $this->load->view('buyer/order-confirmed', $this->data);
+        }
+        else
+        {
             show_404();
         }
 	}
-	
-	function cancel($order_id)
+
+	function cancel()
     {
-		setMsg('success','Your order has not been placed successfully!');
-		$this->load->view('error', $this->data);
+        $this->session->unset_userdata('selections');
+        $meta = $this->page->getMetaContent('terms_conditions');
+        $this->data['page_title'] = $meta->page_name;
+        $this->data['slug'] = $meta->slug;
+        $this->data['order_id'] = $order_id;
+        $data = $this->page->getPageContent('terms_conditions');
+        if($data)
+        {
+            $this->data['content'] = unserialize($data->code);
+            $this->data['details'] = ($data->full_code);
+            $this->data['meta_desc'] = json_decode($meta->content);
+            $this->load->view('buyer/order-cancelled', $this->data);
+        }
+        else
+        {
+            show_404();
+        }
 	}
 
     function error()

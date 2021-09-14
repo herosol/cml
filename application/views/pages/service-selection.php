@@ -256,6 +256,13 @@
                         selectedArea.prepend(`<tr data-id="${$(this).data('subservice-id')}">
                             <td>${$(this).data('name')}</td>
                             <input type="hidden" name="selected_service[]" value="${$(this).data('subservice-id')}">
+                            <td>
+                                <div class="qtyBtn">
+                                    <a class="qtyMinus"></a>
+                                    <input type="text" name="qty[]" value="1" class="qty" readonly>
+                                    <a class="qtyPlus"></a>
+                                </div>
+                            </td>
                             <td><button type="button" class="actBtn delBtn right" data-subservice-id="${$(this).data('subservice-id')}"></button></td>
                         </tr>`);
                     }
@@ -276,6 +283,39 @@
                     
                 }
             });
+
+        // This button will increment the value
+        $(document).on("click", ".qtyPlus", function(e) {
+            e.preventDefault();
+            $('.servicesMessage').fadeOut();
+            var parent = $(this).parent().children(".qty");
+            var currentVal = parent.val();
+            
+            if (!isNaN(currentVal)) 
+            {
+                let incrementedVal = parseInt(currentVal) + 1; 
+                parent.val(incrementedVal);
+            } else {
+                parent.val(1);
+            }
+
+        });
+
+        // This button will decrement the value till 0
+        $(document).on("click", ".qtyMinus", function(e) {
+            e.preventDefault();
+            $('.servicesMessage').fadeOut();
+            var parent = $(this).parent().children(".qty");
+            var currentVal = parent.val();
+
+            if (!isNaN(currentVal) && currentVal > 1) {
+                let decrementedVal = parseInt(currentVal) - 1; 
+                parent.val(decrementedVal);
+            } else {
+                parent.val(1);
+            }
+
+        });
         </script>
     </main>
     <?php $this->load->view('includes/footer');?>

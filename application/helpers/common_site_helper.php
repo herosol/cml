@@ -171,12 +171,12 @@ function sub_service_price($sub_service_id, $mem_id)
     return $query->row();
 }
 
-function vendor_service_check($mem_id, $services)
+function vendor_service_check($mem_id, $services, $qty)
 {
     $res = [];
     $res['return'] = true;
     $estimated_price = 0;
-    foreach($services as $key => $service):
+    foreach($services as $index => $service):
         $row = sub_service_price($service, $mem_id);
         if(empty($row))
             $res['return'] = false;
@@ -184,7 +184,7 @@ function vendor_service_check($mem_id, $services)
             if($row->price == '' || $row->price == '0.00')
                 $res['return'] = false;
             else
-                $estimated_price += $row->price;
+                $estimated_price += $row->price * $qty[$index];
     endforeach;
 
     $res['estimated_price'] = $estimated_price;

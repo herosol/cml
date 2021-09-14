@@ -47,7 +47,7 @@ class Member_model extends CRUD_Model
             # CHECK IF VENDOR ALLOW SERVICE IN REQUIRED DISTANCE
             if($vendor->mem_travel_radius >= $vendor->distance):
                 # CHECK IF USER PROVIDING ALL REQUIRED SERVICES
-                $service_check = vendor_service_check($vendor->mem_id, $selections['selected_service']);
+                $service_check = vendor_service_check($vendor->mem_id, $selections['selected_service'], $selections['qty']);
                 if($service_check['return']):
                     $vendor->estimated_price = $service_check['estimated_price'];
                     $vendors[] = $vendor;    

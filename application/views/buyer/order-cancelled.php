@@ -25,12 +25,9 @@
 
         <section id="place">
             <div class="contain text-center">
-                <h2 class="heading">Order Confirmed</h2>
+                <h2 class="heading">Order Cancelled</h2>
                 <div class="blk">
-                    <h3 class="color">Thank You For Your Order</h3>
-                    <p>Your Order Number is:</p>
-                    <h1><a href="<?=base_url()?>buyer/order-detail/<?=$order_id?>">#<?=num_size(doDecode($order_id))?></a></h1>
-                    <div class="br"></div>
+                    <h3 class="color">Your order has been cancelled successfully.</h3>
                 </div>
             </div>
         </section>
