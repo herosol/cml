@@ -244,7 +244,7 @@ class Booking extends MY_Controller
                     $order['buyer_get_credit'] = '1';
                     $order['buyer_credit_discount']   = price_format($order['order_total_price'] / 100 * intval($this->data['site_settings']->site_buyer_credit_percentage));
                     $order['buyer_credit_percentage'] = intval($this->data['site_settings']->site_buyer_credit_percentage);
-                    $order['order_total_price']       -= $order['buyer_credit_discount'];
+                    $order['order_total_price']      -= $order['buyer_credit_discount'];
                 }
                 
                 $order['order_status'] = 'New';

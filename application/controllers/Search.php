@@ -131,11 +131,11 @@ class Search extends MY_Controller
                 {
                     $c_time_indexes = explode(' - ', $post['collection_time']);
                     $d_time_indexes = explode(' - ', $post['delivery_time']);
-                    $collection_datetime = $post['collection_date'] . ' ' . $c_time_indexes[1];
-                    $delivery_datetime   = $post['delivery_date'] . ' ' .$d_time_indexes[1];
+                    $collection_datetime = date_picker_format_date($post['collection_date'], 'Y-m-d') . ' ' . $c_time_indexes[1] . ':00';
+                    $delivery_datetime   = date_picker_format_date($post['delivery_date'], 'Y-m-d') . ' ' .$d_time_indexes[1]. ':00';
 
-                    $collection_datetime = strtotime(format_date($collection_datetime, 'Y-m-d H:i:s'));
-                    $delivery_datetime = strtotime(format_date($delivery_datetime, 'Y-m-d H:i:s'));
+                    $collection_datetime = strtotime($collection_datetime);
+                    $delivery_datetime   = strtotime($delivery_datetime);
 
                     if($delivery_datetime <= $collection_datetime)
                     {
