@@ -81,6 +81,14 @@ class Withdraw_model extends CRUD_Model
         return  $this->db->get()->result();
     }
 
+    function admin_total_payouts_amount()
+    {
+        $this->db->select('SUM(amount) as payouts');
+        $this->db->from($this->table_name);
+        $this->db->where(['status'=> 'completed']);
+        return $this->db->get()->row()->payouts;
+    }
+
 }
 ?>
 
