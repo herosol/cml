@@ -92,7 +92,7 @@ class Search extends MY_Controller
         $this->data['cdays'] = [];
         foreach(weekDays() as $index => $day):
             $key = $day.'_opening';
-            if($facility_hours->$key == 'closed'):
+            if($facility_hours->$key == 'closed' || $facility_hours->$key == ''):
                 $this->data['cdays'][] = $index;
             endif;
         endforeach;

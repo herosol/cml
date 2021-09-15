@@ -44,6 +44,11 @@ class Member_model extends CRUD_Model
 
         $vendors = [];
         foreach($nearby_vendors as $key => $vendor):
+            #CHECK IF WALK-IN FACILITY AND SET FACILITY HOURS
+            $facilityCheck = $this->master->num_rows('mem_facility_hours', ['mem_id'=> $vendor->mem_id]);
+            if($vendor->mem_company_walkin_facility == 'yes' && $facilityCheck == 0)
+                continue;
+            
             # CHECK IF VENDOR ALLOW SERVICE IN REQUIRED DISTANCE
             if($vendor->mem_travel_radius >= $vendor->distance):
                 # CHECK IF USER PROVIDING ALL REQUIRED SERVICES

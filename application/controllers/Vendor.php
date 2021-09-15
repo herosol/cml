@@ -26,7 +26,6 @@ class Vendor extends MY_Controller
             $res['redirect_url'] = 0;
 
             $post = html_escape($this->input->post());
-            
             $this->form_validation->set_message('integer', 'Please select a valid {field}');
             $this->form_validation->set_rules('mem_fname', 'First Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'First Name should contains only letters and avoid space.', 'min_length'=> 'First Name should contains atleast 2 letters.', 'max_length'=> 'First Name should not be greater than 20 letters.']);
             $this->form_validation->set_rules('mem_lname', 'Last Name', 'trim|required|alpha|min_length[2]|max_length[20]', ['alpha'=> 'Last Name should contains only letters and avoid space.', 'min_length'=> 'Last Name should contains atleast 2 letters.', 'max_length'=> 'Last Name should not be greater than 20 letters.']);
@@ -49,20 +48,32 @@ class Vendor extends MY_Controller
                 $this->form_validation->set_rules('mem_business_city', 'Business city', 'trim|required');
                 $this->form_validation->set_rules('mem_business_zip', 'Business zip', 'trim|required');
                 $this->form_validation->set_rules('mem_business_address', 'Business address', 'trim|required');
+                $scheduleCheck = true;
+                foreach(weekDays() as $dayPrefix)
+                {
+                    $day_opening = '';
+                    $day_closing = '';
+                    $day_opening = $dayPrefix.'_opening';
+                    $day_closing = $dayPrefix.'_closing';
+                    if(!empty($post[$day_opening]) && $post[$day_opening] != 'closed')
+                        $scheduleCheck = false;
+
+                    if(!empty($post[$day_closing]) && $post[$day_closing] != 'closed')
+                        $scheduleCheck = false;
+                }
+                if($scheduleCheck)
+                    $this->form_validation->set_rules('atleast_one_day', 'Atleast One Day', 'required', ['required'=> 'Please enter opening and closing hours of atleast one day.']);
             }
+
             if($post['mem_company_pickdrop'] == 'yes')
             {
-                if (!empty($post['pickup_zip'])) {
-                    $this->form_validation->set_rules('mem_map_lat', 'Pick Up', 'required',
-                    array(
-                        'required'  => 'You have not provided Correct Zip for %s.',
-                    ));
-                }
+                if (!empty($post['pickup_zip'])) 
+                    $this->form_validation->set_rules('mem_map_lat', 'Pick Up', 'required', ['required'  => 'You have not provided Correct Zip for %s.']);
+
                 $this->form_validation->set_rules('pickup_zip', 'Pickup and collection zip', 'trim|required');
                 $this->form_validation->set_rules('mem_charges_per_miles', 'Charges per mils', 'trim|required');
                 $this->form_validation->set_rules('mem_charges_free_over', 'Charges free over', 'trim|required');
                 $this->form_validation->set_rules('mem_charges_min_order', 'Minimum order value', 'trim|required');
-                // $this->form_validation->set_rules('mem_show_cancellation', 'Show cancellation policy', 'trim|required');
             }
 
 
@@ -122,7 +133,8 @@ class Vendor extends MY_Controller
             $this->member_model->save($user_info, $mem_id);
 
             # MEMBER FACILITY HOURS
-            if($post['mem_company_walkin_facility'] == 'yes'){
+            if($post['mem_company_walkin_facility'] == 'yes')
+            {
                 $facility_hours['mon_opening'] = $post['mon_opening'] == '' ? NULL : $post['mon_opening'];
                 $facility_hours['mon_closing'] = $post['mon_closing'] == '' ? NULL : $post['mon_closing'];
                 $facility_hours['tue_opening'] = $post['tue_opening'] == '' ? NULL : $post['tue_opening'];
@@ -137,16 +149,16 @@ class Vendor extends MY_Controller
                 $facility_hours['sat_closing'] = $post['sat_closing'] == '' ? NULL : $post['sat_closing'];
                 $facility_hours['sun_opening'] = $post['sun_opening'] == '' ? NULL : $post['sun_opening'];
                 $facility_hours['sun_closing'] = $post['sun_closing'] == '' ? NULL : $post['sun_closing'];
+                if($this->master->num_rows('mem_facility_hours', ['mem_id'=> $mem_id]) > 0)
+                {
+                    $this->master->save('mem_facility_hours', $facility_hours, 'mem_id', $mem_id);
+                }
+                else
+                {
+                    $facility_hours['mem_id'] = $mem_id;
+                    $this->master->save('mem_facility_hours', $facility_hours);
+                }
             }   
-            if($this->master->num_rows('mem_facility_hours', ['mem_id'=> $mem_id]) > 0)
-            {
-                $this->master->save('mem_facility_hours', $facility_hours, 'mem_id', $mem_id);
-            }
-            else
-            {
-                $facility_hours['mem_id'] = $mem_id;
-                $this->master->save('mem_facility_hours', $facility_hours);
-            }
 
             $res['msg'] = showMsg('success', 'Profile update successfully!');
             $res['status'] = 1;
@@ -396,15 +408,6 @@ class Vendor extends MY_Controller
             exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
         }
     }
-
-    // public function delete_bank_fetch()
-    // {
-    //     if($this->input->post())
-    //     {
-    //         exit(json_encode(['html'=> mem_bank_form($this->input->post('bank_id'))]));
-    //     }
-    // }
-
 
     public function change_order_status()
     {
