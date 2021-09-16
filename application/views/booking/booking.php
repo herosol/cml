@@ -4,6 +4,18 @@
 <head>
     <title><?= $page_title ?> — <?= $site_settings->site_name ?></title>
     <?php $this->load->view('includes/site-master');?>
+    <script>
+        var cp_obj_1 = CraftyPostcodeCreate();
+        cp_obj_1.set("access_token", "23d54-dc93e-f19eb-072fa"); // your token here
+        cp_obj_1.set("result_elem_id", "crafty_postcode_result_display_1");
+        // cp_obj_1.set("form", ""); // left blank, we will use element id's
+        // cp_obj_1.set("elem_company"  , "companyname_1");
+        // cp_obj_1.set("elem_street1"  , "address1_1");
+        // cp_obj_1.set("elem_street2"  , "address2_1");
+        // cp_obj_1.set("elem_street3"  , "address3_1");
+        // cp_obj_1.set("elem_town"     , "town_1");
+        cp_obj_1.set("elem_postcode" , "zipcode");
+     </script>
 </head>
 
 <body id="home-page">
@@ -192,7 +204,12 @@
                             <h6>Enter your Postcode</h6>
                             <div class="txtGrp">
                                 <label for="zipcode">Enter Postcode</label>
-                                <input type="text" class="txtBox" id="zipcode" value="<?=$zipcode?>" readonly>
+                                <input type="text" class="txtBox" id="zipcode" value="<?=$zipcode?>">
+                                <br/>
+                                <button type="button" onclick="cp_obj_1.doLookup()" class="webBtn smBtn">Find Addresses</button>
+                                <br/>
+                                <span id="crafty_postcode_result_display_1">&nbsp;</span>
+                                <br/>
                             </div>
                             <div id="select-address">
                                 <?php if(!empty($this->session->mem_id)): ?> 

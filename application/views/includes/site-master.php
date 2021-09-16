@@ -88,6 +88,8 @@
 
 <script type="text/javascript" src="<?= base_url('assets/js/toastr.min.js') ?>"></script>
 
+<script type="text/javascript" src="<?= base_url() ?>assets/js/crafty_postcode.class.js"></script>
+
 <script type="text/javascript">
 
     var base_url = "<?= base_url() ?>";
