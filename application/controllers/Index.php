@@ -69,7 +69,7 @@ class Index extends MY_Controller
                     $this->session->set_userdata('mem_id', $row->mem_id);
                     $this->session->set_userdata('mem_type', $row->mem_type);
                     
-                    $res['redirect_url'] = base_url();
+                    $res['redirect_url'] = base_url() . $row->mem_type . '/dashboard';
 
                     $res['msg'] = showMsg('success', 'Login successful! Please wait...');
 
