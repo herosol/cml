@@ -1,478 +1,678 @@
-$(function() {
+$(function () {
 
-    /*_____ Toggle _____*/
+	/*_____ Toggle _____*/
 
-    $(document).on("click", ".toggle", function() {
 
-        $(".toggle").toggleClass("active");
 
-        $("html").toggleClass("flow");
+	$(document).on("click", ".toggle", function () {
 
-        $("[nav]").toggleClass("active");
+		$(".toggle").toggleClass("active");
 
-        // $(".upperlay").toggleClass("active");
 
-        $("[nav] > ul > li > .sub").slideUp();
 
-    });
+		$("html").toggleClass("flow");
 
-    w = $(window).width();
 
-    if (w <= 991) {
 
-        $(document).on("click", "[nav] > ul > li.drop > a", function(e) {
+		$("[nav]").toggleClass("active");
 
-            e.preventDefault();
 
-            $(".sub")
 
-                .not(
+		// $(".upperlay").toggleClass("active");
 
-                    $(this)
 
-                    .parent()
 
-                    .children(".sub")
+		$("[nav] > ul > li > .sub").slideUp();
 
-                    .slideToggle()
+	});
 
-                )
 
-                .slideUp();
 
-        });
+	w = $(window).width();
 
-    }
 
-    $(window).on("resize", function() {
 
-        $("[nav] > ul > li > .sub").removeAttr("style");
+	if (w <= 991) {
 
-    });
+		$(document).on("click", "[nav] > ul > li.drop > a", function (e) {
 
+			e.preventDefault();
 
 
-    /*_____ Upload File _____*/
 
-    var upldFile;
+			$(".sub")
 
-    $(document).on("click", ".uploadImg[data-upload]:not(.uploaded)", function() {
+				.not(
 
-        upldFile = $(this).attr("data-upload");
+					$(this)
 
-        $(this).data("preText", $(this).attr("data-text"));
+						.parent()
 
-        $(this)
 
-            .parents("form")
 
-            .find(`input[type="file"][data-upload="${upldFile}"]`)
+						.children(".sub")
 
-            .trigger("click");
 
-    });
 
-    $(document).on("click", ".uploadImg[data-upload].uploaded", function() {
+						.slideToggle()
 
-        upldFile = $(this).attr("data-upload");
+				)
 
-        $(this)
 
-            .attr("data-text", $(this).data("preText"))
 
-            .removeClass("uploaded");
+				.slideUp();
 
-        $(this)
+		});
 
-            .parents("form")
+	}
 
-            .find(`input[type="file"][data-upload="${upldFile}"]`)
 
-            .get(0).value = "";
 
-    });
+	$(window).on("resize", function () {
 
-    $(document).on("change", ".uploadFile[data-upload]", function() {
+		$("[nav] > ul > li > .sub").removeAttr("style");
 
-        // alert(imgFile);
+	});
 
-        let file = $(this).val();
 
-        let preText = $(`.uploadImg[data-upload="${upldFile}"]`).data("preText");
 
-        if (this.files.length > 0) {
+	/*_____ Upload File _____*/
 
-            $(`.uploadImg[data-upload="${upldFile}"]`)
 
-                .addClass("uploaded")
 
-                .attr("data-text", file);
+	var upldFile;
 
-        } else {
 
-            $(`.uploadImg[data-upload="${upldFile}"]`)
 
-                .removeClass("uploaded")
+	$(document).on("click", ".uploadImg[data-upload]:not(.uploaded)", function () {
 
-                .attr("data-text", preText);
+		upldFile = $(this).attr("data-upload");
 
-        }
 
-        // console.log(this.files.length);
 
-        // $(`.uploadImg[data-upload="${upldFile}"]`).html(file);
+		$(this).data("preText", $(this).attr("data-text"));
 
-    });
 
 
+		$(this)
 
-    /*_____ Drop Down _____*/
+			.parents("form")
 
-    $(document).on("click", ".dropBtn", function(e) {
 
-        e.stopPropagation();
 
-        if (
+			.find(`input[type="file"][data-upload="${upldFile}"]`)
 
-            $(this)
 
-            .parents(".dropCnt:first")
 
-            .hasClass("active")
+			.trigger("click");
 
-        )
+	});
 
-            $(this)
 
-            .parents(".dropCnt:first")
 
-            .find(".dropCnt:first")
+	$(document).on("click", ".uploadImg[data-upload].uploaded", function () {
 
-            .addClass("active");
+		upldFile = $(this).attr("data-upload");
 
-        else {
 
-            $(".dropCnt")
 
-                .not(
+		$(this)
 
-                    $(this)
+			.attr("data-text", $(this).data("preText"))
 
-                    .parent()
 
-                    .children(".dropCnt")
 
-                )
+			.removeClass("uploaded");
 
-                .removeClass("active");
 
-            $(this)
 
-                .parents(".dropDown:first")
+		$(this)
 
-                .find(".dropCnt:first")
+			.parents("form")
 
-                .toggleClass("active");
 
-        }
 
-    });
+			.find(`input[type="file"][data-upload="${upldFile}"]`)
 
-    $(document).on("click", ".dropCnt", function(e) {
 
-        e.stopPropagation();
 
-    });
+			.get(0).value = "";
 
-    $(document).on("click", function() {
+	});
 
-        $(".dropCnt").removeClass("active");
 
-    });
 
+	$(document).on("change", ".uploadFile[data-upload]", function () {
 
+		// alert(imgFile);
 
-    /*_____ Popup _____*/
 
-    $(document).on("click", ".popup", function(e) {
 
-        if ($(e.target).closest(".popup ._inner, .popup .inside").length === 0) {
+		let file = $(this).val();
 
-            $(".popup").fadeOut("3000");
 
-            $("html").removeClass("flow");
 
-            $("#vidBlk").html("");
+		let preText = $(`.uploadImg[data-upload="${upldFile}"]`).data("preText");
 
-        }
 
-    });
 
-    $(document).on("click", ".crosBtn", function() {
+		if (this.files.length > 0) {
 
-        $(".popup").fadeOut();
+			$(`.uploadImg[data-upload="${upldFile}"]`)
 
-        $("html").removeClass("flow");
+				.addClass("uploaded")
 
-        $("#vidBlk").html("");
 
-    });
 
-    $(document).keydown(function(e) {
+				.attr("data-text", file);
 
-        if (e.keyCode == 27) $(".popup .crosBtn").click();
+		} else {
 
-    });
+			$(`.uploadImg[data-upload="${upldFile}"]`)
 
-    $(document).on("click", ".popBtn", function() {
+				.removeClass("uploaded")
 
-        var popUp = $(this).data("popup");
 
-        $("html").addClass("flow");
 
-        $(".popup[data-popup= " + popUp + "]").fadeIn();
+				.attr("data-text", preText);
 
-    });
+		}
 
-    $(document).on("click", ".popBtn[data-store]", function() {
 
-        var vcode = $(this).data("store");
 
-        $("#vidBlk").html('<iframe src="https://www.youtube.com/embed/' + vcode + '?autoplay=1&loop=1&rel=0&wmode=transparent&modestbranding=1" allow="autoplay;" frameborder="0" wmode="Opaque"></iframe>');
+		// console.log(this.files.length);
 
-    });
 
 
+		// $(`.uploadImg[data-upload="${upldFile}"]`).html(file);
 
-    /*_____ FAQ's _____*/
+	});
 
-    $(document).on("click", ".faqBlk > h5", function() {
 
-        $(".faqBlk")
 
-            .not(
+	/*_____ Drop Down _____*/
 
-                $(this)
 
-                .parent()
 
-                .toggleClass("active")
+	$(document).on("click", ".dropBtn", function (e) {
 
-            )
+		e.stopPropagation();
 
-            .removeClass("active");
 
-        $(".faqBlk > .txt")
 
-            .not(
+		if (
 
-                $(this)
+			$(this)
 
-                .parent()
+				.parents(".dropCnt:first")
 
-                .children(".txt")
 
-                .slideToggle()
 
-            )
+				.hasClass("active")
 
-            .slideUp();
+		)
 
-    });
+			$(this)
 
-    // $(".faqLst > .faqBlk:nth-child(1)").addClass("active");
+				.parents(".dropCnt:first")
 
 
 
-    $(document).on("click", ".txtGrp.pasDv > i.icon-eye", function() {
+				.find(".dropCnt:first")
 
-        $(this).addClass("icon-eye-slash");
 
-        $(this).removeClass("icon-eye");
 
-        $(this)
+				.addClass("active");
 
-            .parent()
+		else {
 
-            .find(".txtBox")
+			$(".dropCnt")
 
-            .attr("type", "text");
+				.not(
 
-    });
+					$(this)
 
-    $(document).on("click", ".txtGrp.pasDv > i.icon-eye-slash", function() {
+						.parent()
 
-        $(this).addClass("icon-eye");
 
-        $(this).removeClass("icon-eye-slash");
 
-        $(this)
+						.children(".dropCnt")
 
-            .parent()
+				)
 
-            .find(".txtBox")
 
-            .attr("type", "password");
 
-    });
+				.removeClass("active");
 
 
 
-    $(document).on("click", ".blk.collap > ._header > .downBtn", function() {
+			$(this)
 
-        $(this)
+				.parents(".dropDown:first")
 
-            .parent()
 
-            .next("._content:first")
 
-            .slideToggle();
+				.find(".dropCnt:first")
 
-    });
 
 
+				.toggleClass("active");
 
-    $(document).on("focus", ".txtGrp .txtBox:not(select):not(.uploadImg)", function() {
+		}
 
-        $(this)
+	});
 
-            .parents(".txtGrp:first")
 
-            .find("label:first")
 
-            .addClass("move");
+	$(document).on("click", ".dropCnt", function (e) {
 
-    });
+		e.stopPropagation();
 
+	});
 
 
-    $(".txtGrp .txtBox:not(select)").each(function(e) {
 
-        if ($(this).val() != "")
+	$(document).on("click", function () {
 
-            $(this)
+		$(".dropCnt").removeClass("active");
 
-            .parents(".txtGrp:first")
+	});
 
-            .find("label:first")
 
-            .addClass("move");
 
-    });
+	/*_____ Popup _____*/
 
 
 
-    $(document).on("blur", ".txtGrp .txtBox:not(select):not(.uploadImg)", function() {
+	$(document).on("click", ".popup", function (e) {
 
-        if (this.value == "")
+		if ($(e.target).closest(".popup ._inner, .popup .inside").length === 0) {
 
-            $(this)
+			$(".popup").fadeOut("3000");
 
-            .parents(".txtGrp:first")
 
-            .find("label:first")
 
-            .removeClass("move");
+			$("html").removeClass("flow");
 
-    });
 
 
+			$("#vidBlk").html("");
 
-    $(document).on("change", "[data-payment] .lblBtn > input.tglBlk", function() {
+		}
 
-        let checked = this.checked;
+	});
 
-        if (checked == true) {
 
-            $(this)
 
-                .parents("[data-payment]")
+	$(document).on("click", ".crosBtn", function () {
 
-                .find(".insideBlk")
+		$(".popup").fadeOut();
 
-                .slideToggle();
 
-        } else
 
-            $(this)
+		$("html").removeClass("flow");
 
-            .parents("[data-payment]")
 
-            .find(".insideBlk")
 
-            .slideUp();
+		$("#vidBlk").html("");
 
-    });
+	});
 
 
 
-    /*$(".runBtn").on("click", function(event) {
+	$(document).keydown(function (e) {
+
+		if (e.keyCode == 27) $(".popup .crosBtn").click();
+
+	});
+
+
+
+	$(document).on("click", ".popBtn", function () {
+
+		var popUp = $(this).data("popup");
+
+
+
+		$("html").addClass("flow");
+
+
+
+		$(".popup[data-popup= " + popUp + "]").fadeIn();
+
+	});
+
+
+
+	$(document).on("click", ".popBtn[data-store]", function () {
+
+		var vcode = $(this).data("store");
+
+
+
+		$("#vidBlk").html('<iframe src="https://www.youtube.com/embed/' + vcode + '?autoplay=1&loop=1&rel=0&wmode=transparent&modestbranding=1" allow="autoplay;" frameborder="0" wmode="Opaque"></iframe>');
+
+	});
+
+
+
+	/*_____ FAQ's _____*/
+
+
+
+	$(document).on("click", ".faqBlk > h5", function () {
+
+		$(".faqBlk")
+
+			.not(
+
+				$(this)
+
+					.parent()
+
+
+
+					.toggleClass("active")
+
+			)
+
+
+
+			.removeClass("active");
+
+
+
+		$(".faqBlk > .txt")
+
+			.not(
+
+				$(this)
+
+					.parent()
+
+
+
+					.children(".txt")
+
+
+
+					.slideToggle()
+
+			)
+
+
+
+			.slideUp();
+
+	});
+
+
+
+	// $(".faqLst > .faqBlk:nth-child(1)").addClass("active");
+
+
+
+	$(document).on("click", ".txtGrp.pasDv > i.icon-eye", function () {
+
+		$(this).addClass("icon-eye-slash");
+
+
+
+		$(this).removeClass("icon-eye");
+
+
+
+		$(this)
+
+			.parent()
+
+
+
+			.find(".txtBox")
+
+
+
+			.attr("type", "text");
+
+	});
+
+
+
+	$(document).on("click", ".txtGrp.pasDv > i.icon-eye-slash", function () {
+
+		$(this).addClass("icon-eye");
+
+
+
+		$(this).removeClass("icon-eye-slash");
+
+
+
+		$(this)
+
+			.parent()
+
+
+
+			.find(".txtBox")
+
+
+
+			.attr("type", "password");
+
+	});
+
+
+
+	$(document).on("click", ".blk.collap > ._header > .downBtn", function () {
+
+		$(this)
+
+			.parent()
+
+
+
+			.next("._content:first")
+
+
+
+			.slideToggle();
+
+	});
+
+
+
+	$(document).on("focus", ".txtGrp .txtBox:not(select):not(.uploadImg)", function () {
+
+		$(this)
+
+			.parents(".txtGrp:first")
+
+
+
+			.find("label:first")
+
+
+
+			.addClass("move");
+
+	});
+
+
+
+	$(".txtGrp .txtBox:not(select)").each(function (e) {
+
+		if ($(this).val() != "")
+
+			$(this)
+
+				.parents(".txtGrp:first")
+
+
+
+				.find("label:first")
+
+
+
+				.addClass("move");
+
+	});
+
+
+
+	$(document).on("blur", ".txtGrp .txtBox:not(select):not(.uploadImg)", function () {
+
+		if (this.value == "")
+
+			$(this)
+
+				.parents(".txtGrp:first")
+
+
+
+				.find("label:first")
+
+
+
+				.removeClass("move");
+
+	});
+
+
+
+	$(document).on("change", "[data-payment] .lblBtn > input.tglBlk", function () {
+
+		let checked = this.checked;
+
+
+
+		if (checked == true) {
+
+			$(this)
+
+				.parents("[data-payment]")
+
+
+
+				.find(".insideBlk")
+
+
+
+				.slideToggle();
+
+		} else
+
+			$(this)
+
+				.parents("[data-payment]")
+
+
+
+				.find(".insideBlk")
+
+
+
+				.slideUp();
+
+	});
+
+
+
+	/*$(".runBtn").on("click", function(event) {
+
+
 
     	if (this.hash !== "") {
 
+
+
     		event.preventDefault();
+
+
 
     		var hash = this.hash;
 
+
+
     		console.log(hash);
+
+
 
     		$("html, body").animate(
 
+
+
     			{
+
+
 
     				scrollTop: $(hash).offset().top - 60
 
+
+
     			},
+
+
 
     			800
 
+
+
     		);
+
+
 
     	}
 
+
+
     });*/
 
-    $(document).on("click", "#srchBtn > button", function() {
-
-        $("header .srchBar").toggleClass("active");
-
-    });
 
 
+	$(document).on("click", "#srchBtn > button", function () {
 
-    $(document).on("click", "[inbox] .frnds li", function() {
+		$("header .srchBar").toggleClass("active");
 
-        $("[inbox] .chatBlk").addClass("active");
-
-    });
-
-    $(document).on("click", "[inbox] .chatPerson .backBtn", function() {
-
-        $("[inbox] .chatBlk").removeClass("active");
-
-    });
+	});
 
 
 
+	$(document).on("click", "[inbox] .frnds li", function () {
 
+		$("[inbox] .chatBlk").addClass("active");
 
-    // data_list
-
-    $("table.data_list thead th").each(function(i, e) {
-
-        // console.log($(this).text());
-
-        $("table.data_list tbody tr")
-
-            .find(`td:eq(${i})`)
-
-            .attr("data-title", $(this).text());
-
-    });
+	});
 
 
 
+	$(document).on("click", "[inbox] .chatPerson .backBtn", function () {
 
+		$("[inbox] .chatBlk").removeClass("active");
+
+	});
+
+
+
+	// data_list
+
+
+
+	$("table.data_list thead th").each(function (i, e) {
+
+		// console.log($(this).text());
+
+
+
+		$("table.data_list tbody tr")
+
+			.find(`td:eq(${i})`)
+
+
+
+			.attr("data-title", $(this).text());
+
+	});
 
 });
 
@@ -480,37 +680,45 @@ $(function() {
 
 function textAreaAdjust(o) {
 
-    o.style.height = "1px";
+	o.style.height = "1px";
 
-    o.style.height = 4 + o.scrollHeight + "px";
+
+
+	o.style.height = 4 + o.scrollHeight + "px";
 
 }
 
 
 
-$(window).on("load", function() {
+$(window).on("load", function () {
 
-    $("img")
+	$("img")
 
-        .parent("a:not(.webBtn)")
+		.parent("a:not(.webBtn)")
 
-        .css("display", "block");
 
-    $(".loader")
 
-        .delay(700)
+		.css("display", "block");
 
-        .fadeOut();
 
-    $("#pageloader")
 
-        .delay(1200)
+	$(".loader")
 
-        .fadeOut("slow");
+		.delay(700)
+
+
+
+		.fadeOut();
+
+
+
+	$("#pageloader")
+
+		.delay(1200)
+
+
+
+		.fadeOut("slow");
 
 });
-
-
-
-
 
