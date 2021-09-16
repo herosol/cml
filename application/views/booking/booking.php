@@ -26,11 +26,7 @@
         <section id="sBanner">
             <div class="contain">
                 <div class="content">
-                    <!-- <div class="icoBlk">
-                        <div class="icon"><img src="<?= $base_url ?>images/iron_logo.svg" alt=""></div>
-                        <div class="rateYo"></div>
-                    </div> -->
-                    <h2 class="heading"><?= $content['heading'] ?></h2>
+                    <h2 class="heading"><?= $vendor->mem_fname.' '.$vendor->mem_lname ?></h2>
                     <p><?= $content['header_detail'] ?></p>
                 </div>
             </div>
@@ -489,7 +485,7 @@
                                                     <tr>
                                                         <th>Item</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;

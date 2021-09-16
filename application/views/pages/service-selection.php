@@ -56,12 +56,6 @@
                             <em><?=$buly_items->name?></em>
                         </a>
                     </li>
-                    <li>
-                        <a data-toggle="tab" href="#Deals" style="display: block;">
-                            <img src="<?= get_site_image_src("services", $deals->image, ''); ?>" alt="">
-                            <em><?=$deals->name?></em>
-                        </a>
-                    </li>
                 </ul>
                 <form action="" method="post" class="frmAjax">
                     <input type="hidden" name="zipcode" value="<?=$_GET['zipcode']?>">
@@ -81,7 +75,7 @@
                                                 <tr>
                                                     <th>Item</th>
                                                     <td></td>
-                                                    <th>Action</th>
+                                                    <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
                                                 foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
@@ -194,7 +188,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="Deals" class="tab-pane fade">
+                            <div id="Deals" class="tab-pane fade hidden">
                                 <h4><?=$deals->name?></h4>
                                 <p><?=$deals->details?></p>
                                 <hr>
@@ -235,7 +229,7 @@
                             </div>
                             <hr>
                             <div class="bTn">
-                                <button type="submit" class="webBtn blockBtn nextBtn"><i class="spinner hidden"></i>Checkout</button>
+                                <button type="submit" class="webBtn blockBtn nextBtn"><i class="spinner hidden"></i>Get Quotes</button>
                             </div>
                             <br>
                             <div class="alertMsg" style="display:none"></div>

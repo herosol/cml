@@ -12,11 +12,7 @@ class Booking extends MY_Controller
     
     function index()
     {
-        if(!isset($this->session->selections))
-        {
-            redirect(base_url(), 'refresh');
-        }
-        
+        $this->if_booking_running();        
         $meta = $this->page->getMetaContent('booking');
 		$this->data['page_title'] = $meta->page_name;
 		$this->data['slug'] = $meta->slug;
@@ -352,11 +348,14 @@ class Booking extends MY_Controller
 
 	function success($order_id)
     {
+        $this->if_booking_running();
         $this->session->unset_userdata('selections');
         $meta = $this->page->getMetaContent('terms_conditions');
         $this->data['page_title'] = $meta->page_name;
         $this->data['slug'] = $meta->slug;
         $this->data['order_id'] = $order_id;
+        $order = $this->order_model->get_row(doDecode($order_id)); 
+        $this->data['vendor'] = $this->member_model->get_row($order->vendor_id); 
         $data = $this->page->getPageContent('terms_conditions');
         if($data)
         {
@@ -373,6 +372,7 @@ class Booking extends MY_Controller
 
 	function cancel()
     {
+        $this->if_booking_running();
         $this->session->unset_userdata('selections');
         $meta = $this->page->getMetaContent('terms_conditions');
         $this->data['page_title'] = $meta->page_name;

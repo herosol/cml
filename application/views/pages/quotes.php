@@ -41,6 +41,9 @@
                                     <?php if($row->mem_company_pickdrop == 'yes'): ?>
                                         <div class="fig"><img src="<?=base_url()?>assets/images/vector-wait.svg" alt=""></div>
                                         <p class="small">Pickup & Delivery Service Available</p>    
+                                    <?php else: ?>
+                                        <div class="fig"><img src="" alt=""></div> 
+                                        <p class="small">Pickup & Delivery Service Not Available</p> 
                                     <?php endif; ?>
                                     <div class="priceBlk">
                                         <strong>Estimated Price</strong>

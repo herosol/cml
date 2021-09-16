@@ -80,7 +80,7 @@
                                         <td></td>
                                         <td></td>
                                         <td class="color">Pickup & Delivery Charges</td>
-                                        <td>£<?= $vendor->mem_charges_per_miles .'x2 = £'.($vendor->mem_charges_per_miles*2) ?></td>
+                                        <td>£<?=($vendor->mem_charges_per_miles*2) ?></td>
                                     </tr>
                                     <tr>
                                         <td></td>

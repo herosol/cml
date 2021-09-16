@@ -162,6 +162,14 @@ class MY_Controller extends CI_Controller {
         }
     }
 
+    function if_booking_running()
+    {
+        if(!isset($this->session->selections))
+        {
+            redirect(base_url(), 'refresh');
+        }
+    }
+
     function getActiveMem()
     {
         $row = $this->master->getRow('members', array('mem_id' => $this->session->mem_id));
