@@ -300,6 +300,10 @@ class Booking extends MY_Controller
                     $order_invoice['payment_method'] = 'stripe';
                     $order_invoice['payment_status'] = 'paid';
                     $this->master->save('order_invoices', $order_invoice);
+
+                    # ORDER LOG
+                    $this->master->save('order_logs', ['mem_id'=> $selections['vendor'], 'order_id'=> $order_id, 'mem_type'=> 'vendor', 'status'=> 'dirty']);
+                    $this->master->save('order_logs', ['mem_id'=> $buyer_id, 'order_id'=> $order_id, 'mem_type'=> 'buyer', 'status'=> 'dirty']);
                 }
 
                 if ($order_id > 0)

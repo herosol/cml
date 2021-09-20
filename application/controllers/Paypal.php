@@ -66,6 +66,8 @@ class Paypal extends MY_Controller {
             {
                 $this->order_model->save(['paypal_pending'=> 'no'], $custom);
                 $this->master->save('order_invoices', ['order_id'=> $custom, 'charge_id'=> $txn_id, 'payment_method'=> 'paypal', 'payment_status'=> 'paid']);
+                $this->master->save('order_logs', ['mem_id'=> $row->vendor_id, 'order_id'=> $custom, 'mem_type'=> 'vendor', 'status'=> 'dirty']);
+                $this->master->save('order_logs', ['mem_id'=> $row->buyer_id, 'order_id'=> $custom, 'mem_type'=> 'buyer', 'status'=> 'dirty']);
             }
         }
         elseif (strcmp ($res, "INVALID") == 0)

@@ -197,9 +197,11 @@ class Vendor extends MY_Controller
     {
         $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $order_id = doDecode($order_id);
+        $this->master->update('order_logs', ['status'=> 'clean'], ['mem_id'=> $this->session->mem_id, 'mem_type'=> $this->session->mem_type, 'order_id'=> $order_id]);
         $this->data['order'] = $this->order_model->vendor_order_detail($order_id);
         $this->data['order_detail'] = $this->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'basic']);
         $this->data['amended'] = $this->orderd_model->get_rows(['order_id'=> $order_id, 'service_type'=> 'amended']);
+        $this->data['review']  = $this->order_model->mem_review($order_id);
         $delivery_proofs = $this->master->get_data_rows('order_delivery_proof', ['order_id'=> $order_id], 'DESC', 'proof_id');
         $this->data['delivery_proof'] = false;
         
@@ -391,6 +393,7 @@ class Vendor extends MY_Controller
             $order = $this->order_model->vendor_order_detail($post['order_id']);
             $order_detail = $this->orderd_model->get_rows(['order_id'=> $post['order_id'], 'service_type'=> 'basic']);
             $amended = $this->orderd_model->get_rows(['order_id'=> $post['order_id'], 'service_type'=> 'amended']);
+            generate_order_log_for_buyer($post['order_id']);
 
             $res['msg']       = showMsg('success', 'Invoice sent successfully!');
             $res['status']    = 1;
@@ -476,6 +479,8 @@ class Vendor extends MY_Controller
 
             # MEMBER INFO TO BE SAVE
             $is_added = $this->master->save('order_delivery_proof', $order_proof);
+            # ORDER LOG
+            generate_order_log_for_buyer($post['order_id']);
             if($is_added)
             {
                 $order_info['order_status'] = 'Delivered';

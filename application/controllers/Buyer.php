@@ -97,6 +97,7 @@ class Buyer extends MY_Controller
     {
         $this->isMemLogged($this->session->mem_type, true, $this->uri->segment(1));
         $o_id = intval(doDecode($o_id));
+        $this->master->update('order_logs', ['status'=> 'clean'], ['mem_id'=> $this->session->mem_id, 'mem_type'=> $this->session->mem_type, 'order_id'=> $o_id]);
         $this->data['order'] = $this->master->getRow('orders',array('order_id'=>$o_id));
         $this->data['order_detail'] = $this->master->getRows('order_detail',array('order_id'=>$o_id, 'service_type'=> 'basic'));
         $this->data['amended'] = $this->orderd_model->get_rows(['order_id'=> $o_id, 'service_type'=> 'amended']);
@@ -157,6 +158,7 @@ class Buyer extends MY_Controller
             }
 
             $this->master->save('earnings', $earning);
+            generate_order_log_for_vendor($proof->order_id);
             //RATING
             $res['msg'] = showMsg('success', 'Request accepted successfully!');
             $res['status'] = 1;
@@ -179,8 +181,11 @@ class Buyer extends MY_Controller
             
             $post = html_escape($this->input->post());
             $proof_id = intval(doDecode($post['proof_id']));
+            $proof = $this->master->getRow('order_delivery_proof', ['proof_id'=>$proof_id]);
+            $order   = $this->order_model->get_row($proof->order_id);
             $proof_data['status'] = 'rejected';
             $this->master->save('order_delivery_proof', $proof_data, 'proof_id', $proof_id);
+            generate_order_log_for_vendor($proof->order_id);
 
             //RATING
             $res['msg'] = showMsg('success', 'Request rejected successfully!');
@@ -233,6 +238,7 @@ class Buyer extends MY_Controller
                 }
             endforeach;
 
+            generate_order_log_for_vendor(doDecode($post['order_id']));
             // echo price_format($amend_pending); die;
 
             if ($post['payment_type'] == 'credit-card') 
@@ -277,6 +283,7 @@ class Buyer extends MY_Controller
                 $order_invoice['invoice_type']     = 'amended';
                 $order_invoice['payment_status']   = 'paid';
                 $this->master->save('order_invoices', $order_invoice);
+                generate_order_log_for_vendor(doDecode($post['order_id']));
             }
 
             if (doDecode($post['order_id']) > 0)

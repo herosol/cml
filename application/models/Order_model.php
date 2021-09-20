@@ -20,6 +20,16 @@ class Order_model extends CRUD_Model
         return $this->db->get()->result();
     }
 
+    function mem_review($order_id)
+    {
+        $this->db->from($this->table_name.' o');
+        $this->db->join('reviews r', 'o.order_id=r.order_id');
+        $this->db->join('members m', 'o.buyer_id=m.mem_id');
+        $this->db->select('r.*, m.mem_image, m.mem_fname, m.mem_lname');
+        $this->db->where(['r.order_id'=> $order_id]);
+        return $this->db->get()->row(); 
+    }
+
     function buyer_order_detail($order_id)
     {
         $this->db->from($this->table_name.' o');

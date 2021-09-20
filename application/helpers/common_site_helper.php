@@ -191,6 +191,46 @@ function vendor_service_check($mem_id, $services, $qty)
     return $res;
 }
 
+function order_log($order_id = NULL)
+{
+    global $CI;
+    $CI->db->where(['mem_id'=> $CI->session->mem_id, 'mem_type'=> $CI->session->mem_type, 'status'=> 'dirty']);
+    if($order_id !== NULL)
+        $CI->db->where(['order_id'=> $order_id]);
+    $row = $CI->db->get('order_logs');
+
+    if($order_id !== NULL)
+    {
+        if(intval($row->num_rows()) > 0)
+            return 'tipi';
+        else
+            return '';
+    }
+    else
+    {
+        if(intval($row->num_rows()) > 0)
+            return 'new_odr';
+        else
+            return '';
+    }
+}
+
+function generate_order_log_for_buyer($order_id)
+{
+    global $CI;
+    $order = $CI->master->getRow('orders', ['order_id'=> $order_id]);
+    $CI->master->update('order_logs', ['status'=> 'dirty'], ['mem_id'=> $order->buyer_id, 'mem_type'=> 'buyer', 'order_id'=> $order_id]);
+    return true;
+}
+
+function generate_order_log_for_vendor($order_id)
+{
+    global $CI;
+    $order = $CI->master->getRow('orders', ['order_id'=> $order_id]);
+    $CI->master->update('order_logs', ['status'=> 'dirty'], ['mem_id'=> $order->vendor_id, 'mem_type'=> 'vendor', 'order_id'=> $order_id]);
+    return true;
+}
+
 /*** start notifications ***/
 function save_notificaiton($mem_id, $from_id, $txt, $link = '', $cat = 'other', $note_id = 0, $status = 'new')
 {
