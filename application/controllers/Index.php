@@ -518,8 +518,6 @@ class Index extends MY_Controller
         if ($this->input->post()) {
             $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->input->post('mem_id')]);
             $day = html_escape($this->input->post('day'));
-            $dayIndex = explode('-', $day);
-            $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
             $day = strtotime($day);
             $day = date('D', $day);
             $day = strtolower($day);

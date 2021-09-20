@@ -89,13 +89,30 @@ class Search extends MY_Controller
             $services[] = $this->master->get_data_row('sub_services', ['id'=> $value]);
         endforeach;
         
-        $this->data['cdays'] = [];
+        $tomorrow   = date('Y-m-d', strtotime('tomorrow'));
+        $daysToshow = date('Y-m-d', strtotime("$tomorrow +11 days"));
+
+        $this->data['close_days'] = [];
         foreach(weekDays() as $index => $day):
             $key = $day.'_opening';
             if($facility_hours->$key == 'closed' || $facility_hours->$key == ''):
-                $this->data['cdays'][] = $index;
+                $this->data['close_days'][] = $day;
             endif;
         endforeach;
+
+        $this->data['open_days'] = [];
+        $start   = new DateTime($tomorrow);
+        $daysToshow = new DateTime($daysToshow);
+        $open_days = [];
+        while ($start <= $daysToshow) {
+            $day = strtolower(date('D', strtotime($start->format('Y-m-d'))));
+            if(!in_array($day, $this->data['close_days']))
+            {
+                $open_days[] = $start->format('Y-m-d');
+            }
+            $start->modify('+1 day');
+        }
+        $this->data['open_days'] = $open_days;
         
         if($this->input->post())
         {

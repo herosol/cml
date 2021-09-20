@@ -752,6 +752,7 @@ const fetchTime = (day, mem_id, appendTo) => {
         method: 'POST',
         success: function(rs) {
             $('#' + appendTo).html(rs.html);
+            $('.selectpicker').selectpicker('refresh');
         },
         complete: function() {
 

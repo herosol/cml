@@ -32,13 +32,15 @@
                 <div class="inBlk">
                     <?php echo showMsg(); ?>
                     <form action="" >
-                        <div class="flexBox">
-                            <div class="txtGrp">
-                                <label for="zip">Type your Postcode</label>
-                                <input type="text" name="zip" id="zip" class="txtBox">
+                        <?php if(empty($this->session->mem_type) || $this->session->mem_type == 'buyer'): ?>
+                            <div class="flexBox">
+                                <div class="txtGrp">
+                                    <label for="zip">Type your Postcode</label>
+                                    <input type="text" name="zip" id="zip" class="txtBox">
+                                </div>
+                                <div class="bTn"><button type="button" class="webBtn" id="searchZipForm"><i class="spinner hidden"></i><?= $content['search_btn_title'] ?></button></div>
                             </div>
-                            <div class="bTn"><button type="button" class="webBtn" id="searchZipForm"><i class="spinner hidden"></i><?= $content['search_btn_title'] ?></button></div>
-                        </div>
+                        <?php endif; ?>
                         <span style="color:red" id="invalidZip"></span>
                     </form>
                     <div class="flexRow flex">

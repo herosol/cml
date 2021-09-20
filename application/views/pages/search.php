@@ -442,20 +442,15 @@
 
 
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
                                                 <div class="txtGrp">
 
-
-
-                                                    <label for="collection_date">Date</label>
-
-
-
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?= $mem_id ?>', 'collection_time')">
-
+                                                    <select name="collection_date" id="collection_date" class="txtBox selectpicker" data-container="body" onchange="fetchTime(this.value, '<?= $mem_id ?>', 'collection_time')">>
+                                                        <?=open_days_options($open_days)?>
+                                                    </select>
 
 
                                                 </div>
@@ -466,7 +461,7 @@
 
 
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
@@ -474,11 +469,10 @@
 
 
 
-                                                    <label for="collection_time" class="move">Time</label>
 
 
 
-                                                    <select name="collection_time" id="collection_time" class="txtBox">
+                                                    <select name="collection_time" id="collection_time" class="txtBox selectpicker" data-container="body">
 
 
 
@@ -518,7 +512,7 @@
 
 
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
@@ -526,12 +520,12 @@
 
 
 
-                                                    <label for="collection_date">Date</label>
 
 
 
-                                                    <input type="text" name="collection_date" id="collection_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?= $mem_id ?>', 'collection_time')">
-
+                                                    <select name="collection_date" id="collection_date" class="txtBox selectpicker" data-container="body" onchange="fetchTime(this.value, '<?= $mem_id ?>', 'collection_time')">
+                                                        <?=open_days_options($open_days)?>
+                                                    </select>
 
 
                                                 </div>
@@ -542,7 +536,7 @@
 
 
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
@@ -554,7 +548,7 @@
 
 
 
-                                                    <select name="collection_time" id="collection_time" class="txtBox">
+                                                    <select name="collection_time" id="collection_time" class="txtBox selectpicker" data-container="body">
 
 
 
@@ -610,7 +604,7 @@
 
 
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
@@ -618,12 +612,14 @@
 
 
 
-                                            <label for="delivery_date">Date</label>
+                                            
 
 
 
-                                            <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?= $mem_id ?>', 'delivery_time')">
-
+                                            <!-- <input type="text" name="delivery_date" id="delivery_date" class="txtBox datepickerWithDisabledDAys" readonly onchange="fetchTime(this.value, '<?= $mem_id ?>', 'delivery_time')"> -->
+                                            <select name="delivery_date" id="delivery_date" class="txtBox selectpicker" data-container="body" onchange="fetchTime(this.value, '<?= $mem_id ?>', 'delivery_time')">
+                                                <?=open_days_options($open_days)?>
+                                            </select>
 
 
                                         </div>
@@ -634,7 +630,7 @@
 
 
 
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 col-xx-6">
 
 
 
@@ -642,11 +638,11 @@
 
 
 
-                                            <label for="delivery_time" class="move">Time</label>
+                                        
 
 
 
-                                            <select name="delivery_time" id="delivery_time" class="txtBox">
+                                            <select name="delivery_time" id="delivery_time" class="txtBox selectpicker" data-container="body">
 
 
 
@@ -727,25 +723,6 @@
 
 
                                 <div class="alertMsg" style="display:none"></div>
-
-                                <div class="txtGrp">
-                                    <select name="" id="" class="txtBox selectpicker" data-container="body">
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                        <option value="">£10.00</option>
-                                    </select>
-                                </div>
 
 
 

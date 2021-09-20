@@ -654,6 +654,27 @@ function service_selected_status($arr, $id)
     }
 }
 
+function open_days_options($open_days)
+{
+    $html = '';
+    $tomorrow = date('Y-m-d', strtotime('tomorrow'));
+    if(empty($open_days))
+    {
+        return $html = '<option value="">Not Available</option>';
+    }
+    else
+    {
+        foreach($open_days as $index => $day):
+            if($index === 0 && ($day == $tomorrow))
+                $html .= '<option value="'.$day.'">Tomorrow</option>';
+            else
+                $html .= '<option value="'.$day.'">'.date_picker_format_date($day, 'D, d M', false).'</option>';
+        endforeach;
+
+        return $html;
+    }
+}
+
 function SubscriptionStatus($row)
 {
     $current_date = date("Y-m-d");
@@ -1096,11 +1117,8 @@ function compare_dates($date1, $date2, $format = 'm/d/Y')
 {
     $d1 = DateTime::createFromFormat($format, $date1);
     $d2 = DateTime::createFromFormat($format, $date2);
-    if ($d1->format('Y-m-d') < $d2->format('Y-m-d'))
+    if ($d1->format('Y-m-d') <= $d2->format('Y-m-d'))
         return true;
-    $CI = get_instance();
-    $CI->form_validation->set_message('compare_dates', 'Invalid {field} selected.');
-    return false;
 }
 
 function chat_message_time($time)

@@ -97,7 +97,7 @@
 
 
 
-                <h2 class="heading text-center">Best Deals in your Area</h2>
+                <h2 class="heading text-center">Find Below The Quotes We've Gathered</h2>
 
 
 
