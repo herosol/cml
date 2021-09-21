@@ -432,6 +432,26 @@ class Vendor extends MY_Controller
         }
     }
 
+    public function save_notes()
+    {
+        if($this->input->post())
+        {
+            $post = html_escape($this->input->post());
+            $notes   = $post['notes'];
+            $order_id = doDecode($post['order_id']);
+
+            $is_update = $this->order_model->save(['order_note'=> trim($notes)], $order_id);
+            if($is_update)
+            {
+                exit(json_encode(['status'=> 'success']));
+            }
+            else
+            {
+                exit(json_encode(['status'=> 'failed']));
+            }
+        }
+    }
+
     public function complete_order()
     {
         if($this->input->post())

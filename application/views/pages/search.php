@@ -473,9 +473,7 @@
 
 
                                                     <select name="collection_time" id="collection_time" class="txtBox selectpicker" data-container="body">
-
-
-
+                                                        <?=$coming_day_times?>
                                                     </select>
 
 
@@ -544,14 +542,12 @@
 
 
 
-                                                    <label for="collection_time" class="move">Time</label>
+                                                    <!-- <label for="collection_time" class="move">Time</label> -->
 
 
 
                                                     <select name="collection_time" id="collection_time" class="txtBox selectpicker" data-container="body">
-
-
-
+                                                        <?=$coming_day_times?>
                                                     </select>
 
 
@@ -644,7 +640,7 @@
 
                                             <select name="delivery_time" id="delivery_time" class="txtBox selectpicker" data-container="body">
 
-
+                                                <?=$coming_day_times?>
 
                                             </select>
 

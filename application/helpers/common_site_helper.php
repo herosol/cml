@@ -392,6 +392,7 @@ function total_favorites($ref_id, $ref_type)
 }
 
 function get_delivey_proof($order_id)
+
 {
     global $CI;
     $CI->db->select("*");
@@ -400,27 +401,38 @@ function get_delivey_proof($order_id)
     $CI->db->order_by('proof_id', 'DESC');
     $query = $CI->db->get();
     $rows = $query->result();
-
-    if(empty($rows))
-    {
+    if (empty($rows)) {
         return $html = '';
-    }
-    else
-    {
-        $html .= '<hr>
+    } else {
+        $html .= '<div class="blk jobBlk">
         <h4>Delivery Proof</h4>';
-        foreach($rows as $key => $row):
+        foreach ($rows as $key => $row) :
             $html .= '<div class="doneBlk">
-                <div class="image"><img src="'.get_site_image_src("orders", $row->proof_image, '').'" alt=""></div>
-                <div class="txt">
-                    <h5>Comment</h5>
-                    <span class="badge '.get_delivery_proof_status($row->status).'">'.ucfirst($row->status).'</span>
-                    <p>'.$row->proof_comment.'</p>
-                </div>
-            </div>';
+            <div class="image" gallery><img src="' . get_site_image_src("orders", $row->proof_image, '') . '" alt="" data-src="' . get_site_image_src("orders", $row->proof_image, '') . '"></div>
+            <div class="txt">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h5>Comment</h5>
+                        </td>
+                        <td width="60">
+                            <span class="webBtn mdBtn ' . get_delivery_proof_status($row->status) . '">' . ucfirst($row->status) . '</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p>' . $row->proof_comment . '</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>';
         endforeach;
-    }
+        $html .= '</div>';
 
+    }
     return $html;
 }
 
@@ -441,12 +453,11 @@ function amended_invoice($order_id, $amended_records)
         <table class="sm pb data_list">
             <thead>
                 <tr>
-                    <th>Items</th>
-                    <th>Qty</th>
-                    <th></th>
-                    <th>Unit Price</th>
-                    <th>Price</th>
-                    <th>Payment Status</th>
+                    <th width="40%">Items</th>
+                    <th width="15%">Qty</th>
+                    <th width="15%">Unit Price</th>
+                    <th width="15%">Price</th>
+                    <th width="15%">Paid</th>
                 </tr>
             </thead>
             <tbody>';
@@ -463,7 +474,6 @@ function amended_invoice($order_id, $amended_records)
                     $html .= '<tr>
                         <td>'.$row->sub_service_name.'</td>
                         <td>'.$row->quantity.'</td>
-                        <td></td>
                         <td>£'.price_format($row->sub_service_price).'</td>
                         <td>£'.price_format($row->sub_service_price*$row->quantity).'</td>
                         <td><span class="badge '.amend_item_pay_status(check_amend_item_pay_status($row->order_id, $row->id)).'">'.check_amend_item_pay_status($row->order_id, $row->id).'</span></td>
@@ -472,7 +482,7 @@ function amended_invoice($order_id, $amended_records)
             $html .= '</tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5" class="color text-right">Total Amended</td>
+                    <td colspan="4" class="color text-right">Total Amended</td>
                     <td class="color">£'.price_format($amend_total).'</td>
                 </tr>';
             if($amend_pending > 0)
@@ -480,7 +490,7 @@ function amended_invoice($order_id, $amended_records)
                 if($CI->session->mem_type == 'buyer')
                 {
                     $html .= '<tr>
-                                <td colspan="5" class="color text-right">Pending <strong>£'.price_format($amend_pending).'</strong></td>
+                                <td colspan="4" class="color text-right">Pending <strong>£'.price_format($amend_pending).'</strong></td>
                                 <td class="color">'.$payButton.'</td>
                             </tr>';
                 }
@@ -493,17 +503,18 @@ function amended_invoice($order_id, $amended_records)
         <thead>
         </thead>
         <tbody>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
+            <th width="40%"></th>
+            <th width="15%"></th>
+            <th width="15%"></th>
+            <th width="15%"></th>
+            <th width="15%"></th>
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="3" class="color">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <th colspan="4" class="">
                     Estimated Total
                 </th>
-                <th>£'.order_total_price($order_id).'</th>
+                <th class="">£'.order_total_price($order_id).'</th>
             </tr>
         </tfoot>
     </table>';

@@ -32,6 +32,32 @@ class Booking extends MY_Controller
             $this->data['estimated_total'] += $row->price*$qty[$index];
         endforeach;
 
+        // OPEN DAYS
+        $tomorrow   = date('Y-m-d', strtotime('tomorrow'));
+        $daysToshow = date('Y-m-d', strtotime("$tomorrow +11 days"));
+
+        $this->data['close_days'] = [];
+        foreach(weekDays() as $index => $day):
+            $key = $day.'_opening';
+            if($facility_hours->$key == 'closed' || $facility_hours->$key == ''):
+                $this->data['close_days'][] = $day;
+            endif;
+        endforeach;
+
+        $this->data['open_days'] = [];
+        $start      = new DateTime($tomorrow);
+        $daysToshow = new DateTime($daysToshow);
+        $open_days = [];
+        while ($start <= $daysToshow) {
+            $day = strtolower(date('D', strtotime($start->format('Y-m-d'))));
+            if(!in_array($day, $this->data['close_days']))
+            {
+                $open_days[] = $start->format('Y-m-d');
+            }
+            $start->modify('+1 day');
+        }
+        $this->data['open_days'] = $open_days;
+
         //START END SLEECTED DAY TIME
         $day = $selections['place-order']['collection_date'];
         $dayIndex = explode('-', $day);

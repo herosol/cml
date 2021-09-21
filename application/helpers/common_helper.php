@@ -398,7 +398,7 @@ function oneHourTimeByGiven($default = '', $start, $end)
     }
 
     $html = '';
-    $html .= '<option value="">Select</option>';
+    // $html .= '<option value="">Select</option>';
     foreach($times as $key => $time):
         $selected = $default==$time ? 'selected' : '';
         $html .= '<option value="' . $time . '" '.$selected.'>' . $time . '</option>';
@@ -654,7 +654,7 @@ function service_selected_status($arr, $id)
     }
 }
 
-function open_days_options($open_days)
+function open_days_options($open_days, $default = NULL)
 {
     $html = '';
     $tomorrow = date('Y-m-d', strtotime('tomorrow'));
@@ -665,10 +665,11 @@ function open_days_options($open_days)
     else
     {
         foreach($open_days as $index => $day):
+            $selected = $default == format_date($day, 'm-d-Y') ? 'selected' : '';
             if($index === 0 && ($day == $tomorrow))
-                $html .= '<option value="'.$day.'">Tomorrow</option>';
+                $html .= '<option value="'.format_date($day, 'm-d-Y').'" '.$selected.'>Tomorrow</option>';
             else
-                $html .= '<option value="'.$day.'">'.date_picker_format_date($day, 'D, d M', false).'</option>';
+                $html .= '<option value="'.format_date($day, 'm-d-Y').'" '.$selected.'>'.date_picker_format_date($day, 'D, d M', false).'</option>';
         endforeach;
 
         return $html;

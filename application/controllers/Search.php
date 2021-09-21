@@ -101,7 +101,7 @@ class Search extends MY_Controller
         endforeach;
 
         $this->data['open_days'] = [];
-        $start   = new DateTime($tomorrow);
+        $start      = new DateTime($tomorrow);
         $daysToshow = new DateTime($daysToshow);
         $open_days = [];
         while ($start <= $daysToshow) {
@@ -112,7 +112,23 @@ class Search extends MY_Controller
             }
             $start->modify('+1 day');
         }
+
         $this->data['open_days'] = $open_days;
+        $coming_date = new DateTime($open_days[0]);
+        $coming_day  = strtolower(date('D', strtotime($coming_date->format('Y-m-d'))));
+
+        $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $mem_id]);
+        $coming_day = strtotime($coming_day);
+        $coming_day = date('D', $coming_day);
+        $coming_day = strtolower($coming_day);
+        $key_opening = $coming_day.'_opening';
+        $key_closing = $coming_day.'_closing';
+
+        $opening_time = $facility_hours->$key_opening;
+        $closing_time = $facility_hours->$key_closing;
+
+        $html = oneHourTimeByGiven('', $opening_time, $closing_time);
+        $this->data['coming_day_times'] = $html;
         
         if($this->input->post())
         {
