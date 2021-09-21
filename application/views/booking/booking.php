@@ -194,12 +194,12 @@
                             <h6>Enter your Postcode</h6>
                             <div class="txtGrp">
                                 <label for="zipcode">Enter Postcode</label>
-                                <input type="text" class="txtBox" id="zipcode" value="<?= $zipcode ?>">
-                                <br />
+                                <input type="text" class="txtBox" id="zipcode" value="<?= $zipcode ?>" readonly>
+                                <!-- <br />
                                 <button type="button" onclick="cp_obj_1.doLookup()" class="webBtn smBtn">Find Addresses</button>
                                 <br />
                                 <span id="crafty_postcode_result_display_1">&nbsp;</span>
-                                <br />
+                                <br /> -->
                             </div>
                             <div id="select-address">
                                 <?php if (!empty($this->session->mem_id)) : ?>
@@ -771,10 +771,12 @@
                                                     <hr>
                                                 </td>
                                             </tr> -->
-                                            <tr>
-                                                <td colspan="">Minimum Order:</td>
-                                                <td class="semi">£<?= price_format($vendor->mem_charges_min_order) ?></td>
-                                            </tr>
+                                            <?php if (isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop') : ?>
+                                                <tr>
+                                                    <td colspan="">Minimum Order:</td>
+                                                    <td class="semi">£<?= price_format($vendor->mem_charges_min_order) ?></td>
+                                                </tr>
+                                            <?php endif; ?>
                                             <?php
                                             $pickup = 0;
                                             if (isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop') :
@@ -1269,6 +1271,7 @@
                         if (!check)
                             return false;
                     } else if (currBtn.hasClass('3-step')) {
+                        let pickdrop = '<?=$selections['pick-or-facility']?>';
                         let services = $('input[name="selected_service[]"]').length;
                         if (services == '0') {
                             $('.servicesMessage').html(`Please select some items`);
@@ -1285,12 +1288,15 @@
                                 total += parseFloat($(this).data('price')) * parseInt($('#qty-' + index).val());
                             });
                             let minimumOrder = '<?= price_format($vendor->mem_charges_min_order) ?>';
-                            if (parseFloat(total.toFixed(2)) < parseFloat(minimumOrder)) {
-                                $('.servicesMessage').html(`Please order atleast price of £${parseFloat(minimumOrder).toFixed(2)}`);
-                                $('.servicesMessage').fadeIn();
-                                return false;
-                            } else {
-                                $('.servicesMessage').fadeOut();
+                            if(pickdrop == 'pickdrop')
+                            {
+                                if (parseFloat(total.toFixed(2)) < parseFloat(minimumOrder)) {
+                                    $('.servicesMessage').html(`Please order atleast price of £${parseFloat(minimumOrder).toFixed(2)}`);
+                                    $('.servicesMessage').fadeIn();
+                                    return false;
+                                } else {
+                                    $('.servicesMessage').fadeOut();
+                                }
                             }
                         }
                     }

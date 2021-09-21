@@ -1,3 +1,4 @@
+<?php $slug = $this->uri->segment(1);?>
 <header class="ease">
     <div class="contain">
         <div class="logo">
@@ -30,7 +31,11 @@
                         <li class="<?php if ($slug == "signin") {
                                             echo 'active';
                                         } ?>">
-                            <a href="<?= base_url() ?>signin">Sign in</a>
+                            <?php if($slug == 'order-booking'): ?>
+                                <a href="javascript:void(0)" class="popBtn" data-popup="signin">Sign in</a>
+                            <?php else: ?>
+                                <a href="<?= base_url() ?>signin">Sign in</a>
+                            <?php endif; ?>
                         </li>
                         <li class="<?php if ($slug == "signup") {
                                         echo 'active';
