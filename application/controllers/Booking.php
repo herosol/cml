@@ -25,17 +25,14 @@ class Booking extends MY_Controller
         $this->data['facility_hours'] = $facility_hours = $this->master->get_data_row('mem_facility_hours', ['mem_id'=> $this->data['vendor_id']]);
         //VENDOR
         $this->data['vendor'] = $vendor = $this->member_model->getMember($selections['vendor']);
-
         $this->data['estimated_total'] = 0; 
         foreach($selections['selected_service'] as $index => $value):
             $row = sub_service_price($value, $selections['vendor']);
             $this->data['estimated_total'] += $row->price*$qty[$index];
         endforeach;
-
         // OPEN DAYS
         $tomorrow   = date('Y-m-d', strtotime('tomorrow'));
         $daysToshow = date('Y-m-d', strtotime("$tomorrow +11 days"));
-
         $this->data['close_days'] = [];
         foreach(weekDays() as $index => $day):
             $key = $day.'_opening';
@@ -43,7 +40,6 @@ class Booking extends MY_Controller
                 $this->data['close_days'][] = $day;
             endif;
         endforeach;
-
         $this->data['open_days'] = [];
         $start      = new DateTime($tomorrow);
         $daysToshow = new DateTime($daysToshow);
@@ -57,7 +53,6 @@ class Booking extends MY_Controller
             $start->modify('+1 day');
         }
         $this->data['open_days'] = $open_days;
-
         //START END SLEECTED DAY TIME
         $day = $selections['place-order']['collection_date'];
         $dayIndex = explode('-', $day);
@@ -69,7 +64,6 @@ class Booking extends MY_Controller
         $key_closing = $day.'_closing';
         $this->data['collection_opening'] = $facility_hours->$key_opening;
         $this->data['collection_closing'] = $facility_hours->$key_closing;
-
         $day = $selections['place-order']['delivery_date'];
         $dayIndex = explode('-', $day);
         $day = $dayIndex[2].'-'.$dayIndex[0].'-'.$dayIndex[1];
@@ -80,7 +74,6 @@ class Booking extends MY_Controller
         $key_closing = $day.'_closing';
         $this->data['delivery_opening'] = $facility_hours->$key_opening;
         $this->data['delivery_closing'] = $facility_hours->$key_closing;
-
         if($this->input->post())
         {
             $res = array();
@@ -89,9 +82,7 @@ class Booking extends MY_Controller
             $res['scroll_to_msg'] = 0;
             $res['status'] = 0;
             $res['redirect_url'] = 0;
-
             $post = html_escape($this->input->post());
-
             $this->form_validation->set_rules('address_type', 'Address Type', 'trim|required');
             if(empty($this->session->mem_id))
             {
@@ -121,9 +112,6 @@ class Booking extends MY_Controller
                 $this->form_validation->set_rules('delivery_time', 'Delivery Time', 'trim|required');
                 $this->form_validation->set_rules('delivery_from', 'Delivery From', 'trim|required');
             }
-
-
-
             if($this->form_validation->run() === FALSE) 
             {
                 $res['msg'] = validation_errors();
@@ -139,7 +127,6 @@ class Booking extends MY_Controller
                     {
                         $rando = doEncode(rand(99, 999).'-'.$post['email']);
                         $rando = strlen($rando) > 225 ? substr($rando, 0, 225) : $rando;
-
                         $buyer_data['mem_fname'] = ucfirst($post['mem_fname']);
                         $buyer_data['mem_lname'] = ucfirst($post['mem_lname']);
                         $buyer_data['mem_email'] = $post['mem_email'];
@@ -150,11 +137,10 @@ class Booking extends MY_Controller
                         $buyer_data['mem_status'] = 1;
                         $buyer_data['mem_last_login'] = date('Y-m-d h:i:s');
 
-                        $order['mem_fname'] = ucfirst($post['mem_fname']);
-                        $order['mem_lname'] = ucfirst($post['mem_lname']);
-                        $order['mem_email'] = $post['mem_email'];
-                        $order['mem_phone'] = $post['mem_phone'];
-
+                        $order['buyer_fname'] = ucfirst($post['mem_fname']);
+                        $order['buyer_lname'] = ucfirst($post['mem_lname']);
+                        $order['buyer_email'] = $post['mem_email'];
+                        $order['buyer_phone'] = $post['mem_phone'];
                         if($post['address_type'] == 'home')
                         {
                             $buyer_data['mem_country'] = $post['address_country']; 
@@ -185,36 +171,29 @@ class Booking extends MY_Controller
                             $buyer_data['mem_hotel_map_lat'] = $post['mem_map_lat']; 
                             $buyer_data['mem_hotel_map_lng'] = $post['mem_map_lng']; 
                         }
-
                         $buyer_id = $this->member_model->save($buyer_data);
                         $order['address'] = trim($post['address_city']).' '.trim($post['address_field']).' '.trim($post['address_zip']);
-
-                        $this->session->set_userdata('mem_id', $buyer_id);
-                        $this->session->set_userdata('mem_type', 'buyer');
-
                         $verify_link = site_url('verification/' .$rando);
                         $mem_data = array('name' => ucfirst($post['mem_fname']).' '.ucfirst($post['mem_lname']), "email" => $post['mem_email'], "link" => $verify_link);
                         $this->send_site_email($mem_data, 'signup');
-
-
                     }
                     else
                     {
-                        $res['msg'] = '<p>E-mail Address Already In Use</p>';
+                        $res['status'] = 0;
+                        $res['msg'] = 'E-mail Address Already In Use';
+                        exit(json_encode($res));
                     }
                 }   
                 else
                 {
                     $buyer_id = $this->session->mem_id;
                     $buyer = $this->member_model->getMember($buyer_id);
-
                     $order['buyer_fname'] = $buyer->mem_fname;
                     $order['buyer_lname'] = $buyer->mem_lname;
                     $order['buyer_email'] = $buyer->mem_email;
                     $order['buyer_phone'] = $buyer->mem_phone;
                     $order['address']     = $post['address'];
                 }
-
                 // CHECK BUYER CREDIT
                 $total_buyer_order = intval($this->master->num_rows('orders', ['order_status'=>'Completed', 'buyer_id'=>$buyer_id]));
                 $buyer_credits     = $total_buyer_order % 10;
@@ -226,13 +205,11 @@ class Booking extends MY_Controller
                 $order['address_type']      = $post['address_type'];
                 $order['location_map_lat']  = $selections['lat'];
                 $order['location_map_long'] = $selections['long'];
-
                 $order['order_price'] = 0; 
                 foreach($post['selected_service'] as $key => $value):
                     $row = sub_service_price($value, $selections['vendor']);
                     $order['order_price'] += $row->price*($post['qty'][$key]);
                 endforeach;
-
                 if($selections['place-order']['use_pickdrop'] && $selections['place-order']['use_pickdrop'] == 'on')
                 {
                     $order['pick_and_drop_service'] = '1';
@@ -260,7 +237,6 @@ class Booking extends MY_Controller
                     $order['delivery_time']   = $selections['place-order']['delivery_time'];
                     $order['address'] = $vendor->mem_business_city.'@'.$vendor->mem_business_address.'@'.$vendor->mem_business_zip;
                 }
-
                 $order['order_total_price'] = price_format($order['order_price'] + $order['pick_and_drop_charges']);
                 if($buyer_credits === intval(BUYER_ORDER_CREDITS))
                 {
@@ -275,7 +251,6 @@ class Booking extends MY_Controller
                 $order_total_price = price_format($order['order_total_price']); 
                 if ($post['payment_type'] == 'paypal') 
                     $order['paypal_pending'] = 'yes';
-
                 unset($order['order_price']);
                 unset($order['order_total_price']);
                 unset($order['buyer_credit_discount']);
@@ -290,11 +265,9 @@ class Booking extends MY_Controller
                         $order_detail['quantity']           = $post['qty'][$key];
                         $order_detail['sub_service_price']  = $row->price;
                         $order_detail['sub_service_name']   = $row->name;
-
                         $this->orderd_model->save($order_detail);
                     endforeach;
                 }
-
                 $payment_status = [];
                 if ($post['payment_type'] == 'credit-card') 
                 {
@@ -303,7 +276,6 @@ class Booking extends MY_Controller
                     try {
                         if (!isset($post['nonce']))
                             throw new Exception("The Stripe Token was not generated correctly");
-
                         $cents   = $order_total_price*100;
                         $charge = \Stripe\Charge::create([
                             "amount"      => $cents,
@@ -319,21 +291,20 @@ class Booking extends MY_Controller
                         $res['status'] = 0;
                         exit(json_encode($res));
                     }
-
                     $order_invoice = [];
                     $order_invoice['order_id']  = $order_id;
                     $order_invoice['charge_id'] = $charge['id'];
                     $order_invoice['payment_method'] = 'stripe';
                     $order_invoice['payment_status'] = 'paid';
                     $this->master->save('order_invoices', $order_invoice);
-
                     # ORDER LOG
                     $this->master->save('order_logs', ['mem_id'=> $selections['vendor'], 'order_id'=> $order_id, 'mem_type'=> 'vendor', 'status'=> 'dirty']);
                     $this->master->save('order_logs', ['mem_id'=> $buyer_id, 'order_id'=> $order_id, 'mem_type'=> 'buyer', 'status'=> 'dirty']);
                 }
-
                 if ($order_id > 0)
                 {
+                    $this->session->set_userdata('mem_id', $buyer_id);
+                    $this->session->set_userdata('mem_type', 'buyer');
                     if ($post['payment_type'] == 'credit-card') 
                     {
                         $res['msg'] = 'Your order has been completed successfully. We will contact you shortly.';
@@ -353,10 +324,8 @@ class Booking extends MY_Controller
                     $res['msg'] = 'Your order has not been completed successfully. Please try again';
                 }
             }
-
             exit(json_encode($res));
         }
-
 		if($data)
         {
 			$this->data['content']       = unserialize($data->code);
@@ -367,7 +336,6 @@ class Booking extends MY_Controller
             $this->data['iron_only']     = $this->master->get_data_row('services', ['id'=> '5']);
             $this->data['buly_items']    = $this->master->get_data_row('services', ['id'=> '6']);
             $this->data['deals']         = $this->master->get_data_row('services', ['id'=> '7']);
-
 			$this->load->view('booking/booking',$this->data);
 		}
         else
@@ -375,7 +343,6 @@ class Booking extends MY_Controller
 			show_404();
 		}
     }
-
 	function success($order_id)
     {
         $this->if_booking_running();
@@ -399,7 +366,6 @@ class Booking extends MY_Controller
             show_404();
         }
 	}
-
 	function cancel()
     {
         $this->if_booking_running();
@@ -421,12 +387,10 @@ class Booking extends MY_Controller
             show_404();
         }
 	}
-
     function error()
     {
         $this->load->view("pages/404", $this->data);
     }
-
     ### callback functions
     public function is_password_strong($password)
     {

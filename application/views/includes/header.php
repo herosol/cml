@@ -8,7 +8,7 @@
         </div>
         <div class="toggle"><span></span></div>
         <nav class="ease">
-            <div nav>
+            <div id="header-nav" nav>
                 <ul id="nav">
                     <li class="<?php if ($slug == "index") {
                                     echo 'active';
@@ -48,8 +48,8 @@
                         <div class="ico dropBtn"><img src="<?= get_site_image_src("members", $mem_data->mem_image, 'thumb_'); ?>" alt=""></div>
                             <div class="proDrop dropCnt">
                                 <ul class="dropLst">
-                                    <li><a href="<?= base_url() ?>vendor/dashboard">Dashboard <small>See and Manage Data</small></a></li>
-                                    <li><a href="<?= base_url() ?>vendor/orders">My Orders <small>View Order Details</small></a></li>
+                                    <li><a href="<?= base_url().$this->session->mem_type ?>/dashboard">Dashboard <small>See and Manage Data</small></a></li>
+                                    <li><a href="<?= base_url().$this->session->mem_type ?>/orders">My Orders <small>View Order Details</small></a></li>
                                     <?php if($this->session->mem_type == 'vendor'): ?>
                                         <li><a href="<?= base_url() ?>vendor/wallet">My Earnings <small>See & Mange Your Earnings</small></a></li>
                                     <?php else: ?>

@@ -132,10 +132,41 @@ class Index extends MY_Controller
                     
                     $res['msg'] = showMsg('success', 'Login successful! Please wait...');
 
+                    $slug = $this->uri->segment(1);
+                    $html = '';
+                    $html .= '<ul id="nav">
+                        <li class="'.($slug == 'index' ? 'active' : '').'">
+                            <a href="'.base_url().'">Home</a>
+                        </li>
+                        <li class="'.($slug == 'promotions-offers' ? 'active' : '').'">
+                            <a href="'.base_url('promotions-offers').'">Promotions & Offers</a>
+                        </li>
+                        <li class="'.($slug == 'contact' ? 'active' : '').'">
+                            <a href="'.base_url('contact').'">Contact us</a>
+                        </li>
+                    </ul>
+                    <div class="proIco dropDown">
+                        <div class="ico dropBtn"><img src="'.get_site_image_src("members", $row->mem_image, 'thumb_').'" alt=""></div>
+                            <div class="proDrop dropCnt">
+                                <ul class="dropLst">
+                                    <li><a href="'.base_url().$row->mem_type.'/dashboard">Dashboard <small>See and Manage Data</small></a></li>
+                                    <li><a href="'.base_url().$row->mem_type.'/orders">My Orders <small>View Order Details</small></a></li>';
+                                    if($this->session->mem_type == 'vendor'):
+                                        $html .= '<li><a href="'.base_url().'vendor/wallet">My Earnings <small>See & Mange Your Earnings</small></a></li>';
+                                    else:
+                                        $html .= '<li><a href="'.base_url().'buyer/transactions">My Transactions <small>See & Mange Your Payouts</small></a></li>';
+                                    endif;
+                                    $html .= '<li><a href="'.base_url().'index/logout">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>';
+                    
                     $res['status'] = 1;
-                    $res['frm_reset'] = 1;
-                    $res['hide_msg'] = 1;
-                    $res['mem_data'] = $row;
+                    $res['frm_reset']  = 1;
+                    $res['hide_msg']   = 1;
+                    $res['mem_data']   = $row;
+                    $res['header_nav'] = $html;
                 }
                 else
                 {

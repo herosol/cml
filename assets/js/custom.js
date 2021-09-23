@@ -209,6 +209,9 @@ $(document).ready(function() {
                         $("#order-completion-section").remove();
                         $('#order-status-dropdown').empty().append(rs.status_dropdown);
                         $('#delivery-proof').empty().append(rs.delivery_proofs);
+                        $('[gallery]').lightGallery({
+                            thumbnail: true,
+                        });
                         if (rs.frm_reset) {
                             frm.reset();
                         }
@@ -372,6 +375,7 @@ $(document).ready(function() {
                         $('#customer-name').text(`${mem.mem_fname} ${mem.mem_lname}`);
                         $('#customer-phone').text(`${mem.mem_phone}`);
                         $('#customer-email').text(`${mem.mem_email}`);
+                        $('#header-nav').html(`${rs.header_nav}`);
                         let select_address = '';
                         select_address += `<h6>Select your address</h6>
                         <div class="txtGrp">

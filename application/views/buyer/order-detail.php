@@ -250,7 +250,7 @@
                 <?php if (!empty($delivery_proof)) { ?>
                     <div class="blk jobBlk" id="delivery_proof">
                         <div class="doneBlk">
-                            <div class="image"><img src="<?= get_site_image_src("orders", $delivery_proof->proof_image); ?>" alt=""></div>
+                            <div class="image" gallery><img src="<?= get_site_image_src("orders", $delivery_proof->proof_image); ?>" data-src="<?= get_site_image_src("orders", $delivery_proof->proof_image); ?>" alt=""></div>
                             <div class="txt">
                                 <h5>Comments</h5>
                                 <p><?= $delivery_proof->proof_comment ?></p>

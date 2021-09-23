@@ -245,9 +245,21 @@
                                         <tr>
                                             <td>&nbsp;</td>
                                         </tr>
+
                                         <tr>
                                             <th colspan="2"><?= $order->drop_type ?></th>
                                         </tr>
+
+                                        <?php if(!empty($order->collection_or_delivery_notes)): ?>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Collection or delivery instructions:</th>
+                                                <td><?= $order->collection_or_delivery_notes ?></td>
+                                            </tr>
+                                         <?php endif; ?>
+
                                     <?php else : ?>
                                         <tr>
                                             <th>Drop Off Date:</th>
@@ -256,6 +268,15 @@
                                         <tr>
                                             <th>Drop Off Time:</th>
                                             <td><?= $order->delivery_time ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <?php if(!empty($order->extra_address_detail)): ?>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Extra Address:</th>
+                                            <td><?= $order->extra_address_detail ?></td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
@@ -346,7 +367,10 @@
                                     <div class="txtGrp">
                                         <label for="proof_image" class="move">Order Photo</label>
                                         <button type="button" class="txtBox uploadImg" data-upload="bag_pic" data-text="Choose file"></button>
-                                        <input type="file" name="proof_image" id="proof_image" class="uploadFile" data-upload="bag_pic">
+                                        <div class="image-proof mt-1" gallery>
+                                            <img src="" alt="" data-src="" id="uploadProofImage">
+                                        </div>
+                                        <input type="file" name="proof_image" id="proof_image" class="uploadFile" data-upload="bag_pic" onchange="PreviewImage();">
                                     </div>
                                     <div class="txtGrp">
                                         <label for="proof_comment">Comments</label>
@@ -362,6 +386,15 @@
         </section>
         <!-- orders -->
         <script>
+            function PreviewImage() {
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("proof_image").files[0]);
+                oFReader.onload = function(oFREvent) {
+                    document.getElementById("uploadProofImage").src = oFREvent.target.result;
+                    $("#uploadProofImage").attr('data-src', oFREvent.target.result);
+                };
+            };
+
             $(function() {
                 $(document).on('click', '.order-status', function(e) {
                     e.preventDefault();

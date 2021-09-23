@@ -290,7 +290,7 @@
                             <ul class="selectLst flex">
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_home" value="home" <?= empty($this->session->mem_id) ? 'checked' : '' ?> onclick="appendCollectionDeliveryAddress(); setAddress()">
+                                        <input type="radio" name="address_type" id="address_type_home" value="home" <?= empty($this->session->mem_id) ? 'checked' : '' ?> onclick="appendCollectionDeliveryAddress();">
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                             <div class="txt">
@@ -301,7 +301,7 @@
                                 </li>
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_office" value="office" onclick="appendCollectionDeliveryAddress(); setAddress()">
+                                        <input type="radio" name="address_type" id="address_type_office" value="office" onclick="appendCollectionDeliveryAddress();">
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                             <div class="txt">
@@ -312,7 +312,7 @@
                                 </li>
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_hotel" value="hotel" onclick="appendCollectionDeliveryAddress(); setAddress()">
+                                        <input type="radio" name="address_type" id="address_type_hotel" value="hotel" onclick="appendCollectionDeliveryAddress();">
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                             <div class="txt">
@@ -513,7 +513,7 @@
                                                     <tr>
                                                         <th>Item</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;
@@ -559,7 +559,7 @@
                                                     <tr>
                                                         <th>Item</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;
@@ -605,7 +605,7 @@
                                                     <tr>
                                                         <th>Item</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;
@@ -651,7 +651,7 @@
                                                     <tr>
                                                         <th>Item</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;
@@ -695,10 +695,10 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <th>Name</th>
+                                                        <th>Item</th>
                                                         <th>Description</th>
                                                         <th>Price</th>
-                                                        <th>Select</th>
+                                                        <th>Add To Basket</th>
                                                     </tr>
                                                     <?php
                                                     $check = 0;
@@ -879,9 +879,9 @@
                                                     <tr>
                                                         <td>&nbsp;</td>
                                                     </tr>
-                                                    <tr>
+                                                    <!-- <tr>
                                                         <th>Customer Notes</th>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr>
                                                         <td></td>
                                                     </tr>
@@ -1428,6 +1428,7 @@
                                 }, 3000)
                             } else {
                                 toastr.error(rs.msg, "Error");
+                                sbtn.attr("disabled", false);
                             }
                         },
                         complete: function() {

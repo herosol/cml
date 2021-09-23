@@ -103,7 +103,7 @@
                                                 <tr>
                                                     <th>Item</th>
                                                     <td></td>
-                                                    <th>Action</th>
+                                                    <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
                                                 foreach(get_sub_services($dry_cleaning->id) as $key => $sub_service):
@@ -128,6 +128,11 @@
                                     <div class="txt">
                                         <table>
                                             <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Add To Basket</th>
+                                                </tr>
                                                 <?php
                                                 foreach(get_sub_services($wash_and_iron->id) as $key => $sub_service):
                                                 ?>
@@ -151,6 +156,11 @@
                                     <div class="txt">
                                         <table>
                                             <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Add To Basket</th>
+                                                </tr>
                                             <?php
                                             foreach(get_sub_services($iron_only->id) as $key => $sub_service):
                                             ?>
@@ -174,6 +184,11 @@
                                     <div class="txt">
                                         <table>
                                             <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Add To Basket</th>
+                                                </tr>
                                                 <?php
                                                 foreach(get_sub_services($buly_items->id) as $key => $sub_service):
                                                 ?>
@@ -197,6 +212,11 @@
                                     <div class="txt">
                                         <table>
                                             <tbody>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <td></td>
+                                                    <th>Add To Basket</th>
+                                                </tr>
                                                 <?php
                                                 foreach(get_sub_services($deals->id) as $key => $sub_service):
                                                 ?>
