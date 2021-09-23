@@ -430,7 +430,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                                     <div class="txtGrp">
-                                                        <label for="mem_charges_free_over">Pick & drop off free for over</label>
+                                                        <label for="mem_charges_free_over">Pick & drop off free for over (Order Amount)</label>
                                                         <input type="text" name="mem_charges_free_over" id="mem_charges_free_over" value="<?= $mem_data->mem_charges_free_over ?>" class="txtBox">
                                                     </div>
                                                 </div>

@@ -378,7 +378,7 @@ $(document).ready(function() {
                         $('#header-nav').html(`${rs.header_nav}`);
                         let select_address = '';
                         select_address += `<h6>Select your address</h6>
-                        <div class="txtGrp">
+                        <div class="flexGrp"><div class="txtGrp">
                         <label for="address" class="move">Address</label>
                         <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
                         <option value="">Select</option>`;
@@ -400,7 +400,10 @@ $(document).ready(function() {
                             Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}
                             </option>`;
                         }
-                        select_address += `</select></div>`;
+                        select_address += `</select></div>
+                        <div class="bTn">
+                            <button type="button" class="webBtn lightBtn">Add Address</button>
+                        </div></div>`;
                         $('#select-address').html(select_address);
                     }, 3000);
                 } else {

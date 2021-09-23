@@ -417,7 +417,7 @@
                             <input type="number" step="0.01" name="mem_charges_per_miles" value="<?php if (isset($row->mem_charges_per_miles)) echo $row->mem_charges_per_miles; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">Pick & drop off free for over (£)</label>
+                            <label class="control-label">Pick & drop off free for over (Order Amount)</label>
                             <input type="number" step="0.1" name="mem_charges_free_over" value="<?php if (isset($row->mem_charges_free_over)) echo $row->mem_charges_free_over; ?>" class="form-control">
                         </div>
                         <div class="col-md-4">
@@ -538,7 +538,6 @@ function readURL(input) {
     <script>
         
         var map, startLat = "", startLng = "";
-
         const getLocationAndInitMap = myThis => 
         {
             

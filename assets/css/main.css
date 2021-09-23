@@ -406,7 +406,7 @@ p.pre {
 }
 .webBtn i.fi-arrow-left,
 .webBtn i.fi-arrow-right {
-	font-size: 140%;
+	font-size: 100%;
 	font-weight: bold;
 }
 .webBtn i.fi-arrow-right {
@@ -2819,6 +2819,9 @@ video[poster] {
 	border: 2px solid transparent;
 }
 #booking .smryLst li.current .blk {
+	border-color: rgb(1 110 207 / 40%);
+}
+#booking .smryLst li.active .blk {
 	border-color: #016ecf;
 }
 #booking .smryLst .icon {
@@ -3092,6 +3095,7 @@ video[poster] {
 #srch .srchBlk table tr small {
 	font-size: 10px;
 	font-family: "Poppins SemiBold";
+	white-space: nowrap;
 }
 .srchBlk {
 	position: relative;
@@ -5116,6 +5120,7 @@ ul.pagination > li > a.active {
 .txtGrp > span {
 	position: absolute;
 	top: 100%;
+	font-size: 11px;
 }
 /*_____ review _____*/
 .review {

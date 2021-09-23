@@ -32,7 +32,7 @@
         <section id="booking">
             <div class="contain">
                 <ul class="smryLst flex text-center">
-                    <li class="current">
+                    <li class="current active">
                         <div class="blk">
                             <div class="icon"><img src="<?= getImageSrc(UPLOAD_PATH . "images/", $content['image2']) ?>" alt=""></div>
                             <div class="txt">
@@ -204,27 +204,33 @@
                             <div id="select-address">
                                 <?php if (!empty($this->session->mem_id)) : ?>
                                     <h6>Select your address</h6>
-                                    <div class="txtGrp">
-                                        <label for="address" class="move">Address</label>
-                                        <select name="address" id="address" class="txtBox" onchange="setAddress()">
-                                            <option value="">Select</option>
-                                            <?php if (!empty($mem_data->mem_city) && !empty($mem_data->mem_address) && !empty($mem_data->mem_zip)) : ?>
-                                                <option value="<?= $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>" data-type="home" data-lat="<?= $mem_data->mem_map_lat ?>" data-long="<?= $mem_data->mem_map_lng ?>" data-full-address="<?= 'Home: ' . $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>">
-                                                    <?= 'Home: ' . $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>
-                                                </option>
-                                            <?php endif; ?>
-                                            <?php if (!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)) : ?>
-                                                <option value="<?= $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>" data-type="office" data-lat="<?= $mem_data->mem_business_map_lat ?>" data-long="<?= $mem_data->mem_business_map_lng ?>" data-full-address="<?= 'Office: ' . $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>">
-                                                    <?= 'Office: ' . $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>
-                                                </option>
-                                            <?php endif; ?>
-                                            <?php if (!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)) : ?>
-                                                <option value="<?= $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>" data-type="hotel" data-lat="<?= $mem_data->mem_hotel_map_lat ?>" data-long="<?= $mem_data->mem_hotel_map_lng ?>" data-full-address="<?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>">
-                                                    <?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>
-                                                </option>
-                                            <?php endif; ?>
-                                        </select>
+                                    <div class="flexGrp">
+                                        <div class="txtGrp">
+                                            <label for="address" class="move">Address</label>
+                                            <select name="address" id="address" class="txtBox" onchange="setAddress()">
+                                                <option value="">Select</option>
+                                                <?php if (!empty($mem_data->mem_city) && !empty($mem_data->mem_address) && !empty($mem_data->mem_zip)) : ?>
+                                                    <option value="<?= $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>" data-type="home" data-lat="<?= $mem_data->mem_map_lat ?>" data-long="<?= $mem_data->mem_map_lng ?>" data-full-address="<?= 'Home: ' . $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>">
+                                                        <?= 'Home: ' . $mem_data->mem_city . ' - ' . $mem_data->mem_address . ' - ' . $mem_data->mem_zip ?>
+                                                    </option>
+                                                <?php endif; ?>
+                                                <?php if (!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)) : ?>
+                                                    <option value="<?= $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>" data-type="office" data-lat="<?= $mem_data->mem_business_map_lat ?>" data-long="<?= $mem_data->mem_business_map_lng ?>" data-full-address="<?= 'Office: ' . $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>">
+                                                        <?= 'Office: ' . $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>
+                                                    </option>
+                                                <?php endif; ?>
+                                                <?php if (!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)) : ?>
+                                                    <option value="<?= $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>" data-type="hotel" data-lat="<?= $mem_data->mem_hotel_map_lat ?>" data-long="<?= $mem_data->mem_hotel_map_lng ?>" data-full-address="<?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>">
+                                                        <?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>
+                                                    </option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                        <div class="bTn">
+                                            <button type="button" class="webBtn lightBtn">Add Address</button>
+                                        </div>
                                     </div>
+                                    <div class="br"></div>
                                 <?php else : ?>
                             </div>
                             <div id="enter-address">
@@ -277,7 +283,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
+                            <div class="br"></div>
                         <?php endif; ?>
                         <h6>Specify any extra address details</h6>
                         <div class="txtGrp">
@@ -323,13 +329,13 @@
                                 </li>
                             </ul>
                         </div>
-                        </div>
                         <div id="map-area" class="hidden">
                             <h4 class="heading"><?= $content['step2_map_heading'] ?></h4>
                             <div id="map-canvas"></div>
                         </div>
+                        </div>
                         <div class="bTn formBtn text-center">
-                            <button type="button" class="webBtn labelBtn prevBtn">Back</button>
+                            <button type="button" class="webBtn lightBtn prevBtn"><i class="fi-arrow-left"></i> Previous step</button>
                             <button type="button" class="webBtn nextBtn 1-step">Continue</button>
                         </div>
                     </fieldset>
@@ -342,7 +348,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <select name="collection_date" id="collection_date" class="txtBox selectpicker" data-container="body" onchange="fetchTime(this.value, '<?= $vendor_id ?>', 'collection_time')">
-                                                <?=open_days_options($open_days, $selections['place-order']['collection_date'])?>
+                                                <?= open_days_options($open_days, $selections['place-order']['collection_date']) ?>
                                             </select>
                                         </div>
                                     </div>
@@ -372,7 +378,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xx-6">
                                         <div class="txtGrp">
                                             <select name="delivery_date" id="delivery_date" class="txtBox selectpicker" data-container="body" onchange="fetchTime(this.value, '<?= $vendor_id ?>', 'delivery_time')">
-                                                <?=open_days_options($open_days, $selections['place-order']['delivery_date'])?>
+                                                <?= open_days_options($open_days, $selections['place-order']['delivery_date']) ?>
                                             </select>
                                         </div>
                                     </div>
@@ -404,7 +410,7 @@
                                 </div>
                             </div>
                             <div class="bTn formBtn text-center">
-                                <button type="button" class="webBtn labelBtn prevBtn">Back</button>
+                                <button type="button" class="webBtn lightBtn prevBtn"><i class="fi-arrow-left"></i> Previous step</button>
                                 <button type="button" class="webBtn nextBtn 2-step">Continue</button>
                             </div>
                         </fieldset>
@@ -798,7 +804,11 @@
                                             <tr>
                                                 <td colspan="2">
                                                     <?php if (isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop') : ?>
-                                                        <div class="freePickupAndDelivery alert" style="display:none"></div>
+                                                        <?php if (price_format($estimated_total) > price_format($vendor->mem_charges_free_over)) : ?>
+                                                            <div class="freePickupAndDelivery alert">Free Pickup & Delivery Service</div>
+                                                            <?php else: ?>    
+                                                                <div class="freePickupAndDelivery alert" style="display:none"></div>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
@@ -815,7 +825,7 @@
                             </div>
                         </div>
                         <div class="bTn formBtn text-center">
-                            <button type="button" class="webBtn labelBtn prevBtn">Back</button>
+                            <button type="button" class="webBtn lightBtn prevBtn"><i class="fi-arrow-left"></i> Previous step</button>
                             <button type="button" class="webBtn nextBtn 3-step">Continue</button>
                         </div>
                     </fieldset>
@@ -906,14 +916,14 @@
                                         </thead>
                                         <tbody id="item_preview_area">
                                             <?php
-                                            foreach ($services as $id) :
+                                            foreach ($services as $index => $id) :
                                                 $row = get_sub_service($id, $vendor_id);
                                             ?>
                                                 <tr id="preview-item-<?= $row->id ?>">
                                                     <td><?= $row->name ?></td>
                                                     <td><?= $row->service_name ?></td>
-                                                    <td id="item-qty-<?= $row->id ?>">1</td>
-                                                    <td class="semi" id="item-price-<?= $row->id ?>">£<?= price_format($row->price) ?></td>
+                                                    <td id="item-qty-<?= $row->id ?>"><?= $qty[$index] ?></td>
+                                                    <td class="" id="item-price-<?= $row->id ?>">£<?= price_format($row->price * $qty[$index]) ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                             <tr>
@@ -926,7 +936,7 @@
                                             if (isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop') :
                                                 $pickup = price_format($vendor->mem_charges_per_miles * 2);
                                             ?>
-                                                <tr id="pickup-and-delivery-preview">
+                                                <tr id="pickup-and-delivery-preview" <?=price_format($estimated_total) > price_format($vendor->mem_charges_free_over) ? 'style="display:none"' : '' ?>>
                                                     <td colspan="3">Pickup & Delivery Charges:&nbsp;&nbsp;</td>
                                                     <td class="semi">£<?= price_format($vendor->mem_charges_per_miles * 2) ?></td>
                                                 </tr>
@@ -938,7 +948,11 @@
                                             <tr>
                                                 <td colspan="4">
                                                     <?php if (isset($selections['pick-or-facility']) && $selections['pick-or-facility'] == 'pickdrop') : ?>
-                                                        <div class="freePickupAndDelivery alert" style="display:none"></div>
+                                                        <?php if (price_format($estimated_total) > price_format($vendor->mem_charges_free_over)) : ?>
+                                                            <div class="freePickupAndDelivery alert">Free Pickup & Delivery Service</div>
+                                                        <?php else: ?>    
+                                                            <div class="freePickupAndDelivery alert" style="display:none"></div>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
@@ -1114,10 +1128,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bTn formBtn text-center">
-                                <button type="button" class="webBtn labelBtn prevBtn">Back</button>
-                                <button type="submit" class="webBtn"><i class="spinner hidden"></i>Place Order</button>
-                            </div>
+                        </div>
+                        <div class="bTn formBtn text-center">
+                            <button type="button" class="webBtn lightBtn prevBtn"><i class="fi-arrow-left"></i> Previous step</button>
+                            <button type="submit" class="webBtn"><i class="spinner hidden"></i>Place Order</button>
+                        </div>
                     </fieldset>
                 </form>
                 <div class="popup sm" data-popup="signin">
@@ -1159,7 +1174,7 @@
                 var pickupDeliveryCharges = '0.00';
             <?php endif; ?>
             $(function() {
-                blk = $('.smryLst > li:first');
+                li = $('.smryLst > li:first');
                 $(".nextBtn").click(function() {
                     currBtn = $(this);
                     let check = true;
@@ -1271,7 +1286,7 @@
                         if (!check)
                             return false;
                     } else if (currBtn.hasClass('3-step')) {
-                        let pickdrop = '<?=$selections['pick-or-facility']?>';
+                        let pickdrop = '<?= $selections['pick-or-facility'] ?>';
                         let services = $('input[name="selected_service[]"]').length;
                         if (services == '0') {
                             $('.servicesMessage').html(`Please select some items`);
@@ -1288,8 +1303,7 @@
                                 total += parseFloat($(this).data('price')) * parseInt($('#qty-' + index).val());
                             });
                             let minimumOrder = '<?= price_format($vendor->mem_charges_min_order) ?>';
-                            if(pickdrop == 'pickdrop')
-                            {
+                            if (pickdrop == 'pickdrop') {
                                 if (parseFloat(total.toFixed(2)) < parseFloat(minimumOrder)) {
                                     $('.servicesMessage').html(`Please order atleast price of £${parseFloat(minimumOrder).toFixed(2)}`);
                                     $('.servicesMessage').fadeIn();
@@ -1301,20 +1315,23 @@
                         }
                     }
                     if (check) {
+                        li = li.next('li');
+                        li.prev().removeClass("active");
+                        li.addClass('current').addClass("active");
+                        // fieldset
                         currStep = $(this).parents("fieldset");
                         nextStep = currStep.next("fieldset");
                         currStep.hide();
                         nextStep.fadeIn();
-                        blk = blk.next('li');
-                        blk.addClass('current');
                     } else {
                         return false;
                     }
                 });
                 $(".prevBtn").click(function() {
-                    blk.removeClass('current');
-                    blk.nextAll().removeClass('current');
-                    blk = blk.prev('li');
+                    li.removeClass("current").removeClass("active");
+                    li.nextAll().removeClass("current");
+                    li = li.prev("li").addClass("active");
+                    // fieldset
                     currStep = $(this).parents("fieldset");
                     prevStep = currStep.prev("fieldset");
                     currStep.hide();
@@ -1467,7 +1484,9 @@
                     $(this).removeClass("addBtn").addClass("delBtn");
                 } else {
                     if ($(this).hasClass('right')) {
+                        alert('enter right');
                         $("td button").filter("[data-subservice-id='" + $(this).data('subservice-id') + "']").removeClass('delBtn').addClass('addBtn');
+                        $('#preview-item-' + $(this).data('subservice-id')).remove();
                         $(this).parent().parent().remove();
                     } else {
                         $("tr").filter("[data-id='" + $(this).data('subservice-id') + "']").remove();
