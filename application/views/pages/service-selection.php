@@ -78,7 +78,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
-                                                foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
+                                                foreach(get_sub_services_active($wash_and_dry->id) as $key => $sub_service):
                                                 ?>
                                                 <tr id="<?=$sub_service->id?>">
                                                         <td><?=$sub_service->name?></td>
@@ -106,7 +106,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
-                                                foreach(get_sub_services($dry_cleaning->id) as $key => $sub_service):
+                                                foreach(get_sub_services_active($dry_cleaning->id) as $key => $sub_service):
                                                 ?>
                                                 <tr id="<?=$sub_service->id?>">
                                                     <td><?=$sub_service->name?></td>
@@ -134,7 +134,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
-                                                foreach(get_sub_services($wash_and_iron->id) as $key => $sub_service):
+                                                foreach(get_sub_services_active($wash_and_iron->id) as $key => $sub_service):
                                                 ?>
                                                     <tr id="<?=$sub_service->id?>">
                                                         <td><?=$sub_service->name?></td>
@@ -162,7 +162,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                             <?php
-                                            foreach(get_sub_services($iron_only->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($iron_only->id) as $key => $sub_service):
                                             ?>
                                                 <tr id="<?=$sub_service->id?>">
                                                     <td><?=$sub_service->name?></td>
@@ -190,7 +190,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
-                                                foreach(get_sub_services($buly_items->id) as $key => $sub_service):
+                                                foreach(get_sub_services_active($buly_items->id) as $key => $sub_service):
                                                 ?>
                                                     <tr id="<?=$sub_service->id?>">
                                                         <td><?=$sub_service->name?></td>
@@ -218,7 +218,7 @@
                                                     <th>Add To Basket</th>
                                                 </tr>
                                                 <?php
-                                                foreach(get_sub_services($deals->id) as $key => $sub_service):
+                                                foreach(get_sub_services_active($deals->id) as $key => $sub_service):
                                                 ?>
                                                     <tr id="<?=$sub_service->id?>">
                                                         <td><?=$sub_service->name?></td>

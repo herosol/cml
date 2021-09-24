@@ -90,7 +90,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($wash_and_dry->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($wash_and_dry->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>
@@ -127,7 +127,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($dry_cleaning->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($dry_cleaning->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>
@@ -158,7 +158,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($wash_and_iron->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($wash_and_iron->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>
@@ -189,7 +189,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($iron_only->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($iron_only->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>
@@ -220,7 +220,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($buly_items->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($buly_items->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>
@@ -252,7 +252,7 @@
                                                 <th>Price</th>
                                             </tr>
                                             <?php
-                                            foreach(get_sub_services($deals->id) as $key => $sub_service):
+                                            foreach(get_sub_services_active($deals->id) as $key => $sub_service):
                                                 $price = sub_service_price($sub_service->id, $this->session->mem_id);
                                             ?>
                                                 <tr>

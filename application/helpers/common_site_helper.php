@@ -63,6 +63,15 @@ function get_sub_services($service_id)
     $query = $CI->db->get('sub_services');
     return $query->result();
 }
+function get_sub_services_active($service_id)
+{
+    global $CI;
+    $CI->db->select("id, name, service_id");
+    $CI->db->where(['service_id'=> $service_id, 'status'=> '1']);
+    $CI->db->order_by(['name'=> 'asc']);
+    $query = $CI->db->get('sub_services');
+    return $query->result();
+}
 
 function get_parent_service($sub_service_id)
 {

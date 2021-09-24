@@ -477,7 +477,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($wash_and_dry->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services_active($wash_and_dry->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
@@ -523,7 +523,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($dry_cleaning->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services($_activedry_cleaning->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
@@ -569,7 +569,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($wash_and_iron->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services($_activewash_and_iron->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
@@ -615,7 +615,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($iron_only->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services($_activeiron_only->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
@@ -661,7 +661,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($buly_items->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services($_activebuly_items->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
@@ -708,7 +708,7 @@
                                                     </tr>
                                                     <?php
                                                     $check = 0;
-                                                    foreach (get_sub_services($deals->id) as $key => $sub_service) :
+                                                    foreach (get_sub_services($_activedeals->id) as $key => $sub_service) :
                                                         $row = sub_service_price($sub_service->id, $vendor_id);
                                                         if ($row->price != '' && $row->price != '0' && $row->price != '0.00') :
                                                             $check++;
