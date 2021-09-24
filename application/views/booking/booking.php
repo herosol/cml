@@ -226,13 +226,15 @@
                                                 <?php endif; ?>
                                             </select>
                                         </div>
-                                        <div class="bTn">
-                                            <button type="button" class="webBtn lightBtn">Add Address</button>
-                                        </div>
+                                        <?php if(empty($mem_data->mem_zip) && empty($mem_data->mem_business_zip) && empty($mem_data->mem_business_zip)): ?>
+                                            <div class="bTn">
+                                                <button type="button" class="webBtn lightBtn" id="addAddressRuntime">Add Address</button>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="br"></div>
-                                <?php else : ?>
                             </div>
+                                <?php else : ?>
                             <div id="enter-address">
                                 <h6>Enter your address</h6>
                                 <div class="row formRow">
@@ -285,6 +287,71 @@
                             </div>
                             <div class="br"></div>
                         <?php endif; ?>
+                        <div id="enter-address-runtime" class="hidden">
+                                <h6>Enter your address</h6>
+                                <div class="row formRow">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_country_runtime" class="move">Country</label>
+                                            <select name="address_country_runtime" id="address_country_runtime" class="txtBox" onchange="fetchStates(this.value, 'address_state_runtime')">
+                                                <option value="">Select</option>
+                                                <?php foreach (countries() as $country) : ?>
+                                                    <?php if (in_array($country->name, ['United Kingdom'])) { ?>
+                                                        <option value="<?= $country->id ?>"><?= $country->name ?></option>
+                                                <?php }
+                                                endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_state_runtime" class="move">State</label>
+                                            <select name="address_state_runtime" id="address_state_runtime" class="txtBox">
+                                                <option value="">Select</option>
+                                                <?php foreach (states_by_country($mem_data->mem_country) as $state) : ?>
+                                                    <option value="<?= $state->id ?>"><?= $state->name ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_city_runtime">City</label>
+                                            <input type="text" name="address_city_runtime" id="address_city_runtime" value="" class="txtBox" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <input type="hidden" name="mem_map_lat_runtime" id="mem_map_lat_runtime" value="">
+                                            <input type="hidden" name="mem_map_lng_runtime" id="mem_map_lng_runtime" value="">
+                                            <label for="address_zip_runtime">Zip Code</label>
+                                            <input type="text" id="address_zip_runtime" name="address_zip_runtime" data-type="hotel" data-way="1" value="" class="txtBox">
+                                            <span style="color:red" id="invalid_zip_runtime"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-xx-4">
+                                        <div class="txtGrp">
+                                            <label for="address_field_runtime">Address</label>
+                                            <input type="text" id="address_field_runtime" name="address_field_runtime" value="" class="txtBox">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-xx-3">
+                                        <div class="txtGrp">
+                                            <label for="address_type_runtime" class="move">Address Type</label>
+                                            <select name="address_type_runtime" id="address_type_runtime" class="txtBox">
+                                                <option value="">Select</option>
+                                                <?php foreach (address_type() as $type) : ?>
+                                                    <option value="<?= $type ?>"><?= ucfirst($type) ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xx-1">
+                                        <button type="button" class="webBtn lightBtn smBtn" id="saveRuntimeAddress"><i class="spinner hidden"></i>Save</button>
+                                    </div>
+                                </div>
+                                <div class="br"></div>
+                        </div>
                         <h6>Specify any extra address details</h6>
                         <div class="txtGrp">
                             <label for="extra_address_detail">Apartment name, number, floor</label>
@@ -296,7 +363,7 @@
                             <ul class="selectLst flex">
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_home" value="home" <?= empty($this->session->mem_id) ? 'checked' : '' ?> onclick="appendCollectionDeliveryAddress();">
+                                        <input type="radio" name="address_type" id="address_type_home" value="home" <?= empty($this->session->mem_id) ? 'checked' : '' ?> >
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-home.svg" alt=""></div>
                                             <div class="txt">
@@ -307,7 +374,7 @@
                                 </li>
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_office" value="office" onclick="appendCollectionDeliveryAddress();">
+                                        <input type="radio" name="address_type" id="address_type_office" value="office">
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-briefcase.svg" alt=""></div>
                                             <div class="txt">
@@ -318,7 +385,7 @@
                                 </li>
                                 <li>
                                     <div class="radioBtn">
-                                        <input type="radio" name="address_type" id="address_type_hotel" value="hotel" onclick="appendCollectionDeliveryAddress();">
+                                        <input type="radio" name="address_type" id="address_type_hotel" value="hotel">
                                         <div class="inner">
                                             <div class="icon"><img src="<?= base_url() ?>assets/images/vector-hotel.svg" alt=""></div>
                                             <div class="txt">
@@ -1646,6 +1713,7 @@
                     }
                 });
             }
+
             function init() {
                 map = new google.maps.Map(document.getElementById('map-canvas'), {
                     center: startLatLng,
@@ -1681,6 +1749,168 @@
                     }
                 }
             }
+
+            $(document).on("click", "#addAddressRuntime", function(e) {
+                e.preventDefault();
+                let btn = $(this);
+                let blk = $('#enter-address-runtime');
+                if (blk.hasClass('hidden')) {
+                    blk.removeClass('hidden');
+                    btn.text('Cancel');
+                } else {
+                    blk.addClass('hidden');
+                    btn.text('Add Address');
+                }
+            });
+
+            $(document).on("click", "#saveRuntimeAddress", function(e) {
+                e.preventDefault();
+                let check = true;
+                let sbtn = $(this);
+                sbtn.attr('disabled', true);
+                $(this).find('i.spinner').removeClass('hidden');
+
+                let address_country = $('#address_country_runtime');
+                let address_state = $('#address_state_runtime');
+                let address_city = $('#address_city_runtime');
+                let address_zip = $('#address_zip_runtime');
+                let address_field = $('#address_field_runtime');
+                let address_type = $('#address_type_runtime');
+                if (address_country.val() == '') {
+                    address_country.addClass('error');
+                    check = false;
+                } else {
+                    address_country.removeClass('error');
+                }
+                if (address_state.val() == '') {
+                    address_state.addClass('error');
+                    check = false;
+                } else {
+                    address_state.removeClass('error');
+                }
+                if ($.trim(address_city.val()).length == 0) {
+                    address_city.addClass('error');
+                    check = false;
+                } else {
+                    address_city.removeClass('error');
+                }
+                if ($.trim(address_zip.val()).length == 0) {
+                    address_zip.addClass('error');
+                    check = false;
+                } else {
+                    address_zip.removeClass('error');
+                }
+                if ($.trim(address_field.val()).length == 0) {
+                    address_field.addClass('error');
+                    check = false;
+                } else {
+                    address_field.removeClass('error');
+                }
+                if (address_type.val() == '') {
+                    address_type.addClass('error');
+                    check = false;
+                } else {
+                    address_type.removeClass('error');
+                }
+
+                if(check)
+                {
+
+                    value = $.trim(address_zip.val());
+                    $('#invalid_zip_runtime').html('');
+                    if ($.trim(value).length == 0)
+                        return false;
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({
+                        componentRestrictions: {
+                            country: 'gb',
+                            postalCode: value
+                        }
+                    }, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            latitude = results[0].geometry.location.lat();
+                            longitude = results[0].geometry.location.lng();
+                            $('#mem_map_lat_runtime').val(latitude);
+                            $('#mem_map_lng_runtime').val(longitude);
+                            startLat = latitude;
+                            startLng = longitude;
+                            $.ajax({
+                                url: base_url + 'buyer/save_address',
+                                data: {
+                                    'mem_map_lat': latitude,
+                                    'mem_map_lng': longitude,
+                                    'address_country' : address_country.val(),
+                                    'address_state'   : address_state.val(),
+                                    'address_city'    : address_city.val(),
+                                    'address_zip'     : address_zip.val(),
+                                    'address_field'   : address_field.val(),
+                                    'address_type'    : address_type.val()
+                                },
+                                dataType: 'JSON',
+                                method: 'POST',
+                                success: function(rs) {
+                                    let mem = rs.mem_data;
+                                    let select_address = '';
+                                    select_address += `<h6>Select your address</h6>
+                                    <div class="flexGrp"><div class="txtGrp">
+                                    <label for="address" class="move">Address</label>
+                                    <select name="address" id="address" class="txtBox" onchange="setAddress(this)">
+                                    <option value="">Select</option>`;
+                                    if($.trim(mem.mem_city).length != 0 && $.trim(mem.mem_address).length != 0 && $.trim(mem.mem_zip).length != 0)
+                                    {
+                                        select_address += `<option data-type="home" value="${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}" data-lat="${mem.mem_map_lat}" data-long="${mem.mem_map_lng}" data-full-address="Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}" ${address_type.val() == 'home' ? 'selected' : ''}>
+                                        Home: ${mem.mem_city} - ${mem.mem_address} - ${mem.mem_zip}
+                                        </option>`;
+                                    }
+                                    if($.trim(mem.mem_business_city).length != 0 && $.trim(mem.mem_business_address).length != 0 && $.trim(mem.mem_business_zip).length != 0)
+                                    {
+                                        select_address += ` <option data-type="office" value="${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}" data-lat="${mem.mem_business_map_lat}" data-long="${mem.mem_business_map_lng}" data-full-address="Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}" ${address_type.val() == 'office' ? 'selected' : ''}>
+                                        Office: ${mem.mem_business_city} - ${mem.mem_business_address} - ${mem.mem_business_zip}
+                                        </option>`;
+                                    }
+                                    if($.trim(mem.mem_hotel_city).length != 0 && $.trim(mem.mem_hotel_address).length != 0 && $.trim(mem.mem_hotel_zip).length != 0)
+                                    {
+                                        select_address += `<option data-type="hotel" value="${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}" data-lat="${mem.mem_hotel_map_lat}" data-long="${mem.mem_hotel_map_lng}" data-full-address="Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}" ${address_type.val() == 'hotel' ? 'selected' : ''}>
+                                        Hotel: ${mem.mem_hotel_city} - ${mem.mem_hotel_address} - ${mem.mem_hotel_zip}
+                                        </option>`;
+                                    }
+                                    select_address += `</select></div>`;
+                                    if($.trim(mem.mem_zip).length != 0 && $.trim(mem.mem_business_zip).length != 0 && $.trim(mem.mem_hotel_zip).length != 0)
+                                    {
+                                        select_address += `<div class="bTn">
+                                            <button type="button" class="webBtn lightBtn" id="addAddressRuntime">Add Address</button>
+                                        </div>`;
+                                    }
+
+                                    select_address += `</div><div class="br"></div>`;
+                                    $('#select-address').html(select_address);
+                                    $('#enter-address-runtime').addClass('hidden');
+                                    $('#collection-address').text(`${address_type.val()}: ${address_city.val()} - ${address_field.val()} - ${address_zip.val()}`);
+                                    $('#delivery-address').text(`${address_type.val()}: ${address_city.val()} - ${address_field.val()} - ${address_zip.val()}`);
+                                    $('#address_type_' + address_type.val()).prop('checked', true);
+                                    $('#map-area').removeClass('hidden');
+                                    toastr.success("Address Save Successfully.", "Success");
+                                    sbtn.attr('disabled', false);
+                                    sbtn.find('i.spinner').addClass('hidden');
+                                    startLatLng = new google.maps.LatLng(startLat, startLng);
+                                    init();
+                                    
+                                },
+                                complete: function() {
+                                }
+                            })
+                        } else {
+                            $('#invalid_zip_runtime').html('Please enter valid zipcode.');
+                        }
+                    });
+                }
+                else
+                {
+                    sbtn.attr('disabled', false);
+                    sbtn.find('i.spinner').addClass('hidden');
+                    return false;
+                }
+            });
         </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>

@@ -288,6 +288,10 @@ function proof_status()
 {
     return ['accepted', 'rejected', 'pending'];
 }
+function address_type()
+{
+    return ['home', 'hotel', 'office'];
+}
 
 function order_status_dropdown($value, $order_id)
 {

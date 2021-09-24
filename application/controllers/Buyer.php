@@ -310,6 +310,56 @@ class Buyer extends MY_Controller
         exit(json_encode($res));
         }
     }
+
+    public function save_address()
+    {
+        if($this->input->post())
+        {
+            $post = html_escape($this->input->post());
+            $buyer_data = [];
+            if($post['address_type'] == 'home')
+            {
+                $buyer_data['mem_country'] = $post['address_country']; 
+                $buyer_data['mem_state']   = $post['address_state']; 
+                $buyer_data['mem_city']    = trim($post['address_city']); 
+                $buyer_data['mem_address'] = trim($post['address_field']); 
+                $buyer_data['mem_zip']     = trim($post['address_zip']); 
+                $buyer_data['mem_map_lat'] = $post['mem_map_lat']; 
+                $buyer_data['mem_map_lng'] = $post['mem_map_lng']; 
+            }
+            elseif($post['address_type'] == 'office')
+            {
+                $buyer_data['mem_business_country'] = $post['address_country']; 
+                $buyer_data['mem_business_state']   = $post['address_state']; 
+                $buyer_data['mem_business_city']    = trim($post['address_city']); 
+                $buyer_data['mem_business_address'] = trim($post['address_field']); 
+                $buyer_data['mem_business_zip']     = trim($post['address_zip']); 
+                $buyer_data['mem_business_map_lat'] = $post['mem_map_lat']; 
+                $buyer_data['mem_business_map_lng'] = $post['mem_map_lng']; 
+            }
+            elseif($post['address_type'] == 'hotel')
+            {
+                $buyer_data['mem_hotel_country'] = $post['address_country']; 
+                $buyer_data['mem_hotel_state']   = $post['address_state']; 
+                $buyer_data['mem_hotel_city']    = trim($post['address_city']); 
+                $buyer_data['mem_hotel_address'] = trim($post['address_field']); 
+                $buyer_data['mem_hotel_zip']     = trim($post['address_zip']); 
+                $buyer_data['mem_hotel_map_lat'] = $post['mem_map_lat']; 
+                $buyer_data['mem_hotel_map_lng'] = $post['mem_map_lng']; 
+            }
+            $is_updated = $this->member_model->save($buyer_data, $this->session->mem_id);
+            if($is_updated)
+            {
+                $res['mem_data'] = $this->member_model->get_row($this->session->mem_id);
+                $res['status'] = 1;
+                exit(json_encode($res));
+            }
+            else
+            {
+                exit(json_encode(['status'=> '0']));
+            }
+        }
+    }
     
     ### REMOVE FILE
     private function remove_file($id, $type = '')
