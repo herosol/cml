@@ -4336,6 +4336,15 @@ aside ~ section > .contain-fluid {
 .jobBlk table.sm.pb > * > tr > * {
 	padding-bottom: 10px;
 }
+.jobBlk table.sm.pb tr > *:nth-child(3),
+.jobBlk table.sm.pb tr > *:nth-child(4) {
+	text-align: center;
+}
+
+.jobBlk table.sm.pb.amended tr > *:nth-child(3) {
+	text-align: center;
+}
+
 .jobBlk table.sm.pb tfoot tr > *:nth-child(1) {
 	text-align: right;
 }

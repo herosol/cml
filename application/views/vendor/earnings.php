@@ -49,7 +49,7 @@
                                     <tr>
                                         <td><?= $value->cfname.' '.$value->clname ?></td>
                                         <td class="price">$<?=price_format($value->amount)?></td>
-                                        <td><?=chat_message_time($value->date)?></td>
+                                        <td><?= date_picker_format_date($value->date, 'D, d M Y', false) ?></td>
                                         <td><span class="badge <?=earning_status_badge($value->status)?>"><?=earning_status($value->status)?></span></td>
                                     </tr>
                             <?php
@@ -69,6 +69,7 @@
                                 <h3>Add Payment method</h3>
                                 <form action="<?=base_url()?>earnings/withdraw_request" method="post" id="withdrawForm" class="withdrawForm">
                                     <div class="alertMsg" style="display:none"></div>
+                                    <input type="hidden" name="bank_check" id="bank_check" value="0" />
                                     <div data-payment>
                                         <div class="lblBtn">
                                             <input type="radio" name="payment_method" id="bank" class="tglBlk" value="bank-account" checked="">
@@ -76,13 +77,23 @@
                                         </div>
                                         <div class="insideBlk active">
                                             <div class="txtGrp">
-                                                <label for="bank_id" class="move">Bank Account</label>
-                                                <select name="bank_id" id="bank_id" class="txtBox">
+                                                <label for="selected_bank" class="move">Bank Account</label>
+                                                <select name="selected_bank" id="selected_bank" class="txtBox">
                                                     <option value="">Select</option>
                                                     <?php foreach($bank_accounts as $key => $bank ): ?>
                                                         <option value="<?=$bank->id?>"><?=$bank->bank_name?></option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                            </div>
+                                            <button type="button" id="addOrCancelBank">Add Bank</button>
+                                            <div class="blk hidden addFormBlk">
+                                                    <div class="inside">
+                                                        <div class="alertMsg" style="display:none"></div>
+                                                        <h5>Bank Account Detail</h5>
+                                                        <div id="form-bank-account">
+                                                            <?= mem_bank_form() ?>
+                                                        </div>
+                                                    </div>
                                             </div>
                                         </div>
                                         <hr>
@@ -108,8 +119,26 @@
             </div>
         </section>
         <!-- trans -->
+        <script>
+            $(document).on("click", "#addOrCancelBank", function(e) {
+                e.preventDefault();
+                let btn = $(this);
+                let blk = $('.addFormBlk');
+                if(blk.hasClass('hidden'))
+                {
+                    blk.removeClass('hidden');
+                    btn.text('Cancel');
+                    $('#bank_check').val(1);
+                }
+                else
+                {
+                    blk.addClass('hidden');
+                    btn.text('Add Bank');  
+                    $('#bank_check').val(0);
+                }
 
-
+            });
+        </script>
     </main>
     <?php $this->load->view('includes/footer'); ?>
 </body>

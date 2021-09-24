@@ -46,7 +46,17 @@ class Earnings extends MY_Controller
 
 			if($post['payment_method'] == 'bank-account')
 			{
-				$this->form_validation->set_rules('bank_id', 'Bank', 'required|trim');
+				if($post['bank_check'] == 0)
+				{
+					$this->form_validation->set_rules('selected_bank', 'Bank', 'required|trim', ['required'=> 'Please select any bank if you don\'t have added before please enter new one.']);
+				}
+				else
+				{
+					$this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required');
+					$this->form_validation->set_rules('account_number', 'Account Number', 'trim|required');
+					$this->form_validation->set_rules('short_code', 'Short Code', 'trim|required');
+					$this->form_validation->set_rules('beneficiary_name', 'Beneficiary Name', 'trim|required');
+				}
 			}
 			else
 			{
@@ -68,7 +78,22 @@ class Earnings extends MY_Controller
 				$withdraw_data['payment_method'] = $post['payment_method'];
 				if($post['payment_method'] == 'bank-account')
 				{
-					$withdraw_data['bank_id'] = $post['bank_id'];
+					if($post['bank_check'] == 0)
+					{
+						$withdraw_data['bank_id'] = $post['selected_bank'];
+					}
+					else
+					{
+						$bank_detail = [];
+						$bank_detail['bank_name']        = $post['bank_name'];
+						$bank_detail['account_number']   = $post['account_number'];
+						$bank_detail['short_code']       = $post['short_code'];
+						$bank_detail['beneficiary_name'] = $post['beneficiary_name'];
+						$bank_detail['mem_id'] = $this->session->mem_id;
+
+						$bank_id = $this->master->save('mem_bank_accounts', $bank_detail);
+						$withdraw_data['bank_id'] = $bank_id;
+					}
 				}
 				else
 				{

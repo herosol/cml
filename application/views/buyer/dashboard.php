@@ -43,6 +43,7 @@
                             <div id="resndCntnt">
 
                                 <p>Please verify your email address, As you are currently signed in with email : <span id="currently-signin-email" class="color"><strong><?= $mem_data->mem_email ?></strong></span>. We've sent a verify email to your email address. If you don't see the email, check your spam folder. If you didn't get email click on resend email link, or if you want to change email address click link below.</p>
+                                <p>You will be able to see your orders, credits and wallet after <span class="color"><strong>Verifying Email.</strong></span></p>
 
                                 <p><a href="javascript:void(0)" id="rsnd-email">Resend Email</a> OR <a href="javascript:void(0)" class="popBtn" data-popup="change-email">Change Email</a>
 

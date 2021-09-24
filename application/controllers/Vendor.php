@@ -317,10 +317,10 @@ class Vendor extends MY_Controller
             $res['redirect_url'] = 0;
 
             $post = html_escape($this->input->post());
-            $this->form_validation->set_rules('bank_name', 'Company phone', 'trim|required');
-            $this->form_validation->set_rules('account_number', 'Company email', 'trim|required');
-            $this->form_validation->set_rules('short_code', 'Company website', 'trim|required');
-            $this->form_validation->set_rules('beneficiary_name', 'Company order email', 'trim|required');
+            $this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required');
+            $this->form_validation->set_rules('account_number', 'Account Number', 'trim|required');
+            $this->form_validation->set_rules('short_code', 'Short Code', 'trim|required');
+            $this->form_validation->set_rules('beneficiary_name', 'Beneficiary Name', 'trim|required');
 
             if ($this->form_validation->run() === FALSE)
                 $res['msg'] = validation_errors();

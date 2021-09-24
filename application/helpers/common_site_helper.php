@@ -450,12 +450,12 @@ function amended_invoice($order_id, $amended_records)
     if(!empty($amended_records)):
         $html .= '<hr>
         <h4>Amended Invoice</h4>
-        <table class="sm pb data_list">
+        <table class="sm pb amended data_list">
             <thead>
                 <tr>
                     <th width="40%">Items</th>
-                    <th width="15%">Qty</th>
                     <th width="15%">Unit Price</th>
+                    <th width="15%">Qty</th>
                     <th width="15%">Price</th>
                     <th width="15%">Paid</th>
                 </tr>
@@ -473,8 +473,8 @@ function amended_invoice($order_id, $amended_records)
                     
                     $html .= '<tr>
                         <td>'.$row->sub_service_name.'</td>
-                        <td>'.$row->quantity.'</td>
                         <td>£'.price_format($row->sub_service_price).'</td>
+                        <td>'.$row->quantity.'</td>
                         <td>£'.price_format($row->sub_service_price*$row->quantity).'</td>
                         <td><span class="badge '.amend_item_pay_status(check_amend_item_pay_status($row->order_id, $row->id)).'">'.check_amend_item_pay_status($row->order_id, $row->id).'</span></td>
                     </tr>';
