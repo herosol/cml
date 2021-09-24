@@ -219,14 +219,14 @@
                                                         <?= 'Office: ' . $mem_data->mem_business_city . ' - ' . $mem_data->mem_business_address . ' - ' . $mem_data->mem_business_zip ?>
                                                     </option>
                                                 <?php endif; ?>
-                                                <?php if (!empty($mem_data->mem_business_city) && !empty($mem_data->mem_business_address) && !empty($mem_data->mem_business_zip)) : ?>
+                                                <?php if (!empty($mem_data->mem_hotel_city) && !empty($mem_data->mem_hotel_address) && !empty($mem_data->mem_hotel_zip)) : ?>
                                                     <option value="<?= $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>" data-type="hotel" data-lat="<?= $mem_data->mem_hotel_map_lat ?>" data-long="<?= $mem_data->mem_hotel_map_lng ?>" data-full-address="<?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>">
                                                         <?= 'Hotel: ' . $mem_data->mem_hotel_city . ' - ' . $mem_data->mem_hotel_address . ' - ' . $mem_data->mem_hotel_zip ?>
                                                     </option>
                                                 <?php endif; ?>
                                             </select>
                                         </div>
-                                        <?php if(empty($mem_data->mem_zip) && empty($mem_data->mem_business_zip) && empty($mem_data->mem_business_zip)): ?>
+                                        <?php if(empty($mem_data->mem_zip) && empty($mem_data->mem_business_zip) && empty($mem_data->mem_hotel_zip)): ?>
                                             <div class="bTn">
                                                 <button type="button" class="webBtn lightBtn" id="addAddressRuntime">Add Address</button>
                                             </div>
@@ -234,7 +234,8 @@
                                     </div>
                                     <div class="br"></div>
                             </div>
-                                <?php else : ?>
+                            <?php else : ?>
+                            </div>
                             <div id="enter-address">
                                 <h6>Enter your address</h6>
                                 <div class="row formRow">
@@ -1875,7 +1876,7 @@
                                         </option>`;
                                     }
                                     select_address += `</select></div>`;
-                                    if($.trim(mem.mem_zip).length != 0 && $.trim(mem.mem_business_zip).length != 0 && $.trim(mem.mem_hotel_zip).length != 0)
+                                    if($.trim(mem.mem_zip).length == 0 && $.trim(mem.mem_business_zip).length == 0 && $.trim(mem.mem_hotel_zip).length == 0)
                                     {
                                         select_address += `<div class="bTn">
                                             <button type="button" class="webBtn lightBtn" id="addAddressRuntime">Add Address</button>
