@@ -814,7 +814,7 @@
                                             </tr>
                                             <tr>
                                                 <th colspan="" class="color">Estimated Total:&nbsp;&nbsp;</th>
-                                                <th class="semi color" id="estimated-total">£<?= price_format($estimated_total + $pickup) ?></th>
+                                                <th class="semi color" id="estimated-total">£<?= price_format($estimated_total + (price_format($estimated_total) > price_format($vendor->mem_charges_free_over) ? 0 : $pickup)) ?></th>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -958,7 +958,7 @@
                                             </tr>
                                             <tr>
                                                 <th colspan="3" class="color">Estimated Total:&nbsp;&nbsp;</th>
-                                                <th class="semi color" id="estimated-total-preview">£<?= price_format($estimated_total + $pickup) ?></th>
+                                                <th class="semi color" id="estimated-total-preview">£<?= price_format($estimated_total + (price_format($estimated_total) > price_format($vendor->mem_charges_free_over) ? 0 : $pickup)) ?></th>
                                             </tr>
                                         </tbody>
                                     </table>
