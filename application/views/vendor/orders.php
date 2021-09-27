@@ -234,7 +234,7 @@
 
                                                     <tr>
 
-                                                        <td><?= implode(', ', $order->services) ?></etd>
+                                                        <td><?= char_limit(implode(', ', $order->services), 30); ?></etd>
 
                                                     </tr>
 

@@ -293,6 +293,19 @@ function address_type()
     return ['home', 'hotel', 'office'];
 }
 
+function char_limit($x, $length)
+{
+  if(strlen($x)<=$length)
+  {
+    echo $x;
+  }
+  else
+  {
+    $y=substr($x,0,$length) . '...';
+    echo $y;
+  }
+}
+
 function order_status_dropdown($value, $order_id)
 {
     $html = '';
